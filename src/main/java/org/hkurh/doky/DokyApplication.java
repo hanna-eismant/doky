@@ -5,12 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class DokyApplication
-{
+public class DokyApplication {
 
-	public static void main(String[] args)
-	{
-		SpringApplication.run(DokyApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DokyApplication.class, args);
+    }
 
 }
