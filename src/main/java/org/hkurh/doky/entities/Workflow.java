@@ -1,20 +1,18 @@
 package org.hkurh.doky.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "document_type")
-public class DocumentType {
+@Table(name = "workflow")
+public class Workflow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -30,26 +28,16 @@ public class DocumentType {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "documentType", orphanRemoval = true)
-    private List<Document> documents = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "document_type_id")
+    private DocumentType documentType;
 
-    @OneToMany(mappedBy = "documentType", orphanRemoval = true)
-    private List<Workflow> workflow = new ArrayList<>();
-
-    public List<Workflow> getWorkflow() {
-        return workflow;
+    public DocumentType getDocumentType() {
+        return documentType;
     }
 
-    public void setWorkflow(List<Workflow> workflow) {
-        this.workflow = workflow;
-    }
-
-    public List<Document> getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(List<Document> documents) {
-        this.documents = documents;
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
     }
 
     public String getDescription() {
