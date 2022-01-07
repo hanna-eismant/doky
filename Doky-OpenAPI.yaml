@@ -1,0 +1,72 @@
+openapi: 3.0.3
+
+info:
+  title: Doky
+  description: Doky
+  version: 1.0.0
+
+servers:
+  - url: 'http://localhost:8080'
+
+components:
+  schemas:
+    error_message:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+paths:
+  /login:
+    post:
+      summary: Login user to the system
+      parameters:
+        - name: username
+          in: query
+          description: User UID
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: User password
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: User is sucessfully logged
+          content:
+            application/json:
+              schema:
+                properties:
+                  username:
+                    type: string
+                    required: true
+                  token:
+                    type: string
+                    required: true
+                    description: Token generated for user
+
+
+        '401':
+          description: Incorrect username or password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_message'
+
+
+
+
+
+
+
+
