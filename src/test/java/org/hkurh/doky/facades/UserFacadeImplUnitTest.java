@@ -22,7 +22,7 @@ import org.modelmapper.ModelMapper;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserFacade unit test")
-class UserFacadeImplTest {
+class UserFacadeImplUnitTest {
 
     @Spy
     ModelMapper userModelMapper = MapperFactory.getUserModelMapper();
