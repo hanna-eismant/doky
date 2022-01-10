@@ -11,8 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "workflow")
-public class Workflow {
+@Table(name = "document")
+public class DocumentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -30,13 +30,13 @@ public class Workflow {
 
     @ManyToOne
     @JoinColumn(name = "document_type_id")
-    private DocumentType documentType;
+    private DocumentTypeEntity documentType;
 
-    public DocumentType getDocumentType() {
+    public DocumentTypeEntity getDocumentType() {
         return documentType;
     }
 
-    public void setDocumentType(DocumentType documentType) {
+    public void setDocumentType(DocumentTypeEntity documentType) {
         this.documentType = documentType;
     }
 
