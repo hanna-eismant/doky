@@ -3,7 +3,11 @@ package org.hkurh.doky.controllers;
 import org.springframework.lang.NonNull;
 
 public class ErrorResponse {
-    private final Error error;
+
+    private Error error;
+
+    public ErrorResponse() {
+    }
 
     public ErrorResponse(@NonNull final String message) {
         this.error = new Error(message);
@@ -13,9 +17,17 @@ public class ErrorResponse {
         return error;
     }
 
+    public void setError(Error error) {
+        this.error = error;
+    }
+
     @SuppressWarnings("InnerClassMayBeStatic")
     public class Error {
-        private final String message;
+
+        private String message;
+
+        public Error() {
+        }
 
         public Error(String message) {
             this.message = message;
@@ -23,6 +35,10 @@ public class ErrorResponse {
 
         public String getMessage() {
             return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
         }
     }
 }

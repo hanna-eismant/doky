@@ -28,10 +28,8 @@ public class UserFacadeImpl implements UserFacade {
         }
 
         UserEntity userEntity = getUserService().findUserByUid(userUid);
-        UserDto userDto = new UserDto();
-
-        Mapper.getMapper().map(userEntity, userDto);
-        userDto.setToken(generateToken(userDto.getUsername()));
+        UserDto userDto = MapperFactory.getUserModelMapper().map(userEntity, UserDto.class);
+        userDto.setToken(generateToken(userDto.getName()));
 
         return userDto;
     }
