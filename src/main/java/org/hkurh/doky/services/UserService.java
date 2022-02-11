@@ -8,5 +8,7 @@ public interface UserService {
 
     UserEntity findUserByUid(@NonNull final String userUid);
 
-    boolean checkUser(@NonNull final String userUid, @NonNull final String password);
+    boolean checkUserExistence(@NonNull final String userUid);
+
+    UserEntity create(@NonNull final String userUid, @NonNull final String encodedPassword);
 }
