@@ -26,9 +26,11 @@ import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayName("Login endpoint integration test")
-class LoginControllerIntegrationTest {
+class LoginControllerIT
+{
 
     private static final String USERNAME_PROPERTY = "username";
     private static final String PASSWORD_PROPERTY = "password";

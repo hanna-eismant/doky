@@ -20,9 +20,11 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserFacade unit test")
-class UserFacadeImplUnitTest {
+class UserFacadeImplTest
+{
 
     @Spy
     ModelMapper userModelMapper = MapperFactory.getUserModelMapper();

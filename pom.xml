@@ -22,6 +22,9 @@
         <flyway.version>8.3.0</flyway.version>
         <orika.version>1.5.4</orika.version>
         <joda.version>2.10.13</joda.version>
+
+        <surefire.skip>true</surefire.skip>
+        <failsafe.skip>true</failsafe.skip>
     </properties>
     <dependencies>
         <dependency>
@@ -136,17 +139,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>${surefire.skip}</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <id>unit-tests</id>
                         <goals>
                             <goal>test</goal>
                         </goals>
-                        <configuration>
-                            <includes>
-                                <include>**/*UnitTest.java</include>
-                            </includes>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -154,6 +155,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <skipITs>${failsafe.skip}</skipITs>
+                </configuration>
                 <executions>
                     <execution>
                         <id>integration-tests</id>
@@ -161,11 +165,6 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
-                        <configuration>
-                            <includes>
-                                <include>**/*IntegrationTest.java</include>
-                            </includes>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
