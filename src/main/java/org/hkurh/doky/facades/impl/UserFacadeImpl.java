@@ -18,21 +18,11 @@ import java.util.Date;
 
 import static org.hkurh.doky.DokyApplication.SECRET_KEY_SPEC;
 
-
 @Service
 public class UserFacadeImpl implements UserFacade {
 
     private UserService userService;
     private PasswordEncoder passwordEncoder;
-
-    private PasswordEncoder getPasswordEncoder() {
-        return passwordEncoder;
-    }
-
-    @Resource
-    public void setPasswordEncoder(final PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public UserDto login(@NonNull final String userUid, @NonNull final String password) {
@@ -87,5 +77,14 @@ public class UserFacadeImpl implements UserFacade {
     @Resource
     public void setUserService(final UserService userService) {
         this.userService = userService;
+    }
+
+    private PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    @Resource
+    public void setPasswordEncoder(final PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }
