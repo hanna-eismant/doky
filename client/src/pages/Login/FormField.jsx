@@ -9,8 +9,8 @@ export default ({ label, id, type, value = '', onChange = noop }) => {
 
   return (
     <div>
-      <label for={id}>{label}:</label>
-      <input type={type} value={value} onChange={handleOnChange} />
+      <label htmlFor={id}>{label}:</label>
+      <input id={id} type={type} value={value} onChange={handleOnChange} />
     </div>
   );
 }

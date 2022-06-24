@@ -1,29 +1,7 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback } from 'react';
+
 import FormField from './FormField.jsx';
-
-const initialFormData = {
-  login: '',
-  password: ''
-};
-
-const useFormData = (formData = initialFormData) => {
-  const [ data, setData ] = useState(formData);
-
-  const setValue = useCallback((key, value) => {
-    setData(data =>({ ...data, [ key ]: value }));
-  }, [setData]);
-
-  return useMemo(() => ({
-    fields: Object.keys(data).reduce((form, key) => ({
-      ...form,
-      [ key ]: {
-        value: formData[key],
-        setValue: value => setValue(key, value)
-      }
-    }), {}),
-    data
-  }), [data]);
-}
+import useFormData from './useFormData.js';
 
 export default () => {
 
