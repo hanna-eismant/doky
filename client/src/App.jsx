@@ -1,4 +1,5 @@
 import React from 'react';
+import Login from './pages/Login';
 
 export default () =>
-  <h1>Hello from Doku!</h1>;
+  <Login />
