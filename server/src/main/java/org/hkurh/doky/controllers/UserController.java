@@ -2,6 +2,7 @@ package org.hkurh.doky.controllers;
 
 import org.hkurh.doky.dto.UserDto;
 import org.hkurh.doky.facades.UserFacade;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,11 @@ public class UserController {
             @RequestParam final String password) {
 
         return getUserFacade().register(username, password);
+    }
+
+    @GetMapping("/users/current")
+    public UserDto getUser() {
+        return null;
     }
 
     private UserFacade getUserFacade() {

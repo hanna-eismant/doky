@@ -51,7 +51,7 @@ public class UserControllerIT {
     }
 
     @Test
-    @DisplayName("Should receive token for valid user")
+    @DisplayName("Should receive token for valid user when login")
     @SqlGroup({
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/setup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -71,7 +71,7 @@ public class UserControllerIT {
     }
 
     @Test
-    @DisplayName("Should receive user information for valid user")
+    @DisplayName("Should receive user information for valid user when login")
     @SqlGroup({
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/setup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -95,7 +95,7 @@ public class UserControllerIT {
     }
 
     @Test
-    @DisplayName("Should return error when credentials are incorrect")
+    @DisplayName("Should return error when credentials are incorrect when login")
     public void shouldReturnError_whenIncorrectCredentials() {
         final MultiValueMap<String, String> loginBody = new LinkedMultiValueMap<>();
         loginBody.put(USERNAME_PROPERTY, List.of(INCORRECT_USER_UID));

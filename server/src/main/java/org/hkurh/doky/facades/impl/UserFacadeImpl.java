@@ -1,7 +1,5 @@
 package org.hkurh.doky.facades.impl;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.hkurh.doky.dto.UserDto;
 import org.hkurh.doky.entities.UserEntity;
 import org.hkurh.doky.exceptions.DokyAuthenticationException;
@@ -14,9 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-
-import static org.hkurh.doky.DokyApplication.SECRET_KEY_SPEC;
 
 @Service
 public class UserFacadeImpl implements UserFacade {
@@ -38,7 +33,7 @@ public class UserFacadeImpl implements UserFacade {
         }
 
         final UserDto userDto = MapperFactory.getUserModelMapper().map(userEntity, UserDto.class);
-        userDto.setToken(generateToken(userDto.getName()));
+//        userDto.setToken(generateToken(userDto.getName()));
 
         return userDto;
     }
@@ -53,22 +48,11 @@ public class UserFacadeImpl implements UserFacade {
         final UserEntity userEntity = getUserService().create(userUid, encodedPassword);
 
         final UserDto userDto = MapperFactory.getUserModelMapper().map(userEntity, UserDto.class);
-        userDto.setToken(generateToken(userDto.getName()));
+//        userDto.setToken(generateToken(userDto.getName()));
 
         return userDto;
     }
 
-    private String generateToken(@NonNull final String username) {
-        final String token = Jwts.builder()
-                .setId("dokyToken")
-                .setSubject(username)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600000))
-                .signWith(SECRET_KEY_SPEC, SignatureAlgorithm.HS256)
-                .compact();
-
-        return token;
-    }
 
     private UserService getUserService() {
         return userService;
