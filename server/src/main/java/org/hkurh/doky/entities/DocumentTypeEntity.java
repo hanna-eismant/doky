@@ -1,16 +1,8 @@
 package org.hkurh.doky.entities;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "document_type")
@@ -40,7 +32,7 @@ public class DocumentTypeEntity {
         return workflow;
     }
 
-    public void setWorkflow(List<WorkflowEntity> workflow) {
+    public void setWorkflow(final List<WorkflowEntity> workflow) {
         this.workflow = workflow;
     }
 
@@ -48,7 +40,7 @@ public class DocumentTypeEntity {
         return documents;
     }
 
-    public void setDocuments(List<DocumentEntity> documents) {
+    public void setDocuments(final List<DocumentEntity> documents) {
         this.documents = documents;
     }
 
@@ -56,7 +48,7 @@ public class DocumentTypeEntity {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -64,7 +56,7 @@ public class DocumentTypeEntity {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -72,7 +64,7 @@ public class DocumentTypeEntity {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(final String code) {
         this.code = code;
     }
 
@@ -80,7 +72,7 @@ public class DocumentTypeEntity {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 }

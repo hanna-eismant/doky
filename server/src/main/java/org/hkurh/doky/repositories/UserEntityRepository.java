@@ -9,5 +9,5 @@ import org.springframework.lang.NonNull;
 public interface UserEntityRepository extends CrudRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
 
     @Query("select u from UserEntity u where u.uid = ?1")
-    UserEntity findByUid(@NonNull final String uid);
+    UserEntity findByUid(@NonNull String uid);
 }

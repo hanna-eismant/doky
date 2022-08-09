@@ -1,5 +1,11 @@
 package org.hkurh.doky.facades;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hkurh.doky.dto.UserDto;
 import org.hkurh.doky.entities.UserEntity;
@@ -17,9 +23,6 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -63,30 +66,13 @@ class UserFacadeImplTest {
     }
 
     @Test
-    @DisplayName("Should return user info when login with correct credentials")
-    public void shouldReturnUser_whenLoginCorrectUser() {
-        when(userService.checkUserExistence(USER_UID)).thenReturn(true);
-        when(userService.findUserByUid(USER_UID)).thenReturn(userEntity);
-        when(passwordEncoder.matches(USER_PASS, USER_PASS_ENCODED)).thenReturn(true);
-
-        final UserDto userDto = userFacade.login(USER_UID, USER_PASS);
-
-        assertNotNull(userDto, "Logged user info cannot be null");
-        assertEquals(userDto.getUserUid(), USER_UID, "Logged user should have same uid as provided");
-    }
-
-    @Test
-    @DisplayName("Should set token when user is valid when login")
+    @DisplayName("Should done without errors when user is valid when login")
     void shouldSetToken_whenUserIsValid() {
         when(userService.checkUserExistence(USER_UID)).thenReturn(true);
         when(userService.findUserByUid(USER_UID)).thenReturn(userEntity);
         when(passwordEncoder.matches(USER_PASS, USER_PASS_ENCODED)).thenReturn(true);
 
-        final UserDto actualUserDto = userFacade.login(USER_UID, USER_PASS);
-        final String actualToken = actualUserDto.getToken();
-
-        assertNotNull(actualToken, "Token cannot be null");
-        assertNotEquals(StringUtils.EMPTY, actualToken, "Token cannot be empty");
+        userFacade.login(USER_UID, USER_PASS);
     }
 
     @Test
@@ -104,14 +90,14 @@ class UserFacadeImplTest {
 
     @Test
     @DisplayName("Should register user when it doses not exists")
-    public void shouldRegisterUser_whenUserDoesNotExists() {
+    void shouldRegisterUser_whenUserDoesNotExists() {
         when(passwordEncoder.encode(USER_PASS)).thenReturn(USER_PASS_ENCODED);
         when(userService.create(USER_UID, USER_PASS_ENCODED)).thenReturn(userEntity);
 
         final UserDto registeredUserDto = userFacade.register(USER_UID, USER_PASS);
 
         assertNotNull(registeredUserDto, "Registered user cannot be null");
-        assertEquals(registeredUserDto.getUserUid(), USER_UID, "User should be registered with provided uid");
+        assertEquals(USER_UID, registeredUserDto.getUserUid(), "User should be registered with provided uid");
 
     }
 }
