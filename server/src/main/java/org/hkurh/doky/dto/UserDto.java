@@ -6,8 +6,6 @@ public class UserDto {
 
     private String name;
 
-    private String token;
-
     public String getName() {
         return name;
     }
@@ -22,13 +20,5 @@ public class UserDto {
 
     public void setUserUid(String userUid) {
         this.userUid = userUid;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }

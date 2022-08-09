@@ -6,7 +6,9 @@ import org.springframework.lang.NonNull;
 
 public interface UserFacade {
 
-    UserDto login(@NonNull final String userUid, @NonNull final String password);
+    void login(@NonNull String userUid, @NonNull String password);
 
     UserDto register(@NonNull String username, @NonNull String password);
+
+    UserDto getCurrentUser();
 }

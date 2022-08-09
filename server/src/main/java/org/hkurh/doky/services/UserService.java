@@ -6,9 +6,11 @@ import org.springframework.lang.NonNull;
 
 public interface UserService {
 
-    UserEntity findUserByUid(@NonNull final String userUid);
+    UserEntity findUserByUid(@NonNull String userUid);
 
-    boolean checkUserExistence(@NonNull final String userUid);
+    boolean checkUserExistence(@NonNull String userUid);
 
-    UserEntity create(@NonNull final String userUid, @NonNull final String encodedPassword);
+    UserEntity create(@NonNull String userUid, @NonNull String encodedPassword);
+
+    UserEntity getCurrentUser();
 }

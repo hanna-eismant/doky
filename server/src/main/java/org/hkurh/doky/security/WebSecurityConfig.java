@@ -15,30 +15,27 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private JwtAuthorizationFilter jwtAuthorizationFilter;
+    private JwtAuthorizationFilter jwtAuthorizationFilter;
 
-	@Override
-	protected void configure(final HttpSecurity http) throws Exception {
-		// @formatter:off
-		http.httpBasic().disable()
-				.csrf().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.addFilterAfter(getJwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/login").permitAll()
-				.antMatchers(HttpMethod.POST, "/register").permitAll()
-				.anyRequest()
-				.authenticated();
-		// @formatter:on
-	}
+    @Override
+    protected void configure(final HttpSecurity http) throws Exception {
+        http.httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .addFilterAfter(getJwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/register").permitAll()
+                .anyRequest().authenticated();
+    }
 
-	private JwtAuthorizationFilter getJwtAuthorizationFilter() {
-		return jwtAuthorizationFilter;
-	}
+    private JwtAuthorizationFilter getJwtAuthorizationFilter() {
+        return jwtAuthorizationFilter;
+    }
 
-	@Autowired
-	public void setJwtAuthorizationFilter(final JwtAuthorizationFilter jwtAuthorizationFilter) {
-		this.jwtAuthorizationFilter = jwtAuthorizationFilter;
-	}
+    @Autowired
+    public void setJwtAuthorizationFilter(final JwtAuthorizationFilter jwtAuthorizationFilter) {
+        this.jwtAuthorizationFilter = jwtAuthorizationFilter;
+    }
 }
                                         

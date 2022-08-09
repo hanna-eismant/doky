@@ -1,5 +1,7 @@
 package org.hkurh.doky.facades.impl;
 
+import javax.annotation.Resource;
+
 import org.hkurh.doky.dto.UserDto;
 import org.hkurh.doky.entities.UserEntity;
 import org.hkurh.doky.exceptions.DokyAuthenticationException;
@@ -11,8 +13,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-
 @Service
 public class UserFacadeImpl implements UserFacade {
 
@@ -20,7 +20,7 @@ public class UserFacadeImpl implements UserFacade {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDto login(@NonNull final String userUid, @NonNull final String password) {
+    public void login(@NonNull final String userUid, @NonNull final String password) {
         if (!getUserService().checkUserExistence(userUid)) {
             throw new DokyAuthenticationException("User doesn't exist");
         }
@@ -31,11 +31,6 @@ public class UserFacadeImpl implements UserFacade {
         if (!getPasswordEncoder().matches(password, encodedPassword)) {
             throw new DokyAuthenticationException("Incorrect credentials");
         }
-
-        final UserDto userDto = MapperFactory.getUserModelMapper().map(userEntity, UserDto.class);
-//        userDto.setToken(generateToken(userDto.getName()));
-
-        return userDto;
     }
 
     @Override
@@ -47,12 +42,14 @@ public class UserFacadeImpl implements UserFacade {
         final String encodedPassword = getPasswordEncoder().encode(password);
         final UserEntity userEntity = getUserService().create(userUid, encodedPassword);
 
-        final UserDto userDto = MapperFactory.getUserModelMapper().map(userEntity, UserDto.class);
-//        userDto.setToken(generateToken(userDto.getName()));
-
-        return userDto;
+        return MapperFactory.getUserModelMapper().map(userEntity, UserDto.class);
     }
 
+    @Override
+    public UserDto getCurrentUser() {
+        final UserEntity userEntity = getUserService().getCurrentUser();
+        return MapperFactory.getUserModelMapper().map(userEntity, UserDto.class);
+    }
 
     private UserService getUserService() {
         return userService;

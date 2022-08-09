@@ -9,7 +9,7 @@ public class ErrorResponse {
     public ErrorResponse() {
     }
 
-    public ErrorResponse(@NonNull final String message) {
+    public ErrorResponse(@NonNull String message) {
         this.error = new Error(message);
     }
 
