@@ -1,7 +1,5 @@
 package org.hkurh.doky.controllers;
 
-import javax.annotation.Resource;
-
 import org.hkurh.doky.dto.UserDto;
 import org.hkurh.doky.facades.UserFacade;
 import org.hkurh.doky.security.AuthenticationRequest;
@@ -11,8 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 @RestController
 public class UserController {
@@ -30,8 +29,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public UserDto register(@RequestParam final String username, @RequestParam final String password) {
-        return getUserFacade().register(username, password);
+    public UserDto register(@RequestBody UserRegistrationRequest registrationRequest) {
+        return getUserFacade().register(registrationRequest.getUsername(), registrationRequest.getPassword());
     }
 
     @GetMapping("/users/current")

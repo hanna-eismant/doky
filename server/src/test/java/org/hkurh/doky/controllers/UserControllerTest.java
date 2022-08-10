@@ -1,8 +1,5 @@
 package org.hkurh.doky.controllers;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import org.hkurh.doky.facades.UserFacade;
 import org.hkurh.doky.security.AuthenticationRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -12,9 +9,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserController unit test")
-public class UserControllerTest {
+class UserControllerTest {
     private static final String USER_UID = "user";
     private static final String USER_PASS = "pass";
 
@@ -24,11 +24,9 @@ public class UserControllerTest {
     private UserFacade userFacade;
 
     @Test
-    @DisplayName("Should login")
+    @DisplayName("Should login when credentials are correct")
     void shouldLogin() {
-        var request = new AuthenticationRequest();
-        request.setUsername(USER_UID);
-        request.setPassword(USER_PASS);
+        var request = new AuthenticationRequest(USER_UID, USER_PASS);
 
         userController.login(request);
 
@@ -38,7 +36,9 @@ public class UserControllerTest {
     @Test
     @DisplayName("Should register")
     void shouldRegister() {
-        userController.register(USER_UID, USER_PASS);
+        var request = new UserRegistrationRequest(USER_UID, USER_PASS);
+
+        userController.register(request);
 
         verify(userFacade, times(1)).register(USER_UID, USER_PASS);
     }
