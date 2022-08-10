@@ -1,14 +1,14 @@
-package org.hkurh.doky.security;
+package org.hkurh.doky.controllers;
 
-public class AuthenticationRequest {
+public class UserRegistrationRequest {
 
     private String username;
     private String password;
 
-    public AuthenticationRequest() {
+    public UserRegistrationRequest() {
     }
 
-    public AuthenticationRequest(String username, String password) {
+    public UserRegistrationRequest(String username, String password) {
         this.username = username;
         this.password = password;
     }

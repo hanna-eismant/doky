@@ -1,11 +1,10 @@
 package org.hkurh.doky.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.List;
-
+import org.apache.commons.lang3.StringUtils;
 import org.hkurh.doky.dto.UserDto;
+import org.hkurh.doky.security.AuthenticationResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,23 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @DisplayName("Login/Register endpoint integration test")
-public class UserControllerIT {
+class UserControllerIT {
 
     private static final String USERNAME_PROPERTY = "username";
     private static final String PASSWORD_PROPERTY = "password";
@@ -49,8 +43,8 @@ public class UserControllerIT {
     private String registerEndpoint;
 
     @BeforeEach
-    public void setup() {
-        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+    void setup() {
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         loginEndpoint = "http://localhost:" + port + "/login";
         registerEndpoint = "http://localhost:" + port + "/register";
     }
@@ -61,61 +55,37 @@ public class UserControllerIT {
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/setup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     })
-    public void shouldCreateToken_whenExistingUserLogin() {
-        final MultiValueMap<String, String> loginBody = new LinkedMultiValueMap<>();
-        loginBody.put(USERNAME_PROPERTY, List.of(VALID_USER_UID));
-        loginBody.put(PASSWORD_PROPERTY, List.of(VALID_USER_PASSWORD));
+    void shouldCreateToken_whenExistingUserLogin() throws JSONException {
+        var loginBody = new JSONObject();
+        loginBody.put(USERNAME_PROPERTY, VALID_USER_UID);
+        loginBody.put(PASSWORD_PROPERTY, VALID_USER_PASSWORD);
 
-        final HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(loginBody, httpHeaders);
-        final ResponseEntity<UserDto> responseEntity = restTemplate.exchange(loginEndpoint, HttpMethod.POST, requestEntity, UserDto.class);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertNotNull(responseEntity.getBody(), "Response body is empty");
-//        assertNotNull(responseEntity.getBody().getToken(), "Received token is null");
-//        assertNotEquals(StringUtils.EMPTY, responseEntity.getBody().getToken(), "Received token is empty");
-    }
-
-    @Test
-    @DisplayName("Should receive user information for valid user when login")
-    @SqlGroup({
-            @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/setup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
-            @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    })
-    public void shouldReceiveUserInfo_whenExistingUserLogin() {
-        final MultiValueMap<String, String> loginBody = new LinkedMultiValueMap<>();
-        loginBody.put(USERNAME_PROPERTY, List.of(VALID_USER_UID));
-        loginBody.put(PASSWORD_PROPERTY, List.of(VALID_USER_PASSWORD));
-
-        final HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(loginBody, httpHeaders);
-        final ResponseEntity<UserDto> responseEntity = restTemplate.exchange(loginEndpoint, HttpMethod.POST, requestEntity, UserDto.class);
+        var requestEntity = new HttpEntity<>(loginBody.toString(), httpHeaders);
+        var responseEntity = restTemplate.exchange(loginEndpoint, HttpMethod.POST, requestEntity, AuthenticationResponse.class);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody(), "Response body is empty");
-
-        final String actualUserUid = responseEntity.getBody().getUserUid();
-        assertEquals(VALID_USER_UID, actualUserUid, "User UID is incorrect");
-
-        final String actualName = responseEntity.getBody().getName();
-        assertEquals(VALID_USER_NAME, actualName, "User Name is incorrect");
+        assertNotNull(responseEntity.getBody().getToken(), "Received token is null");
+        assertNotEquals(StringUtils.EMPTY, responseEntity.getBody().getToken(), "Received token is empty");
     }
 
     @Test
     @DisplayName("Should return error when credentials are incorrect when login")
-    public void shouldReturnError_whenIncorrectCredentials() {
-        final MultiValueMap<String, String> loginBody = new LinkedMultiValueMap<>();
-        loginBody.put(USERNAME_PROPERTY, List.of(INCORRECT_USER_UID));
-        loginBody.put(PASSWORD_PROPERTY, List.of(INCORRECT_USER_PASSWORD));
+    void shouldReturnError_whenIncorrectCredentials() throws JSONException {
+        var loginBody = new JSONObject();
+        loginBody.put(USERNAME_PROPERTY, INCORRECT_USER_UID);
+        loginBody.put(PASSWORD_PROPERTY, INCORRECT_USER_PASSWORD);
 
-        final HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(loginBody, httpHeaders);
-        final ResponseEntity<ErrorResponse> responseEntity = restTemplate.exchange(loginEndpoint, HttpMethod.POST, requestEntity, ErrorResponse.class);
+        var requestEntity = new HttpEntity<>(loginBody.toString(), httpHeaders);
+        var responseEntity = restTemplate.exchange(loginEndpoint, HttpMethod.POST, requestEntity, ErrorResponse.class);
 
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody(), "Response body is empty");
 
-        final ErrorResponse.Error error = responseEntity.getBody().getError();
+        var error = responseEntity.getBody().getError();
         assertNotNull(error, "Error in response cannot be null");
 
-        final String message = error.getMessage();
+        var message = error.getMessage();
         assertNotNull(message, "Error message in response cannot be null");
     }
 
@@ -125,19 +95,18 @@ public class UserControllerIT {
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/setup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     })
-    public void shouldRegister_whenUserDoesNotExists() {
-        final MultiValueMap<String, String> loginBody = new LinkedMultiValueMap<>();
-        loginBody.put(USERNAME_PROPERTY, List.of(NEW_USER_UID));
-        loginBody.put(PASSWORD_PROPERTY, List.of(NEW_USER_PASSWORD));
+    void shouldRegister_whenUserDoesNotExists() throws JSONException {
+        var loginBody = new JSONObject();
+        loginBody.put(USERNAME_PROPERTY, NEW_USER_UID);
+        loginBody.put(PASSWORD_PROPERTY, NEW_USER_PASSWORD);
 
-        final HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(loginBody, httpHeaders);
-        final ResponseEntity<UserDto> responseEntity =
-                restTemplate.exchange(registerEndpoint, HttpMethod.POST, requestEntity, UserDto.class);
+        var requestEntity = new HttpEntity<>(loginBody.toString(), httpHeaders);
+        var responseEntity = restTemplate.exchange(registerEndpoint, HttpMethod.POST, requestEntity, UserDto.class);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody(), "Response body is empty");
 
-        final String actualUserUid = responseEntity.getBody().getUserUid();
+        var actualUserUid = responseEntity.getBody().getUserUid();
         assertEquals(NEW_USER_UID, actualUserUid, "User UID is incorrect");
     }
 
@@ -147,21 +116,21 @@ public class UserControllerIT {
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/setup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     })
-    public void test() {
-        final MultiValueMap<String, String> loginBody = new LinkedMultiValueMap<>();
-        loginBody.put(USERNAME_PROPERTY, List.of(VALID_USER_UID));
-        loginBody.put(PASSWORD_PROPERTY, List.of(NEW_USER_PASSWORD));
+    void test() throws JSONException {
+        var loginBody = new JSONObject();
+        loginBody.put(USERNAME_PROPERTY, VALID_USER_UID);
+        loginBody.put(PASSWORD_PROPERTY, NEW_USER_PASSWORD);
 
-        final HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(loginBody, httpHeaders);
-        final ResponseEntity<ErrorResponse> responseEntity = restTemplate.exchange(loginEndpoint, HttpMethod.POST, requestEntity, ErrorResponse.class);
+        var requestEntity = new HttpEntity<>(loginBody.toString(), httpHeaders);
+        var responseEntity = restTemplate.exchange(loginEndpoint, HttpMethod.POST, requestEntity, ErrorResponse.class);
 
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody(), "Response body is empty");
 
-        final ErrorResponse.Error error = responseEntity.getBody().getError();
+        var error = responseEntity.getBody().getError();
         assertNotNull(error, "Error in response cannot be null");
 
-        final String message = error.getMessage();
+        var message = error.getMessage();
         assertNotNull(message, "Error message in response cannot be null");
     }
 }
