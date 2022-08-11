@@ -1,6 +1,15 @@
 package org.hkurh.doky.entities;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "document")
@@ -9,9 +18,6 @@ public class DocumentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @Column(name = "code", nullable = false, unique = true)
-    private String code;
 
     @Column(name = "name")
     private String name;
@@ -23,6 +29,18 @@ public class DocumentEntity {
     @ManyToOne
     @JoinColumn(name = "document_type_id")
     private DocumentTypeEntity documentType;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "creator_id")
+    private UserEntity creator;
+
+    public UserEntity getCreator() {
+        return creator;
+    }
+
+    public void setCreator(UserEntity creator) {
+        this.creator = creator;
+    }
 
     public DocumentTypeEntity getDocumentType() {
         return documentType;
@@ -46,14 +64,6 @@ public class DocumentEntity {
 
     public void setName(final String name) {
         this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(final String code) {
-        this.code = code;
     }
 
     public Long getId() {

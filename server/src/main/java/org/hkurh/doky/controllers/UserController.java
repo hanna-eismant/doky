@@ -5,13 +5,12 @@ import org.hkurh.doky.facades.UserFacade;
 import org.hkurh.doky.security.AuthenticationRequest;
 import org.hkurh.doky.security.AuthenticationResponse;
 import org.hkurh.doky.security.JwtProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 @RestController
 public class UserController {
@@ -42,7 +41,7 @@ public class UserController {
         return userFacade;
     }
 
-    @Resource
+    @Autowired
     public void setUserFacade(final UserFacade userFacade) {
         this.userFacade = userFacade;
     }
