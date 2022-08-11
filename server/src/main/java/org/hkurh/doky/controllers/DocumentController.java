@@ -4,6 +4,7 @@ package org.hkurh.doky.controllers;
 import org.hkurh.doky.facades.DocumentFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +21,7 @@ public class DocumentController {
 
     @PostMapping("/{id}/upload")
     public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file, @PathVariable String id) {
-        System.out.println(file.getOriginalFilename());
-        System.out.println(id);
+        getDocumentFacade().saveFile(file, id);
 
         return ResponseEntity.ok(null);
     }
@@ -32,6 +32,28 @@ public class DocumentController {
         var resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build(createdDocument.getId());
 
         return ResponseEntity.created(resourceLocation).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        var documents = getDocumentFacade().findAllDocuments();
+
+        if (documents.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(documents);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> get(@PathVariable String id) {
+        var document = getDocumentFacade().findDocument(id);
+
+        if (document != null) {
+            return ResponseEntity.ok(document);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     public DocumentFacade getDocumentFacade() {

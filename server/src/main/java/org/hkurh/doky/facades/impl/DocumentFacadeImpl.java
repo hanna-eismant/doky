@@ -1,23 +1,65 @@
 package org.hkurh.doky.facades.impl;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.hkurh.doky.dto.DocumentDto;
 import org.hkurh.doky.facades.DocumentFacade;
 import org.hkurh.doky.facades.MapperFactory;
 import org.hkurh.doky.services.DocumentService;
+import org.hkurh.doky.services.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class DocumentFacadeImpl implements DocumentFacade {
 
     private DocumentService documentService;
+    private FileStorageService fileStorageService;
 
     @Override
     public DocumentDto createDocument(@NonNull String name, String description) {
         var documentEntity = getDocumentService().create(name, description);
-
         return MapperFactory.getModelMapper().map(documentEntity, DocumentDto.class);
+    }
+
+    @Override
+    public DocumentDto findDocument(@NonNull String id) {
+        var documentEntity = getDocumentService().find(id);
+
+        return documentEntity.map(entity -> MapperFactory.getModelMapper().map(entity, DocumentDto.class)).orElse(null);
+    }
+
+    @Override
+    public List<DocumentDto> findAllDocuments() {
+        var documentEntityList = getDocumentService().find();
+
+        var documentDtoList = documentEntityList.stream()
+                .map(entity -> MapperFactory.getModelMapper().map(entity, DocumentDto.class))
+                .collect(Collectors.toList());
+
+        return documentDtoList;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveFile(@NonNull MultipartFile file, @NonNull String id) {
+        var documentOpt = getDocumentService().find(id);
+        if (documentOpt.isPresent()) {
+            try {
+                var path = getFileStorageService().store(file);
+                var document = documentOpt.get();
+                document.setFilePath(path);
+                getDocumentService().save(document);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public DocumentService getDocumentService() {
@@ -27,5 +69,14 @@ public class DocumentFacadeImpl implements DocumentFacade {
     @Autowired
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public FileStorageService getFileStorageService() {
+        return fileStorageService;
+    }
+
+    @Autowired
+    public void setFileStorageService(FileStorageService fileStorageService) {
+        this.fileStorageService = fileStorageService;
     }
 }

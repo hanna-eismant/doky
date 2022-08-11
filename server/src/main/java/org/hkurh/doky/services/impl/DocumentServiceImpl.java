@@ -1,5 +1,9 @@
 package org.hkurh.doky.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.hkurh.doky.entities.DocumentEntity;
 import org.hkurh.doky.repositories.DocumentEntityRepository;
 import org.hkurh.doky.services.DocumentService;
@@ -24,6 +28,25 @@ public class DocumentServiceImpl implements DocumentService {
         document.setCreator(currentUser);
 
         return getDocumentEntityRepository().save(document);
+    }
+
+    @Override
+    public Optional<DocumentEntity> find(@NonNull String id) {
+        var longId = Long.parseLong(id);
+        return getDocumentEntityRepository().findById(longId);
+    }
+
+    @Override
+    public @NonNull List<DocumentEntity> find() {
+        var documentList = new ArrayList<DocumentEntity>();
+        getDocumentEntityRepository().findAll().forEach(documentList::add);
+
+        return documentList;
+    }
+
+    @Override
+    public void save(@NonNull DocumentEntity document) {
+        getDocumentEntityRepository().save(document);
     }
 
     public DocumentEntityRepository getDocumentEntityRepository() {

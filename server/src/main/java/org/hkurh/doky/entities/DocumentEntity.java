@@ -1,6 +1,5 @@
 package org.hkurh.doky.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,13 +25,24 @@ public class DocumentEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "file_path")
+    private String filePath;
+
     @ManyToOne
     @JoinColumn(name = "document_type_id")
     private DocumentTypeEntity documentType;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne()
     @JoinColumn(name = "creator_id")
     private UserEntity creator;
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
     public UserEntity getCreator() {
         return creator;
