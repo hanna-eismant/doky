@@ -1,16 +1,21 @@
 package org.hkurh.doky.facades.impl;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hkurh.doky.dto.DocumentDto;
 import org.hkurh.doky.facades.DocumentFacade;
 import org.hkurh.doky.facades.MapperFactory;
 import org.hkurh.doky.services.DocumentService;
 import org.hkurh.doky.services.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +64,18 @@ public class DocumentFacadeImpl implements DocumentFacade {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    @Override
+    public @Nullable Resource getFile(@NonNull String id) throws MalformedURLException {
+        var documentOpt = getDocumentService().find(id);
+
+        if (documentOpt.isPresent() && StringUtils.isNotBlank(documentOpt.get().getFilePath())) {
+            var file = getFileStorageService().getFile(documentOpt.get().getFilePath());
+            return new UrlResource(file.toUri());
+        } else {
+            return null;
         }
     }
 

@@ -1,8 +1,12 @@
 package org.hkurh.doky.controllers;
 
 
+import java.net.MalformedURLException;
+
 import org.hkurh.doky.facades.DocumentFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,10 +30,31 @@ public class DocumentController {
         return ResponseEntity.ok(null);
     }
 
+    @GetMapping("/{id}/download")
+    public ResponseEntity<?> downloadFile(@PathVariable String id) {
+        try {
+            var file = getDocumentFacade().getFile(id);
+            if (file == null) {
+                return ResponseEntity.noContent().build();
+            }
+            var header = new StringBuilder().append("attachment; filename=\"")
+                    .append(file.getFilename())
+                    .append("\"").toString();
+            var response = ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, header)
+                    .body(file);
+            return response;
+        } catch (MalformedURLException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<?> create(@RequestBody DocumentRequest document) {
         var createdDocument = getDocumentFacade().createDocument(document.getName(), document.getDescription());
-        var resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build(createdDocument.getId());
+        var resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").build(createdDocument.getId());
 
         return ResponseEntity.created(resourceLocation).build();
     }
