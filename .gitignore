@@ -32,3 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 /.jpb/
+
+### Gradle ###
+server/gradlew
+server/gradlew.bat
+server/.gradle
+server/gradle
