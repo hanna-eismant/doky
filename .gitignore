@@ -35,4 +35,3 @@ build/
 
 ### Gradle ###
 server/.gradle
-server/gradle
