@@ -1,15 +1,18 @@
 import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import useFormData from './useFormData';
 import FormField from './FormField.jsx';
-import useFormData from './useFormData.js';
 
 export default () => {
 
   const { data, fields: { login, password } } = useFormData();
+  const navigate = useNavigate();
 
   const onSubmit = useCallback(event => {
     event.preventDefault();
     alert(JSON.stringify(data, null, '  '));
+    navigate('/');
   });
 
   return (
