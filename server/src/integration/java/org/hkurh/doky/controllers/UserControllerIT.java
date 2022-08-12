@@ -29,7 +29,6 @@ class UserControllerIT {
     private static final String PASSWORD_PROPERTY = "password";
     private static final String VALID_USER_UID = "hanna.test";
     private static final String VALID_USER_PASSWORD = "pass123";
-    private static final String VALID_USER_NAME = "Hanna";
     private static final String INCORRECT_USER_UID = ".test";
     private static final String INCORRECT_USER_PASSWORD = "pass";
     private static final String NEW_USER_UID = "new.user.test";
@@ -116,7 +115,7 @@ class UserControllerIT {
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/setup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     })
-    void test() throws JSONException {
+    void shouldReturnError_whenUserAlreadyExists() throws JSONException {
         var loginBody = new JSONObject();
         loginBody.put(USERNAME_PROPERTY, VALID_USER_UID);
         loginBody.put(PASSWORD_PROPERTY, NEW_USER_PASSWORD);
