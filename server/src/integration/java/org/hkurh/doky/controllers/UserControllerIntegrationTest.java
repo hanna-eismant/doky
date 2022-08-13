@@ -1,57 +1,51 @@
 package org.hkurh.doky.controllers;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hkurh.doky.dto.UserDto;
 import org.hkurh.doky.security.AuthenticationResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.*;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
 @DisplayName("Login/Register endpoint integration test")
-class UserControllerIT {
+class UserControllerIntegrationTest extends AbstractIntegrationTest {
 
-    private static final String USERNAME_PROPERTY = "username";
-    private static final String PASSWORD_PROPERTY = "password";
-    private static final String VALID_USER_UID = "hanna.test";
-    private static final String VALID_USER_PASSWORD = "pass123";
     private static final String INCORRECT_USER_UID = ".test";
     private static final String INCORRECT_USER_PASSWORD = "pass";
     private static final String NEW_USER_UID = "new.user.test";
     private static final String NEW_USER_PASSWORD = "pass";
-    private final HttpHeaders httpHeaders = new HttpHeaders();
-    @LocalServerPort
-    private int port;
-    @Autowired
-    private TestRestTemplate restTemplate;
     private String loginEndpoint;
     private String registerEndpoint;
 
     @BeforeEach
-    void setup() {
+    void setupEach() throws SQLException {
+//        createBaseTestData();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        loginEndpoint = "http://localhost:" + port + "/login";
-        registerEndpoint = "http://localhost:" + port + "/register";
+        loginEndpoint = BASE_HOST + port + "/login";
+        registerEndpoint = BASE_HOST + port + "/register";
+    }
+
+    @AfterEach
+    void clearEach() throws SQLException {
+//        cleanupBaseTestData();
     }
 
     @Test
     @DisplayName("Should receive token for valid user when login")
     @SqlGroup({
-            @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/setup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     })
     void shouldCreateToken_whenExistingUserLogin() throws JSONException {
@@ -91,7 +85,6 @@ class UserControllerIT {
     @Test
     @DisplayName("Should register user when it does not exists")
     @SqlGroup({
-            @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/setup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     })
     void shouldRegister_whenUserDoesNotExists() throws JSONException {
@@ -100,19 +93,16 @@ class UserControllerIT {
         loginBody.put(PASSWORD_PROPERTY, NEW_USER_PASSWORD);
 
         var requestEntity = new HttpEntity<>(loginBody.toString(), httpHeaders);
-        var responseEntity = restTemplate.exchange(registerEndpoint, HttpMethod.POST, requestEntity, UserDto.class);
+        var responseEntity = restTemplate.exchange(registerEndpoint, HttpMethod.POST, requestEntity, Object.class);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertNotNull(responseEntity.getBody(), "Response body is empty");
-
-        var actualUserUid = responseEntity.getBody().getUserUid();
-        assertEquals(NEW_USER_UID, actualUserUid, "User UID is incorrect");
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertTrue(responseEntity.getHeaders().containsKey(LOCATION_HEADER), "Response should contain Location header");
+        assertTrue(StringUtils.isNotBlank(responseEntity.getHeaders().get(LOCATION_HEADER).get(0)), "Header Location should not be empty");
     }
 
     @Test
     @DisplayName("Should return error when register with existing user")
     @SqlGroup({
-            @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/setup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "classpath:sql/LoginControllerIntegrationTest/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     })
     void shouldReturnError_whenUserAlreadyExists() throws JSONException {

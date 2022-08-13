@@ -1,7 +1,5 @@
 package org.hkurh.doky.facades.impl;
 
-import javax.annotation.Resource;
-
 import org.hkurh.doky.dto.UserDto;
 import org.hkurh.doky.entities.UserEntity;
 import org.hkurh.doky.exceptions.DokyAuthenticationException;
@@ -9,11 +7,12 @@ import org.hkurh.doky.exceptions.DokyRegistrationException;
 import org.hkurh.doky.facades.MapperFactory;
 import org.hkurh.doky.facades.UserFacade;
 import org.hkurh.doky.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class UserFacadeImpl implements UserFacade {
 
     private UserService userService;
@@ -42,20 +41,20 @@ public class UserFacadeImpl implements UserFacade {
         final String encodedPassword = getPasswordEncoder().encode(password);
         final UserEntity userEntity = getUserService().create(userUid, encodedPassword);
 
-        return MapperFactory.getUserModelMapper().map(userEntity, UserDto.class);
+        return MapperFactory.getModelMapper().map(userEntity, UserDto.class);
     }
 
     @Override
     public UserDto getCurrentUser() {
         final UserEntity userEntity = getUserService().getCurrentUser();
-        return MapperFactory.getUserModelMapper().map(userEntity, UserDto.class);
+        return MapperFactory.getModelMapper().map(userEntity, UserDto.class);
     }
 
     private UserService getUserService() {
         return userService;
     }
 
-    @Resource
+    @Autowired
     public void setUserService(final UserService userService) {
         this.userService = userService;
     }
@@ -64,7 +63,7 @@ public class UserFacadeImpl implements UserFacade {
         return passwordEncoder;
     }
 
-    @Resource
+    @Autowired
     public void setPasswordEncoder(final PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }

@@ -1,11 +1,10 @@
 package org.hkurh.doky.services.impl;
 
-import javax.annotation.Resource;
-
 import org.hkurh.doky.entities.UserEntity;
 import org.hkurh.doky.exceptions.NotFoundException;
 import org.hkurh.doky.repositories.UserEntityRepository;
 import org.hkurh.doky.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -48,7 +47,7 @@ public class UserServiceImpl implements UserService {
         return userEntityRepository;
     }
 
-    @Resource
+    @Autowired
     public void setUserEntityRepository(final UserEntityRepository userEntityRepository) {
         this.userEntityRepository = userEntityRepository;
     }

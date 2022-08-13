@@ -1,2 +1,1 @@
-delete from user where uid = "hanna.test";
-delete from user where uid = "new.user.test";
+delete u from user u where u.uid = "new.user.test";

@@ -4,17 +4,16 @@ import org.modelmapper.ModelMapper;
 
 public class MapperFactory {
 
-    private static final ModelMapper userModelMapper;
+    private static final ModelMapper modelMapper;
 
     static {
-        userModelMapper = new ModelMapper();
-
+        modelMapper = new ModelMapper();
     }
 
     private MapperFactory() {
     }
 
-    public static ModelMapper getUserModelMapper() {
-        return userModelMapper;
+    public static ModelMapper getModelMapper() {
+        return modelMapper;
     }
 }

@@ -33,7 +33,7 @@ class UserFacadeImplTest {
     private final UserEntity userEntity = new UserEntity();
 
     @Spy
-    private ModelMapper userModelMapper = MapperFactory.getUserModelMapper();
+    private ModelMapper userModelMapper = MapperFactory.getModelMapper();
     @Spy
     @InjectMocks
     private UserFacadeImpl userFacade;

@@ -48,13 +48,16 @@ dependencies {
     implementation 'org.modelmapper:modelmapper:3.0.0'
     implementation 'joda-time:joda-time:2.10.13'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.1'
+    implementation 'commons-io:commons-io:2.11.0'
 
     runtimeOnly 'org.springframework.boot:spring-boot-devtools:2.6.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
+    testImplementation 'org.springframework:spring-mock:2.0.8'
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
-    testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
+
 }
 
 tasks.withType(JavaCompile) {
@@ -86,18 +89,24 @@ tasks.register("bootRunDev") {
 test {
     useJUnitPlatform()
     maxHeapSize = '1G'
+    testLogging {
+        events "PASSED", "SKIPPED", "FAILED"
+    }
 }
 
+def profile = 'local'
 task integrationTest(type: Test) {
     useJUnitPlatform()
     group = "verification"
     description = "Run integration tests"
     testClassesDirs = sourceSets.integration.output.classesDirs
     classpath = sourceSets.integration.runtimeClasspath
+    testLogging {
+        events "PASSED", "SKIPPED", "FAILED"
+    }
     doFirst {
         tasks.integrationTest.configure {
             systemProperty("spring.profiles.active", profile)
-            println "set profile " + profile
         }
     }
 }
