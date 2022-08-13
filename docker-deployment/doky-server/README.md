@@ -9,4 +9,4 @@ it `server.jar`
 
 Run follow command:
 
-    docker compose -f ./dev.yml up
+    docker compose -f ./dev.yml up -d
