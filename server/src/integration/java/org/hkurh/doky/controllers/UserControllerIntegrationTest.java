@@ -96,8 +96,8 @@ class UserControllerIntegrationTest extends AbstractIntegrationTest {
         var responseEntity = restTemplate.exchange(registerEndpoint, HttpMethod.POST, requestEntity, Object.class);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertTrue(responseEntity.getHeaders().containsKey("Location"), "Response should contain Location header");
-        assertTrue(StringUtils.isNotBlank(responseEntity.getHeaders().get("Location").get(0)), "Header Location should not be empty");
+        assertTrue(responseEntity.getHeaders().containsKey(LOCATION_HEADER), "Response should contain Location header");
+        assertTrue(StringUtils.isNotBlank(responseEntity.getHeaders().get(LOCATION_HEADER).get(0)), "Header Location should not be empty");
     }
 
     @Test

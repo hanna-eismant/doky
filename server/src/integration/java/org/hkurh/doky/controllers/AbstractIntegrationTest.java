@@ -12,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -32,6 +33,7 @@ public abstract class AbstractIntegrationTest {
 
     static final String BASE_HOST = "http://localhost:";
     static final String AUTHORIZATION_HEADER = "Authorization";
+    static final String LOCATION_HEADER = "Location";
     static final String USERNAME_PROPERTY = "username";
     static final String PASSWORD_PROPERTY = "password";
     static final String VALID_USER_UID = "hanna.test";
@@ -41,6 +43,8 @@ public abstract class AbstractIntegrationTest {
     protected int port;
     @Autowired
     protected TestRestTemplate restTemplate;
+    @Autowired
+    protected JdbcTemplate jdbcTemplate;
     @Autowired
     private DataSource dataSource;
 
