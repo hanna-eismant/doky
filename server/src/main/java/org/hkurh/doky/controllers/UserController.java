@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 public class UserController {
@@ -28,8 +29,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public UserDto register(@RequestBody UserRegistrationRequest registrationRequest) {
-        return getUserFacade().register(registrationRequest.getUsername(), registrationRequest.getPassword());
+    public ResponseEntity<?> register(@RequestBody UserRegistrationRequest registrationRequest) {
+        var registeredUser = getUserFacade().register(registrationRequest.getUsername(), registrationRequest.getPassword());
+
+        var resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").build(registeredUser.getUserUid());
+
+        return ResponseEntity.created(resourceLocation).build();
     }
 
     @GetMapping("/users/current")

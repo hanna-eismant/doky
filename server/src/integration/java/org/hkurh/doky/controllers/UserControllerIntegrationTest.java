@@ -1,10 +1,10 @@
 package org.hkurh.doky.controllers;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hkurh.doky.dto.UserDto;
 import org.hkurh.doky.security.AuthenticationResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,10 +31,16 @@ class UserControllerIntegrationTest extends AbstractIntegrationTest {
     private String registerEndpoint;
 
     @BeforeEach
-    void setup() {
+    void setupEach() throws SQLException {
+//        createBaseTestData();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         loginEndpoint = BASE_HOST + port + "/login";
         registerEndpoint = BASE_HOST + port + "/register";
+    }
+
+    @AfterEach
+    void clearEach() throws SQLException {
+//        cleanupBaseTestData();
     }
 
     @Test
@@ -85,13 +93,11 @@ class UserControllerIntegrationTest extends AbstractIntegrationTest {
         loginBody.put(PASSWORD_PROPERTY, NEW_USER_PASSWORD);
 
         var requestEntity = new HttpEntity<>(loginBody.toString(), httpHeaders);
-        var responseEntity = restTemplate.exchange(registerEndpoint, HttpMethod.POST, requestEntity, UserDto.class);
+        var responseEntity = restTemplate.exchange(registerEndpoint, HttpMethod.POST, requestEntity, Object.class);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertNotNull(responseEntity.getBody(), "Response body is empty");
-
-        var actualUserUid = responseEntity.getBody().getUserUid();
-        assertEquals(NEW_USER_UID, actualUserUid, "User UID is incorrect");
+        assertTrue(responseEntity.getHeaders().containsKey("Location"), "Response should contain Location header");
+        assertTrue(StringUtils.isNotBlank(responseEntity.getHeaders().get("Location").get(0)), "Header Location should not be empty");
     }
 
     @Test
