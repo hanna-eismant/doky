@@ -1,8 +1,8 @@
 ### Run DEV profile
 
-Compile jar file with command (from server directory)
+Compile jar with all dependencies file with command (from server directory)
 
-    ./gradlew jar
+    ./gradlew fatJar
 
 Copy compiled jar (with all dependencies) from `server/build/libs/server-*.jar` to current folder and name
 it `server.jar`
