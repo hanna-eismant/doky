@@ -1,6 +1,8 @@
 ### Run DEV profile
 
-Compile jar file with command (from server directory)
+Compile jar with all dependencies file with command (from server directory)
+
+Create-Docker-image
 
     ./gradlew bootJar
 

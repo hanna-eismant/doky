@@ -115,3 +115,13 @@ task integrationTest(type: Test) {
 }
 
 check.dependsOn integrationTest
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'org.hkurh.doky.DokyApplication'
+    }
+    baseName = 'fat-server'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
