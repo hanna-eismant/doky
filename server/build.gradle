@@ -57,10 +57,20 @@ dependencies {
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
+}
 
+//tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+//    mainClass.set("org.hkurh.doky.DokyApplication")
+//}
+
+tasks.named("bootJar") {
+    mainClass.set("org.hkurh.doky.DokyApplication")
+    archiveBaseName.set("server")
+    archiveFileName.set("server.jar")
 }
 
 tasks.withType(JavaCompile) {
+//    mainClass.set("org.hkurh.doky.DokyApplication")
     options.encoding = 'UTF-8'
 }
 
