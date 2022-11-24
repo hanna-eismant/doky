@@ -57,7 +57,10 @@ dependencies {
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
+}
 
+tasks.named("bootJar") {
+    mainClass.set("org.hkurh.doky.DokyApplication")
 }
 
 tasks.withType(JavaCompile) {
