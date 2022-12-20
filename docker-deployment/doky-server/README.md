@@ -9,6 +9,6 @@ Create-Docker-image
 Copy compiled jar (with all dependencies) from `server/build/libs/server-*.jar` to current folder and name
 it `server.jar`
 
-Run follow command:
+To start container (db + server) run:
 
-    docker compose -f ./dev.yml up -d
+    docker compose -f ./dev.yml up --build -d
