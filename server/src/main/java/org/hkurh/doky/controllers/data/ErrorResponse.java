@@ -1,4 +1,4 @@
-package org.hkurh.doky.controllers;
+package org.hkurh.doky.controllers.data;
 
 import org.springframework.lang.NonNull;
 
