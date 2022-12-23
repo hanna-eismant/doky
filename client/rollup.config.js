@@ -4,6 +4,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import serve from 'rollup-plugin-serve';
+import livereload from "rollup-plugin-livereload";
 
 export default {
   input: "src/index.js",
@@ -21,7 +22,7 @@ export default {
       'process.env.NODE_ENV': JSON.stringify( 'development' )
     }),
     babel({
-      presets: ["@babel/preset-react"],
+      presets: ["@babel/preset-react"]
     }),
     commonjs(),
     serve({
@@ -34,7 +35,8 @@ export default {
       contentBase: [ 'dist', 'static' ],
 
       // return index.html (200) instead of error page (404)
-      historyApiFallback: true,
-    })
+      historyApiFallback: true
+    }),
+    livereload({ watch: "dist" })
   ]
 };
