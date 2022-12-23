@@ -1,6 +1,8 @@
 package org.hkurh.doky.controllers;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hkurh.doky.AbstractIntegrationTest;
+import org.hkurh.doky.controllers.data.ErrorResponse;
 import org.hkurh.doky.security.AuthenticationResponse;
 import org.json.JSONException;
 import org.json.JSONObject;

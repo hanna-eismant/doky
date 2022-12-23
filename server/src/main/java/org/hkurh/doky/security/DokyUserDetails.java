@@ -1,12 +1,11 @@
 package org.hkurh.doky.security;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import org.hkurh.doky.entities.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Collections;
 
 public class DokyUserDetails implements UserDetails {
     private String username;
@@ -17,9 +16,7 @@ public class DokyUserDetails implements UserDetails {
         var dokyUserDetails = new DokyUserDetails();
         dokyUserDetails.username = userEntity.getUid();
         dokyUserDetails.password = userEntity.getPassword();
-
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
-        dokyUserDetails.grantedAuthorities = Collections.singletonList(grantedAuthority);
+        dokyUserDetails.grantedAuthorities = Collections.singletonList(DokyAuthority.ROLE_USER);
 
         return dokyUserDetails;
     }
