@@ -18,10 +18,11 @@ import java.net.MalformedURLException;
 @RestController
 @RequestMapping("/documents")
 @Secured(DokyAuthority.Role.ROLE_USER)
-public class DocumentController {
+public class DocumentController implements DocumentApi {
 
     private DocumentFacade documentFacade;
 
+    @Override
     @PostMapping("/{id}/upload")
     public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file, @PathVariable String id) {
         getDocumentFacade().saveFile(file, id);
@@ -29,6 +30,7 @@ public class DocumentController {
         return ResponseEntity.ok(null);
     }
 
+    @Override
     @GetMapping("/{id}/download")
     public ResponseEntity<?> downloadFile(@PathVariable String id) {
         try {
@@ -49,6 +51,7 @@ public class DocumentController {
         }
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<?> create(@RequestBody DocumentRequest document) {
         var createdDocument = getDocumentFacade().createDocument(document.getName(), document.getDescription());
@@ -58,6 +61,7 @@ public class DocumentController {
         return ResponseEntity.created(resourceLocation).build();
     }
 
+    @Override
     @GetMapping
     public ResponseEntity<?> getAll() {
         var documents = getDocumentFacade().findAllDocuments();
@@ -69,6 +73,7 @@ public class DocumentController {
         }
     }
 
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable String id) {
         var document = getDocumentFacade().findDocument(id);
