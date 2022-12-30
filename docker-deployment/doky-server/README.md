@@ -6,8 +6,7 @@ Create-Docker-image
 
     ./gradlew bootJar
 
-Copy compiled jar (with all dependencies) from `server/build/libs/server-*.jar` to current folder and name
-it `server.jar`
+Copy compiled jar (with all dependencies) from `server/build/libs/server-*.jar` to `docker-deployment/doky-server` and name it `server.jar`
 
 To start container (db + server) run:
 
