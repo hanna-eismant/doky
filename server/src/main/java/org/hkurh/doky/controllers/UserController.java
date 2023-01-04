@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Secured(DokyAuthority.Role.ROLE_USER)
-public class UserController {
+public class UserController implements UserApi {
     private UserFacade userFacade;
 
+    @Override
     @GetMapping("/users/current")
     public UserDto getUser() {
         return getUserFacade().getCurrentUser();

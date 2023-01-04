@@ -1,8 +1,12 @@
 package org.hkurh.doky.security;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class AuthenticationRequest {
 
+    @Schema(description = "Unique username", requiredMode = Schema.RequiredMode.REQUIRED)
     private String username;
+    @Schema(description = "User password", requiredMode = Schema.RequiredMode.REQUIRED)
     private String password;
 
     public AuthenticationRequest() {
