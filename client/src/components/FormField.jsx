@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { noop } from '../../utils';
+import { noop } from '../utils';
 
 export default ({ label, id, type, value = '', onChange = noop }) => {
   const handleOnChange = useCallback(event => {

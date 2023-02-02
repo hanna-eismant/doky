@@ -1,11 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 
-const initialFormData = {
-  login: '',
-  password: ''
-};
-
-export default (formData = initialFormData) => {
+export default (formData = {}) => {
   const [ data, setData ] = useState(formData);
 
   const setValue = useCallback((key, value) => {
