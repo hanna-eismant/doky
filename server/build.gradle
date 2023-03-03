@@ -63,7 +63,7 @@ tasks.named("bootJar") {
     mainClass.set("org.hkurh.doky.DokyApplication")
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
@@ -98,7 +98,7 @@ test {
 }
 
 def profile = 'local'
-task integrationTest(type: Test) {
+tasks.register('integrationTest', Test) {
     useJUnitPlatform()
     group = "verification"
     description = "Run integration tests"
@@ -116,11 +116,10 @@ task integrationTest(type: Test) {
 
 check.dependsOn integrationTest
 
-task fatJar(type: Jar) {
+tasks.register('fatJar', Jar) {
     manifest {
         attributes 'Main-Class': 'org.hkurh.doky.DokyApplication'
     }
-    baseName = 'fat-server'
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
