@@ -14,6 +14,8 @@ import org.hkurh.doky.security.AuthenticationResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
+
 @Tag(name = "User authorization and registration")
 @SecurityRequirement(name = "")
 public interface AuthorizationUserApi {
@@ -33,5 +35,5 @@ public interface AuthorizationUserApi {
             @ApiResponse(responseCode = "409", description = "User with same name already exists",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
     })
-    ResponseEntity<?> register(@RequestBody UserRegistrationRequest registrationRequest);
+    ResponseEntity<?> register(@Valid @RequestBody UserRegistrationRequest registrationRequest);
 }

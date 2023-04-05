@@ -1,1 +1,1 @@
-insert into user (uid, name, password) values ( "hanna.test", "Hanna", "$2a$10$L2TXn.a0XxC306ETsPZ5LeEI8kl9iAGRN.PycZ2wvVkjluEGwq0vu" );
+insert into user (uid, name, password) values ( "hanna_test_1", "Hanna", "$2a$10$bdZSuBncZqaM4XwHcjxbpeQuXeOxk6vCEsFrTwa91xh3M3JpvW41m" );

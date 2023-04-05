@@ -8,6 +8,11 @@ public class DocumentRequest {
     public DocumentRequest() {
     }
 
+    public DocumentRequest(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public String getName() {
         return name;
     }

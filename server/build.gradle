@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'groovy'
     id 'org.springframework.boot' version '2.7.2'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
 }
@@ -28,9 +29,12 @@ configurations {
 }
 
 dependencies {
+    implementation 'org.apache.groovy:groovy-all:4.0.9'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.2'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
     implementation 'org.springframework.boot:spring-boot-starter-security:2.6.2'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.2'
     implementation 'org.springframework.boot:spring-boot-configuration-processor:2.6.2'
 
     implementation 'org.flywaydb:flyway-core:8.3.0'
@@ -57,6 +61,14 @@ dependencies {
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
+
+    testImplementation('io.rest-assured:rest-assured:5.3.0') {
+        exclude group: 'org.codehaus.groovy'
+    }
+    testImplementation platform('org.spockframework:spock-bom:2.4-M1-groovy-4.0')
+    testImplementation('org.spockframework:spock-core:2.4-M1-groovy-4.0')
+    testImplementation 'com.athaydes:spock-reports:2.4.0-groovy-4.0'
+    testImplementation 'org.spockframework:spock-spring:2.4-M1-groovy-4.0'
 }
 
 tasks.named("bootJar") {
@@ -97,7 +109,16 @@ test {
     }
 }
 
-def profile = 'local'
+sourceSets {
+    integrationTest {
+        groovy {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration/groovy')
+        }
+        resources.srcDir file('src/integration/resources')
+    }
+}
 tasks.register('integrationTest', Test) {
     useJUnitPlatform()
     group = "verification"
@@ -106,11 +127,6 @@ tasks.register('integrationTest', Test) {
     classpath = sourceSets.integration.runtimeClasspath
     testLogging {
         events "PASSED", "SKIPPED", "FAILED"
-    }
-    doFirst {
-        tasks.integrationTest.configure {
-            systemProperty("spring.profiles.active", profile)
-        }
     }
 }
 

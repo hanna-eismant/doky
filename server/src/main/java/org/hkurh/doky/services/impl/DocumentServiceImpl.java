@@ -1,9 +1,5 @@
 package org.hkurh.doky.services.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.hkurh.doky.entities.DocumentEntity;
 import org.hkurh.doky.repositories.DocumentEntityRepository;
 import org.hkurh.doky.services.DocumentService;
@@ -11,6 +7,10 @@ import org.hkurh.doky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
@@ -32,14 +32,15 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public Optional<DocumentEntity> find(@NonNull String id) {
-        var longId = Long.parseLong(id);
-        return getDocumentEntityRepository().findById(longId);
+        var documentId = Long.parseLong(id);
+        var currentUser = userService.getCurrentUser();
+        return documentEntityRepository.findByIdAndCreatorId(documentId, currentUser.getId());
     }
 
     @Override
     public @NonNull List<DocumentEntity> find() {
-        var documentList = new ArrayList<DocumentEntity>();
-        getDocumentEntityRepository().findAll().forEach(documentList::add);
+        var currentUser = userService.getCurrentUser();
+        var documentList = new ArrayList<>(documentEntityRepository.findByCreatorId(currentUser.getId()));
 
         return documentList;
     }
@@ -49,7 +50,7 @@ public class DocumentServiceImpl implements DocumentService {
         getDocumentEntityRepository().save(document);
     }
 
-    public DocumentEntityRepository getDocumentEntityRepository() {
+    private DocumentEntityRepository getDocumentEntityRepository() {
         return documentEntityRepository;
     }
 
@@ -58,7 +59,7 @@ public class DocumentServiceImpl implements DocumentService {
         this.documentEntityRepository = documentEntityRepository;
     }
 
-    public UserService getUserService() {
+    private UserService getUserService() {
         return userService;
     }
 
