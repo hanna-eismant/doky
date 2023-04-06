@@ -1,12 +1,8 @@
 package org.hkurh.doky.facades.impl;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hkurh.doky.dto.DocumentDto;
+import org.hkurh.doky.exceptions.DokyNotFoundException;
 import org.hkurh.doky.facades.DocumentFacade;
 import org.hkurh.doky.facades.MapperFactory;
 import org.hkurh.doky.services.DocumentService;
@@ -20,6 +16,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.lang.String.format;
 
 @Component
 public class DocumentFacadeImpl implements DocumentFacade {
@@ -64,6 +67,8 @@ public class DocumentFacadeImpl implements DocumentFacade {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        } else {
+            throw new DokyNotFoundException(format("Document with id [%s] not found", id));
         }
     }
 

@@ -1,7 +1,7 @@
 package org.hkurh.doky.services.impl;
 
 import org.hkurh.doky.entities.UserEntity;
-import org.hkurh.doky.exceptions.NotFoundException;
+import org.hkurh.doky.exceptions.DokyNotFoundException;
 import org.hkurh.doky.repositories.UserEntityRepository;
 import org.hkurh.doky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     public UserEntity findUserByUid(@NonNull String userUid) {
         var userEntity = getUserEntityRepository().findByUid(userUid);
         if (userEntity == null) {
-            throw new NotFoundException("User doesn't exist");
+            throw new DokyNotFoundException("User doesn't exist");
         }
         return userEntity;
     }

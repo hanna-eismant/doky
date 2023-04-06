@@ -24,6 +24,7 @@ public interface DocumentApi {
     @Operation(summary = "Upload file to document entry")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "File is uploaded and attached to document"),
+            @ApiResponse(responseCode = "404", description = "Document with provided id does not exist")
     })
     ResponseEntity<?> uploadFile(@RequestBody MultipartFile file, @PathVariable String id);
 
