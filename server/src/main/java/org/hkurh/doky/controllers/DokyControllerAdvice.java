@@ -3,6 +3,7 @@ package org.hkurh.doky.controllers;
 import org.hkurh.doky.controllers.data.ErrorResponse;
 import org.hkurh.doky.controllers.data.ValidationErrorResponse;
 import org.hkurh.doky.exceptions.DokyAuthenticationException;
+import org.hkurh.doky.exceptions.DokyNotFoundException;
 import org.hkurh.doky.exceptions.DokyRegistrationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -30,6 +31,12 @@ public class DokyControllerAdvice {
         return new ErrorResponse(exception.getMessage());
     }
 
+    @ExceptionHandler(DokyNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse notFound(DokyNotFoundException exception) {
+        return new ErrorResponse(exception.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ValidationErrorResponse validationException(MethodArgumentNotValidException exception) {
@@ -43,4 +50,6 @@ public class DokyControllerAdvice {
 
         return response;
     }
+
+
 }

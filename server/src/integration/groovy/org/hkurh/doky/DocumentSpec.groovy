@@ -4,7 +4,9 @@ import org.hkurh.doky.controllers.data.DocumentRequest
 import org.hkurh.doky.dto.DocumentDto
 import org.hkurh.doky.repositories.DocumentEntityRepository
 import org.hkurh.doky.repositories.UserEntityRepository
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.jdbc.Sql
@@ -19,6 +21,7 @@ import static org.hamcrest.Matchers.notNullValue
 class DocumentSpec extends RestSpec {
     private static ENDPOINT = '/documents'
     private static ENDPOINT_SINGLE = '/documents/{id}'
+    private static ENDPOINT_UPLOAD = '/documents/{id}/upload'
     private static DOCUMENT_ID_PROPERTY = 'id'
     private static DOCUMENT_NAME_PROPERTY = 'name'
     private static EXISTED_DOCUMENT_NAME_FIRST = 'Test_1'
@@ -27,6 +30,10 @@ class DocumentSpec extends RestSpec {
     private static EXISTED_DOCUMENT_NAME_FOUR = 'Test_4'
     private static NEW_DOCUMENT_NAME = 'Apples'
     private static NEW_DOCUMENT_DESCRIPTION = 'Do you like apples?'
+    private static String UPLOAD_FILE_NAME = "test_1.txt"
+
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Autowired
     private DocumentEntityRepository documentEntityRepository
@@ -111,10 +118,56 @@ class DocumentSpec extends RestSpec {
         response.then().statusCode(HttpStatus.NO_CONTENT.value())
     }
 
+    @Test
+    @Sql(scripts = 'classpath:sql/DocumentSpec/setup.sql', executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    def "Should upload file for existing document"() {
+        given:
+        def docId = getDocumentId(EXISTED_DOCUMENT_NAME_FIRST) as Long
+        and:
+        def requestSpec = prepareRequestSpecWithLogin()
+                .addPathParam(DOCUMENT_ID_PROPERTY, docId)
+                .addMultiPart('file', createFileToUpload(), "text/plain")
+                .addHeader(CONTENT_TYPE_HEADER, "multipart/form-data")
+                .build()
+
+        when:
+        def response = given(requestSpec).post(ENDPOINT_UPLOAD)
+
+        then:
+        response.then().statusCode(HttpStatus.OK.value())
+    }
+
+    @Test
+    @Sql(scripts = 'classpath:sql/DocumentSpec/setup.sql', executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    def "Should return error when upload file for document that does not belong to current customer"() {
+        given:
+        def docId = getDocumentId(EXISTED_DOCUMENT_NAME_THRID) as Long
+        and:
+        def requestSpec = prepareRequestSpecWithLogin()
+                .addPathParam(DOCUMENT_ID_PROPERTY, docId)
+                .addMultiPart('file', createFileToUpload(), "text/plain")
+                .addHeader(CONTENT_TYPE_HEADER, "multipart/form-data")
+                .build()
+
+        when:
+        def response = given(requestSpec).post(ENDPOINT_UPLOAD)
+
+        then:
+        response.then().statusCode(HttpStatus.NOT_FOUND.value())
+    }
+
     def getDocumentId(docName) {
         def existedDocumentQuery = 'select d.id from document d where d.name = ?'
         def args = new Object[]{docName}
         def argTypes = new int[]{Types.VARCHAR}
         jdbcTemplate.queryForObject(existedDocumentQuery, args, argTypes, Long.class)
+    }
+
+    def createFileToUpload() {
+        temporaryFolder.create()
+        def file = temporaryFolder.newFile(UPLOAD_FILE_NAME)
+        file.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt")
+        file.append(" ut labore et dolore magna aliqua.")
+        file
     }
 }
