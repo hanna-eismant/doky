@@ -4,6 +4,8 @@ package org.hkurh.doky.controllers;
 import org.hkurh.doky.controllers.data.DocumentRequest;
 import org.hkurh.doky.facades.DocumentFacade;
 import org.hkurh.doky.security.DokyAuthority;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,10 +17,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.MalformedURLException;
 
+import static java.lang.String.format;
+
 @RestController
 @RequestMapping("/documents")
 @Secured(DokyAuthority.Role.ROLE_USER)
 public class DocumentController implements DocumentApi {
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentController.class);
 
     private DocumentFacade documentFacade;
 
@@ -26,7 +31,6 @@ public class DocumentController implements DocumentApi {
     @PostMapping("/{id}/upload")
     public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file, @PathVariable String id) {
         getDocumentFacade().saveFile(file, id);
-
         return ResponseEntity.ok(null);
     }
 
@@ -36,11 +40,12 @@ public class DocumentController implements DocumentApi {
         try {
             var file = getDocumentFacade().getFile(id);
             if (file == null) {
+                LOG.debug(format("No attached file for document [%s]", id));
                 return ResponseEntity.noContent().build();
             }
-            var header = new StringBuilder().append("attachment; filename=\"")
-                    .append(file.getFilename())
-                    .append("\"").toString();
+            var header = "attachment; filename=\"" +
+                    file.getFilename() +
+                    "\"";
             var response = ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .header(HttpHeaders.CONTENT_DISPOSITION, header)
@@ -57,7 +62,6 @@ public class DocumentController implements DocumentApi {
         var createdDocument = getDocumentFacade().createDocument(document.getName(), document.getDescription());
         var resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").build(createdDocument.getId());
-
         return ResponseEntity.created(resourceLocation).build();
     }
 
@@ -65,8 +69,8 @@ public class DocumentController implements DocumentApi {
     @GetMapping
     public ResponseEntity<?> getAll() {
         var documents = getDocumentFacade().findAllDocuments();
-
         if (documents.isEmpty()) {
+            LOG.debug("No Documents for current user");
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(documents);
@@ -77,10 +81,10 @@ public class DocumentController implements DocumentApi {
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable String id) {
         var document = getDocumentFacade().findDocument(id);
-
         if (document != null) {
             return ResponseEntity.ok(document);
         } else {
+            LOG.debug(format("No Document with id [%s]", id));
             return ResponseEntity.noContent().build();
         }
     }

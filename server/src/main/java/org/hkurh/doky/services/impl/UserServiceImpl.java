@@ -4,13 +4,19 @@ import org.hkurh.doky.entities.UserEntity;
 import org.hkurh.doky.exceptions.DokyNotFoundException;
 import org.hkurh.doky.repositories.UserEntityRepository;
 import org.hkurh.doky.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import static java.lang.String.format;
+
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private UserEntityRepository userEntityRepository;
 
@@ -34,13 +40,17 @@ public class UserServiceImpl implements UserService {
         var userEntity = new UserEntity();
         userEntity.setUid(userUid);
         userEntity.setPassword(encodedPassword);
-        return getUserEntityRepository().save(userEntity);
+        var createdUser = getUserEntityRepository().save(userEntity);
+        LOG.debug(format("Created new user [%s]", createdUser.getId()));
+        return createdUser;
     }
 
     @Override
     public UserEntity getCurrentUser() {
         var name = SecurityContextHolder.getContext().getAuthentication().getName();
-        return getUserEntityRepository().findByUid(name);
+        var userEntity = getUserEntityRepository().findByUid(name);
+        LOG.debug(format("Get current user [%s]", userEntity.getId()));
+        return userEntity;
     }
 
     private UserEntityRepository getUserEntityRepository() {

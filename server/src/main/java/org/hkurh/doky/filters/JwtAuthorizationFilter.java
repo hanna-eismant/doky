@@ -1,12 +1,8 @@
 package org.hkurh.doky.filters;
 
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.apache.commons.lang3.StringUtils;
 import org.hkurh.doky.security.DokyUserDetails;
 import org.hkurh.doky.security.JwtProvider;
@@ -19,13 +15,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthorizationFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JwtAuthorizationFilter.class);
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
@@ -34,9 +32,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
-        LOGGER.debug("Jwt Authorization Filter is invoked.");
-
+        LOG.debug("Jwt Authorization Filter is invoked.");
         try {
             var token = getTokenFromRequest(request);
             if (token != null && JwtProvider.validateToken(token)) {
@@ -46,7 +42,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 var authenticationToken = new UsernamePasswordAuthenticationToken(dokyUserDetails, null, dokyUserDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             } else {
-                LOGGER.warn("Token is not presented. Clear authorization context.");
+                LOG.warn("Token is not presented. Clear authorization context.");
                 SecurityContextHolder.clearContext();
             }
             filterChain.doFilter(request, response);

@@ -4,6 +4,8 @@ import org.hkurh.doky.entities.DocumentEntity;
 import org.hkurh.doky.repositories.DocumentEntityRepository;
 import org.hkurh.doky.services.DocumentService;
 import org.hkurh.doky.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -12,8 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.String.format;
+
 @Service
 public class DocumentServiceImpl implements DocumentService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentServiceImpl.class);
 
     private DocumentEntityRepository documentEntityRepository;
     private UserService userService;
@@ -23,10 +29,9 @@ public class DocumentServiceImpl implements DocumentService {
         var document = new DocumentEntity();
         document.setName(name);
         document.setDescription(description);
-
         var currentUser = getUserService().getCurrentUser();
         document.setCreator(currentUser);
-
+        LOG.debug(format("Created new Document [%s] by User [%s]", document.getId(), currentUser.getId()));
         return getDocumentEntityRepository().save(document);
     }
 
