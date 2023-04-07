@@ -1,14 +1,9 @@
 package org.hkurh.doky.services.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hkurh.doky.services.FileStorageService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -18,12 +13,21 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import static java.lang.String.format;
+
+
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
-
     public static final String STORAGE_PATH_PROPERTY = "doky.file.storage.path";
     public static final String DEFAULT_STORAGE_PATH = "./mediadata";
-
+    private static final Log LOG = LogFactory.getLog(FileStorageServiceImpl.class);
     private Environment environment;
 
     @Override
@@ -34,7 +38,7 @@ public class FileStorageServiceImpl implements FileStorageService {
         Files.createDirectories(folder);
         var filePath = folder.resolve(randomName + "." + extension);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
+        LOG.debug(format("Save uploaded file to [%s]", filePath.toAbsolutePath()));
         return filePath.toString();
     }
 

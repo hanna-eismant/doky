@@ -7,6 +7,8 @@ import org.hkurh.doky.facades.DocumentFacade;
 import org.hkurh.doky.facades.MapperFactory;
 import org.hkurh.doky.services.DocumentService;
 import org.hkurh.doky.services.FileStorageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -27,30 +29,35 @@ import static java.lang.String.format;
 @Component
 public class DocumentFacadeImpl implements DocumentFacade {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentFacadeImpl.class);
+
     private DocumentService documentService;
     private FileStorageService fileStorageService;
 
     @Override
     public DocumentDto createDocument(@NonNull String name, String description) {
         var documentEntity = getDocumentService().create(name, description);
-        return MapperFactory.getModelMapper().map(documentEntity, DocumentDto.class);
+        LOG.debug(format("Created new Document [%s]", documentEntity.getId()));
+        var documentDto = MapperFactory.getModelMapper()
+                .map(documentEntity, DocumentDto.class);
+        return documentDto;
     }
 
     @Override
     public DocumentDto findDocument(@NonNull String id) {
         var documentEntity = getDocumentService().find(id);
-
-        return documentEntity.map(entity -> MapperFactory.getModelMapper().map(entity, DocumentDto.class)).orElse(null);
+        var documentDto = documentEntity.map(entity -> MapperFactory.getModelMapper()
+                        .map(entity, DocumentDto.class))
+                .orElse(null);
+        return documentDto;
     }
 
     @Override
     public List<DocumentDto> findAllDocuments() {
         var documentEntityList = getDocumentService().find();
-
         var documentDtoList = documentEntityList.stream()
                 .map(entity -> MapperFactory.getModelMapper().map(entity, DocumentDto.class))
                 .collect(Collectors.toList());
-
         return documentDtoList;
     }
 
@@ -75,11 +82,12 @@ public class DocumentFacadeImpl implements DocumentFacade {
     @Override
     public @Nullable Resource getFile(@NonNull String id) throws MalformedURLException {
         var documentOpt = getDocumentService().find(id);
-
         if (documentOpt.isPresent() && StringUtils.isNotBlank(documentOpt.get().getFilePath())) {
             var file = getFileStorageService().getFile(documentOpt.get().getFilePath());
+            LOG.debug(format("Download file for Document [%s] with URI [%s]", id, file.toUri()));
             return new UrlResource(file.toUri());
         } else {
+            LOG.debug(format("No attached file for Document [%s]", id));
             return null;
         }
     }

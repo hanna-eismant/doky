@@ -7,13 +7,19 @@ import org.hkurh.doky.exceptions.DokyRegistrationException;
 import org.hkurh.doky.facades.MapperFactory;
 import org.hkurh.doky.facades.UserFacade;
 import org.hkurh.doky.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import static java.lang.String.format;
+
 @Component
 public class UserFacadeImpl implements UserFacade {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserFacadeImpl.class);
 
     private UserService userService;
     private PasswordEncoder passwordEncoder;
@@ -23,9 +29,7 @@ public class UserFacadeImpl implements UserFacade {
         if (!getUserService().checkUserExistence(userUid)) {
             throw new DokyAuthenticationException("User doesn't exist");
         }
-
         final UserEntity userEntity = getUserService().findUserByUid(userUid);
-
         final String encodedPassword = userEntity.getPassword();
         if (!getPasswordEncoder().matches(password, encodedPassword)) {
             throw new DokyAuthenticationException("Incorrect credentials");
@@ -37,10 +41,9 @@ public class UserFacadeImpl implements UserFacade {
         if (getUserService().checkUserExistence(userUid)) {
             throw new DokyRegistrationException("User already exists");
         }
-
         final String encodedPassword = getPasswordEncoder().encode(password);
         final UserEntity userEntity = getUserService().create(userUid, encodedPassword);
-
+        LOG.info(format("Register new user [%s]", userEntity));
         return MapperFactory.getModelMapper().map(userEntity, UserDto.class);
     }
 
