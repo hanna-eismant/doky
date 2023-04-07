@@ -25,7 +25,7 @@ public class UserFacadeImpl implements UserFacade {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void login(@NonNull final String userUid, @NonNull final String password) {
+    public void checkCredentials(@NonNull final String userUid, @NonNull final String password) {
         if (!getUserService().checkUserExistence(userUid)) {
             throw new DokyAuthenticationException("User doesn't exist");
         }
@@ -58,7 +58,7 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Autowired
-    public void setUserService(final UserService userService) {
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
@@ -67,7 +67,7 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Autowired
-    public void setPasswordEncoder(final PasswordEncoder passwordEncoder) {
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 }

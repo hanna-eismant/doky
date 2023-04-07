@@ -21,7 +21,7 @@ public class DokyControllerAdvice {
             AccessDeniedException.class
     })
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ErrorResponse authenticationException(final Exception exception) {
+    public ErrorResponse authenticationException(Exception exception) {
         return new ErrorResponse(exception.getMessage());
     }
 
@@ -47,7 +47,6 @@ public class DokyControllerAdvice {
         for (FieldError fieldError : fieldErrors) {
             response.getFields().add(new ValidationErrorResponse.Field(fieldError.getField(), fieldError.getDefaultMessage()));
         }
-
         return response;
     }
 

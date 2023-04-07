@@ -32,7 +32,7 @@ public class DocumentTypeEntity {
         return workflow;
     }
 
-    public void setWorkflow(final List<WorkflowEntity> workflow) {
+    public void setWorkflow(List<WorkflowEntity> workflow) {
         this.workflow = workflow;
     }
 
@@ -40,7 +40,7 @@ public class DocumentTypeEntity {
         return documents;
     }
 
-    public void setDocuments(final List<DocumentEntity> documents) {
+    public void setDocuments(List<DocumentEntity> documents) {
         this.documents = documents;
     }
 
@@ -48,7 +48,7 @@ public class DocumentTypeEntity {
         return description;
     }
 
-    public void setDescription(final String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -56,7 +56,7 @@ public class DocumentTypeEntity {
         return name;
     }
 
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -64,7 +64,7 @@ public class DocumentTypeEntity {
         return code;
     }
 
-    public void setCode(final String code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -72,7 +72,7 @@ public class DocumentTypeEntity {
         return id;
     }
 
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

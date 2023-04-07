@@ -25,7 +25,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthorizationFilter jwtAuthorizationFilter;
 
     @Override
-    protected void configure(final HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
@@ -46,8 +46,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void setJwtAuthorizationFilter(final JwtAuthorizationFilter jwtAuthorizationFilter) {
+    public void setJwtAuthorizationFilter(JwtAuthorizationFilter jwtAuthorizationFilter) {
         this.jwtAuthorizationFilter = jwtAuthorizationFilter;
     }
 }
-                                        
+

@@ -1,21 +1,25 @@
 package org.hkurh.doky.controllers.data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserRegistrationRequest {
 
     @NotBlank(message = "Username is required")
+    @Size(min = 4, max = 32, message = "Length should be from 4 to 32 characters")
+    @Pattern(regexp = "^[a-zA-Z\\d_\\-]*$")
     private String username;
+
     @NotBlank(message = "Password is required")
-    @Size(max = 32, message = "Should has less than 32 characters")
-    @Size(min = 8, message = "Should has minimum 8 characters")
+    @Size(min = 8, max = 32, message = "Length should be from 8 to 32 characters")
+    @Pattern(regexp = "^[a-zA-Z\\d!@#$%^&*()_\\-+]*$")
     private String password;
 
     public UserRegistrationRequest() {
     }
 
-    public UserRegistrationRequest(final String username, final String password) {
+    public UserRegistrationRequest(String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -24,7 +28,7 @@ public class UserRegistrationRequest {
         return username;
     }
 
-    public void setUsername(final String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -32,7 +36,7 @@ public class UserRegistrationRequest {
         return password;
     }
 
-    public void setPassword(final String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 }

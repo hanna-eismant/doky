@@ -28,7 +28,7 @@ public class WorkflowEntity {
         return documentType;
     }
 
-    public void setDocumentType(final DocumentTypeEntity documentType) {
+    public void setDocumentType(DocumentTypeEntity documentType) {
         this.documentType = documentType;
     }
 
@@ -36,7 +36,7 @@ public class WorkflowEntity {
         return description;
     }
 
-    public void setDescription(final String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -44,7 +44,7 @@ public class WorkflowEntity {
         return name;
     }
 
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -52,7 +52,7 @@ public class WorkflowEntity {
         return code;
     }
 
-    public void setCode(final String code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -60,7 +60,7 @@ public class WorkflowEntity {
         return id;
     }
 
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

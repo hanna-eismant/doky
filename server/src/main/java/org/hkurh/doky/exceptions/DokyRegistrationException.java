@@ -1,11 +1,11 @@
 package org.hkurh.doky.exceptions;
 
 public class DokyRegistrationException extends RuntimeException {
-    public DokyRegistrationException(final String message) {
+    public DokyRegistrationException(String message) {
         super(message);
     }
 
-    public DokyRegistrationException(final String message, final Throwable cause) {
+    public DokyRegistrationException(String message, Throwable cause) {
         super(message, cause);
     }
 }

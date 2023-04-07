@@ -16,7 +16,7 @@ public class DokyApplication {
     private static final String SECRET_KEY = "dokySecretKey-hanna.kurhuzenkava-project";
     public static final SecretKeySpec SECRET_KEY_SPEC = new SecretKeySpec(SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
 
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(DokyApplication.class, args);
     }
 

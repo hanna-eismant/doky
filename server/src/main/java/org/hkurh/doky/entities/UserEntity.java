@@ -23,7 +23,7 @@ public class UserEntity {
         return password;
     }
 
-    public void setPassword(final String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -31,7 +31,7 @@ public class UserEntity {
         return name;
     }
 
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -39,7 +39,7 @@ public class UserEntity {
         return uid;
     }
 
-    public void setUid(final String uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -47,7 +47,7 @@ public class UserEntity {
         return id;
     }
 
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }
