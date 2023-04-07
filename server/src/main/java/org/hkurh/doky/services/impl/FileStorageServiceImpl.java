@@ -55,10 +55,9 @@ public class FileStorageServiceImpl implements FileStorageService {
     private String getStoragePath() {
         var basePath = getEnvironment().getProperty(STORAGE_PATH_PROPERTY, DEFAULT_STORAGE_PATH);
         var today = DateTime.now(DateTimeZone.getDefault());
-        var fullPath = new StringBuilder().append(basePath)
-                .append(File.separator).append(today.getYear())
-                .append(File.separator).append(today.getMonthOfYear())
-                .append(File.separator).toString();
+        var fullPath = basePath + File.separator
+                + today.getYear() + File.separator
+                + today.getMonthOfYear() + File.separator;
 
         return fullPath;
     }

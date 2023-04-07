@@ -54,7 +54,7 @@ class UserFacadeImplTest {
         when(userService.checkUserExistence(USER_UID)).thenReturn(false);
 
         final DokyAuthenticationException exception = assertThrows(DokyAuthenticationException.class,
-                () -> userFacade.login(USER_UID, USER_PASS),
+                () -> userFacade.checkCredentials(USER_UID, USER_PASS),
                 "Exception should be thrown when user credentials are incorrect");
 
         assertNotNull(exception, "Exception annot be null");
@@ -69,7 +69,7 @@ class UserFacadeImplTest {
         when(userService.findUserByUid(USER_UID)).thenReturn(userEntity);
         when(passwordEncoder.matches(USER_PASS, USER_PASS_ENCODED)).thenReturn(true);
 
-        userFacade.login(USER_UID, USER_PASS);
+        userFacade.checkCredentials(USER_UID, USER_PASS);
     }
 
     @Test
@@ -95,6 +95,5 @@ class UserFacadeImplTest {
 
         assertNotNull(registeredUserDto, "Registered user cannot be null");
         assertEquals(USER_UID, registeredUserDto.getUserUid(), "User should be registered with provided uid");
-
     }
 }

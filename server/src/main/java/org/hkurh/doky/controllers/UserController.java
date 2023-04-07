@@ -24,7 +24,7 @@ public class UserController implements UserApi {
     }
 
     @Autowired
-    public void setUserFacade(final UserFacade userFacade) {
+    public void setUserFacade(UserFacade userFacade) {
         this.userFacade = userFacade;
     }
 }

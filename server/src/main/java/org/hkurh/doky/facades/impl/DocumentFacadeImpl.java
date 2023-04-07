@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hkurh.doky.dto.DocumentDto;
 import org.hkurh.doky.exceptions.DokyNotFoundException;
 import org.hkurh.doky.facades.DocumentFacade;
-import org.hkurh.doky.facades.MapperFactory;
 import org.hkurh.doky.services.DocumentService;
 import org.hkurh.doky.services.FileStorageService;
 import org.slf4j.Logger;
@@ -25,6 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static org.hkurh.doky.facades.MapperFactory.getModelMapper;
 
 @Component
 public class DocumentFacadeImpl implements DocumentFacade {
@@ -38,7 +38,7 @@ public class DocumentFacadeImpl implements DocumentFacade {
     public DocumentDto createDocument(@NonNull String name, String description) {
         var documentEntity = getDocumentService().create(name, description);
         LOG.debug(format("Created new Document [%s]", documentEntity.getId()));
-        var documentDto = MapperFactory.getModelMapper()
+        var documentDto = getModelMapper()
                 .map(documentEntity, DocumentDto.class);
         return documentDto;
     }
@@ -46,8 +46,8 @@ public class DocumentFacadeImpl implements DocumentFacade {
     @Override
     public DocumentDto findDocument(@NonNull String id) {
         var documentEntity = getDocumentService().find(id);
-        var documentDto = documentEntity.map(entity -> MapperFactory.getModelMapper()
-                        .map(entity, DocumentDto.class))
+        var documentDto = documentEntity
+                .map(entity -> getModelMapper().map(entity, DocumentDto.class))
                 .orElse(null);
         return documentDto;
     }
@@ -56,7 +56,7 @@ public class DocumentFacadeImpl implements DocumentFacade {
     public List<DocumentDto> findAllDocuments() {
         var documentEntityList = getDocumentService().find();
         var documentDtoList = documentEntityList.stream()
-                .map(entity -> MapperFactory.getModelMapper().map(entity, DocumentDto.class))
+                .map(entity -> getModelMapper().map(entity, DocumentDto.class))
                 .collect(Collectors.toList());
         return documentDtoList;
     }

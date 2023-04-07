@@ -20,23 +20,20 @@ public class AuthorizationUserController implements AuthorizationUserApi {
 
     @Override
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody final AuthenticationRequest authenticationRequest) {
-        final var username = authenticationRequest.getUsername();
-        final var password = authenticationRequest.getPassword();
-
-        getUserFacade().login(username, password);
-        final var token = JwtProvider.generateToken(username);
+    public ResponseEntity<?> login(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
+        var username = authenticationRequest.getUsername();
+        var password = authenticationRequest.getPassword();
+        getUserFacade().checkCredentials(username, password);
+        var token = JwtProvider.generateToken(username);
 
         return ResponseEntity.ok(new AuthenticationResponse(token));
     }
 
     @Override
     @PostMapping(value = "/register", consumes = "application/json")
-
-    public ResponseEntity<?> register(@Valid @RequestBody final UserRegistrationRequest registrationRequest) {
-        final var registeredUser = getUserFacade().register(registrationRequest.getUsername(), registrationRequest.getPassword());
-
-        final var resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegistrationRequest registrationRequest) {
+        var registeredUser = getUserFacade().register(registrationRequest.getUsername(), registrationRequest.getPassword());
+        var resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").build(registeredUser.getUserUid());
 
         return ResponseEntity.created(resourceLocation).build();
@@ -47,7 +44,7 @@ public class AuthorizationUserController implements AuthorizationUserApi {
     }
 
     @Autowired
-    public void setUserFacade(final UserFacade userFacade) {
+    public void setUserFacade(UserFacade userFacade) {
         this.userFacade = userFacade;
     }
 }

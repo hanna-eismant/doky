@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Autowired
-    public void setUserEntityRepository(final UserEntityRepository userEntityRepository) {
+    public void setUserEntityRepository(UserEntityRepository userEntityRepository) {
         this.userEntityRepository = userEntityRepository;
     }
 }
