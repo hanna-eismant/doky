@@ -35,5 +35,7 @@ build/
 
 ### Gradle ###
 server/.gradle
-
 server/out
+/.gradle/
+
+/screenshots/
