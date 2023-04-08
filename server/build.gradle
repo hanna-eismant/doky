@@ -3,6 +3,7 @@ plugins {
     id 'groovy'
     id 'org.springframework.boot' version '2.7.2'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+    id 'com.heroku.sdk.heroku-gradle' version '3.0.0'
 }
 
 group = 'org.hkurh.doky'
@@ -52,7 +53,7 @@ dependencies {
         exclude group: 'org.codehaus.groovy'
     }
     testImplementation platform('org.spockframework:spock-bom:2.4-M1-groovy-4.0')
-    testImplementation('org.spockframework:spock-core:2.4-M1-groovy-4.0')
+    testImplementation 'org.spockframework:spock-core:2.4-M1-groovy-4.0'
     testImplementation 'com.athaydes:spock-reports:2.4.0-groovy-4.0'
     testImplementation 'org.spockframework:spock-spring:2.4-M1-groovy-4.0'
 }
@@ -99,14 +100,6 @@ configurations {
     apiTestImplementation.extendsFrom testImplementation
     apiTestRuntime.extendsFrom testRuntime
 }
-//sourceSets {
-//    'api-test' {
-//        java.srcDir "$projectDir/src/api-test/java"
-//        resources.srcDir "$projectDir/src/api-test/resources"
-//        compileClasspath += main.output + test.output
-//        runtimeClasspath += main.output + test.output
-//    }
-//}
 sourceSets {
     'apiTest' {
         groovy {
@@ -137,4 +130,14 @@ tasks.register('fatJar', Jar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
+}
+
+heroku {
+    appName = 'doky-dev-server'
+    jdkVersion = 11
+    includes = ['build/libs/server-0.1.jar']
+    includeBuildDir = false
+    processTypes(
+            web: 'java $JAVA_OPTS -jar build/libs/server-0.1.jar -Dserver.port=$PORT $JAR_OPTS'
+    )
 }
