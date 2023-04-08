@@ -8,9 +8,9 @@ export default ({ label, id, type, value = '', onChange = noop }) => {
   }, [onChange]);
 
   return (
-    <div>
-      <label htmlFor={id}>{label}:</label>
-      <input id={id} type={type} value={value} onChange={handleOnChange} />
+    <div className="row"> 
+      <label className="col-sm-2 col-form-label" htmlFor={id}>{label}:</label>
+      <input className="form-control" id={id} type={type} value={value} onChange={handleOnChange} />
     </div>
   );
 }

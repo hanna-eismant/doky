@@ -32,8 +32,8 @@ export default () => {
       <form onSubmit={onSubmit}>
         <FormField id="username" label="Username" type="text" value={data.username} onChange={username.setValue} />
         <FormField id="password" label="Password" type="password" value={data.password} onChange={password.setValue} />
-        <div>
-          <input type="submit" value="Register" />
+        <div className="col-auto">
+          <input type="submit" value="Register" class="btn btn-primary mb-3" />
         </div>
       </form>
     </>

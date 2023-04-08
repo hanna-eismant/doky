@@ -32,7 +32,7 @@ export default () => {
         <FormField id="username" label="Username" type="text" value={data.username} onChange={username.setValue} />
         <FormField id="password" label="Password" type="password" value={data.password} onChange={password.setValue} />
         <div>
-          <input type="submit" value="Login" />
+          <input type="submit" value="Login" class="btn btn-primary mb-3" />
         </div>
       </form>
       <Link to="/register">Register</Link>
