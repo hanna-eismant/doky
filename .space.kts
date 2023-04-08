@@ -4,14 +4,16 @@
  * For more info, see https://www.jetbrains.com/help/space/automation.html
  */
 
-job("Tests") {
+job("Unit Tests") {
     container(displayName = "Run unit tests", image = "gradle:6.9.0-jdk11") {
         workDir = "server"
         kotlinScript { api ->
             api.gradle("test")
         }
     }
+}
 
+job("API Tests") {
     container(displayName = "Run integration tests", image = "gradle:6.9.0-jdk11") {
         env["DB_HOST"] = "db"
         env["DB_PORT"] = "3306"
@@ -27,8 +29,7 @@ job("Tests") {
 
         workDir = "server"
         kotlinScript { api ->
-            api.gradle("integrationTest")
+            api.gradle("apiTest")
         }
     }
-
 }

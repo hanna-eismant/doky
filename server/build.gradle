@@ -14,20 +14,6 @@ repositories {
     mavenCentral()
 }
 
-sourceSets {
-    integration {
-        java.srcDir "$projectDir/src/integration/java"
-        resources.srcDir "$projectDir/src/integration/resources"
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-    }
-}
-
-configurations {
-    integrationImplementation.extendsFrom testImplementation
-    integrationRuntime.extendsFrom testRuntime
-}
-
 dependencies {
     implementation 'org.apache.groovy:groovy-all:4.0.9'
 
@@ -109,28 +95,40 @@ test {
     }
 }
 
+configurations {
+    apiTestImplementation.extendsFrom testImplementation
+    apiTestRuntime.extendsFrom testRuntime
+}
+//sourceSets {
+//    'api-test' {
+//        java.srcDir "$projectDir/src/api-test/java"
+//        resources.srcDir "$projectDir/src/api-test/resources"
+//        compileClasspath += main.output + test.output
+//        runtimeClasspath += main.output + test.output
+//    }
+//}
 sourceSets {
-    integrationTest {
+    'apiTest' {
         groovy {
             compileClasspath += main.output + test.output
             runtimeClasspath += main.output + test.output
-            srcDir file('src/integration/groovy')
+            srcDir file('src/apiTest/groovy')
         }
-        resources.srcDir file('src/integration/resources')
+        resources.srcDir file('src/apiTest/resources')
     }
 }
-tasks.register('integrationTest', Test) {
+tasks.register('apiTest', Test) {
     useJUnitPlatform()
     group = "verification"
-    description = "Run integration tests"
-    testClassesDirs = sourceSets.integration.output.classesDirs
-    classpath = sourceSets.integration.runtimeClasspath
+    description = "Run API tests"
+    testClassesDirs = sourceSets.apiTest.output.classesDirs
+    classpath = sourceSets.apiTest.runtimeClasspath
     testLogging {
         events "PASSED", "SKIPPED", "FAILED"
     }
 }
 
-check.dependsOn integrationTest
+check.dependsOn 'apiTest'
 
 tasks.register('fatJar', Jar) {
     manifest {
