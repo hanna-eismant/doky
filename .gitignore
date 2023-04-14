@@ -40,3 +40,4 @@ server/out
 
 bin
 /.gradle/
+/docker-deployment/doky-server/server.jar

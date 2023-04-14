@@ -4,6 +4,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.2'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
     id 'com.heroku.sdk.heroku-gradle' version '3.0.0'
+    id 'com.microsoft.azure.azurewebapp' version '1.7.1'
 }
 
 group = 'org.hkurh.doky'
@@ -140,4 +141,23 @@ heroku {
     processTypes(
             web: 'java $JAVA_OPTS -jar build/libs/server-0.1.jar -Dserver.port=$PORT $JAR_OPTS'
     )
+}
+
+azurewebapp {
+    subscription = System.env.AZURE_SUBSCRIPTION
+    resourceGroup = System.env.AZURE_RESOURCE_GROUP
+    appName = System.env.AZURE_APP_NAME
+    appSettings {
+        SPRING_PROFILES_ACTIVE = System.env.SPRING_PROFILES_ACTIVE
+        SPRING_DATASOURCE_URL = System.env.SPRING_DATASOURCE_URL
+        SPRING_DATASOURCE_USERNAME = System.env.SPRING_DATASOURCE_USERNAME
+        SPRING_DATASOURCE_PASSWORD = System.env.SPRING_DATASOURCE_PASSWORD
+    }
+    auth {
+        type = "service_principal"
+        environment = "AZURE"
+        client = System.env.AZURE_CLIENT
+        tenant = System.env.AZURE_TENANT
+        key = System.env.AZURE_AUTH_KEY
+    }
 }
