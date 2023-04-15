@@ -54,13 +54,7 @@ job("Tests") {
 }
 
 job("Azure DEV Deployment") {
-    startOn {
-        gitPush {
-            branchFilter {
-                -"refs/heads/*"
-            }
-        }
-    }
+    startOn {}
     parameters {
         text("spring-profile", value = "dev")
         text("deploy-version")
