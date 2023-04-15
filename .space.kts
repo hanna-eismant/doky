@@ -12,6 +12,16 @@ import java.time.temporal.TemporalAdjusters
  */
 
 job("Tests") {
+    startOn {
+        gitPush {
+            anyBranchMatching {
+                +"refs/heads/release/*"
+                +"refs/heads/develop"
+                +"refs/heads/main"
+            }
+        }
+    }
+
     container(displayName = "Run unit tests", image = "gradle:6.9.0-jdk11") {
         workDir = "server"
         kotlinScript { api ->
