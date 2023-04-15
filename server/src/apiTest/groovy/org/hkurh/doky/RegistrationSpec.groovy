@@ -1,7 +1,7 @@
 package org.hkurh.doky
 
 import org.apache.commons.lang3.StringUtils
-import org.hkurh.doky.controllers.data.UserRegistrationRequest
+import org.hkurh.doky.authorization.UserRegistrationRequest
 import org.junit.Test
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.jdbc.Sql

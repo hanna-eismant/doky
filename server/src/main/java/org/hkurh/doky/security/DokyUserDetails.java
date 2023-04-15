@@ -1,12 +1,13 @@
 package org.hkurh.doky.security;
 
-import org.hkurh.doky.entities.UserEntity;
+import org.hkurh.doky.users.UserEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+
 
 public class DokyUserDetails implements UserDetails {
     private String username;

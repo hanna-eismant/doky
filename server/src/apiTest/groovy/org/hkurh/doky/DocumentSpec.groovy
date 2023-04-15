@@ -1,9 +1,9 @@
 package org.hkurh.doky
 
-import org.hkurh.doky.controllers.data.DocumentRequest
-import org.hkurh.doky.dto.DocumentDto
-import org.hkurh.doky.repositories.DocumentEntityRepository
-import org.hkurh.doky.repositories.UserEntityRepository
+import org.hkurh.doky.documents.DocumentDto
+import org.hkurh.doky.documents.DocumentEntityRepository
+import org.hkurh.doky.documents.DocumentRequest
+import org.hkurh.doky.users.UserEntityRepository
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder

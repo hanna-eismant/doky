@@ -1,6 +1,5 @@
 package org.hkurh.doky.security;
 
-import org.hkurh.doky.filters.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
