@@ -43,7 +43,6 @@ job("Tests") {
     host("Schedule Deployment") {
         kotlinScript { api ->
             val deployVersion = "Aardvark-v0.1." + api.executionNumber()
-            api.parameters["project:deploy-version"] = deployVersion
             api.space().projects.automation.deployments.schedule(
                 project = api.projectIdentifier(),
                 targetIdentifier = TargetIdentifier.Key("azure-dev"),
@@ -64,6 +63,7 @@ job("Azure DEV Deployment") {
     }
     parameters {
         text("spring-profile", value = "dev")
+        text("deploy-version")
     }
 
     container(displayName = "Deploy artifact", image = "gradle:6.9.0-jdk11") {
@@ -88,7 +88,7 @@ job("Azure DEV Deployment") {
             api.space().projects.automation.deployments.start(
                 project = api.projectIdentifier(),
                 targetIdentifier = TargetIdentifier.Key("azure-dev"),
-                version = "{{ project:deploy-version }}",
+                version = "{{ deploy-version }}",
                 syncWithAutomationJob = true
             )
             api.gradle("azureWebAppDeploy")
