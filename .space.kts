@@ -1,3 +1,10 @@
+import java.time.DayOfWeek
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
+
 /**
  * JetBrains Space Automation
  * This Kotlin-script file lets you automate build activities
@@ -19,8 +26,10 @@ job("API Tests") {
         env["DB_PORT"] = "3306"
         service("mysql:8") {
             alias("db")
-            args("--log_bin_trust_function_creators=ON",
-                    "--max-connections=700")
+            args(
+                "--log_bin_trust_function_creators=ON",
+                "--max-connections=700"
+            )
             env["MYSQL_ROOT_PASSWORD"] = "doky-test"
             env["MYSQL_DATABASE"] = "doky-test"
             env["MYSQL_USER"] = "doky-test"
@@ -65,13 +74,20 @@ job("Azure DEV Deployment") {
         env["SPRING_DATASOURCE_PASSWORD"] = "{{ project:spring-datasource-password }}"
 
         kotlinScript { api ->
-            api.space().projects.automation.deployments.start(
-                    project = api.projectIdentifier(),
-                    targetIdentifier = TargetIdentifier.Key("azure-dev"),
-                    version = "Aardvark-v0.1." + api.executionNumber(),
-                    syncWithAutomationJob = true
+            api.space().projects.automation.deployments.schedule(
+                project = api.projectIdentifier(),
+                targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                version = "Aardvark-v0.1." + api.executionNumber(),
+                scheduledStart = getNextSundayDate()
             )
             api.gradle("azureWebAppDeploy")
         }
     }
+}
+
+fun getNextSundayDate(): Instant {
+    var date = ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault())
+    date = date.withHour(16).withMinute(0).withSecond(0).withNano(0)
+    val sunday = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
+    return Instant.parse(sunday.format(DateTimeFormatter.ISO_INSTANT))
 }
