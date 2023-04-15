@@ -14,7 +14,7 @@ import java.time.temporal.TemporalAdjusters
 job("Tests") {
     startOn {
         gitPush {
-            anyBranchMatching {
+            branchFilter {
                 +"refs/heads/release/*"
                 +"refs/heads/develop"
                 +"refs/heads/main"
