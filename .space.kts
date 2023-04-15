@@ -38,7 +38,7 @@ job("Azure DEV Deployment") {
     startOn {
         gitPush {
             branchFilter {
-                +"refs/heads/develop"
+                +"refs/heads/release/Aardvark_v0.1"
             }
         }
     }
