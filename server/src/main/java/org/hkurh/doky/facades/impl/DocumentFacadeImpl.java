@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,7 +79,7 @@ public class DocumentFacadeImpl implements DocumentFacade {
     }
 
     @Override
-    public @Nullable Resource getFile(@NonNull String id) throws MalformedURLException {
+    public @Nullable Resource getFile(@NonNull String id) throws IOException {
         var documentOpt = getDocumentService().find(id);
         if (documentOpt.isPresent() && StringUtils.isNotBlank(documentOpt.get().getFilePath())) {
             var file = getFileStorageService().getFile(documentOpt.get().getFilePath());

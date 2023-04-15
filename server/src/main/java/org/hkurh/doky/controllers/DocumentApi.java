@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Tag(name = "Documents")
 @SecurityRequirement(name = "Bearer Token")
 public interface DocumentApi {
@@ -35,7 +37,7 @@ public interface DocumentApi {
                     headers = @Header(name = "attachment; filename=...")),
             @ApiResponse(responseCode = "204", description = "No document with requested id, or no attached file for document")
     })
-    ResponseEntity<?> downloadFile(@PathVariable String id);
+    ResponseEntity<?> downloadFile(@PathVariable String id) throws IOException;
 
     @Operation(summary = "Create document with metadata")
     @ApiResponses({

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
+
 @RestControllerAdvice
 public class DokyControllerAdvice {
 
@@ -50,5 +52,9 @@ public class DokyControllerAdvice {
         return response;
     }
 
-
+    @ExceptionHandler(IOException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse ioException(IOException exception) {
+        return new ErrorResponse(exception.getMessage());
+    }
 }

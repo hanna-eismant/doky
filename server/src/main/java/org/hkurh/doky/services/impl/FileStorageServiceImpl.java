@@ -8,6 +8,7 @@ import org.hkurh.doky.services.FileStorageService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.env.Environment;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import static java.lang.String.format;
 
 
 @Service
+@ConditionalOnProperty(name = "doky.filestorage.type", havingValue = "local-filesystem", matchIfMissing = true)
 public class FileStorageServiceImpl implements FileStorageService {
     public static final String STORAGE_PATH_PROPERTY = "doky.file.storage.path";
     public static final String DEFAULT_STORAGE_PATH = "./mediadata";

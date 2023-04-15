@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 import static java.lang.String.format;
@@ -36,7 +37,7 @@ public class DocumentController implements DocumentApi {
 
     @Override
     @GetMapping("/{id}/download")
-    public ResponseEntity<?> downloadFile(@PathVariable String id) {
+    public ResponseEntity<?> downloadFile(@PathVariable String id) throws IOException {
         try {
             var file = getDocumentFacade().getFile(id);
             if (file == null) {

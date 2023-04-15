@@ -17,6 +17,8 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
     implementation 'org.apache.groovy:groovy-all:4.0.9'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.2'
@@ -27,7 +29,7 @@ dependencies {
 
     implementation 'org.flywaydb:flyway-core:8.3.0'
     implementation 'org.flywaydb:flyway-mysql:8.3.0'
-    implementation 'mysql:mysql-connector-java:8.0.27'
+    implementation 'mysql:mysql-connector-java:8.0.28'
 
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
@@ -41,6 +43,8 @@ dependencies {
     implementation 'joda-time:joda-time:2.10.13'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.1'
     implementation 'commons-io:commons-io:2.11.0'
+
+    implementation 'com.azure:azure-storage-blob:12.21.1'
 
     runtimeOnly 'org.springframework.boot:spring-boot-devtools:2.6.2'
 
@@ -57,6 +61,10 @@ dependencies {
     testImplementation 'org.spockframework:spock-core:2.4-M1-groovy-4.0'
     testImplementation 'com.athaydes:spock-reports:2.4.0-groovy-4.0'
     testImplementation 'org.spockframework:spock-spring:2.4-M1-groovy-4.0'
+}
+
+tasks.named('compileJava') {
+    inputs.files(tasks.named('processResources'))
 }
 
 tasks.named("bootJar") {
@@ -152,6 +160,8 @@ azurewebapp {
         SPRING_DATASOURCE_URL = System.env.SPRING_DATASOURCE_URL
         SPRING_DATASOURCE_USERNAME = System.env.SPRING_DATASOURCE_USERNAME
         SPRING_DATASOURCE_PASSWORD = System.env.SPRING_DATASOURCE_PASSWORD
+        AZURE_BLOB_CONNECTION = System.env.AZURE_BLOB_CONNECTION
+        AZURE_BLOB_CONTAINER = System.env.AZURE_BLOB_CONTAINER
     }
     auth {
         type = "service_principal"

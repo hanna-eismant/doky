@@ -1,13 +1,13 @@
 package org.hkurh.doky.facades;
 
-import java.net.MalformedURLException;
-import java.util.List;
-
 import org.hkurh.doky.dto.DocumentDto;
 import org.springframework.core.io.Resource;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 public interface DocumentFacade {
     DocumentDto createDocument(@NonNull String name, String description);
@@ -19,5 +19,5 @@ public interface DocumentFacade {
     void saveFile(@NonNull MultipartFile file, @NonNull String id);
 
     @Nullable
-    Resource getFile(@NonNull String id) throws MalformedURLException;
+    Resource getFile(@NonNull String id) throws IOException;
 }
