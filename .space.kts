@@ -80,8 +80,8 @@ job("Azure DEV Deployment") {
         env["AZURE_CLIENT"] = "{{ project:azure-client }}"
         env["AZURE_AUTH_KEY"] = "{{ project:azure-auth-key }}"
 
-        env["AZURE_BLOB_CONNECTION"] = "{{ project:azure-blob-connection }]"
-        env["AZURE_BLOB_CONTAINER"] = "{{ project:azure-blob-container }]"
+        env["AZURE_BLOB_CONNECTION"] = "{{ project:azure-blob-connection }}"
+        env["AZURE_BLOB_CONTAINER"] = "{{ project:azure-blob-container }}"
 
         env["SPRING_PROFILES_ACTIVE"] = "{{ spring-profile }}"
         env["SPRING_DATASOURCE_URL"] = "{{ project:spring-datasource-url }}"
