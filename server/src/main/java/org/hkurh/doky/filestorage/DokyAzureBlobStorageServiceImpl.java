@@ -4,6 +4,8 @@ import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobContainerClientBuilder;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,14 +14,19 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import static java.lang.String.format;
+
 @Service
 @ConditionalOnProperty(name = "doky.filestorage.type", havingValue = "azure-blob", matchIfMissing = false)
 public class DokyAzureBlobStorageServiceImpl implements FileStorageService {
+
+    private static final Log LOG = LogFactory.getLog(DokyAzureBlobStorageServiceImpl.class);
 
     @Value("${doky.filestorage.azure.connection}")
     private String connectionString;
@@ -27,7 +34,9 @@ public class DokyAzureBlobStorageServiceImpl implements FileStorageService {
     private String containerName;
     private BlobContainerClient blobContainerClient;
 
-    public DokyAzureBlobStorageServiceImpl() {
+    @PostConstruct
+    public void init() {
+        LOG.debug(format("Azure Blob container name [%s]", containerName));
         blobContainerClient = new BlobContainerClientBuilder()
                 .connectionString(connectionString)
                 .containerName(containerName)

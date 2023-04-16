@@ -26,9 +26,11 @@ import static java.lang.String.format;
 @Service
 @ConditionalOnProperty(name = "doky.filestorage.type", havingValue = "local-filesystem", matchIfMissing = true)
 public class FileStorageServiceImpl implements FileStorageService {
+
+    private static final Log LOG = LogFactory.getLog(FileStorageServiceImpl.class);
     public static final String STORAGE_PATH_PROPERTY = "doky.file.storage.path";
     public static final String DEFAULT_STORAGE_PATH = "./mediadata";
-    private static final Log LOG = LogFactory.getLog(FileStorageServiceImpl.class);
+
     private Environment environment;
 
     @Override
