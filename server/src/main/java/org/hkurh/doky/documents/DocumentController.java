@@ -61,6 +61,7 @@ public class DocumentController implements DocumentApi {
         var createdDocument = getDocumentFacade().createDocument(document.getName(), document.getDescription());
         var resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").build(createdDocument.getId());
+
         return ResponseEntity.created(resourceLocation).build();
     }
 

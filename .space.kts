@@ -11,12 +11,46 @@ import java.time.temporal.TemporalAdjusters
  * For more info, see https://www.jetbrains.com/help/space/automation.html
  */
 
+job("PR Tests") {
+    startOn {
+        codeReviewOpened {
+            branchToCheckout = CodeReviewBranch.MERGE_REQUEST_SOURCE
+        }
+    }
+
+    container(displayName = "Run unit tests", image = "gradle:6.9.0-jdk11") {
+        workDir = "server"
+        kotlinScript { api ->
+            api.gradle("test")
+        }
+    }
+
+    container(displayName = "Run API tests", image = "gradle:6.9.0-jdk11") {
+        env["DB_HOST"] = "db"
+        env["DB_PORT"] = "3306"
+        service("mysql:8") {
+            alias("db")
+            args(
+                    "--log_bin_trust_function_creators=ON",
+                    "--max-connections=700"
+            )
+            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
+            env["MYSQL_DATABASE"] = "doky-test"
+            env["MYSQL_USER"] = "doky-test"
+            env["MYSQL_PASSWORD"] = "doky-test"
+        }
+
+        workDir = "server"
+        kotlinScript { api ->
+            api.gradle("apiTest")
+        }
+    }
+}
+
 job("Tests") {
     startOn {
         gitPush {
             branchFilter {
-                +"refs/heads/release/*"
-                +"refs/heads/develop"
                 +"refs/heads/main"
             }
         }
@@ -35,8 +69,8 @@ job("Tests") {
         service("mysql:8") {
             alias("db")
             args(
-                "--log_bin_trust_function_creators=ON",
-                "--max-connections=700"
+                    "--log_bin_trust_function_creators=ON",
+                    "--max-connections=700"
             )
             env["MYSQL_ROOT_PASSWORD"] = "doky-test"
             env["MYSQL_DATABASE"] = "doky-test"
@@ -53,6 +87,8 @@ job("Tests") {
     host("Schedule Deployment") {
         kotlinScript { api ->
             val deployVersion = "Aardvark-v0.1." + api.executionNumber()
+            // set(key: kotlin.String, value: kotlin.String)
+            api.parameters.set("project:dev-deploy-version", deployVersion)
             api.space().projects.automation.deployments.schedule(
                 project = api.projectIdentifier(),
                 targetIdentifier = TargetIdentifier.Key("azure-dev"),
@@ -64,10 +100,13 @@ job("Tests") {
 }
 
 job("Azure DEV Deployment") {
-    startOn {}
+    startOn {
+        // every Sunday at 11:59 pm UTC
+        schedule { cron("59 23 * * SUN") }
+    }
     parameters {
         text("spring-profile", value = "dev")
-        text("deploy-version")
+        text("deploy-version", value = "{{ project:dev-deploy-version }}")
     }
 
     container(displayName = "Deploy artifact", image = "gradle:6.9.0-jdk11") {
@@ -98,7 +137,6 @@ job("Azure DEV Deployment") {
             api.gradle("azureWebAppDeploy")
         }
     }
-
 }
 
 fun getNextSundayDate(): Instant {
