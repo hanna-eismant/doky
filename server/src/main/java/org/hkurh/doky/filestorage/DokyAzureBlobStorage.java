@@ -3,11 +3,10 @@ package org.hkurh.doky.filestorage;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobContainerClientBuilder;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.lang.NonNull;
@@ -24,9 +23,9 @@ import static java.lang.String.format;
 
 @Service
 @ConditionalOnProperty(name = "doky.filestorage.type", havingValue = "azure-blob", matchIfMissing = false)
-public class DokyAzureBlobStorageServiceImpl implements FileStorageService {
+public class DokyAzureBlobStorage implements FileStorage {
 
-    private static final Log LOG = LogFactory.getLog(DokyAzureBlobStorageServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(DokyAzureBlobStorage.class);
 
     @Value("${doky.filestorage.azure.connection}")
     private String connectionString;
@@ -36,21 +35,21 @@ public class DokyAzureBlobStorageServiceImpl implements FileStorageService {
 
     @PostConstruct
     public void init() {
-        LOG.debug(format("Azure Blob container name [%s]", containerName));
+        LOG.debug(format("Azure Blob container name [%s] initialized", containerName));
         blobContainerClient = new BlobContainerClientBuilder()
                 .connectionString(connectionString)
                 .containerName(containerName)
                 .buildClient();
     }
 
-    @Override
-    public String store(@NonNull MultipartFile file) throws IOException {
-        var randomName = RandomStringUtils.random(10, true, true);
-        var extension = FilenameUtils.getExtension(file.getOriginalFilename());
-        var blobName = getStoragePath() + randomName + "." + extension;
-        var blobClient = blobContainerClient.getBlobClient(blobName);
+    public void saveFile(@NonNull MultipartFile file, @NonNull String filePathWithName) throws IOException {
+        var blobClient = blobContainerClient.getBlobClient(filePathWithName);
         blobClient.upload(file.getInputStream());
-        return blobName;
+    }
+
+    @Override
+    public void saveFile(@NonNull MultipartFile file, @NonNull String filePath, @NonNull String fileName) throws IOException {
+        saveFile(file, filePath + fileName);
     }
 
     @Override
@@ -65,10 +64,12 @@ public class DokyAzureBlobStorageServiceImpl implements FileStorageService {
         return tempFile.toPath();
     }
 
-    private String getStoragePath() {
-        var today = DateTime.now(DateTimeZone.getDefault());
-        var fullPath = today.getYear() + File.separator
-                + today.getMonthOfYear() + File.separator;
-        return fullPath;
+    @Override
+    public boolean checkExistence(String filePath) {
+        if (StringUtils.isBlank(filePath)) {
+            return false;
+        }
+        var blobClient = blobContainerClient.getBlobClient(filePath);
+        return blobClient.exists();
     }
 }

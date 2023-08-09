@@ -14,12 +14,12 @@ public interface FileStorageService {
      * @return filepath that can be used to download file from storage by {@link #getFile(String)} method
      * @throws IOException
      */
-    String store(@NonNull MultipartFile file) throws IOException;
+    String store(@NonNull MultipartFile file, @NonNull String filePath) throws IOException;
 
     /**
      * Get file from storage
      *
-     * @param filePath filepath to download. It is returned by {@link #store(MultipartFile)} method
+     * @param filePath filepath to download. It is returned by {@link #store(MultipartFile file, String filePath)} method
      * @return
      */
     Path getFile(@NonNull String filePath) throws IOException;

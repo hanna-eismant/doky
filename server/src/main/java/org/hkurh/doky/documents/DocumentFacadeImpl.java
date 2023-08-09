@@ -63,8 +63,8 @@ public class DocumentFacadeImpl implements DocumentFacade {
         var documentOpt = getDocumentService().find(id);
         if (documentOpt.isPresent()) {
             try {
-                var path = getFileStorageService().store(file);
                 var document = documentOpt.get();
+                var path = getFileStorageService().store(file, document.getFilePath());
                 document.setFilePath(path);
                 getDocumentService().save(document);
             } catch (IOException e) {
