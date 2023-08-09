@@ -3,6 +3,8 @@ plugins {
     id 'groovy'
     id 'org.springframework.boot' version '2.7.2'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+    id 'com.heroku.sdk.heroku-gradle' version '3.0.0'
+    id 'com.microsoft.azure.azurewebapp' version '1.7.1'
 }
 
 group = 'org.hkurh.doky'
@@ -14,21 +16,9 @@ repositories {
     mavenCentral()
 }
 
-sourceSets {
-    integration {
-        java.srcDir "$projectDir/src/integration/java"
-        resources.srcDir "$projectDir/src/integration/resources"
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-    }
-}
-
-configurations {
-    integrationImplementation.extendsFrom testImplementation
-    integrationRuntime.extendsFrom testRuntime
-}
-
 dependencies {
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
     implementation 'org.apache.groovy:groovy-all:4.0.9'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.2'
@@ -39,7 +29,7 @@ dependencies {
 
     implementation 'org.flywaydb:flyway-core:8.3.0'
     implementation 'org.flywaydb:flyway-mysql:8.3.0'
-    implementation 'mysql:mysql-connector-java:8.0.27'
+    implementation 'mysql:mysql-connector-java:8.0.28'
 
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
@@ -54,6 +44,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.1'
     implementation 'commons-io:commons-io:2.11.0'
 
+    implementation 'com.azure:azure-storage-blob:12.21.1'
+
     runtimeOnly 'org.springframework.boot:spring-boot-devtools:2.6.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
@@ -66,9 +58,13 @@ dependencies {
         exclude group: 'org.codehaus.groovy'
     }
     testImplementation platform('org.spockframework:spock-bom:2.4-M1-groovy-4.0')
-    testImplementation('org.spockframework:spock-core:2.4-M1-groovy-4.0')
+    testImplementation 'org.spockframework:spock-core:2.4-M1-groovy-4.0'
     testImplementation 'com.athaydes:spock-reports:2.4.0-groovy-4.0'
     testImplementation 'org.spockframework:spock-spring:2.4-M1-groovy-4.0'
+}
+
+tasks.named('compileJava') {
+    inputs.files(tasks.named('processResources'))
 }
 
 tasks.named("bootJar") {
@@ -109,28 +105,32 @@ test {
     }
 }
 
+configurations {
+    apiTestImplementation.extendsFrom testImplementation
+    apiTestRuntime.extendsFrom testRuntime
+}
 sourceSets {
-    integrationTest {
+    'apiTest' {
         groovy {
             compileClasspath += main.output + test.output
             runtimeClasspath += main.output + test.output
-            srcDir file('src/integration/groovy')
+            srcDir file('src/apiTest/groovy')
         }
-        resources.srcDir file('src/integration/resources')
+        resources.srcDir file('src/apiTest/resources')
     }
 }
-tasks.register('integrationTest', Test) {
+tasks.register('apiTest', Test) {
     useJUnitPlatform()
     group = "verification"
-    description = "Run integration tests"
-    testClassesDirs = sourceSets.integration.output.classesDirs
-    classpath = sourceSets.integration.runtimeClasspath
+    description = "Run API tests"
+    testClassesDirs = sourceSets.apiTest.output.classesDirs
+    classpath = sourceSets.apiTest.runtimeClasspath
     testLogging {
         events "PASSED", "SKIPPED", "FAILED"
     }
 }
 
-check.dependsOn integrationTest
+check.dependsOn 'apiTest'
 
 tasks.register('fatJar', Jar) {
     manifest {
@@ -139,4 +139,35 @@ tasks.register('fatJar', Jar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
+}
+
+heroku {
+    appName = 'doky-dev-server'
+    jdkVersion = 11
+    includes = ['build/libs/server-0.1.jar']
+    includeBuildDir = false
+    processTypes(
+            web: 'java $JAVA_OPTS -jar build/libs/server-0.1.jar -Dserver.port=$PORT $JAR_OPTS'
+    )
+}
+
+azurewebapp {
+    subscription = System.env.AZURE_SUBSCRIPTION
+    resourceGroup = System.env.AZURE_RESOURCE_GROUP
+    appName = System.env.AZURE_APP_NAME
+    appSettings {
+        SPRING_PROFILES_ACTIVE = System.env.SPRING_PROFILES_ACTIVE
+        SPRING_DATASOURCE_URL = System.env.SPRING_DATASOURCE_URL
+        SPRING_DATASOURCE_USERNAME = System.env.SPRING_DATASOURCE_USERNAME
+        SPRING_DATASOURCE_PASSWORD = System.env.SPRING_DATASOURCE_PASSWORD
+        AZURE_BLOB_CONNECTION = System.env.AZURE_BLOB_CONNECTION
+        AZURE_BLOB_CONTAINER = System.env.AZURE_BLOB_CONTAINER
+    }
+    auth {
+        type = "service_principal"
+        environment = "AZURE"
+        client = System.env.AZURE_CLIENT
+        tenant = System.env.AZURE_TENANT
+        key = System.env.AZURE_AUTH_KEY
+    }
 }

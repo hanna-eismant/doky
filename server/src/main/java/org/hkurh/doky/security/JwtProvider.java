@@ -19,7 +19,7 @@ public class JwtProvider {
     private static final Logger LOG = LoggerFactory.getLogger(JwtProvider.class);
     private static final JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(SECRET_KEY_SPEC).build();
 
-    public static String generateToken(@NonNull final String username) {
+    public static String generateToken(@NonNull String username) {
         LOG.debug(format("Generate token for user [%s]", username));
         var currentTime = new DateTime(DateTimeZone.getDefault());
         var expireTokenTime = currentTime.plusDays(1);
@@ -32,7 +32,7 @@ public class JwtProvider {
                 .compact();
     }
 
-    public static boolean validateToken(final String token) {
+    public static boolean validateToken(@NonNull String token) {
         try {
             jwtParser.parseClaimsJws(token);
             return true;
@@ -42,7 +42,7 @@ public class JwtProvider {
         return false;
     }
 
-    public static String getUsernameFromToken(final String token) {
+    public static String getUsernameFromToken(@NonNull String token) {
         return jwtParser.parseClaimsJws(token).getBody().getSubject();
     }
 }

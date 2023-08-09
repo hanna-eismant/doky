@@ -39,6 +39,26 @@
       "name": "flyway.password",
       "type": "java.lang.String",
       "description": "Description for flyway.password."
+    },
+    {
+      "name": "doky.filestorage.type",
+      "type": "java.lang.String",
+      "description": "Description for doky.filestorage.type."
+    }
+  ],
+  "hints": [
+    {
+      "name": "doky.filestorage.type",
+      "values": [
+        {
+          "value": "local-filesystem",
+          "description": "Use local filesystem to save files attached to Document."
+        },
+        {
+          "value": "azure-blob",
+          "description": "Use Azure Blob Storage to save files attached to Document."
+        }
+      ]
     }
   ]
 }
