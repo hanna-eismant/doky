@@ -98,7 +98,6 @@ job("Azure DEV Deployment") {
             api.gradle("azureWebAppDeploy")
         }
     }
-
 }
 
 fun getNextSundayDate(): Instant {
