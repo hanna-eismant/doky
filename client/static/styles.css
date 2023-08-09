@@ -1,0 +1,15 @@
+form {
+  width: 240px;
+}
+
+form div {
+  padding: 4px;
+}
+
+form div input {
+  float: right;
+}
+
+form input[type="submit"] {
+  float: right;
+}

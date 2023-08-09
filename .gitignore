@@ -14,7 +14,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+/.idea/
 *.iws
 *.iml
 *.ipr
@@ -31,3 +31,15 @@ build/
 
 ### VS Code ###
 .vscode/
+/.jpb/
+
+### Gradle ###
+server/.gradle
+
+server/out
+
+bin
+/.gradle/
+/docker-deployment/doky-server/server.jar
+
+/doky-*.env
