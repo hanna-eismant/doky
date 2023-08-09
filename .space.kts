@@ -102,8 +102,8 @@ job("Azure DEV Deployment") {
 
 fun getNextSundayDate(): Instant {
     var date = ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("UTC"))
-    // set time to 4pm UTC
-    date = date.withHour(16).withMinute(0).withSecond(0).withNano(0)
+    // set time to 11:59 pm UTC
+    date = date.withHour(23).withMinute(59).withSecond(0).withNano(0)
     val sunday = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
     return Instant.parse(sunday.format(DateTimeFormatter.ISO_INSTANT))
 }
