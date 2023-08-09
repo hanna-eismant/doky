@@ -79,9 +79,15 @@ public class DocumentFacadeImpl implements DocumentFacade {
     public @Nullable Resource getFile(@NonNull String id) throws IOException {
         var documentOpt = getDocumentService().find(id);
         if (documentOpt.isPresent() && StringUtils.isNotBlank(documentOpt.get().getFilePath())) {
-            var file = getFileStorageService().getFile(documentOpt.get().getFilePath());
-            LOG.debug(format("Download file for Document [%s] with URI [%s]", id, file.toUri()));
-            return new UrlResource(file.toUri());
+            var filePath = documentOpt.get().getFilePath();
+            var file = getFileStorageService().getFile(filePath);
+            if (file != null) {
+                LOG.debug(format("Download file for Document [%s] with URI [%s]", id, file.toUri()));
+                return new UrlResource(file.toUri());
+            } else {
+                LOG.warn(format("File [%s] attached to document [%s] does not exists in storage", filePath, id));
+                return null;
+            }
         } else {
             LOG.debug(format("No attached file for Document [%s]", id));
             return null;
