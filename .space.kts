@@ -90,10 +90,10 @@ job("Tests") {
             // set(key: kotlin.String, value: kotlin.String)
             api.parameters.set("project:dev-deploy-version", deployVersion)
             api.space().projects.automation.deployments.schedule(
-                project = api.projectIdentifier(),
-                targetIdentifier = TargetIdentifier.Key("azure-dev"),
-                version = deployVersion,
-                scheduledStart = getNextSundayDate()
+                    project = api.projectIdentifier(),
+                    targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                    version = deployVersion,
+                    scheduledStart = getNextSundayDate()
             )
         }
     }
@@ -106,7 +106,6 @@ job("Azure DEV Deployment") {
     }
     parameters {
         text("spring-profile", value = "dev")
-        text("deploy-version", value = "{{ project:dev-deploy-version }}")
     }
 
     container(displayName = "Deploy artifact", image = "gradle:6.9.0-jdk11") {
@@ -128,11 +127,16 @@ job("Azure DEV Deployment") {
         env["SPRING_DATASOURCE_PASSWORD"] = "{{ project:spring-datasource-password }}"
 
         kotlinScript { api ->
+            val deployVersion = api.space().projects.automation.deployments.get(
+                    project = api.projectIdentifier(),
+                    targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                    deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
+            ).version
             api.space().projects.automation.deployments.start(
-                project = api.projectIdentifier(),
-                targetIdentifier = TargetIdentifier.Key("azure-dev"),
-                version = "{{ deploy-version }}",
-                syncWithAutomationJob = true
+                    project = api.projectIdentifier(),
+                    targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                    version = deployVersion,
+                    syncWithAutomationJob = true
             )
             api.gradle("azureWebAppDeploy")
         }
