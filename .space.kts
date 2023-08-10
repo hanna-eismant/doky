@@ -11,21 +11,26 @@ import java.time.temporal.TemporalAdjusters
  * For more info, see https://www.jetbrains.com/help/space/automation.html
  */
 
-job("PR Tests") {
+job("Tests for PR") {
     startOn {
         codeReviewOpened {
             branchToCheckout = CodeReviewBranch.MERGE_REQUEST_SOURCE
         }
+        gitPush {
+            anyRefMatching {
+                +"refs/merge/*/head"
+            }
+        }
     }
 
-    container(displayName = "Run unit tests", image = "gradle:6.9.0-jdk11") {
+    container(displayName = "Unit tests", image = "gradle:6.9.0-jdk11") {
         workDir = "server"
         kotlinScript { api ->
             api.gradle("test")
         }
     }
 
-    container(displayName = "Run API tests", image = "gradle:6.9.0-jdk11") {
+    container(displayName = "API tests", image = "gradle:6.9.0-jdk11") {
         env["DB_HOST"] = "db"
         env["DB_PORT"] = "3306"
         service("mysql:8") {
@@ -47,7 +52,7 @@ job("PR Tests") {
     }
 }
 
-job("Tests") {
+job("Tests for main branch") {
     startOn {
         gitPush {
             branchFilter {
@@ -56,14 +61,14 @@ job("Tests") {
         }
     }
 
-    container(displayName = "Run unit tests", image = "gradle:6.9.0-jdk11") {
+    container(displayName = "Unit tests", image = "gradle:6.9.0-jdk11") {
         workDir = "server"
         kotlinScript { api ->
             api.gradle("test")
         }
     }
 
-    container(displayName = "Run API tests", image = "gradle:6.9.0-jdk11") {
+    container(displayName = "API tests", image = "gradle:6.9.0-jdk11") {
         env["DB_HOST"] = "db"
         env["DB_PORT"] = "3306"
         service("mysql:8") {
@@ -84,7 +89,7 @@ job("Tests") {
         }
     }
 
-    host("Schedule Deployment") {
+    host("Schedule Azure DEV Deployment") {
         kotlinScript { api ->
             val deployVersion = "Aardvark-v0.1." + api.executionNumber()
             api.space().projects.automation.deployments.schedule(
