@@ -52,30 +52,6 @@ job("Tests for PR") {
     }
 }
 
-job("Qodana for PR") {
-    startOn {
-        codeReviewOpened {
-            branchToCheckout = CodeReviewBranch.MERGE_REQUEST_SOURCE
-        }
-        gitPush {
-            anyRefMatching {
-                +"refs/merge/*/head"
-            }
-        }
-    }
-
-    container("jetbrains/qodana-jvm:latest") {
-        env["QODANA_TOKEN"] = "{{ project:qodana-token }}"
-        shellScript {
-            content = """
-               qodana \
-               --fail-threshold 50 \
-               --profile-name qodana.starter
-               """.trimIndent()
-        }
-    }
-}
-
 job("Tests for main branch") {
     startOn {
         gitPush {
@@ -110,6 +86,18 @@ job("Tests for main branch") {
         workDir = "server"
         kotlinScript { api ->
             api.gradle("apiTest")
+        }
+    }
+
+    container(displayName = "Qodana", image = "jetbrains/qodana-jvm:latest") {
+        workDir = "server"
+        env["QODANA_TOKEN"] = "{{ project:qodana-token }}"
+        shellScript {
+            content = """
+               qodana \
+               --fail-threshold 50 \
+               --profile-name qodana.starter
+               """.trimIndent()
         }
     }
 
