@@ -87,8 +87,6 @@ job("Tests") {
     host("Schedule Deployment") {
         kotlinScript { api ->
             val deployVersion = "Aardvark-v0.1." + api.executionNumber()
-            // set(key: kotlin.String, value: kotlin.String)
-            api.parameters.set("project:dev-deploy-version", deployVersion)
             api.space().projects.automation.deployments.schedule(
                     project = api.projectIdentifier(),
                     targetIdentifier = TargetIdentifier.Key("azure-dev"),
