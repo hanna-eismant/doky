@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8118';
+const BASE_URL = 'https://doky-dev.azurewebsites.net';
 
 const HEADERS = {
   'Content-Type': 'application/json'
