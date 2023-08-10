@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useCallback} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 
-import { FormField } from '../../components';
+import {FormField} from '../../components';
 import useFormData from '../../hooks/useFormData';
 import useRegisterQuery from './useRegisterQuery';
 
@@ -12,8 +12,8 @@ const initialFormData = {
 
 export default () => {
 
-  const { data, fields: { username, password } } = useFormData(initialFormData);
-  const [ register ] = useRegisterQuery();
+  const {data, fields: {username, password}} = useFormData(initialFormData);
+  const [register] = useRegisterQuery();
   const navigate = useNavigate();
 
   const onSubmit = useCallback(async event => {
@@ -28,14 +28,15 @@ export default () => {
   });
 
   return (
-    <>
-      <form onSubmit={onSubmit}>
-        <FormField id="username" label="Username" type="text" value={data.username} onChange={username.setValue} />
-        <FormField id="password" label="Password" type="password" value={data.password} onChange={password.setValue} />
-        <div className="col-auto">
-          <input type="submit" value="Register" class="btn btn-primary mb-3" />
+    <div className="d-flex align-items-center justify-content-center">
+      <form onSubmit={onSubmit} className="mt-3">
+        <FormField id="username" label="Username" type="text" value={data.username} onChange={username.setValue}/>
+        <FormField id="password" label="Password" type="password" value={data.password} onChange={password.setValue}/>
+        <div>
+          <Link to="/login">Login</Link>
+          <input type="submit" value="Register" className="btn btn-primary mb-3"/>
         </div>
       </form>
-    </>
+    </div>
   )
 }
