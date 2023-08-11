@@ -42,9 +42,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public @NonNull List<DocumentEntity> find() {
         var currentUser = userService.getCurrentUser();
-        var documentList = new ArrayList<>(documentEntityRepository.findByCreatorId(currentUser.getId()));
-
-        return documentList;
+        return new ArrayList<>(documentEntityRepository.findByCreatorId(currentUser.getId()));
     }
 
     @Override

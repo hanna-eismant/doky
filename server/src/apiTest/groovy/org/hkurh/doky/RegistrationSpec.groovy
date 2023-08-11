@@ -16,7 +16,7 @@ class RegistrationSpec extends RestSpec {
 
     @Test
     @Sql(scripts = "classpath:sql/RegistrationSpec/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    def 'Should register user when it does not exist'() {
+    void 'Should register user when it does not exist'() {
         given:
         def requestBody = new UserRegistrationRequest(NEW_USER_UID, NEW_USER_PASSWORD)
         and:
@@ -31,7 +31,7 @@ class RegistrationSpec extends RestSpec {
     }
 
     @Test
-    def 'Should return error when register with existing user'() {
+    void 'Should return error when register with existing user'() {
         given:
         def requestBody = new UserRegistrationRequest(VALID_USER_UID, NEW_USER_PASSWORD)
         and:
@@ -47,7 +47,7 @@ class RegistrationSpec extends RestSpec {
     }
 
     @Test
-    def 'Should return error when register with empty credentials'() {
+    void 'Should return error when register with empty credentials'() {
         given:
         def requestBody = new UserRegistrationRequest(StringUtils.EMPTY, StringUtils.EMPTY)
         and:

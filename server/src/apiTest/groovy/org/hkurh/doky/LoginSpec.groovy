@@ -14,7 +14,7 @@ class LoginSpec extends RestSpec {
     private static INCORRECT_USER_PASSWORD = 'pass-12345'
 
     @Test
-    def 'Should receive token for valid user when login'() {
+    void 'Should receive token for valid user when login'() {
         given:
         def requestBody = new AuthenticationRequest(VALID_USER_UID, VALID_USER_PASSWORD)
         and:
@@ -29,7 +29,7 @@ class LoginSpec extends RestSpec {
     }
 
     @Test
-    def 'Should return error when login with non-exist user'() {
+    void 'Should return error when login with non-exist user'() {
         given:
         def requestBody = new AuthenticationRequest(INCORRECT_USER_UID, INCORRECT_USER_PASSWORD)
         and:
@@ -45,7 +45,7 @@ class LoginSpec extends RestSpec {
     }
 
     @Test
-    def 'Should return error when credentials are empty'() {
+    void 'Should return error when credentials are empty'() {
         given:
         def requestBody = new AuthenticationRequest(StringUtils.EMPTY, StringUtils.EMPTY)
         and:

@@ -16,7 +16,7 @@ public enum DokyAuthority implements GrantedAuthority {
         return authority;
     }
 
-    public class Role {
+    public static class Role {
         public static final String ROLE_USER = "ROLE_USER";
     }
 }

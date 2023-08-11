@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
         return createdUser;
     }
 
+    @NonNull
     @Override
     public UserEntity getCurrentUser() {
         var name = SecurityContextHolder.getContext().getAuthentication().getName();

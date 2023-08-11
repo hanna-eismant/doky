@@ -41,7 +41,7 @@ class DocumentSpec extends RestSpec {
     private UserEntityRepository userEntityRepository
 
     @Test
-    def 'Should create new document'() {
+    void 'Should create new document'() {
         given:
         def requestBody = new DocumentRequest(NEW_DOCUMENT_NAME, NEW_DOCUMENT_DESCRIPTION)
         and:
@@ -59,7 +59,7 @@ class DocumentSpec extends RestSpec {
 
     @Test
     @Sql(scripts = "classpath:sql/DocumentSpec/setup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    def 'Should return document by id when exists'() {
+    void 'Should return document by id when exists'() {
         given:
         def docId = getDocumentId(EXISTED_DOCUMENT_NAME_FIRST) as Long
         and:
@@ -82,7 +82,7 @@ class DocumentSpec extends RestSpec {
 
     @Test
     @Sql(scripts = 'classpath:sql/DocumentSpec/setup.sql', executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    def 'Should get all existing documents for user'() {
+    void 'Should get all existing documents for user'() {
         given:
         def requestSpec = prepareRequestSpecWithLogin()
                 .build()
@@ -103,7 +103,7 @@ class DocumentSpec extends RestSpec {
 
     @Test
     @Sql(scripts = 'classpath:sql/DocumentSpec/setup.sql', executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    def 'Should return error when get existing document that belongs to another user'() {
+    void 'Should return error when get existing document that belongs to another user'() {
         given:
         def docId = getDocumentId(EXISTED_DOCUMENT_NAME_THRID) as Long
         and:
@@ -120,7 +120,7 @@ class DocumentSpec extends RestSpec {
 
     @Test
     @Sql(scripts = 'classpath:sql/DocumentSpec/setup.sql', executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    def "Should upload file for existing document"() {
+    void "Should upload file for existing document"() {
         given:
         def docId = getDocumentId(EXISTED_DOCUMENT_NAME_FIRST) as Long
         and:
@@ -139,7 +139,7 @@ class DocumentSpec extends RestSpec {
 
     @Test
     @Sql(scripts = 'classpath:sql/DocumentSpec/setup.sql', executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    def "Should return error when upload file for document that does not belong to current customer"() {
+    void "Should return error when upload file for document that does not belong to current customer"() {
         given:
         def docId = getDocumentId(EXISTED_DOCUMENT_NAME_THRID) as Long
         and:

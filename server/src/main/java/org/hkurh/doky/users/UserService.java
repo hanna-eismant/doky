@@ -2,7 +2,6 @@ package org.hkurh.doky.users;
 
 
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 public interface UserService {
 
@@ -12,6 +11,6 @@ public interface UserService {
 
     UserEntity create(@NonNull String userUid, @NonNull String encodedPassword);
 
-    @Nullable
+    @NonNull
     UserEntity getCurrentUser();
 }
