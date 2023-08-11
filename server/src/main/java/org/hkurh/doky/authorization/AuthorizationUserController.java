@@ -1,5 +1,6 @@
 package org.hkurh.doky.authorization;
 
+import jakarta.validation.Valid;
 import org.hkurh.doky.security.AuthenticationRequest;
 import org.hkurh.doky.security.AuthenticationResponse;
 import org.hkurh.doky.security.JwtProvider;
@@ -9,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.validation.Valid;
 
 @RestController
 public class AuthorizationUserController implements AuthorizationUserApi {

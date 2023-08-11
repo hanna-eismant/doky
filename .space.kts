@@ -11,6 +11,8 @@ import java.time.temporal.TemporalAdjusters
  * For more info, see https://www.jetbrains.com/help/space/automation.html
  */
 
+val gradleImageVersion = "gradle:8.2-jdk17"
+
 job("Tests for PR") {
     startOn {
         gitPush {
@@ -20,14 +22,14 @@ job("Tests for PR") {
         }
     }
 
-    container(displayName = "Unit tests", image = "gradle:6.9.0-jdk11") {
+    container(displayName = "Unit tests", image = gradleImageVersion) {
         workDir = "server"
         kotlinScript { api ->
             api.gradle("test")
         }
     }
 
-    container(displayName = "API tests", image = "gradle:6.9.0-jdk11") {
+    container(displayName = "API tests", image = gradleImageVersion) {
         env["DB_HOST"] = "db"
         env["DB_PORT"] = "3306"
         service("mysql:8") {
@@ -58,14 +60,14 @@ job("Tests for main branch") {
         }
     }
 
-    container(displayName = "Unit tests", image = "gradle:6.9.0-jdk11") {
+    container(displayName = "Unit tests", image = gradleImageVersion) {
         workDir = "server"
         kotlinScript { api ->
             api.gradle("test")
         }
     }
 
-    container(displayName = "API tests", image = "gradle:6.9.0-jdk11") {
+    container(displayName = "API tests", image = gradleImageVersion) {
         env["DB_HOST"] = "db"
         env["DB_PORT"] = "3306"
         service("mysql:8") {
@@ -120,7 +122,7 @@ job("Azure DEV Deployment") {
         text("spring-profile", value = "dev")
     }
 
-    container(displayName = "Deploy artifact", image = "gradle:6.9.0-jdk11") {
+    container(displayName = "Deploy artifact", image = gradleImageVersion) {
         workDir = "server"
 
         env["AZURE_SUBSCRIPTION"] = "{{ project:azure-subscription }}"

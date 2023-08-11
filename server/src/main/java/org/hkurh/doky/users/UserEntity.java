@@ -1,6 +1,6 @@
 package org.hkurh.doky.users;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user")

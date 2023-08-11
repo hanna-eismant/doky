@@ -1,15 +1,14 @@
 plugins {
     id 'java'
     id 'groovy'
-    id 'org.springframework.boot' version '2.7.2'
-    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
-    id 'com.heroku.sdk.heroku-gradle' version '3.0.0'
+    id 'org.springframework.boot' version '3.1.2'
+    id 'io.spring.dependency-management' version '1.1.2'
     id 'com.microsoft.azure.azurewebapp' version '1.7.1'
 }
 
 group = 'org.hkurh.doky'
-version = '0.1'
-sourceCompatibility = '11'
+version = 'Aardvark-v0.1'
+sourceCompatibility = '17'
 
 repositories {
     mavenLocal()
@@ -21,15 +20,15 @@ dependencies {
 
     implementation 'org.apache.groovy:groovy-all:4.0.9'
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.2'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
-    implementation 'org.springframework.boot:spring-boot-starter-security:2.6.2'
-    implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.2'
-    implementation 'org.springframework.boot:spring-boot-configuration-processor:2.6.2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
 
-    implementation 'org.flywaydb:flyway-core:8.3.0'
-    implementation 'org.flywaydb:flyway-mysql:8.3.0'
-    implementation 'mysql:mysql-connector-java:8.0.28'
+    implementation 'org.flywaydb:flyway-core:9.21.0'
+    implementation 'org.flywaydb:flyway-mysql:9.21.0'
+    implementation 'mysql:mysql-connector-java:8.0.33'
 
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
@@ -44,11 +43,11 @@ dependencies {
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.1'
     implementation 'commons-io:commons-io:2.11.0'
 
-    implementation 'com.azure:azure-storage-blob:12.21.1'
+    implementation 'com.azure:azure-storage-blob:12.22.1'
 
-    runtimeOnly 'org.springframework.boot:spring-boot-devtools:2.6.2'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework:spring-mock:2.0.8'
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
@@ -141,16 +140,6 @@ tasks.register('fatJar', Jar) {
     with jar
 }
 
-heroku {
-    appName = 'doky-dev-server'
-    jdkVersion = 11
-    includes = ['build/libs/server-0.1.jar']
-    includeBuildDir = false
-    processTypes(
-            web: 'java $JAVA_OPTS -jar build/libs/server-0.1.jar -Dserver.port=$PORT $JAR_OPTS'
-    )
-}
-
 azurewebapp {
     subscription = System.env.AZURE_SUBSCRIPTION
     resourceGroup = System.env.AZURE_RESOURCE_GROUP
@@ -170,4 +159,8 @@ azurewebapp {
         tenant = System.env.AZURE_TENANT
         key = System.env.AZURE_AUTH_KEY
     }
+}
+
+rootProject.tasks.named("processApiTestResources") {
+    duplicatesStrategy = DuplicatesStrategy.WARN
 }

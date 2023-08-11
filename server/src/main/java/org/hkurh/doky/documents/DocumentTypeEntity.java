@@ -1,8 +1,8 @@
 package org.hkurh.doky.documents;
 
+import jakarta.persistence.*;
 import org.hkurh.doky.workflow.WorkflowEntity;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

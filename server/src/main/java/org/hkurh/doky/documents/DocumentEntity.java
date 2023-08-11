@@ -1,8 +1,7 @@
 package org.hkurh.doky.documents;
 
+import jakarta.persistence.*;
 import org.hkurh.doky.users.UserEntity;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "document")

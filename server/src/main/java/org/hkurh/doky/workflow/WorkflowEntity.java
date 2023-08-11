@@ -1,8 +1,7 @@
 package org.hkurh.doky.workflow;
 
+import jakarta.persistence.*;
 import org.hkurh.doky.documents.DocumentTypeEntity;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "workflow")
