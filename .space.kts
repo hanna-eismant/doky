@@ -13,9 +13,6 @@ import java.time.temporal.TemporalAdjusters
 
 job("Tests for PR") {
     startOn {
-        codeReviewOpened {
-            branchToCheckout = CodeReviewBranch.MERGE_REQUEST_SOURCE
-        }
         gitPush {
             anyRefMatching {
                 +"refs/merge/*/head"
@@ -55,7 +52,7 @@ job("Tests for PR") {
 job("Tests for main branch") {
     startOn {
         gitPush {
-            branchFilter {
+            anyRefMatching {
                 +"refs/heads/main"
             }
         }
