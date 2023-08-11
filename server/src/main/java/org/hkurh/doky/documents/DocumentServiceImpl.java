@@ -3,7 +3,6 @@ package org.hkurh.doky.documents;
 import org.hkurh.doky.users.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -18,18 +17,23 @@ public class DocumentServiceImpl implements DocumentService {
 
     private static final Logger LOG = LoggerFactory.getLogger(DocumentServiceImpl.class);
 
-    private DocumentEntityRepository documentEntityRepository;
-    private UserService userService;
+    private final DocumentEntityRepository documentEntityRepository;
+    private final UserService userService;
+
+    public DocumentServiceImpl(DocumentEntityRepository documentEntityRepository, UserService userService) {
+        this.documentEntityRepository = documentEntityRepository;
+        this.userService = userService;
+    }
 
     @Override
     public DocumentEntity create(@NonNull String name, String description) {
         var document = new DocumentEntity();
         document.setName(name);
         document.setDescription(description);
-        var currentUser = getUserService().getCurrentUser();
+        var currentUser = userService.getCurrentUser();
         document.setCreator(currentUser);
         LOG.debug(format("Created new Document [%s] by User [%s]", document.getId(), currentUser.getId()));
-        return getDocumentEntityRepository().save(document);
+        return documentEntityRepository.save(document);
     }
 
     @Override
@@ -47,24 +51,6 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public void save(@NonNull DocumentEntity document) {
-        getDocumentEntityRepository().save(document);
-    }
-
-    private DocumentEntityRepository getDocumentEntityRepository() {
-        return documentEntityRepository;
-    }
-
-    @Autowired
-    public void setDocumentEntityRepository(DocumentEntityRepository documentEntityRepository) {
-        this.documentEntityRepository = documentEntityRepository;
-    }
-
-    private UserService getUserService() {
-        return userService;
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+        documentEntityRepository.save(document);
     }
 }

@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hkurh.doky.users.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,11 +21,16 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
+
     private static final Logger LOG = LoggerFactory.getLogger(JwtAuthorizationFilter.class);
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
-    private UserService userService;
+    private final UserService userService;
+
+    public JwtAuthorizationFilter(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
@@ -37,7 +41,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             var token = getTokenFromRequest(request);
             if (token != null && JwtProvider.validateToken(token)) {
                 var usernameFromToken = JwtProvider.getUsernameFromToken(token);
-                var currentUser = getUserService().findUserByUid(usernameFromToken);
+                var currentUser = userService.findUserByUid(usernameFromToken);
                 var dokyUserDetails = DokyUserDetails.createUserDetails(currentUser);
                 var authenticationToken = new UsernamePasswordAuthenticationToken(dokyUserDetails, null, dokyUserDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -60,14 +64,5 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
 
         return null;
-    }
-
-    private UserService getUserService() {
-        return userService;
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
     }
 }

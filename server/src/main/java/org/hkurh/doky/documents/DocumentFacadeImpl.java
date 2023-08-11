@@ -5,7 +5,6 @@ import org.hkurh.doky.errorhandling.DokyNotFoundException;
 import org.hkurh.doky.filestorage.FileStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.lang.NonNull;
@@ -27,12 +26,17 @@ public class DocumentFacadeImpl implements DocumentFacade {
 
     private static final Logger LOG = LoggerFactory.getLogger(DocumentFacadeImpl.class);
 
-    private DocumentService documentService;
-    private FileStorageService fileStorageService;
+    private final DocumentService documentService;
+    private final FileStorageService fileStorageService;
+
+    public DocumentFacadeImpl(DocumentService documentService, FileStorageService fileStorageService) {
+        this.documentService = documentService;
+        this.fileStorageService = fileStorageService;
+    }
 
     @Override
     public DocumentDto createDocument(@NonNull String name, String description) {
-        var documentEntity = getDocumentService().create(name, description);
+        var documentEntity = documentService.create(name, description);
         LOG.debug(format("Created new Document [%s]", documentEntity.getId()));
         var documentDto = getModelMapper()
                 .map(documentEntity, DocumentDto.class);
@@ -41,7 +45,7 @@ public class DocumentFacadeImpl implements DocumentFacade {
 
     @Override
     public DocumentDto findDocument(@NonNull String id) {
-        var documentEntity = getDocumentService().find(id);
+        var documentEntity = documentService.find(id);
         var documentDto = documentEntity
                 .map(entity -> getModelMapper().map(entity, DocumentDto.class))
                 .orElse(null);
@@ -50,7 +54,7 @@ public class DocumentFacadeImpl implements DocumentFacade {
 
     @Override
     public List<DocumentDto> findAllDocuments() {
-        var documentEntityList = getDocumentService().find();
+        var documentEntityList = documentService.find();
         var documentDtoList = documentEntityList.stream()
                 .map(entity -> getModelMapper().map(entity, DocumentDto.class))
                 .collect(Collectors.toList());
@@ -60,13 +64,13 @@ public class DocumentFacadeImpl implements DocumentFacade {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveFile(@NonNull MultipartFile file, @NonNull String id) {
-        var documentOpt = getDocumentService().find(id);
+        var documentOpt = documentService.find(id);
         if (documentOpt.isPresent()) {
             try {
                 var document = documentOpt.get();
-                var path = getFileStorageService().store(file, document.getFilePath());
+                var path = fileStorageService.store(file, document.getFilePath());
                 document.setFilePath(path);
-                getDocumentService().save(document);
+                documentService.save(document);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -77,10 +81,10 @@ public class DocumentFacadeImpl implements DocumentFacade {
 
     @Override
     public @Nullable Resource getFile(@NonNull String id) throws IOException {
-        var documentOpt = getDocumentService().find(id);
+        var documentOpt = documentService.find(id);
         if (documentOpt.isPresent() && StringUtils.isNotBlank(documentOpt.get().getFilePath())) {
             var filePath = documentOpt.get().getFilePath();
-            var file = getFileStorageService().getFile(filePath);
+            var file = fileStorageService.getFile(filePath);
             if (file != null) {
                 LOG.debug(format("Download file for Document [%s] with URI [%s]", id, file.toUri()));
                 return new UrlResource(file.toUri());
@@ -92,23 +96,5 @@ public class DocumentFacadeImpl implements DocumentFacade {
             LOG.debug(format("No attached file for Document [%s]", id));
             return null;
         }
-    }
-
-    public DocumentService getDocumentService() {
-        return documentService;
-    }
-
-    @Autowired
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-
-    public FileStorageService getFileStorageService() {
-        return fileStorageService;
-    }
-
-    @Autowired
-    public void setFileStorageService(FileStorageService fileStorageService) {
-        this.fileStorageService = fileStorageService;
     }
 }

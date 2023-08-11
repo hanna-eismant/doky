@@ -4,7 +4,6 @@ package org.hkurh.doky.documents;
 import org.hkurh.doky.security.DokyAuthority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +21,19 @@ import static java.lang.String.format;
 @RequestMapping("/documents")
 @Secured(DokyAuthority.Role.ROLE_USER)
 public class DocumentController implements DocumentApi {
+
     private static final Logger LOG = LoggerFactory.getLogger(DocumentController.class);
 
-    private DocumentFacade documentFacade;
+    private final DocumentFacade documentFacade;
+
+    public DocumentController(DocumentFacade documentFacade) {
+        this.documentFacade = documentFacade;
+    }
 
     @Override
     @PostMapping("/{id}/upload")
     public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file, @PathVariable String id) {
-        getDocumentFacade().saveFile(file, id);
+        documentFacade.saveFile(file, id);
         return ResponseEntity.ok(null);
     }
 
@@ -37,7 +41,7 @@ public class DocumentController implements DocumentApi {
     @GetMapping("/{id}/download")
     public ResponseEntity<?> downloadFile(@PathVariable String id) throws IOException {
         try {
-            var file = getDocumentFacade().getFile(id);
+            var file = documentFacade.getFile(id);
             if (file == null) {
                 LOG.debug(format("No attached file for document [%s]", id));
                 return ResponseEntity.noContent().build();
@@ -58,7 +62,7 @@ public class DocumentController implements DocumentApi {
     @Override
     @PostMapping
     public ResponseEntity<?> create(@RequestBody DocumentRequest document) {
-        var createdDocument = getDocumentFacade().createDocument(document.getName(), document.getDescription());
+        var createdDocument = documentFacade.createDocument(document.getName(), document.getDescription());
         var resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").build(createdDocument.getId());
 
@@ -68,7 +72,7 @@ public class DocumentController implements DocumentApi {
     @Override
     @GetMapping
     public ResponseEntity<?> getAll() {
-        var documents = getDocumentFacade().findAllDocuments();
+        var documents = documentFacade.findAllDocuments();
         if (documents.isEmpty()) {
             LOG.debug("No Documents for current user");
             return ResponseEntity.noContent().build();
@@ -80,21 +84,12 @@ public class DocumentController implements DocumentApi {
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable String id) {
-        var document = getDocumentFacade().findDocument(id);
+        var document = documentFacade.findDocument(id);
         if (document != null) {
             return ResponseEntity.ok(document);
         } else {
             LOG.debug(format("No Document with id [%s]", id));
             return ResponseEntity.noContent().build();
         }
-    }
-
-    public DocumentFacade getDocumentFacade() {
-        return documentFacade;
-    }
-
-    @Autowired
-    public void setDocumentFacade(DocumentFacade documentFacade) {
-        this.documentFacade = documentFacade;
     }
 }

@@ -6,7 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -24,32 +23,37 @@ public class FileStorageServiceImpl implements FileStorageService {
     public static final String STORAGE_PATH_PROPERTY = "doky.filestorage.path";
     public static final String DEFAULT_STORAGE_PATH = "./mediadata";
 
-    private Environment environment;
-    private FileStorage fileStorage;
+    private final Environment environment;
+    private final FileStorage fileStorage;
+
+    public FileStorageServiceImpl(Environment environment, FileStorage fileStorage) {
+        this.environment = environment;
+        this.fileStorage = fileStorage;
+    }
 
     @Override
     public String store(@NonNull MultipartFile file, @NonNull String filePath) throws IOException {
-        var isFileExists = getFileStorageStrategy().checkExistence(filePath);
+        var isFileExists = fileStorage.checkExistence(filePath);
         if (isFileExists) {
-            getFileStorageStrategy().saveFile(file, filePath);
+            fileStorage.saveFile(file, filePath);
             return filePath;
         } else {
             var extension = FilenameUtils.getExtension(file.getOriginalFilename());
             var storagePath = getStoragePath();
             var fileName = generateFileName(extension);
             var generatedFilePath = storagePath + fileName;
-            getFileStorageStrategy().saveFile(file, storagePath, fileName);
+            fileStorage.saveFile(file, storagePath, fileName);
             return generatedFilePath;
         }
     }
 
     @Override
     public Path getFile(@NonNull String filePath) throws IOException {
-        return getFileStorageStrategy().getFile(filePath);
+        return fileStorage.getFile(filePath);
     }
 
     private String getStoragePath() {
-        var basePath = getEnvironment().getProperty(STORAGE_PATH_PROPERTY, DEFAULT_STORAGE_PATH);
+        var basePath = environment.getProperty(STORAGE_PATH_PROPERTY, DEFAULT_STORAGE_PATH);
         var today = DateTime.now(DateTimeZone.getDefault());
         var fullPath = basePath + File.separator
                 + today.getYear() + File.separator
@@ -61,23 +65,5 @@ public class FileStorageServiceImpl implements FileStorageService {
     private String generateFileName(String extension) {
         var randomName = RandomStringUtils.random(10, true, true);
         return randomName + "." + extension;
-    }
-
-    public Environment getEnvironment() {
-        return environment;
-    }
-
-    @Autowired
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
-    }
-
-    public FileStorage getFileStorageStrategy() {
-        return fileStorage;
-    }
-
-    @Autowired
-    public void setFileStorageStrategy(FileStorage fileStorage) {
-        this.fileStorage = fileStorage;
     }
 }

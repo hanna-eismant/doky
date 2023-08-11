@@ -1,6 +1,5 @@
 package org.hkurh.doky.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -21,14 +20,18 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 )
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private JwtAuthorizationFilter jwtAuthorizationFilter;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
+
+    public WebSecurityConfig(JwtAuthorizationFilter jwtAuthorizationFilter) {
+        this.jwtAuthorizationFilter = jwtAuthorizationFilter;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .addFilterAfter(getJwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors();
     }
 
@@ -38,15 +41,6 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         final var corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
-    }
-
-    private JwtAuthorizationFilter getJwtAuthorizationFilter() {
-        return jwtAuthorizationFilter;
-    }
-
-    @Autowired
-    public void setJwtAuthorizationFilter(JwtAuthorizationFilter jwtAuthorizationFilter) {
-        this.jwtAuthorizationFilter = jwtAuthorizationFilter;
     }
 }
 
