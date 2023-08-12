@@ -1,7 +1,7 @@
 package org.hkurh.doky
 
 import org.apache.commons.lang3.StringUtils
-import org.hkurh.doky.authorization.UserRegistrationRequest
+import org.hkurh.doky.authorization.AuthenticationRequest
 import org.junit.Test
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.jdbc.Sql
@@ -18,7 +18,7 @@ class RegistrationSpec extends RestSpec {
     @Sql(scripts = "classpath:sql/RegistrationSpec/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void 'Should register user when it does not exist'() {
         given:
-        def requestBody = new UserRegistrationRequest(NEW_USER_UID, NEW_USER_PASSWORD)
+        def requestBody = new AuthenticationRequest(NEW_USER_UID, NEW_USER_PASSWORD)
         and:
         def requestSpec = prepareRequestSpec().setBody(requestBody).build()
 
@@ -33,7 +33,7 @@ class RegistrationSpec extends RestSpec {
     @Test
     void 'Should return error when register with existing user'() {
         given:
-        def requestBody = new UserRegistrationRequest(VALID_USER_UID, NEW_USER_PASSWORD)
+        def requestBody = new AuthenticationRequest(VALID_USER_UID, NEW_USER_PASSWORD)
         and:
         def requestSpec = prepareRequestSpec().setBody(requestBody).build()
 
@@ -49,7 +49,7 @@ class RegistrationSpec extends RestSpec {
     @Test
     void 'Should return error when register with empty credentials'() {
         given:
-        def requestBody = new UserRegistrationRequest(StringUtils.EMPTY, StringUtils.EMPTY)
+        def requestBody = new AuthenticationRequest(StringUtils.EMPTY, StringUtils.EMPTY)
         and:
         def requestSpec = prepareRequestSpec().setBody(requestBody).build()
 

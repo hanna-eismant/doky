@@ -1,7 +1,7 @@
 package org.hkurh.doky
 
 import io.restassured.builder.RequestSpecBuilder
-import org.hkurh.doky.security.AuthenticationRequest
+import org.hkurh.doky.authorization.AuthenticationRequest
 import org.junit.jupiter.api.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

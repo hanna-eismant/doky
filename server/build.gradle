@@ -1,6 +1,10 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id 'java'
     id 'groovy'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.22'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.8.22'
     id 'org.springframework.boot' version '3.1.2'
     id 'io.spring.dependency-management' version '1.1.2'
     id 'com.microsoft.azure.azurewebapp' version '1.7.1'
@@ -8,7 +12,10 @@ plugins {
 
 group = 'org.hkurh.doky'
 version = 'Aardvark-v0.1'
-sourceCompatibility = '17'
+
+java {
+    sourceCompatibility = '17'
+}
 
 repositories {
     mavenLocal()
@@ -19,6 +26,9 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     implementation 'org.apache.groovy:groovy-all:4.0.9'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -72,6 +82,13 @@ tasks.named("bootJar") {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+}
+
+tasks.withType(KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += '-Xjsr305=strict'
+        jvmTarget = '17'
+    }
 }
 
 tasks.register("bootRunLocal") {

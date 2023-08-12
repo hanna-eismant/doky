@@ -1,7 +1,7 @@
 package org.hkurh.doky
 
 import org.apache.commons.lang3.StringUtils
-import org.hkurh.doky.security.AuthenticationRequest
+import org.hkurh.doky.authorization.AuthenticationRequest
 import org.junit.Test
 import org.springframework.http.HttpStatus
 
