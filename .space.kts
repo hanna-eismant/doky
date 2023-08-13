@@ -146,7 +146,7 @@ job("Deploy front to azure") {
                 ls -la
                 curl --version
                 curl -T index.html ${'$'}FTP_URL -k -u ${'$'}FTP_USER:${'$'}FTP_PASS \
-                    -v --ftp-skip-pasv-ip --ftp-ssl -P - 
+                    -v --ftp-skip-pasv-ip --ftp-ssl -P 990 
             """.trimMargin()
         }
     }
