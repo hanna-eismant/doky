@@ -7,8 +7,6 @@ import org.hkurh.doky.filestorage.FileStorageService
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
-import org.springframework.lang.NonNull
-import org.springframework.lang.Nullable
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -18,32 +16,29 @@ import java.util.stream.Collectors
 
 @Component
 class DocumentFacadeImpl(private val documentService: DocumentService, private val fileStorageService: FileStorageService) : DocumentFacade {
-    override fun createDocument(@NonNull name: String?, description: String?): DocumentDto? {
+    override fun createDocument(name: String, description: String?): DocumentDto? {
         val documentEntity = documentService.create(name, description)
-        LOG.debug(String.format("Created new Document [%s]", documentEntity!!.id))
+        LOG.debug("Created new Document ${documentEntity.id}")
         return modelMapper.map(documentEntity, DocumentDto::class.java)
     }
 
-    override fun findDocument(@NonNull id: String?): DocumentDto? {
+    override fun findDocument(id: String): DocumentDto? {
         val documentEntity = documentService.find(id)
-        return documentEntity
-                ?.map { entity: DocumentEntity? -> modelMapper.map(entity, DocumentDto::class.java) }
-                ?.orElse(null)
+        return if (documentEntity == null) null else modelMapper.map(documentEntity, DocumentDto::class.java)
     }
 
-    override fun findAllDocuments(): List<DocumentDto?>? {
+    override fun findAllDocuments(): List<DocumentDto?> {
         val documentEntityList = documentService.find()
-        return documentEntityList!!.stream()
+        return documentEntityList.stream()
                 .map { entity -> modelMapper.map(entity, DocumentDto::class.java) }
                 .collect(Collectors.toList())
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    override fun saveFile(@NonNull file: MultipartFile?, @NonNull id: String?) {
-        val documentOpt = documentService.find(id)
-        if (documentOpt!!.isPresent) {
+    override fun saveFile(file: MultipartFile, id: String) {
+        val document = documentService.find(id)
+        if (document != null) {
             try {
-                val document = documentOpt.get()
                 val path = fileStorageService.store(file, document.filePath)
                 document.filePath = path
                 documentService.save(document)
@@ -51,26 +46,26 @@ class DocumentFacadeImpl(private val documentService: DocumentService, private v
                 throw RuntimeException(e)
             }
         } else {
-            throw DokyNotFoundException(String.format("Document with id [%s] not found", id))
+            throw DokyNotFoundException("Document with id $id not found")
         }
     }
 
-    @Nullable
     @Throws(IOException::class)
-    override fun getFile(@NonNull id: String?): Resource? {
-        val documentOpt = documentService.find(id)
-        return if (documentOpt!!.isPresent && StringUtils.isNotBlank(documentOpt.get().filePath)) {
-            val filePath = documentOpt.get().filePath
-            val file = fileStorageService.getFile(filePath)
+    override fun getFile(id: String): Resource? {
+        val document = documentService.find(id)
+        return if (StringUtils.isNotBlank(document!!.filePath)) {
+            val filePath = document.filePath
+            val file = fileStorageService.getFile(filePath!!)
             if (file != null) {
-                LOG.debug(String.format("Download file for Document [%s] with URI [%s]", id, file.toUri()))
-                UrlResource(file.toUri())
+                val fileUri = file.toUri()
+                LOG.debug("Download file for Document $id with URI $fileUri")
+                UrlResource(fileUri)
             } else {
-                LOG.warn(String.format("File [%s] attached to document [%s] does not exists in storage", filePath, id))
+                LOG.warn("File $filePath attached to document $id does not exists in storage")
                 null
             }
         } else {
-            LOG.debug(String.format("No attached file for Document [%s]", id))
+            LOG.debug("No attached file for Document $id")
             null
         }
     }

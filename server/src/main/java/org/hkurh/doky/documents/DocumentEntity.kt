@@ -9,7 +9,7 @@ class DocumentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    var id: Long? = null
+    var id: Long = -1
 
     @Column(name = "name")
     var name: String? = null

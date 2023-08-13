@@ -13,8 +13,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 @RestController
 class AuthorizationUserController(private val userFacade: UserFacade) : AuthorizationUserApi {
     @PostMapping("/login")
-    override fun login(@Valid @RequestBody authenticationRequest: AuthenticationRequest?): ResponseEntity<*> {
-        val username = authenticationRequest!!.username
+    override fun login(@Valid @RequestBody authenticationRequest: AuthenticationRequest): ResponseEntity<*> {
+        val username = authenticationRequest.username
         val password = authenticationRequest.password
         userFacade.checkCredentials(username, password)
         val token = generateToken(username)
@@ -22,8 +22,8 @@ class AuthorizationUserController(private val userFacade: UserFacade) : Authoriz
     }
 
     @PostMapping(value = ["/register"], consumes = ["application/json"])
-    override fun register(@Valid @RequestBody registrationRequest: AuthenticationRequest?): ResponseEntity<*>? {
-        val registeredUser = userFacade.register(registrationRequest!!.username, registrationRequest.password)
+    override fun register(@Valid @RequestBody registrationRequest: AuthenticationRequest): ResponseEntity<*>? {
+        val registeredUser = userFacade.register(registrationRequest.username, registrationRequest.password)
         val resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").build(registeredUser!!.userUid)
         return ResponseEntity.created(resourceLocation).build<Any>()

@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController
 @Secured(DokyAuthority.Role.ROLE_USER)
 class UserController(private val userFacade: UserFacade) : UserApi {
 
-    @get:GetMapping("/users/current")
-    override val user: UserDto?
-        get() = userFacade.currentUser
+    @GetMapping("/users/current")
+    override fun getUser(): UserDto {
+        return userFacade.getCurrentUser()
+    }
 }

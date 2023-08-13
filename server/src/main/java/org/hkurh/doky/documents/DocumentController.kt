@@ -17,18 +17,18 @@ import java.net.MalformedURLException
 @Secured(DokyAuthority.Role.ROLE_USER)
 class DocumentController(private val documentFacade: DocumentFacade) : DocumentApi {
     @PostMapping("/{id}/upload")
-    override fun uploadFile(@RequestBody file: MultipartFile?, @PathVariable id: String?): ResponseEntity<*> {
+    override fun uploadFile(@RequestBody file: MultipartFile, @PathVariable id: String): ResponseEntity<*> {
         documentFacade.saveFile(file, id)
         return ResponseEntity.ok<Any>(null)
     }
 
     @GetMapping("/{id}/download")
     @Throws(IOException::class)
-    override fun downloadFile(@PathVariable id: String?): ResponseEntity<*> {
+    override fun downloadFile(@PathVariable id: String): ResponseEntity<*> {
         return try {
             val file = documentFacade.getFile(id)
             if (file == null) {
-                LOG.debug(String.format("No attached file for document [%s]", id))
+                LOG.debug("No attached file for document $id")
                 return ResponseEntity.noContent().build<Any>()
             }
             val header = "attachment; filename=\"" +
@@ -44,32 +44,31 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
     }
 
     @PostMapping
-    override fun create(@RequestBody document: DocumentRequest?): ResponseEntity<*> {
-        val createdDocument = documentFacade.createDocument(document!!.name, document.description)
+    override fun create(@RequestBody document: DocumentRequest): ResponseEntity<*> {
+        val createdDocument = documentFacade.createDocument(document.name, document.description)
         val resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").build(createdDocument!!.id)
         return ResponseEntity.created(resourceLocation).build<Any>()
     }
 
-    @get:GetMapping
-    override val all: ResponseEntity<*>
-        get() {
-            val documents = documentFacade.findAllDocuments()
-            return if (documents!!.isEmpty()) {
-                LOG.debug("No Documents for current user")
-                ResponseEntity.noContent().build<Any>()
-            } else {
-                ResponseEntity.ok(documents)
-            }
+    @GetMapping
+    override fun getAll(): ResponseEntity<*> {
+        val documents = documentFacade.findAllDocuments()
+        return if (documents.isEmpty()) {
+            LOG.debug("No Documents for current user")
+            ResponseEntity.noContent().build<Any>()
+        } else {
+            ResponseEntity.ok(documents)
         }
+    }
 
     @GetMapping("/{id}")
-    override fun get(@PathVariable id: String?): ResponseEntity<*> {
+    override fun get(@PathVariable id: String): ResponseEntity<*> {
         val document = documentFacade.findDocument(id)
         return if (document != null) {
             ResponseEntity.ok(document)
         } else {
-            LOG.debug(String.format("No Document with id [%s]", id))
+            LOG.debug("No Document with id $id")
             ResponseEntity.noContent().build<Any>()
         }
     }

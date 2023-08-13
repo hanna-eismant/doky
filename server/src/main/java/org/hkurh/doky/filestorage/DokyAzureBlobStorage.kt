@@ -9,7 +9,6 @@ import org.apache.commons.logging.LogFactory
 import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.lang.NonNull
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
@@ -29,7 +28,7 @@ class DokyAzureBlobStorage : FileStorage {
 
     @PostConstruct
     fun init() {
-        LOG.debug(String.format("Azure Blob container name [%s] initialized", containerName))
+        LOG.debug("Azure Blob container name $containerName initialized")
         blobContainerClient = BlobContainerClientBuilder()
                 .connectionString(connectionString)
                 .containerName(containerName)
@@ -37,18 +36,18 @@ class DokyAzureBlobStorage : FileStorage {
     }
 
     @Throws(IOException::class)
-    override fun saveFile(@NonNull file: MultipartFile?, @NonNull filePathWithName: String?) {
+    override fun saveFile(file: MultipartFile, filePathWithName: String) {
         val blobClient = blobContainerClient!!.getBlobClient(filePathWithName)
-        blobClient.upload(file!!.inputStream)
+        blobClient.upload(file.inputStream)
     }
 
     @Throws(IOException::class)
-    override fun saveFile(@NonNull file: MultipartFile?, @NonNull filePath: String?, @NonNull fileName: String?) {
+    override fun saveFile(file: MultipartFile, filePath: String, fileName: String) {
         saveFile(file, filePath + fileName)
     }
 
     @Throws(IOException::class)
-    override fun getFile(@NonNull filePath: String?): Path? {
+    override fun getFile(filePath: String): Path {
         val blobClient = blobContainerClient!!.getBlobClient(filePath)
         val now = DateTime()
         val prefix = now.toString("MM-dd-yyyy") + "-"
@@ -60,11 +59,10 @@ class DokyAzureBlobStorage : FileStorage {
     }
 
     override fun checkExistence(filePath: String?): Boolean {
-        if (StringUtils.isBlank(filePath)) {
-            return false
+        return if (StringUtils.isBlank(filePath)) false else {
+            val blobClient = blobContainerClient!!.getBlobClient(filePath)
+            blobClient.exists()
         }
-        val blobClient = blobContainerClient!!.getBlobClient(filePath)
-        return blobClient.exists()
     }
 
     companion object {

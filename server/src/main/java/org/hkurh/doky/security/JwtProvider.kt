@@ -6,7 +6,6 @@ import org.hkurh.doky.DokyApplication
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.slf4j.LoggerFactory
-import org.springframework.lang.NonNull
 import org.springframework.stereotype.Component
 
 @Component
@@ -14,8 +13,8 @@ object JwtProvider {
     private val LOG = LoggerFactory.getLogger(JwtProvider::class.java)
     private val jwtParser = Jwts.parserBuilder().setSigningKey(DokyApplication.SECRET_KEY_SPEC).build()
 
-    fun generateToken(@NonNull username: String?): String {
-        LOG.debug(String.format("Generate token for user [%s]", username))
+    fun generateToken(username: String): String {
+        LOG.debug("Generate token for user $username")
         val currentTime = DateTime(DateTimeZone.getDefault())
         val expireTokenTime = currentTime.plusDays(1)
         return Jwts.builder()
@@ -27,7 +26,7 @@ object JwtProvider {
                 .compact()
     }
 
-    fun validateToken(@NonNull token: String?): Boolean {
+    fun validateToken(token: String): Boolean {
         try {
             jwtParser.parseClaimsJws(token)
             return true
@@ -37,7 +36,7 @@ object JwtProvider {
         return false
     }
 
-    fun getUsernameFromToken(@NonNull token: String?): String {
+    fun getUsernameFromToken(token: String): String {
         return jwtParser.parseClaimsJws(token).body.subject
     }
 }

@@ -12,7 +12,6 @@ import org.hkurh.doky.security.JwtProvider.getUsernameFromToken
 import org.hkurh.doky.security.JwtProvider.validateToken
 import org.hkurh.doky.users.UserService
 import org.slf4j.LoggerFactory
-import org.springframework.lang.NonNull
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -22,8 +21,7 @@ import java.io.IOException
 @Component
 class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequestFilter() {
     @Throws(ServletException::class, IOException::class)
-    override fun doFilterInternal(@NonNull request: HttpServletRequest, @NonNull response: HttpServletResponse,
-                                  @NonNull filterChain: FilterChain) {
+    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         LOG.debug("Jwt Authorization Filter is invoked.")
         try {
             val token = getTokenFromRequest(request)

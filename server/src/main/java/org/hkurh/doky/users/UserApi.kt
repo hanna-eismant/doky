@@ -11,9 +11,9 @@ import io.swagger.v3.oas.annotations.tags.Tag
 @Tag(name = "Users")
 @SecurityRequirement(name = "Bearer Token")
 interface UserApi {
-    @get:ApiResponses(
+    @ApiResponses(
             ApiResponse(responseCode = "200", description = "User information is retrieved successfully",
                     content = [Content(schema = Schema(implementation = UserDto::class))]))
-    @get:Operation(summary = "Get current user info")
-    val user: UserDto?
+    @Operation(summary = "Get current user info")
+    fun getUser(): UserDto
 }

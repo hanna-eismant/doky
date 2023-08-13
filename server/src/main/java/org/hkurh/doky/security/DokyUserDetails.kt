@@ -1,24 +1,23 @@
 package org.hkurh.doky.security
 
 import org.hkurh.doky.users.UserEntity
-import org.springframework.lang.NonNull
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 class DokyUserDetails : UserDetails {
-    private var username: String? = null
-    private var password: String? = null
+    private var username: String = ""
+    private var password: String = ""
     private var grantedAuthorities: Collection<GrantedAuthority?>? = null
     override fun getAuthorities(): Collection<GrantedAuthority?> {
         return grantedAuthorities!!
     }
 
     override fun getPassword(): String {
-        return password!!
+        return password
     }
 
     override fun getUsername(): String {
-        return username!!
+        return username
     }
 
     override fun isAccountNonExpired(): Boolean {
@@ -38,10 +37,10 @@ class DokyUserDetails : UserDetails {
     }
 
     companion object {
-        fun createUserDetails(@NonNull userEntity: UserEntity): DokyUserDetails {
+        fun createUserDetails(userEntity: UserEntity): DokyUserDetails {
             val dokyUserDetails = DokyUserDetails()
-            dokyUserDetails.username = userEntity.uid
-            dokyUserDetails.password = userEntity.password
+            dokyUserDetails.username = userEntity.uid!!
+            dokyUserDetails.password = userEntity.password!!
             dokyUserDetails.grantedAuthorities = listOf(DokyAuthority.ROLE_USER)
             return dokyUserDetails
         }

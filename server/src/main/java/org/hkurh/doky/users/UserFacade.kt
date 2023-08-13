@@ -1,7 +1,6 @@
 package org.hkurh.doky.users
 
 import org.hkurh.doky.errorhandling.DokyAuthenticationException
-import org.springframework.lang.NonNull
 
 interface UserFacade {
     /**
@@ -10,7 +9,7 @@ interface UserFacade {
      * @throws DokyAuthenticationException if user with provided username does not exist,
      * or provided password is incorrect
      */
-    fun checkCredentials(@NonNull userUid: String?, @NonNull password: String?)
-    fun register(@NonNull username: String?, @NonNull password: String?): UserDto?
-    val currentUser: UserDto?
+    fun checkCredentials(userUid: String, password: String)
+    fun register(username: String, password: String): UserDto
+    fun getCurrentUser(): UserDto
 }

@@ -1,6 +1,5 @@
 package org.hkurh.doky.filestorage
 
-import org.springframework.lang.NonNull
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import java.nio.file.Path
@@ -13,7 +12,7 @@ interface FileStorageService {
      * @throws IOException
      */
     @Throws(IOException::class)
-    fun store(@NonNull file: MultipartFile?, @NonNull filePath: String?): String?
+    fun store(file: MultipartFile, filePath: String?): String
 
     /**
      * Get file from storage
@@ -22,5 +21,5 @@ interface FileStorageService {
      * @return
      */
     @Throws(IOException::class)
-    fun getFile(@NonNull filePath: String?): Path?
+    fun getFile(filePath: String): Path?
 }
