@@ -123,13 +123,14 @@ job("Azure DEV Deployment") {
 }
 
 job("Deploy front to azure") {
-    val sharedBuildPath = "client/dist"
+    val sharedBuildPath = "client-dist"
     container(displayName = "Build", image = "node:18-alpine") {
         workDir = "client"
         shellScript {
             content = """
                    npm ci && npm run build
                    cd dist && ls -la
+                   mkdir $sharedBuildPath
                    cp -a . ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath/
                """.trimIndent()
         }
