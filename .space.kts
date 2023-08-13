@@ -122,6 +122,20 @@ job("Azure DEV Deployment") {
     }
 }
 
+job("Deploy front to azure") {
+    container(displayName = "Deploy", image = "node:18-alpine") {
+        workDir = "client"
+        shellScript {
+            content = """
+                   npm ci
+                   npm run build
+                   cd dist
+                   ls -la
+               """.trimIndent()
+        }
+    }
+}
+
 fun getNextSundayDate(): Instant {
     var date = ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("UTC"))
     // set time to 11:59 pm UTC
