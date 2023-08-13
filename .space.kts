@@ -136,7 +136,7 @@ job("Deploy front to azure") {
         }
     }
 
-    container(displayName = "Deploy", image = "") {
+    container(displayName = "Deploy", image = "curlimages/curl") {
         env["FTP_URL"] = "{{ project:azure-front-ftp-url }}"
         env["FTP_USER"] = "{{ project:azure-front-ftp-username }}"
         env["FTP_PASS"] = "{{ project:azure-front-ftp-password }}"
