@@ -129,7 +129,7 @@ job("Deploy front to azure") {
         shellScript {
             content = """
                    npm ci && npm run build
-                   cd dist && ls -la
+                   cd dist
                    mkdir $sharedBuildPath
                    cp -a . ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath/
                """.trimIndent()
@@ -142,7 +142,8 @@ job("Deploy front to azure") {
         env["FTP_PASS"] = "{{ project:azure-front-ftp-password }}"
         shellScript {
             content = """
-                ls -la ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath
+                cd ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath
+                ls -la
                 curl -T index.html ${'$'}FTP_URL -u ${'$'}FTP_USER:${'$'}FTP_PASS 
             """.trimMargin()
         }
