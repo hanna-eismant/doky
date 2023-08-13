@@ -123,6 +123,9 @@ job("Azure DEV Deployment") {
 }
 
 job("Deploy front to azure") {
+    val url = "{{ project:azure-front-ftp-url }}"
+    val user = "{{ project:azure-front-ftp-username }}"
+    val password = "{{ project:azure-front-ftp-password }}"
     container(displayName = "Deploy", image = "node:18-alpine") {
         workDir = "client"
         shellScript {
@@ -131,6 +134,7 @@ job("Deploy front to azure") {
                    npm run build
                    cd dist
                    ls -la
+                   curl -T bundle.js $url -u $user:$password 
                """.trimIndent()
         }
     }
