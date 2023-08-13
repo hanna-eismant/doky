@@ -130,7 +130,7 @@ job("Deploy front to azure") {
             content = """
                    npm ci && npm run build
                    cd dist
-                   mkdir $sharedBuildPath
+                   mkdir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath/
                    cp -a . ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath/
                """.trimIndent()
         }
