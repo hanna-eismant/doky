@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "rollup -c rollup.config.js --watch"
+    "start": "rollup -c rollup/rollup.config.local.js --watch",
+    "start:local": "npm start -- --be-env local",
+    "start:dev": "npm start -- --be-env dev",
+    "build": "rollup -c rollup/rollup.config.dev.js",
+    "serve": "serve dist"
   },
   "author": "",
   "license": "ISC",
@@ -16,12 +20,16 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.17.12",
+    "@rollup/plugin-alias": "^5.0.0",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-replace": "^4.0.0",
+    "@rollup/plugin-terser": "^0.4.3",
     "rollup": "^2.75.7",
+    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-livereload": "^2.0.5",
-    "rollup-plugin-serve": "^1.1.0"
+    "rollup-plugin-serve": "^1.1.0",
+    "serve": "^14.2.0"
   }
 }

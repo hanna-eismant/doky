@@ -1,4 +1,4 @@
-const BASE_URL = 'https://doky-dev.azurewebsites.net';
+import { BASE_URL } from "config";
 
 const HEADERS = {
   'Content-Type': 'application/json'
