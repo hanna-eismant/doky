@@ -128,10 +128,8 @@ job("Deploy front to azure") {
         workDir = "client"
         shellScript {
             content = """
-                   npm ci
-                   npm run build
-                   cd dist
-                   ls -la
+                   npm ci && npm run build
+                   cd dist && ls -la
                    cp -a . ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath/
                """.trimIndent()
         }
