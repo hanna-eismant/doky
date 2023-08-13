@@ -15,10 +15,8 @@ val gradleImageVersion = "gradle:8.2-jdk17"
 
 job("Tests for PR") {
     startOn {
-        gitPush {
-            anyRefMatching {
-                +"refs/merge/*/head"
-            }
+        codeReviewOpened {
+            branchToCheckout = CodeReviewBranch.MERGE_REQUEST_SOURCE
         }
     }
 
@@ -26,27 +24,6 @@ job("Tests for PR") {
         workDir = "server"
         kotlinScript { api ->
             api.gradle("test")
-        }
-    }
-
-    container(displayName = "API tests", image = gradleImageVersion) {
-        env["DB_HOST"] = "db"
-        env["DB_PORT"] = "3306"
-        service("mysql:8") {
-            alias("db")
-            args(
-                    "--log_bin_trust_function_creators=ON",
-                    "--max-connections=700"
-            )
-            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
-            env["MYSQL_DATABASE"] = "doky-test"
-            env["MYSQL_USER"] = "doky-test"
-            env["MYSQL_PASSWORD"] = "doky-test"
-        }
-
-        workDir = "server"
-        kotlinScript { api ->
-            api.gradle("apiTest")
         }
     }
 }
@@ -89,13 +66,13 @@ job("Tests for main branch") {
     }
 
     container(displayName = "Qodana", image = "jetbrains/qodana-jvm:latest") {
-        workDir = "server"
         env["QODANA_TOKEN"] = "{{ project:qodana-token }}"
         shellScript {
             content = """
                qodana \
+               --project-dir    server \
                --fail-threshold 50 \
-               --profile-name qodana.starter
+               --profile-name   qodana.recommended
                """.trimIndent()
         }
     }

@@ -8,6 +8,7 @@ plugins {
     id 'org.springframework.boot' version '3.1.2'
     id 'io.spring.dependency-management' version '1.1.2'
     id 'com.microsoft.azure.azurewebapp' version '1.7.1'
+    id "org.jetbrains.kotlinx.kover" version "0.7.3"
 }
 
 group = 'org.hkurh.doky'
@@ -126,7 +127,7 @@ configurations {
     apiTestRuntime.extendsFrom testRuntime
 }
 sourceSets {
-    'apiTest' {
+    apiTest {
         groovy {
             compileClasspath += main.output + test.output
             runtimeClasspath += main.output + test.output
@@ -147,6 +148,14 @@ tasks.register('apiTest', Test) {
 }
 
 check.dependsOn 'apiTest'
+
+koverReport {
+    filters {
+        includes {
+            classes("org.hkurh.*")
+        }
+    }
+}
 
 tasks.register('fatJar', Jar) {
     manifest {
