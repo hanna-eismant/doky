@@ -145,8 +145,8 @@ job("Deploy front to azure") {
                 cd ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath
                 ls -la
                 curl --version
-                curl -T index.html ${'$'}FTP_URL -k -u ${'$'}FTP_USER:${'$'}FTP_PASS \
-                    -v --ftp-skip-pasv-ip --ftp-ssl -P 990 
+                curl -T index.html ${'$'}FTP_URL/site/wwwroot/ -k -u ${'$'}FTP_USER:${'$'}FTP_PASS \
+                    -v --ftp-skip-pasv-ip --ftp-ssl -P ${'$'}FTP_URL:990 
             """.trimMargin()
         }
     }
