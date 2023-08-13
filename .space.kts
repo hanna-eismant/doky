@@ -123,10 +123,8 @@ job("Azure DEV Deployment") {
 }
 
 job("Deploy front to azure") {
-    container(displayName = "Deploy", image = "node:18-alpine") {
-        env["FTP_URL"] = "{{ project:azure-front-ftp-url }}"
-        env["FTP_USER"] = "{{ project:azure-front-ftp-username }}"
-        env["FTP_PASS"] = "{{ project:azure-front-ftp-password }}"
+    val sharedBuildPath = "client/dist"
+    container(displayName = "Build", image = "node:18-alpine") {
         workDir = "client"
         shellScript {
             content = """
@@ -134,8 +132,20 @@ job("Deploy front to azure") {
                    npm run build
                    cd dist
                    ls -la
-                   curl -T bundle.js ${'$'}FTP_URL -u ${'$'}FTP_USER:${'$'}FTP_PASS 
+                   cp -a . ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath/
                """.trimIndent()
+        }
+    }
+
+    container(displayName = "Deploy", image = "") {
+        env["FTP_URL"] = "{{ project:azure-front-ftp-url }}"
+        env["FTP_USER"] = "{{ project:azure-front-ftp-username }}"
+        env["FTP_PASS"] = "{{ project:azure-front-ftp-password }}"
+        shellScript {
+            content = """
+                ls -la ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath
+                curl -T index.html ${'$'}FTP_URL -u ${'$'}FTP_USER:${'$'}FTP_PASS 
+            """.trimMargin()
         }
     }
 }
