@@ -118,12 +118,11 @@ job("Azure DEV Deployment") {
         env["SPRING_DATASOURCE_PASSWORD"] = "{{ project:spring-datasource-password }}"
 
         kotlinScript { api ->
-//            val deployVersion = api.space().projects.automation.deployments.get(
-//                    project = api.projectIdentifier(),
-//                    targetIdentifier = TargetIdentifier.Key("azure-dev"),
-//                    deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
-//            ).version
-            val deployVersion = "Aardvark-v0.1.53"
+            val deployVersion = api.space().projects.automation.deployments.get(
+                    project = api.projectIdentifier(),
+                    targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                    deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
+            ).version
             api.space().projects.automation.deployments.start(
                     project = api.projectIdentifier(),
                     targetIdentifier = TargetIdentifier.Key("azure-dev"),
