@@ -123,7 +123,7 @@ job("Azure DEV Deployment") {
 //                    targetIdentifier = TargetIdentifier.Key("azure-dev"),
 //                    deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
 //            ).version
-            val deployVersion = "Aardvark-v0.1.52"
+            val deployVersion = "Aardvark-v0.1.53"
             api.space().projects.automation.deployments.start(
                     project = api.projectIdentifier(),
                     targetIdentifier = TargetIdentifier.Key("azure-dev"),
