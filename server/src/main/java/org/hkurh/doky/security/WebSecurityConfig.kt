@@ -2,6 +2,7 @@ package org.hkurh.doky.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -25,7 +26,7 @@ internal class WebSecurityConfig(private val jwtAuthorizationFilter: JwtAuthoriz
                 .csrf { it.ignoringRequestMatchers("/**") }
                 .sessionManagement { configurer: SessionManagementConfigurer<HttpSecurity?> -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
                 .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
-                .cors { it.disable() }
+            .cors(Customizer.withDefaults())
         return http.build()
     }
 
