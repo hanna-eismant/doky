@@ -31,12 +31,10 @@ class DokyControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun validationException(exception: MethodArgumentNotValidException): ValidationErrorResponse {
-        val bindingResult = exception.bindingResult
-        val fieldErrors = bindingResult.fieldErrors
         val response = ValidationErrorResponse(Error("Validation failed"))
-        for (fieldError in fieldErrors) {
-            response.fields.add(Field(fieldError.field, fieldError.defaultMessage!!))
-        }
+        exception.bindingResult.fieldErrors
+            .groupBy { it.field }
+            .forEach { field -> response.fields.add(Field(field.key, field.value.map { it.defaultMessage ?: "" })) }
         return response
     }
 
