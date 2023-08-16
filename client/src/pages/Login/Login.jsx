@@ -29,6 +29,7 @@ export default () => {
   return (
     <div className="d-flex align-items-center justify-content-center">
       <form onSubmit={onSubmit} className="mt-3">
+        <img className="mb-3 mt-5" height="100px" src="logo-color-bg.svg"/>
         <FormInput id="username" label="Username" type="text" value={data.username} onChange={username.setValue}/>
         <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}/>
         <div className="d-flex justify-content-between py-2">
