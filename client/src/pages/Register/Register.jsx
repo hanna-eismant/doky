@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
-import {FormField} from '../../components';
+import {FormInput} from '../../components';
 import useFormData from '../../hooks/useFormData';
 import useRegisterQuery from './useRegisterQuery';
 
@@ -30,11 +30,11 @@ export default () => {
   return (
     <div className="d-flex align-items-center justify-content-center">
       <form onSubmit={onSubmit} className="mt-3">
-        <FormField id="username" label="Username" type="text" value={data.username} onChange={username.setValue}/>
-        <FormField id="password" label="Password" type="password" value={data.password} onChange={password.setValue}/>
-        <div>
+        <FormInput id="username" label="Username" type="text" value={data.username} onChange={username.setValue}/>
+        <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}/>
+        <div className="d-flex justify-content-between py-2">
           <Link to="/login">Login</Link>
-          <input type="submit" value="Register" className="btn btn-primary mb-3"/>
+          <input type="submit" value="Register" className="btn btn-primary mb-3 float-end"/>
         </div>
       </form>
     </div>
