@@ -34,7 +34,13 @@ class DokyControllerAdvice {
         val response = ValidationErrorResponse(Error("Validation failed"))
         exception.bindingResult.fieldErrors
             .groupBy { it.field }
-            .forEach { field -> response.fields.add(Field(field.key, field.value.map { it.defaultMessage ?: "" })) }
+            .forEach { field ->
+                response.fields.add(Field(field.key,
+                    field.value
+                        .map { it.defaultMessage ?: "" }
+                        .sortedDescending()
+                ))
+            }
         return response
     }
 
