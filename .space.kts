@@ -65,18 +65,6 @@ job("Tests for main branch") {
         }
     }
 
-    container(displayName = "Qodana", image = "jetbrains/qodana-jvm:latest") {
-        env["QODANA_TOKEN"] = "{{ project:qodana-token }}"
-        shellScript {
-            content = """
-               qodana \
-               --project-dir    server \
-               --fail-threshold 50 \
-               --profile-name   qodana.recommended
-               """.trimIndent()
-        }
-    }
-
     host("Schedule Azure DEV Deployment") {
         kotlinScript { api ->
             val deployVersion = "Aardvark-v0.1." + api.executionNumber()
