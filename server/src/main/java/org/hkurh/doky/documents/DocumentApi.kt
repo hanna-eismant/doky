@@ -30,7 +30,7 @@ interface DocumentApi {
             ApiResponse(responseCode = "200", description = "File is sent to client and can be downloaded",
                     content = [Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)],
                     headers = [Header(name = "attachment; filename=...")]),
-            ApiResponse(responseCode = "204", description = "No document with requested id, or no attached file for document"))
+            ApiResponse(responseCode = "404", description = "No document with requested id, or no attached file for document"))
     @Throws(IOException::class)
     fun downloadFile(@PathVariable id: String): ResponseEntity<*>?
 
@@ -40,8 +40,7 @@ interface DocumentApi {
 
     @ApiResponses(
             ApiResponse(responseCode = "200", description = "List if documents is retrieved successfully",
-                    content = [Content(array = ArraySchema(schema = Schema(implementation = DocumentDto::class)))]),
-            ApiResponse(responseCode = "204", description = "No documents found for current user"))
+                    content = [Content(array = ArraySchema(schema = Schema(implementation = DocumentDto::class)))]))
     @Operation(summary = "Get all documents that was created by current customer")
     fun getAll(): ResponseEntity<*>?
 
@@ -49,6 +48,6 @@ interface DocumentApi {
     @ApiResponses(
             ApiResponse(responseCode = "200", description = "Document information is retrieved successfully",
                     content = [Content(schema = Schema(implementation = DocumentDto::class))]),
-            ApiResponse(responseCode = "204", description = "No document with provided id"))
+            ApiResponse(responseCode = "404", description = "No document with provided id"))
     operator fun get(@PathVariable id: String): ResponseEntity<*>?
 }

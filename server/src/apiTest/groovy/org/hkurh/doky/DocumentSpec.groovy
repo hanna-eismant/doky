@@ -33,7 +33,7 @@ class DocumentSpec extends RestSpec {
     private static String UPLOAD_FILE_NAME = "test_1.txt"
 
     @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    public TemporaryFolder temporaryFolder = new TemporaryFolder()
 
     @Autowired
     private DocumentEntityRepository documentEntityRepository
@@ -103,7 +103,7 @@ class DocumentSpec extends RestSpec {
 
     @Test
     @Sql(scripts = 'classpath:sql/DocumentSpec/setup.sql', executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void 'Should return error when get existing document that belongs to another user'() {
+    void 'Should return not found when get existing document that belongs to another user'() {
         given:
         def docId = getDocumentId(EXISTED_DOCUMENT_NAME_THRID) as Long
         and:
@@ -115,7 +115,7 @@ class DocumentSpec extends RestSpec {
         def response = given(requestSpec).get(ENDPOINT_SINGLE)
 
         then:
-        response.then().statusCode(HttpStatus.NO_CONTENT.value())
+        response.then().statusCode(HttpStatus.NOT_FOUND.value())
     }
 
     @Test

@@ -53,19 +53,19 @@ class DocumentFacadeImpl(private val documentService: DocumentService, private v
     @Throws(IOException::class)
     override fun getFile(id: String): Resource? {
         val document = documentService.find(id)
-        return if (StringUtils.isNotBlank(document!!.filePath)) {
-            val filePath = document.filePath
+        return if (StringUtils.isNotBlank(document?.filePath)) {
+            val filePath = document!!.filePath
             val file = fileStorageService.getFile(filePath!!)
             if (file != null) {
                 val fileUri = file.toUri()
-                LOG.debug("Download file for Document $id with URI $fileUri")
+                LOG.debug("Download file for Document [$id] with URI [$fileUri]")
                 UrlResource(fileUri)
             } else {
-                LOG.warn("File $filePath attached to document $id does not exists in storage")
+                LOG.warn("File [$filePath] attached to document [$id] does not exists in storage")
                 null
             }
         } else {
-            LOG.debug("No attached file for Document $id")
+            LOG.debug("No attached file for Document [$id]")
             null
         }
     }
