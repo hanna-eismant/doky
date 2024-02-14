@@ -2,11 +2,13 @@ package org.hkurh.doky.documents
 
 import jakarta.persistence.*
 import org.hkurh.doky.users.UserEntity
+import org.joda.time.LocalDateTime
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.util.*
 
 
 @Entity
@@ -20,7 +22,7 @@ class DocumentEntity {
 
     @Column(name = "created_date", nullable = false, updatable = false)
     @CreatedDate
-    var createdDate: Long = 0
+    var createdDate: Date? = null
 
     @CreatedBy
     @ManyToOne
@@ -29,7 +31,7 @@ class DocumentEntity {
 
     @Column(name = "modified_date")
     @LastModifiedDate
-    var modifiedDate: Long = 0
+    var modifiedDate: Date? = null
 
     @LastModifiedBy
     @ManyToOne
