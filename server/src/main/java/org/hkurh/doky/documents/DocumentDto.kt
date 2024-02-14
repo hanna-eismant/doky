@@ -7,4 +7,6 @@ class DocumentDto {
     var name: String? = null
     var description: String? = null
     var creator: UserDto? = null
+    var createdBy: UserDto? = null
+//    var cre
 }

@@ -39,8 +39,8 @@ class DokyUserDetails : UserDetails {
     companion object {
         fun createUserDetails(userEntity: UserEntity): DokyUserDetails {
             val dokyUserDetails = DokyUserDetails()
-            dokyUserDetails.username = userEntity.uid!!
-            dokyUserDetails.password = userEntity.password!!
+            dokyUserDetails.username = userEntity.uid
+            dokyUserDetails.password = userEntity.password
             dokyUserDetails.grantedAuthorities = listOf(DokyAuthority.ROLE_USER)
             return dokyUserDetails
         }
