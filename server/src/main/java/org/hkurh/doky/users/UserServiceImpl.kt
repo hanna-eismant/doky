@@ -1,6 +1,7 @@
 package org.hkurh.doky.users
 
 import org.hkurh.doky.errorhandling.DokyNotFoundException
+import org.hkurh.doky.security.DokyUserDetails
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -26,8 +27,8 @@ class UserServiceImpl(private val userEntityRepository: UserEntityRepository) : 
     }
 
     override fun getCurrentUser(): UserEntity {
-        val name = SecurityContextHolder.getContext().authentication.name
-        val userEntity = userEntityRepository.findByUid(name)
+        val userEntity =
+            (SecurityContextHolder.getContext().authentication.principal as DokyUserDetails).getUserEntity()
         LOG.debug("Get current user ${userEntity!!.id}")
         return userEntity
     }
