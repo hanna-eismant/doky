@@ -38,6 +38,10 @@ interface DocumentApi {
     @ApiResponses(ApiResponse(responseCode = "201", description = "Document is created"))
     fun create(@RequestBody document: DocumentRequest): ResponseEntity<*>?
 
+    @Operation(summary = "Update document with metadata")
+    @ApiResponses(ApiResponse(responseCode = "200", description = "Document is updated"))
+    fun update(@PathVariable id: String, document: DocumentRequest): ResponseEntity<*>?
+
     @ApiResponses(
             ApiResponse(responseCode = "200", description = "List if documents is retrieved successfully",
                     content = [Content(array = ArraySchema(schema = Schema(implementation = DocumentDto::class)))]))

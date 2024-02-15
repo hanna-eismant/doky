@@ -50,6 +50,12 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
         return ResponseEntity.created(resourceLocation).build<Any>()
     }
 
+    @PutMapping("/{id}")
+    override fun update(@PathVariable id: String, @RequestBody document: DocumentRequest): ResponseEntity<*>? {
+        documentFacade.update(id, document)
+        return ResponseEntity.ok<Any>(null)
+    }
+
     @GetMapping
     override fun getAll(): ResponseEntity<*> {
         val documents = documentFacade.findAllDocuments()
