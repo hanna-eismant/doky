@@ -2,14 +2,41 @@ package org.hkurh.doky.documents
 
 import jakarta.persistence.*
 import org.hkurh.doky.users.UserEntity
+import org.joda.time.LocalDateTime
+import org.springframework.data.annotation.CreatedBy
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.util.*
+
 
 @Entity
+@EntityListeners(value = [AuditingEntityListener::class])
 @Table(name = "document")
 class DocumentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     var id: Long = -1
+
+    @Column(name = "created_date", nullable = false, updatable = false)
+    @CreatedDate
+    var createdDate: Date? = null
+
+    @CreatedBy
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    var createdBy: UserEntity? = null
+
+    @Column(name = "modified_date")
+    @LastModifiedDate
+    var modifiedDate: Date? = null
+
+    @LastModifiedBy
+    @ManyToOne
+    @JoinColumn(name = "modified_by")
+    var modifiedBy: UserEntity? = null
 
     @Column(name = "name")
     var name: String? = null
