@@ -21,19 +21,17 @@ class DocumentFacadeImpl(
 ) : DocumentFacade {
     override fun createDocument(name: String, description: String?): DocumentDto? {
         val documentEntity = documentService.create(name, description)
-        LOG.debug("Created new Document ${documentEntity.id}")
+        LOG.debug("Created new Document with id [${documentEntity.id}]")
         return modelMapper.map(documentEntity, DocumentDto::class.java)
     }
 
     override fun update(id: String, document: DocumentRequest) {
-        val existedDocument = documentService.find(id)
-        existedDocument?.apply {
+        val existedDocument = documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
+        existedDocument.apply {
             name = document.name
             description = document.description
             documentService.save(this)
         }
-
-//        TODO: throw error when is not updated, document with id does not exist
     }
 
     override fun findDocument(id: String): DocumentDto? {
@@ -60,7 +58,7 @@ class DocumentFacadeImpl(
                 throw RuntimeException(e)
             }
         } else {
-            throw DokyNotFoundException("Document with id $id not found")
+            throw DokyNotFoundException("Document with id [$id] not found")
         }
     }
 
