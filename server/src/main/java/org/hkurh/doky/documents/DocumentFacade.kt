@@ -11,4 +11,5 @@ interface DocumentFacade {
     fun saveFile(file: MultipartFile, id: String)
     @Throws(IOException::class)
     fun getFile(id: String): Resource?
+    fun update(id: String, document: DocumentRequest)
 }

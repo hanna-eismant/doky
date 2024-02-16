@@ -15,11 +15,23 @@ import java.io.IOException
 import java.util.stream.Collectors
 
 @Component
-class DocumentFacadeImpl(private val documentService: DocumentService, private val fileStorageService: FileStorageService) : DocumentFacade {
+class DocumentFacadeImpl(
+    private val documentService: DocumentService,
+    private val fileStorageService: FileStorageService
+) : DocumentFacade {
     override fun createDocument(name: String, description: String?): DocumentDto? {
         val documentEntity = documentService.create(name, description)
-        LOG.debug("Created new Document ${documentEntity.id}")
+        LOG.debug("Created new Document with id [${documentEntity.id}]")
         return modelMapper.map(documentEntity, DocumentDto::class.java)
+    }
+
+    override fun update(id: String, document: DocumentRequest) {
+        val existedDocument = documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
+        existedDocument.apply {
+            name = document.name
+            description = document.description
+            documentService.save(this)
+        }
     }
 
     override fun findDocument(id: String): DocumentDto? {
@@ -30,8 +42,8 @@ class DocumentFacadeImpl(private val documentService: DocumentService, private v
     override fun findAllDocuments(): List<DocumentDto?> {
         val documentEntityList = documentService.find()
         return documentEntityList.stream()
-                .map { entity -> modelMapper.map(entity, DocumentDto::class.java) }
-                .collect(Collectors.toList())
+            .map { entity -> modelMapper.map(entity, DocumentDto::class.java) }
+            .collect(Collectors.toList())
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -46,7 +58,7 @@ class DocumentFacadeImpl(private val documentService: DocumentService, private v
                 throw RuntimeException(e)
             }
         } else {
-            throw DokyNotFoundException("Document with id $id not found")
+            throw DokyNotFoundException("Document with id [$id] not found")
         }
     }
 
