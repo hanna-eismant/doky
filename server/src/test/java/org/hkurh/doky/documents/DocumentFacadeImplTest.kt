@@ -60,7 +60,7 @@ class DocumentFacadeImplTest {
         val updatedDocument = DocumentRequest("Another Name", "Description for Document")
         whenever(documentService?.find(originId)).thenReturn(null)
 
-        // when
+        // when - then
         assertThrows<DokyNotFoundException> { documentFacade?.update(originId, updatedDocument) }
     }
 }
