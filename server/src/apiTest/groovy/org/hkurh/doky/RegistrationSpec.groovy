@@ -10,7 +10,7 @@ import static io.restassured.RestAssured.given
 import static org.hamcrest.Matchers.notNullValue
 
 class RegistrationSpec extends RestSpec {
-    private static final NEW_USER_UID = 'new_user_test'
+    private static final NEW_USER_UID = 'new_user_test@example.com'
     private static final NEW_USER_PASSWORD = 'Qwert!2345'
     private static final ENDPOINT = '/register'
 

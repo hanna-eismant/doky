@@ -91,6 +91,6 @@ class UserFacadeImplTest {
         final UserDto registeredUserDto = userFacade.register(USER_UID, USER_PASS);
 
         assertNotNull(registeredUserDto, "Registered user cannot be null");
-        assertEquals(USER_UID, registeredUserDto.getUserUid(), "User should be registered with provided uid");
+        assertEquals(USER_UID, registeredUserDto.getUid(), "User should be registered with provided uid");
     }
 }

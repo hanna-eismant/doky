@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.*
 
 class LoginSpec extends RestSpec {
     private static ENDPOINT = '/login'
-    private static INCORRECT_USER_UID = 'test_1234'
+    private static INCORRECT_USER_UID = 'test_1234@example.com'
     private static INCORRECT_USER_PASSWORD = 'pass-12345'
 
     @Test
@@ -58,6 +58,6 @@ class LoginSpec extends RestSpec {
         response.then().statusCode(HttpStatus.BAD_REQUEST.value())
                 .body('error', notNullValue())
                 .body('error.message', notNullValue())
-                .body('fields', hasItems(hasEntry('field', 'username'), hasEntry('field', 'password')))
+                .body('fields', hasItems(hasEntry('field', 'uid'), hasEntry('field', 'password')))
     }
 }

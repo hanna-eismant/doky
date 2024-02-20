@@ -1,1 +1,1 @@
-delete u from user u where u.uid = "new_user_test";
+delete u from user u where u.uid = "new_user_test@example.com";
