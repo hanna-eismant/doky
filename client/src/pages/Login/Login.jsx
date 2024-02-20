@@ -7,14 +7,14 @@ import useLoginQuery from './useLoginQuery.js';
 import AlertError from "../../components/AlertError.jsx";
 
 const initialFormData = {
-  username: '',
+  uid: '',
   password: ''
 };
 
 export default () => {
   const [globalError, setGlobalError] = useState({message: ''});
   const [fieldsError, setFieldsError] = useState({})
-  const {data, fields: {username, password}} = useFormData(initialFormData);
+  const {data, fields: {uid, password}} = useFormData(initialFormData);
   const [login] = useLoginQuery();
   const navigate = useNavigate();
 
@@ -39,8 +39,8 @@ export default () => {
       <div className="d-flex align-items-center justify-content-center">
         <form onSubmit={onSubmit} className="col-3">
           <img className="mb-3 mt-3 img-fluid" src="logo-color-bg.svg"/>
-          <FormInput id="username" label="Username" type="text" value={data.username} onChange={username.setValue}
-                     validationError={useFieldError('username')}/>
+          <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue}
+                     validationError={useFieldError('uid')}/>
           <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}
                      validationError={useFieldError('password')}/>
           <div className="mt-3 row">

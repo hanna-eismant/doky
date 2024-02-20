@@ -27,7 +27,7 @@ class RestSpec extends Specification {
     protected static final LOCATION_HEADER = 'Location'
     protected static final CONTENT_TYPE_HEADER = 'Content-Type'
     protected static final CONTENT_TYPE_JSON = 'application/json'
-    protected static final VALID_USER_UID = 'hanna_test_1'
+    protected static final VALID_USER_UID = 'hanna_test_1@example.com'
     protected static final VALID_USER_PASSWORD = 'Qwert!2345'
 
     @LocalServerPort
