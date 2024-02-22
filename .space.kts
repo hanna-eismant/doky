@@ -122,36 +122,6 @@ job("Azure DEV Deployment") {
     }
 }
 
-job("Deploy front to azure") {
-    val sharedBuildPath = "client-dist"
-    container(displayName = "Build", image = "node:18-alpine") {
-        workDir = "client"
-        shellScript {
-            content = """
-                   npm ci && npm run build
-                   cd dist
-                   mkdir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath/
-                   cp -a . ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath/
-               """.trimIndent()
-        }
-    }
-
-    container(displayName = "Deploy", image = "curlimages/curl") {
-        env["FTP_URL"] = "{{ project:azure-front-ftp-url }}"
-        env["FTP_USER"] = "{{ project:azure-front-ftp-username }}"
-        env["FTP_PASS"] = "{{ project:azure-front-ftp-password }}"
-        shellScript {
-            content = """
-                cd ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedBuildPath
-                ls -la
-                curl --version
-                curl -T index.html ftps://${'$'}FTP_URL/site/wwwroot/ -k -u ${'$'}FTP_USER:${'$'}FTP_PASS \
-                    -v -P - 
-            """.trimMargin()
-        }
-    }
-}
-
 fun getNextSundayDate(): Instant {
     var date = ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("UTC"))
     // set time to 11:59 pm UTC
