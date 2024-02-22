@@ -24,14 +24,12 @@ export default () => {
         <table className="table table-striped table-hover">
           <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Name</th>
           </tr>
           </thead>
           <tbody>
           {!isLoading ? data.map?.((document) => (
             <tr key={document.id}>
-              <td>{document.id}</td>
               <td>{document.name}</td>
             </tr>
           )) : 'Loading'}
