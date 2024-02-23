@@ -1,7 +1,6 @@
 package org.hkurh.doky.users;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hkurh.doky.MapperFactory;
 import org.hkurh.doky.errorhandling.DokyAuthenticationException;
 import org.hkurh.doky.errorhandling.DokyRegistrationException;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,8 +27,6 @@ class UserFacadeImplTest {
 
     private final UserEntity userEntity = new UserEntity();
 
-    @Spy
-    private ModelMapper userModelMapper = MapperFactory.Companion.getModelMapper();
     @Spy
     @InjectMocks
     private UserFacadeImpl userFacade;
