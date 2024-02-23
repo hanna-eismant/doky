@@ -1,9 +1,9 @@
 package org.hkurh.doky.documents
 
 import org.apache.commons.lang3.StringUtils
-import org.hkurh.doky.MapperFactory.Companion.modelMapper
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.filestorage.FileStorageService
+import org.hkurh.doky.toDto
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
@@ -22,7 +22,7 @@ class DocumentFacadeImpl(
     override fun createDocument(name: String, description: String?): DocumentDto? {
         val documentEntity = documentService.create(name, description)
         LOG.debug("Created new Document with id [${documentEntity.id}]")
-        return modelMapper.map(documentEntity, DocumentDto::class.java)
+        return documentEntity.toDto()
     }
 
     override fun update(id: String, document: DocumentRequest) {
@@ -35,14 +35,13 @@ class DocumentFacadeImpl(
     }
 
     override fun findDocument(id: String): DocumentDto? {
-        val documentEntity = documentService.find(id)
-        return if (documentEntity == null) null else modelMapper.map(documentEntity, DocumentDto::class.java)
+        return documentService.find(id)?.toDto()
     }
 
     override fun findAllDocuments(): List<DocumentDto?> {
         val documentEntityList = documentService.find()
         return documentEntityList.stream()
-            .map { entity -> modelMapper.map(entity, DocumentDto::class.java) }
+            .map { entity -> entity?.toDto() }
             .collect(Collectors.toList())
     }
 

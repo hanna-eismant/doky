@@ -1,8 +1,8 @@
 package org.hkurh.doky.users
 
-import org.hkurh.doky.MapperFactory.Companion.modelMapper
 import org.hkurh.doky.errorhandling.DokyAuthenticationException
 import org.hkurh.doky.errorhandling.DokyRegistrationException
+import org.hkurh.doky.toDto
 import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
@@ -13,7 +13,8 @@ class UserFacadeImpl(private val userService: UserService, private val passwordE
         if (!userService.checkUserExistence(userUid)) throw DokyAuthenticationException("User doesn't exist")
         val userEntity = userService.findUserByUid(userUid)
         val encodedPassword = userEntity!!.password
-        if (!passwordEncoder.matches(password, encodedPassword)) throw DokyAuthenticationException("Incorrect credentials")
+        if (!passwordEncoder.matches(password, encodedPassword)
+        ) throw DokyAuthenticationException("Incorrect credentials")
     }
 
     override fun register(username: String, password: String): UserDto {
@@ -21,12 +22,11 @@ class UserFacadeImpl(private val userService: UserService, private val passwordE
         val encodedPassword = passwordEncoder.encode(password)
         val userEntity = userService.create(username, encodedPassword)
         LOG.info("Register new user $userEntity")
-        return modelMapper.map(userEntity, UserDto::class.java)
+        return userEntity.toDto()
     }
 
     override fun getCurrentUser(): UserDto {
-        val userEntity = userService.getCurrentUser()
-        return modelMapper.map(userEntity, UserDto::class.java)
+        return userService.getCurrentUser().toDto()
     }
 
     companion object {
