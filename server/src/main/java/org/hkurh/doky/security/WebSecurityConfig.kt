@@ -2,6 +2,7 @@ package org.hkurh.doky.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -22,10 +23,12 @@ internal class WebSecurityConfig(private val jwtAuthorizationFilter: JwtAuthoriz
     @Throws(Exception::class)
     protected fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
-                .authorizeHttpRequests { it.anyRequest().permitAll() }
-                .csrf { it.ignoringRequestMatchers("/**") }
-                .sessionManagement { configurer: SessionManagementConfigurer<HttpSecurity?> -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-                .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .authorizeHttpRequests { it.anyRequest().permitAll() }
+            .csrf { it.ignoringRequestMatchers("/**") }
+            .sessionManagement { configurer: SessionManagementConfigurer<HttpSecurity?> ->
+                configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
+            .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .cors(Customizer.withDefaults())
         return http.build()
     }
@@ -33,7 +36,9 @@ internal class WebSecurityConfig(private val jwtAuthorizationFilter: JwtAuthoriz
     @Bean
     protected fun corsConfigurationSource(): CorsConfigurationSource {
         val source = UrlBasedCorsConfigurationSource()
-        val corsConfiguration = CorsConfiguration().applyPermitDefaultValues()
+        val corsConfiguration = CorsConfiguration()
+            .applyPermitDefaultValues()
+        corsConfiguration.addAllowedMethod(HttpMethod.PUT)
         source.registerCorsConfiguration("/**", corsConfiguration)
         return source
     }
