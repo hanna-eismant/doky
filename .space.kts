@@ -39,10 +39,11 @@ job("Tests for development branches") {
     }
 
     container(displayName = "Push git tag", image = "bitnami/git") {
+        val revision = "{{ run:git-checkout.commit }}"
         shellScript {
             content = """
-                   BRANCH=${'$'}JB_SPACE_GIT_BRANCH
-                   echo BRANCH
+                   echo $revision
+                   git clone https://github.com/hanna-eismant/doky.git  
                """.trimIndent()
         }
     }
