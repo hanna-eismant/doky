@@ -23,6 +23,14 @@ job("Tests for development branches") {
         }
     }
 
+    git {
+        // fetch 'release' and tags to local history
+        refSpec {
+            +"refs/heads/main"
+            +"refs/tags/*:refs/tags/*"
+        }
+    }
+
     container(displayName = "Unit tests", image = gradleImageVersion) {
         workDir = "server"
         kotlinScript { api ->
@@ -30,11 +38,12 @@ job("Tests for development branches") {
         }
     }
 
-    git {
-        // fetch 'release' and tags to local history
-        refSpec {
-            +"refs/heads/main"
-            +"refs/tags/*:refs/tags/*"
+    container(displayName = "Push git tag", image = "bitnami/git") {
+        shellScript {
+            content = """
+                   BRANCH=${'$'}JB_SPACE_GIT_BRANCH
+                   echo BRANCH
+               """.trimIndent()
         }
     }
 }
