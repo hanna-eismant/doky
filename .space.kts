@@ -40,6 +40,8 @@ job("Tests for development branches") {
 
     container(displayName = "Push git tag", image = "bitnami/git") {
         val revision = "{{ run:git-checkout.commit }}"
+        val user = "{{ project:github-username }}"
+        val password = "{{ project:github-password }}"
         shellScript {
             content = """
                    echo $revision
@@ -48,7 +50,7 @@ job("Tests for development branches") {
                    git checkout $revision
                    git tag -d stable-v0.1
                    git tag stable-v0.1
-                   git push origin --tags
+                   git push https://$user:$password/github.com/hanna-eismant/doky.git --tags
                """.trimIndent()
         }
     }
