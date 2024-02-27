@@ -17,6 +17,7 @@ job("Tests for development branches") {
     startOn {
         gitPush {
             anyRefMatching {
+                +"refs/heads/*"
                 -"refs/heads/main"
             }
         }
