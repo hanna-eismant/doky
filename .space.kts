@@ -43,7 +43,9 @@ job("Tests for development branches") {
         shellScript {
             content = """
                    echo $revision
-                   git clone https://github.com/hanna-eismant/doky.git  
+                   git clone https://github.com/hanna-eismant/doky.git 
+                   cd doky
+                   git checkout $revision
                """.trimIndent()
         }
     }
