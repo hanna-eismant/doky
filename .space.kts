@@ -13,10 +13,13 @@ import java.time.temporal.TemporalAdjusters
 
 val gradleImageVersion = "gradle:8.2-jdk17"
 
-job("Tests for PR") {
+job("Tests for development branches") {
     startOn {
-        codeReviewOpened {
-            branchToCheckout = CodeReviewBranch.MERGE_REQUEST_SOURCE
+        gitPush {
+            anyRefMatching {
+                +"refs/heads/*"
+                -"refs/heads/main"
+            }
         }
     }
 
@@ -24,6 +27,27 @@ job("Tests for PR") {
         workDir = "server"
         kotlinScript { api ->
             api.gradle("test")
+        }
+    }
+
+    container(displayName = "API tests", image = gradleImageVersion) {
+        env["DB_HOST"] = "db"
+        env["DB_PORT"] = "3306"
+        service("mysql:8") {
+            alias("db")
+            args(
+                "--log_bin_trust_function_creators=ON",
+                "--max-connections=700"
+            )
+            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
+            env["MYSQL_DATABASE"] = "doky-test"
+            env["MYSQL_USER"] = "doky-test"
+            env["MYSQL_PASSWORD"] = "doky-test"
+        }
+
+        workDir = "server"
+        kotlinScript { api ->
+            api.gradle("apiTest")
         }
     }
 }
@@ -50,8 +74,8 @@ job("Tests for main branch") {
         service("mysql:8") {
             alias("db")
             args(
-                    "--log_bin_trust_function_creators=ON",
-                    "--max-connections=700"
+                "--log_bin_trust_function_creators=ON",
+                "--max-connections=700"
             )
             env["MYSQL_ROOT_PASSWORD"] = "doky-test"
             env["MYSQL_DATABASE"] = "doky-test"
@@ -69,10 +93,10 @@ job("Tests for main branch") {
         kotlinScript { api ->
             val deployVersion = "Aardvark-v0.1." + api.executionNumber()
             api.space().projects.automation.deployments.schedule(
-                    project = api.projectIdentifier(),
-                    targetIdentifier = TargetIdentifier.Key("azure-dev"),
-                    version = deployVersion,
-                    scheduledStart = getNextSundayDate()
+                project = api.projectIdentifier(),
+                targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                version = deployVersion,
+                scheduledStart = getNextSundayDate()
             )
         }
     }
@@ -107,15 +131,15 @@ job("Azure DEV Deployment") {
 
         kotlinScript { api ->
             val deployVersion = api.space().projects.automation.deployments.get(
-                    project = api.projectIdentifier(),
-                    targetIdentifier = TargetIdentifier.Key("azure-dev"),
-                    deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
+                project = api.projectIdentifier(),
+                targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
             ).version
             api.space().projects.automation.deployments.start(
-                    project = api.projectIdentifier(),
-                    targetIdentifier = TargetIdentifier.Key("azure-dev"),
-                    version = deployVersion,
-                    syncWithAutomationJob = true
+                project = api.projectIdentifier(),
+                targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                version = deployVersion,
+                syncWithAutomationJob = true
             )
             api.gradle("azureWebAppDeploy")
         }
