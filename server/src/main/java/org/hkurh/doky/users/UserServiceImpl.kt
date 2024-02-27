@@ -2,6 +2,7 @@ package org.hkurh.doky.users
 
 import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.errorhandling.DokyNotFoundException
+import org.hkurh.doky.errorhandling.DokyRegistrationException
 import org.hkurh.doky.security.DokyUserDetails
 import org.slf4j.LoggerFactory
 import org.springframework.mail.MailException
@@ -28,7 +29,7 @@ class UserServiceImpl(
         userEntity.uid = userUid
         userEntity.password = encodedPassword
         val createdUser = userEntityRepository.save(userEntity)
-        LOG.debug("Created new user {}", createdUser.id)
+        LOG.debug("Created new user ${createdUser.id}")
         try {
             emailService.sendRegistrationConfirmationEmail(createdUser)
         } catch (e: MailException) {
@@ -42,6 +43,11 @@ class UserServiceImpl(
             (SecurityContextHolder.getContext().authentication.principal as DokyUserDetails).getUserEntity()
         LOG.debug("Get current user ${userEntity!!.id}")
         return userEntity
+    }
+
+    override fun updateUser(user: UserEntity) {
+        userEntityRepository.save(user)
+        LOG.debug("User is updated ${user.id}")
     }
 
     companion object {

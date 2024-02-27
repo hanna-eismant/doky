@@ -1,5 +1,6 @@
 package org.hkurh.doky.users
 
+import org.apache.commons.lang3.StringUtils
 import org.hkurh.doky.errorhandling.DokyAuthenticationException
 import org.hkurh.doky.errorhandling.DokyRegistrationException
 import org.hkurh.doky.toDto
@@ -17,16 +18,23 @@ class UserFacadeImpl(private val userService: UserService, private val passwordE
         ) throw DokyAuthenticationException("Incorrect credentials")
     }
 
-    override fun register(username: String, password: String): UserDto {
-        if (userService.checkUserExistence(username)) throw DokyRegistrationException("User already exists")
+    override fun register(userUid: String, password: String): UserDto {
+        if (userService.checkUserExistence(userUid)) throw DokyRegistrationException("User already exists")
         val encodedPassword = passwordEncoder.encode(password)
-        val userEntity = userService.create(username, encodedPassword)
+        val userEntity = userService.create(userUid, encodedPassword)
         LOG.info("Register new user $userEntity")
         return userEntity.toDto()
     }
 
     override fun getCurrentUser(): UserDto {
         return userService.getCurrentUser().toDto()
+    }
+
+    override fun updateCurrentUser(userDto: UserDto) {
+        val currentUser = userService.getCurrentUser()
+        if (StringUtils.isNotBlank(userDto.name)) currentUser.name = userDto.name!!
+        if (StringUtils.isNotBlank(userDto.password)) currentUser.password = passwordEncoder.encode(userDto.password)
+        userService.updateUser(currentUser)
     }
 
     companion object {

@@ -10,6 +10,7 @@ interface UserFacade {
      * or provided password is incorrect
      */
     fun checkCredentials(userUid: String, password: String)
-    fun register(username: String, password: String): UserDto
+    fun register(userUid: String, password: String): UserDto
     fun getCurrentUser(): UserDto
+    fun updateCurrentUser(userDto: UserDto)
 }
