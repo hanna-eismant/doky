@@ -23,35 +23,10 @@ job("Tests for development branches") {
         }
     }
 
-    git {
-        // fetch 'release' and tags to local history
-        refSpec {
-            +"refs/heads/main"
-            +"refs/tags/*:refs/tags/*"
-        }
-    }
-
     container(displayName = "Unit tests", image = gradleImageVersion) {
         workDir = "server"
         kotlinScript { api ->
             api.gradle("test")
-        }
-    }
-
-    container(displayName = "Push git tag", image = "bitnami/git") {
-        val revision = "{{ run:git-checkout.commit }}"
-        val user = "{{ project:github-username }}"
-        env["PASSWORD"] = "{{ project:github-password }}"
-        shellScript {
-            content = """
-                   echo $revision
-                   git clone https://github.com/hanna-eismant/doky.git 
-                   cd doky
-                   git checkout $revision
-                   git tag -d stable-v0.1
-                   git tag stable-v0.1
-                   git push 'https://$user:${'$'}PASSWORD@github.com/hanna-eismant/doky.git' --tags
-               """.trimIndent()
         }
     }
 }
