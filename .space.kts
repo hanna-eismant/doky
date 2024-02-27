@@ -46,6 +46,8 @@ job("Tests for development branches") {
                    git clone https://github.com/hanna-eismant/doky.git 
                    cd doky
                    git checkout $revision
+                   git tag stable
+                   git git push origin --tags
                """.trimIndent()
         }
     }
