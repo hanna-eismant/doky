@@ -50,7 +50,7 @@ job("Tests for development branches") {
                    git checkout $revision
                    git tag -d stable-v0.1
                    git tag stable-v0.1
-                   git push https://$user:${'$'}PASSWORD/github.com/hanna-eismant/doky.git --tags
+                   git push 'https://$user:${'$'}PASSWORD@github.com/hanna-eismant/doky.git' --tags
                """.trimIndent()
         }
     }
