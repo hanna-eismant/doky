@@ -1,6 +1,6 @@
 package org.hkurh.doky.security
 
-import org.hkurh.doky.users.UserEntity
+import org.hkurh.doky.users.db.UserEntity
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 

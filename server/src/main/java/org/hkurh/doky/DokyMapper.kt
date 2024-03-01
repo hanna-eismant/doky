@@ -1,10 +1,10 @@
 package org.hkurh.doky
 
 import org.apache.commons.lang3.StringUtils
-import org.hkurh.doky.documents.DocumentDto
-import org.hkurh.doky.documents.DocumentEntity
-import org.hkurh.doky.users.UserDto
-import org.hkurh.doky.users.UserEntity
+import org.hkurh.doky.documents.api.DocumentDto
+import org.hkurh.doky.documents.db.DocumentEntity
+import org.hkurh.doky.users.api.UserDto
+import org.hkurh.doky.users.db.UserEntity
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import java.util.*

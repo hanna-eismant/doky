@@ -1,4 +1,4 @@
-package org.hkurh.doky.documents
+package org.hkurh.doky.documents.api
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.headers.Header

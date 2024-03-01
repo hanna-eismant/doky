@@ -1,5 +1,6 @@
-package org.hkurh.doky.documents
+package org.hkurh.doky.documents.db
 
+import org.hkurh.doky.documents.db.DocumentEntity
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository

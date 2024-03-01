@@ -1,4 +1,4 @@
-package org.hkurh.doky.users
+package org.hkurh.doky.users.api
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content

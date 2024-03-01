@@ -1,6 +1,8 @@
 package org.hkurh.doky.users
 
 import org.hkurh.doky.email.EmailService
+import org.hkurh.doky.users.db.UserEntity
+import org.hkurh.doky.users.db.UserEntityRepository
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -14,16 +16,15 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import org.springframework.mail.MailException
 import org.springframework.mail.MailSendException
 
 @ExtendWith(MockitoExtension::class)
 @DisplayName("UserService unit test")
-class UserServiceImplTest {
+class UserServiceTest {
 
     @Spy
     @InjectMocks
-    private val userService: UserServiceImpl? = null
+    private val userService: UserService? = null
 
     @Mock
     private val userEntityRepository: UserEntityRepository? = null

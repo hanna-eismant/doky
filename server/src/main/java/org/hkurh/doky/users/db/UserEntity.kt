@@ -1,4 +1,4 @@
-package org.hkurh.doky.users
+package org.hkurh.doky.users.db
 
 import jakarta.persistence.*
 

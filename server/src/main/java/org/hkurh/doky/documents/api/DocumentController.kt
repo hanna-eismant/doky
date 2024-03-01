@@ -1,5 +1,6 @@
-package org.hkurh.doky.documents
+package org.hkurh.doky.documents.api
 
+import org.hkurh.doky.documents.DocumentFacade
 import org.hkurh.doky.security.DokyAuthority
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders

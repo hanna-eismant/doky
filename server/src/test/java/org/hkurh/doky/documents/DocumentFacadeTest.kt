@@ -1,5 +1,7 @@
 package org.hkurh.doky.documents
 
+import org.hkurh.doky.documents.api.DocumentRequest
+import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.filestorage.FileStorageService
 import org.junit.jupiter.api.*
@@ -14,11 +16,11 @@ import org.mockito.kotlin.whenever
 
 @ExtendWith(MockitoExtension::class)
 @DisplayName("UserFacade unit test")
-class DocumentFacadeImplTest {
+class DocumentFacadeTest {
 
     @Spy
     @InjectMocks
-    private val documentFacade: DocumentFacadeImpl? = null
+    private val documentFacade: DocumentFacade? = null
 
     @Mock
     private val documentService: DocumentService? = null

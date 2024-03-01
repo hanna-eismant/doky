@@ -1,6 +1,6 @@
 package org.hkurh.doky.email
 
-import org.hkurh.doky.users.UserEntity
+import org.hkurh.doky.users.db.UserEntity
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Service

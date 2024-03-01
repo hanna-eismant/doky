@@ -1,7 +1,7 @@
-package org.hkurh.doky.users
+package org.hkurh.doky.users.db
 
+import org.hkurh.doky.users.db.UserEntity
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
-import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 

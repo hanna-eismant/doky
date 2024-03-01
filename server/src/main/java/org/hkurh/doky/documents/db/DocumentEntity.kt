@@ -1,8 +1,7 @@
-package org.hkurh.doky.documents
+package org.hkurh.doky.documents.db
 
 import jakarta.persistence.*
-import org.hkurh.doky.users.UserEntity
-import org.joda.time.LocalDateTime
+import org.hkurh.doky.users.db.UserEntity
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
