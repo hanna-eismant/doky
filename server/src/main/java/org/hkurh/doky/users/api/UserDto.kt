@@ -1,4 +1,4 @@
-package org.hkurh.doky.users
+package org.hkurh.doky.users.api
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Pattern

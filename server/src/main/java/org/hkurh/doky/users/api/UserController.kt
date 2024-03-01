@@ -1,6 +1,7 @@
-package org.hkurh.doky.users
+package org.hkurh.doky.users.api
 
 import org.hkurh.doky.security.DokyAuthority
+import org.hkurh.doky.users.UserFacade
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.validation.annotation.Validated

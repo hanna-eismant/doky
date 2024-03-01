@@ -1,4 +1,4 @@
-package org.hkurh.doky.documents
+package org.hkurh.doky.documents.api
 
 class DocumentDto {
     var id: Long? = null

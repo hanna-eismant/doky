@@ -3,6 +3,8 @@ package org.hkurh.doky.users;
 import org.apache.commons.lang3.StringUtils;
 import org.hkurh.doky.errorhandling.DokyAuthenticationException;
 import org.hkurh.doky.errorhandling.DokyRegistrationException;
+import org.hkurh.doky.users.api.UserDto;
+import org.hkurh.doky.users.db.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,7 +31,7 @@ class UserFacadeImplTest {
 
     @Spy
     @InjectMocks
-    private UserFacadeImpl userFacade;
+    private UserFacade userFacade;
     @Mock
     private UserService userService;
     @Mock

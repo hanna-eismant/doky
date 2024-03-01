@@ -1,6 +1,7 @@
-package org.hkurh.doky.documents
+package org.hkurh.doky.documents.db
 
 import jakarta.persistence.*
+import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.workflow.WorkflowEntity
 
 @Entity
