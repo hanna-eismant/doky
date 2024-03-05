@@ -15,8 +15,8 @@ class UserFacade(private val userService: UserService, private val passwordEncod
         if (!userService.checkUserExistence(userUid)) throw DokyAuthenticationException("User doesn't exist")
         val userEntity = userService.findUserByUid(userUid)
         val encodedPassword = userEntity!!.password
-        if (!passwordEncoder.matches(password, encodedPassword)
-        ) throw DokyAuthenticationException("Incorrect credentials")
+        if (!passwordEncoder.matches(password, encodedPassword))
+            throw DokyAuthenticationException("Incorrect credentials")
     }
 
     fun register(userUid: String, password: String): UserDto {
