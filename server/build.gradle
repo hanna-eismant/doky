@@ -70,18 +70,6 @@ dependencies {
     testImplementation('io.rest-assured:rest-assured:5.3.0') {
         exclude group: 'org.codehaus.groovy'
     }
-    testImplementation platform('org.spockframework:spock-bom:2.4-M1-groovy-4.0')
-    testImplementation 'org.spockframework:spock-core:2.4-M1-groovy-4.0'
-    testImplementation 'com.athaydes:spock-reports:2.4.0-groovy-4.0'
-    testImplementation 'org.spockframework:spock-spring:2.4-M1-groovy-4.0'
-}
-
-tasks.named('compileJava') {
-    inputs.files(tasks.named('processResources'))
-}
-
-tasks.named("bootJar") {
-    mainClass.set("org.hkurh.doky.DokyApplication")
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -93,28 +81,6 @@ tasks.withType(KotlinCompile).configureEach {
         freeCompilerArgs += '-Xjsr305=strict'
         jvmTarget = '17'
     }
-}
-
-tasks.register("bootRunLocal") {
-    group = "application"
-    description = "Runs the Spring Boot application with the local profile"
-    doFirst {
-        tasks.bootRun.configure {
-            systemProperty("spring.profiles.active", "local")
-        }
-    }
-    finalizedBy("bootRun")
-}
-
-tasks.register("bootRunDev") {
-    group = "application"
-    description = "Runs the Spring Boot application with the dev profile"
-    doFirst {
-        tasks.bootRun.configure {
-            systemProperty("spring.profiles.active", "dev")
-        }
-    }
-    finalizedBy("bootRun")
 }
 
 test {
@@ -131,10 +97,10 @@ configurations {
 }
 sourceSets {
     apiTest {
-        groovy {
+        java {
             compileClasspath += main.output + test.output
             runtimeClasspath += main.output + test.output
-            srcDir file('src/apiTest/groovy')
+            srcDir file('src/apiTest/java')
         }
         resources.srcDir file('src/apiTest/resources')
     }
@@ -158,15 +124,6 @@ koverReport {
             classes("org.hkurh.*")
         }
     }
-}
-
-tasks.register('fatJar', Jar) {
-    manifest {
-        attributes 'Main-Class': 'org.hkurh.doky.DokyApplication'
-    }
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
 }
 
 azurewebapp {
