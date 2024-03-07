@@ -48,10 +48,6 @@ class DocumentEntity {
     var filePath: String? = null
 
     @ManyToOne
-    @JoinColumn(name = "document_type_id")
-    var documentType: DocumentTypeEntity? = null
-
-    @ManyToOne
     @JoinColumn(name = "creator_id")
     var creator: UserEntity? = null
 }
