@@ -1,0 +1,30 @@
+ALTER TABLE document
+    DROP FOREIGN KEY FK_DOCUMENT_ON_DOCUMENT_TYPE;
+
+ALTER TABLE workflow
+    DROP FOREIGN KEY FK_WORKFLOW_ON_DOCUMENT_TYPE;
+
+DROP TABLE document_type;
+
+DROP TABLE workflow;
+
+ALTER TABLE document
+    DROP COLUMN document_type_id;
+
+ALTER TABLE document
+    DROP COLUMN created_by;
+
+ALTER TABLE document
+    DROP COLUMN modified_by;
+
+ALTER TABLE document
+    ADD created_by BIGINT NULL;
+
+ALTER TABLE document
+    ADD CONSTRAINT FK_DOCUMENT_ON_CREATED_BY FOREIGN KEY (created_by) REFERENCES user (id);
+
+ALTER TABLE document
+    ADD modified_by BIGINT NULL;
+
+ALTER TABLE document
+    ADD CONSTRAINT FK_DOCUMENT_ON_MODIFIED_BY FOREIGN KEY (modified_by) REFERENCES user (id);
