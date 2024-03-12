@@ -26,7 +26,6 @@ repositories {
 dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    implementation 'org.apache.groovy:groovy-all:4.0.9'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
 
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
@@ -48,7 +47,7 @@ dependencies {
 
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 
     implementation 'joda-time:joda-time:2.10.13'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.1'
