@@ -44,6 +44,11 @@
       "name": "doky.filestorage.type",
       "type": "java.lang.String",
       "description": "Description for doky.filestorage.type."
+    },
+    {
+      "name": "doky.email.from",
+      "type": "java.lang.String",
+      "description": "Description for doky.email.from."
     }
   ],
   "hints": [
