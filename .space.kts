@@ -26,7 +26,7 @@ job("Tests for development branches") {
     container(displayName = "Unit tests", image = gradleImageVersion) {
         workDir = "server"
         kotlinScript { api ->
-            api.gradlew("test")
+            api.gradlew("koverVerify")
         }
     }
 
