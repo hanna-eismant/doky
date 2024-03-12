@@ -2,19 +2,22 @@ package org.hkurh.doky
 
 import io.restassured.RestAssured.given
 import org.hamcrest.CoreMatchers.notNullValue
-import org.hkurh.doky.documents.api.DocumentDto
 import org.hkurh.doky.documents.api.DocumentRequest
 import org.hkurh.doky.documents.db.DocumentEntityRepository
 import org.hkurh.doky.users.db.UserEntityRepository
 import org.junit.Rule
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.rules.TemporaryFolder
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.jdbc.Sql
+import org.springframework.util.FileSystemUtils
 import java.io.File
+import java.nio.file.Paths
 import java.sql.Types
 
 @Sql(scripts = ["classpath:sql/DocumentSpec/cleanup.sql"], executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -32,6 +35,9 @@ class DocumentSpec : RestSpec() {
     val newDocumentDescription = "Do you like apples?"
     val uploadFileName = "test_1.txt"
 
+    @Value("\${doky.filestorage.path}")
+    val fileStoragePath: String? = null
+
     @Rule
     var temporaryFolder = TemporaryFolder()
 
@@ -40,6 +46,13 @@ class DocumentSpec : RestSpec() {
 
     @Autowired
     lateinit var userEntityRepository: UserEntityRepository
+
+    @AfterEach
+    fun tearDown() {
+        fileStoragePath?.let {
+            FileSystemUtils.deleteRecursively(Paths.get(it))
+        }
+    }
 
     @Test
     @DisplayName("Should create new document")
@@ -89,7 +102,7 @@ class DocumentSpec : RestSpec() {
 
         // then
         response.then().statusCode(HttpStatus.OK.value())
-        val documents: List<Map<String,String>> = response.path(".")
+        val documents: List<Map<String, String>> = response.path(".")
 
         assertNotNull(documents.find { d -> (existedDocumentNameFirst == d[documentNameProperty]) })
         assertNotNull(documents.find { d -> (existedDocumentNameSecond == d[documentNameProperty]) })

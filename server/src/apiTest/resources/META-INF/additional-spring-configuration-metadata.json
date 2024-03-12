@@ -16,12 +16,12 @@
       "description": "Description for db.database."
     },
     {
-      "name": "db.password",
+      "name": "db.user",
       "type": "java.lang.String",
-      "description": "Description for db.password."
+      "description": "Description for db.database."
     },
     {
-      "name": "db.user",
+      "name": "db.password",
       "type": "java.lang.String",
       "description": "Description for db.password."
     },
@@ -39,6 +39,31 @@
       "name": "flyway.password",
       "type": "java.lang.String",
       "description": "Description for flyway.password."
+    },
+    {
+      "name": "doky.filestorage.type",
+      "type": "java.lang.String",
+      "description": "Description for doky.filestorage.type."
+    },
+    {
+      "name": "doky.email.from",
+      "type": "java.lang.String",
+      "description": "Description for doky.email.from."
+    }
+  ],
+  "hints": [
+    {
+      "name": "doky.filestorage.type",
+      "values": [
+        {
+          "value": "local-filesystem",
+          "description": "Use local filesystem to save files attached to Document."
+        },
+        {
+          "value": "azure-blob",
+          "description": "Use Azure Blob Storage to save files attached to Document."
+        }
+      ]
     }
   ]
 }
