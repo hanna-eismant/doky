@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 
 @ExtendWith(MockitoExtension::class)
 @DisplayName("UserFacade unit test")
-class UserFacadeImplTest {
+class UserFacadeTest {
     private val userUid = "user"
     private val userPassword = "pass"
     private val userPasswordEncoded = "passEncoded"

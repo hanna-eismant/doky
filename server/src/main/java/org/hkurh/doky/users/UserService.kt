@@ -28,6 +28,7 @@ class UserService(
         val userEntity = UserEntity()
         userEntity.uid = userUid
         userEntity.password = encodedPassword
+        userEntity.name = extractNameFromUid(userUid)
         val createdUser = userEntityRepository.save(userEntity)
         LOG.debug("Created new user ${createdUser.id}")
         try {
@@ -48,6 +49,10 @@ class UserService(
     fun updateUser(user: UserEntity) {
         userEntityRepository.save(user)
         LOG.debug("User is updated ${user.id}")
+    }
+
+    fun extractNameFromUid(userUid: String): String {
+        return userUid.split("@").first()
     }
 
     companion object {

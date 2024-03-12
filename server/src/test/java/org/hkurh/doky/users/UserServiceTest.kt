@@ -12,10 +12,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Spy
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.any
-import org.mockito.kotlin.never
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
+import org.mockito.kotlin.*
 import org.springframework.mail.MailSendException
 
 @ExtendWith(MockitoExtension::class)
@@ -33,6 +30,7 @@ class UserServiceTest {
     private val emailService: EmailService? = null
 
     private val userUid = "user@mail.com"
+    private val userName = "user"
     private val userPassword = "password"
 
     @Test
@@ -73,6 +71,20 @@ class UserServiceTest {
 
         // when - then
         assertDoesNotThrow { userService?.create(userUid, userPassword) }
+    }
+
+    @Test
+    @DisplayName("Should set name for user from UID when register")
+    fun shouldSetUserNameFromUid_whenRegister() {
+        // given
+        val userEntity = createUserEntity()
+        whenever(userEntityRepository?.save(any())).thenReturn(userEntity)
+
+        // when
+        userService?.create(userUid, userPassword)
+
+        // then
+        verify(userEntityRepository)?.save( argThat<UserEntity> { name == userName })
     }
 
     private fun createUserEntity(): UserEntity {
