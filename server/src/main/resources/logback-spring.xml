@@ -1,12 +1,12 @@
 <configuration>
-    <springProfile name="local">
+    <springProfile name="!prod">
         <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
         <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
         <root level="info">
             <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
-    <springProfile name="!local">
+    <springProfile name="prod">
         <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
                 <providers>
