@@ -25,7 +25,8 @@ class AuthorizationUserController(private val userFacade: UserFacade) : Authoriz
     override fun register(@Valid @RequestBody registrationRequest: AuthenticationRequest): ResponseEntity<*>? {
         val registeredUser = userFacade.register(registrationRequest.uid, registrationRequest.password)
         val resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").build(registeredUser.uid)
-        return ResponseEntity.created(resourceLocation).build<Any>()
+                .path("/{id}").build(registeredUser.id)
+        val token = generateToken(registeredUser.uid!!)
+        return ResponseEntity.created(resourceLocation).body(AuthenticationResponse(token))
     }
 }
