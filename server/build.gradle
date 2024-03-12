@@ -8,7 +8,7 @@ plugins {
     id 'org.springframework.boot' version '3.1.2'
     id 'io.spring.dependency-management' version '1.1.2'
     id 'com.microsoft.azure.azurewebapp' version '1.7.1'
-    id "org.jetbrains.kotlinx.kover" version "0.7.3"
+    id "org.jetbrains.kotlinx.kover" version "0.8.0-Beta"
 }
 
 group = 'org.hkurh.doky'
@@ -114,16 +114,8 @@ tasks.register('apiTest', Test) {
         events "PASSED", "SKIPPED", "FAILED"
     }
 }
+apiTest.onlyIf { project.hasProperty('runApiTests') }
 
-check.dependsOn 'apiTest'
-
-koverReport {
-    filters {
-        includes {
-            classes("org.hkurh.*")
-        }
-    }
-}
 
 azurewebapp {
     subscription = System.env.AZURE_SUBSCRIPTION

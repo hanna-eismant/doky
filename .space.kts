@@ -26,7 +26,7 @@ job("Tests for development branches") {
     container(displayName = "Unit tests", image = gradleImageVersion) {
         workDir = "server"
         kotlinScript { api ->
-            api.gradle("test")
+            api.gradlew("test")
         }
     }
 
@@ -47,7 +47,7 @@ job("Tests for development branches") {
 
         workDir = "server"
         kotlinScript { api ->
-            api.gradle("apiTest")
+            api.gradlew("apiTest", "-PrunApiTests")
         }
     }
 }
