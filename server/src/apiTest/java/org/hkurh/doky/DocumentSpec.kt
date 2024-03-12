@@ -2,7 +2,6 @@ package org.hkurh.doky
 
 import io.restassured.RestAssured.given
 import org.hamcrest.CoreMatchers.notNullValue
-import org.hkurh.doky.documents.api.DocumentDto
 import org.hkurh.doky.documents.api.DocumentRequest
 import org.hkurh.doky.documents.db.DocumentEntityRepository
 import org.hkurh.doky.users.db.UserEntityRepository
@@ -103,7 +102,7 @@ class DocumentSpec : RestSpec() {
 
         // then
         response.then().statusCode(HttpStatus.OK.value())
-        val documents: List<Map<String,String>> = response.path(".")
+        val documents: List<Map<String, String>> = response.path(".")
 
         assertNotNull(documents.find { d -> (existedDocumentNameFirst == d[documentNameProperty]) })
         assertNotNull(documents.find { d -> (existedDocumentNameSecond == d[documentNameProperty]) })
