@@ -9,9 +9,15 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
+import org.mockito.Mock
 import org.mockito.Spy
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argThat
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.springframework.mail.MailSendException
 
 @ExtendWith(MockitoExtension::class)
@@ -24,7 +30,8 @@ class UserServiceTest {
     @Spy
     @InjectMocks
     private val userService: UserService? = null
-    private val userEntityRepository: UserEntityRepository = mock()
+    @Mock
+    private val userEntityRepository: UserEntityRepository? = null
     private val emailService: EmailService = mock()
 
     @Test
@@ -32,7 +39,7 @@ class UserServiceTest {
     fun shouldSendEmail_whenUserSuccessfullyRegistered() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository.save(any())).thenReturn(userEntity)
+        whenever(userEntityRepository?.save(any())).thenReturn(userEntity)
 
         // when
         assertDoesNotThrow { userService?.create(userUid, userPassword) }
@@ -46,7 +53,7 @@ class UserServiceTest {
     fun shouldNotSendEmail_whenUserNotSuccessfullyRegistered() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository.save(any())).thenThrow(RuntimeException())
+        whenever(userEntityRepository?.save(any())).thenThrow(RuntimeException())
 
         // when
         assertThrows<RuntimeException> { userService?.create(userUid, userPassword) }
@@ -60,7 +67,7 @@ class UserServiceTest {
     fun shouldNotThrowException_whenEmailSendNotSuccessfully() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository.save(any())).thenReturn(userEntity)
+        whenever(userEntityRepository?.save(any())).thenReturn(userEntity)
         whenever(emailService.sendRegistrationConfirmationEmail(userEntity)).thenThrow(MailSendException(""))
 
         // when - then
@@ -72,19 +79,20 @@ class UserServiceTest {
     fun shouldSetUserNameFromUid_whenRegister() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository.save(any())).thenReturn(userEntity)
+        whenever(userEntityRepository?.save(any())).thenReturn(userEntity)
 
         // when
         userService?.create(userUid, userPassword)
 
         // then
-        verify(userEntityRepository).save( argThat<UserEntity> { name == userName })
+        verify(userEntityRepository)?.save( argThat<UserEntity> { name == userName })
     }
 
     private fun createUserEntity(): UserEntity {
         return UserEntity().apply {
             id = 1
             uid = userUid
+            name = userName
             password = userPassword
         }
     }
