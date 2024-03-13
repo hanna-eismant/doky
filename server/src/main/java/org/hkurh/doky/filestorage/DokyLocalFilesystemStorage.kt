@@ -40,13 +40,13 @@ class DokyLocalFilesystemStorage : FileStorage {
         }
     }
 
+    @Throws(IOException::class)
+    private fun saveFileToFilesystem(file: MultipartFile, path: Path) {
+        Files.copy(file.inputStream, path, StandardCopyOption.REPLACE_EXISTING)
+        LOG.debug("Save uploaded file to ${path.toAbsolutePath()}")
+    }
+
     companion object {
         private val LOG = LogFactory.getLog(DokyLocalFilesystemStorage::class.java)
-
-        @Throws(IOException::class)
-        private fun saveFileToFilesystem(file: MultipartFile, path: Path) {
-            Files.copy(file.inputStream, path, StandardCopyOption.REPLACE_EXISTING)
-            LOG.debug("Save uploaded file to ${path.toAbsolutePath()}")
-        }
     }
 }
