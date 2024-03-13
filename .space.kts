@@ -47,7 +47,7 @@ job("Tests for development branches") {
 
         workDir = "server"
         kotlinScript { api ->
-            api.gradlew("apiTest", "-PrunApiTests")
+            api.gradlew("apiTest", "-PrunApiTests=true")
         }
     }
 }
@@ -64,7 +64,7 @@ job("Tests for main branch") {
     container(displayName = "Unit tests", image = gradleImageVersion) {
         workDir = "server"
         kotlinScript { api ->
-            api.gradle("test")
+            api.gradlew("koverVerify")
         }
     }
 
@@ -85,7 +85,7 @@ job("Tests for main branch") {
 
         workDir = "server"
         kotlinScript { api ->
-            api.gradle("apiTest")
+            api.gradlew("apiTest", "-PrunApiTests=true")
         }
     }
 

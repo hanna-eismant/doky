@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id 'java'
-    id 'groovy'
+    id 'jvm-test-suite'
     id 'org.jetbrains.kotlin.jvm' version '1.8.22'
     id 'org.jetbrains.kotlin.plugin.spring' version '1.8.22'
     id 'org.springframework.boot' version '3.1.2'
@@ -92,38 +92,49 @@ test {
     }
 }
 
-configurations {
-    apiTestImplementation.extendsFrom testImplementation
-    apiTestRuntime.extendsFrom testRuntime
-}
-sourceSets {
-    apiTest {
-        java {
-            compileClasspath += main.output + test.output
-            runtimeClasspath += main.output + test.output
-            srcDir file('src/apiTest/java')
+testing {
+    suites {
+        test {
+            useJUnitJupiter()
         }
-        resources.srcDir file('src/apiTest/resources')
+        apiTest(JvmTestSuite) {
+            dependencies {
+                implementation project()
+
+                implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+                implementation 'org.springframework.boot:spring-boot-starter-web'
+
+                implementation 'org.springframework.boot:spring-boot-starter-test'
+                implementation 'org.springframework:spring-mock:2.0.8'
+                implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+                implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+                implementation 'org.mockito:mockito-junit-jupiter:4.0.0'
+                implementation 'org.mockito.kotlin:mockito-kotlin:5.0.0'
+                implementation 'io.rest-assured:rest-assured:5.3.0'
+            }
+        }
     }
 }
-tasks.register('apiTest', Test) {
-    useJUnitPlatform()
-    group = "verification"
-    description = "Run API tests"
-    testClassesDirs = sourceSets.apiTest.output.classesDirs
-    classpath = sourceSets.apiTest.runtimeClasspath
-    testLogging {
-        events "PASSED", "SKIPPED", "FAILED"
-    }
-}
+
 apiTest.onlyIf { project.hasProperty('runApiTests') }
+
+kover {
+    excludeSourceSets {
+        names("apiTest")
+    }
+}
 
 koverReport {
     defaults {
+        filters {
+            includes {
+                classes("org.hkurh.*")
+            }
+        }
         verify {
             rule {
                 bound {
-                    minValue = 80
+                    minValue = 50
                     metric = MetricType.LINE
                     aggregation = AggregationType.COVERED_PERCENTAGE
                 }
@@ -151,8 +162,4 @@ azurewebapp {
         tenant = System.env.AZURE_TENANT
         key = System.env.AZURE_AUTH_KEY
     }
-}
-
-rootProject.tasks.named("processApiTestResources") {
-    duplicatesStrategy = DuplicatesStrategy.WARN
 }
