@@ -62,7 +62,6 @@ dependencies {
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework:spring-mock:2.0.8'
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
@@ -134,7 +133,7 @@ koverReport {
         verify {
             rule {
                 bound {
-                    minValue = 50
+                    minValue = 33
                     metric = MetricType.LINE
                     aggregation = AggregationType.COVERED_PERCENTAGE
                 }

@@ -22,7 +22,7 @@ interface AuthorizationUserApi {
                     content = [Content(schema = Schema(implementation = AuthenticationResponse::class))]),
             ApiResponse(responseCode = "401", description = "Incorrect username or password",
                     content = [Content(schema = Schema(implementation = ErrorResponse::class))]))
-    fun login(@Valid @RequestBody authenticationRequest: AuthenticationRequest): ResponseEntity<*>?
+    fun login(@Valid @RequestBody authenticationRequest: AuthenticationRequest): ResponseEntity<AuthenticationResponse>?
 
     @Operation(summary = "User registration")
     @ApiResponses(
@@ -30,5 +30,5 @@ interface AuthorizationUserApi {
                     content = [Content(schema = Schema(implementation = AuthenticationResponse::class))]),
             ApiResponse(responseCode = "409", description = "User with same name already exists",
                     content = [Content(schema = Schema(implementation = ErrorResponse::class))]))
-    fun register(@Valid @RequestBody registrationRequest: AuthenticationRequest): ResponseEntity<*>?
+    fun register(@Valid @RequestBody registrationRequest: AuthenticationRequest): ResponseEntity<AuthenticationResponse>?
 }
