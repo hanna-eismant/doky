@@ -8,9 +8,10 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
-import org.mockito.Mock
 import org.mockito.Spy
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
@@ -21,12 +22,13 @@ class DocumentFacadeTest {
     @Spy
     @InjectMocks
     private val documentFacade: DocumentFacade? = null
+    private val documentService: DocumentService = mock()
+    private val fileStorageService: FileStorageService = mock()
 
-    @Mock
-    private val documentService: DocumentService? = null
-
-    @Mock
-    private val fileStorageService: FileStorageService? = null
+    @BeforeEach
+    fun setUp() {
+        whenever(fileStorageService.store(any(), any())).thenReturn("test/path")
+    }
 
     @Test
     @DisplayName("Should update Document when it exists")
@@ -39,17 +41,18 @@ class DocumentFacadeTest {
             description = "Description"
         }
         val updatedDocument = DocumentRequest("Another Name", "Description for Document")
-        whenever(documentService?.find(originId)).thenReturn(originDocument)
+        whenever(documentService.find(originId)).thenReturn(originDocument)
 
         // when
         assertDoesNotThrow { documentFacade?.update(originId, updatedDocument) }
 
         // then
-        verify(documentService)?.save(originDocument)
+        verify(documentService).save(originDocument)
         assertAll(
             "Document properties",
-            { assertEquals(updatedDocument.name, originDocument.name) },
-            { assertEquals(updatedDocument.description, originDocument.description) }
+            { assertEquals(updatedDocument.name, originDocument.name, "Name for Document is not updated") },
+            { assertEquals(updatedDocument.description, originDocument.description,
+                    "Description for Document is not updated") }
         )
     }
 
@@ -60,7 +63,7 @@ class DocumentFacadeTest {
         // given
         val originId = "1"
         val updatedDocument = DocumentRequest("Another Name", "Description for Document")
-        whenever(documentService?.find(originId)).thenReturn(null)
+        whenever(documentService.find(originId)).thenReturn(null)
 
         // when - then
         assertThrows<DokyNotFoundException> { documentFacade?.update(originId, updatedDocument) }

@@ -1,13 +1,12 @@
 package org.hkurh.doky.security
 
-import io.jsonwebtoken.ExpiredJwtException
-import io.jsonwebtoken.MalformedJwtException
-import io.jsonwebtoken.UnsupportedJwtException
+import io.jsonwebtoken.ClaimJwtException
+import io.jsonwebtoken.JwtException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.apache.commons.lang3.StringUtils
+import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.security.JwtProvider.getUsernameFromToken
 import org.hkurh.doky.security.JwtProvider.validateToken
 import org.hkurh.doky.users.UserService
@@ -20,12 +19,14 @@ import java.io.IOException
 
 @Component
 class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequestFilter() {
+    private val authorizationHeader = "Authorization"
+
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         LOG.debug("Jwt Authorization Filter is invoked.")
         try {
             val token = getTokenFromRequest(request)
-            if (token != null && validateToken(token)) {
+            if (token != null) {
                 val usernameFromToken = getUsernameFromToken(token)
                 val currentUser = userService.findUserByUid(usernameFromToken)
                 val dokyUserDetails: DokyUserDetails = DokyUserDetails.createUserDetails(currentUser!!)
@@ -36,26 +37,27 @@ class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequ
                 SecurityContextHolder.clearContext()
             }
             filterChain.doFilter(request, response)
-        } catch (e: ExpiredJwtException) {
-            response.status = HttpServletResponse.SC_FORBIDDEN
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, e.message)
-        } catch (e: UnsupportedJwtException) {
-            response.status = HttpServletResponse.SC_FORBIDDEN
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, e.message)
-        } catch (e: MalformedJwtException) {
-            response.status = HttpServletResponse.SC_FORBIDDEN
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, e.message)
+        } catch (e: Exception) {
+            when (e) {
+                is JwtException,
+                is DokyNotFoundException -> {
+                    response.status = HttpServletResponse.SC_FORBIDDEN
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN, e.message)
+                }
+
+                else -> throw e
+            }
         }
+    }
+
+    private fun getTokenFromRequest(request: HttpServletRequest): String? {
+        val token: String? = request.getHeader(authorizationHeader)
+        return if (!token.isNullOrBlank() && token.startsWith("Bearer ")) {
+            token.substring(7)
+        } else null
     }
 
     companion object {
         private val LOG = LoggerFactory.getLogger(JwtAuthorizationFilter::class.java)
-        private const val AUTHORIZATION_HEADER = "Authorization"
-        private fun getTokenFromRequest(request: HttpServletRequest): String? {
-            val token = request.getHeader(AUTHORIZATION_HEADER)
-            return if (StringUtils.isNotBlank(token) && token.startsWith("Bearer ")) {
-                token.substring(7)
-            } else null
-        }
     }
 }

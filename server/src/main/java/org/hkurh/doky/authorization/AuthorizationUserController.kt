@@ -13,7 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 @RestController
 class AuthorizationUserController(private val userFacade: UserFacade) : AuthorizationUserApi {
     @PostMapping("/login")
-    override fun login(@Valid @RequestBody authenticationRequest: AuthenticationRequest): ResponseEntity<*> {
+    override fun login(@Valid @RequestBody authenticationRequest: AuthenticationRequest): ResponseEntity<AuthenticationResponse> {
         val username = authenticationRequest.uid
         val password = authenticationRequest.password
         userFacade.checkCredentials(username, password)
@@ -22,7 +22,7 @@ class AuthorizationUserController(private val userFacade: UserFacade) : Authoriz
     }
 
     @PostMapping(value = ["/register"], consumes = ["application/json"])
-    override fun register(@Valid @RequestBody registrationRequest: AuthenticationRequest): ResponseEntity<*>? {
+    override fun register(@Valid @RequestBody registrationRequest: AuthenticationRequest): ResponseEntity<AuthenticationResponse>? {
         val registeredUser = userFacade.register(registrationRequest.uid, registrationRequest.password)
         val resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").build(registeredUser.id)

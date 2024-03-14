@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class EmailService(private val emailSender: JavaMailSender) {
 
     @Value("\${doky.email.from}")
-    private val fromEmail: String? = null
+    val fromEmail: String? = null
 
     fun sendRegistrationConfirmationEmail(user: UserEntity) {
         val message = SimpleMailMessage()

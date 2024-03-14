@@ -12,26 +12,27 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Spy
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argThat
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.springframework.mail.MailSendException
 
 @ExtendWith(MockitoExtension::class)
 @DisplayName("UserService unit test")
 class UserServiceTest {
+    private val userUid = "user@mail.com"
+    private val userName = "user"
+    private val userPassword = "password"
 
     @Spy
     @InjectMocks
     private val userService: UserService? = null
-
     @Mock
     private val userEntityRepository: UserEntityRepository? = null
-
-    @Mock
-    private val emailService: EmailService? = null
-
-    private val userUid = "user@mail.com"
-    private val userName = "user"
-    private val userPassword = "password"
+    private val emailService: EmailService = mock()
 
     @Test
     @DisplayName("Should send registration email when user is successfully registered")
@@ -44,7 +45,7 @@ class UserServiceTest {
         assertDoesNotThrow { userService?.create(userUid, userPassword) }
 
         // then
-        verify(emailService)?.sendRegistrationConfirmationEmail(userEntity)
+        verify(emailService).sendRegistrationConfirmationEmail(userEntity)
     }
 
     @Test
@@ -58,7 +59,7 @@ class UserServiceTest {
         assertThrows<RuntimeException> { userService?.create(userUid, userPassword) }
 
         // then
-        verify(emailService, never())?.sendRegistrationConfirmationEmail(userEntity)
+        verify(emailService, never()).sendRegistrationConfirmationEmail(userEntity)
     }
 
     @Test
@@ -67,7 +68,7 @@ class UserServiceTest {
         // given
         val userEntity = createUserEntity()
         whenever(userEntityRepository?.save(any())).thenReturn(userEntity)
-        whenever(emailService?.sendRegistrationConfirmationEmail(userEntity)).thenThrow(MailSendException(""))
+        whenever(emailService.sendRegistrationConfirmationEmail(userEntity)).thenThrow(MailSendException(""))
 
         // when - then
         assertDoesNotThrow { userService?.create(userUid, userPassword) }
@@ -91,6 +92,7 @@ class UserServiceTest {
         return UserEntity().apply {
             id = 1
             uid = userUid
+            name = userName
             password = userPassword
         }
     }
