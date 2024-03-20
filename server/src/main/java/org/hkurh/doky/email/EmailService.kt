@@ -1,9 +1,8 @@
 package org.hkurh.doky.email
 
-import jakarta.mail.MessagingException
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.mail.SimpleMailMessage
+import org.springframework.core.io.Resource
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
@@ -18,7 +17,10 @@ class EmailService(
 ) {
 
     @Value("\${doky.email.from}")
-    val fromEmail: String? = null
+    lateinit var fromEmail: String
+
+    @Value("classpath:/mail/img/logo-white-no-bg.svg")
+    lateinit var logoFile: Resource
 
     fun sendRegistrationConfirmationEmail(user: UserEntity) {
         val template = "registration.html"
@@ -31,23 +33,12 @@ class EmailService(
         val htmlBody: String = templateEngine.process(template, context)
         val message = emailSender.createMimeMessage()
         MimeMessageHelper(message, true, "UTF-8").apply {
-            fromEmail?.let { setFrom(it) }
+            setFrom(fromEmail)
             setTo(user.uid)
             setSubject("Doky Registration")
             setText(htmlBody, true)
+            addInline("logo-white-no-bg.svg", logoFile)
         }
         emailSender.send(message)
     }
-
-//    @Throws(MessagingException::class)
-//    private fun sendHtmlMessage(to: String, subject: String, htmlBody: String) {
-//        val message = emailSender.createMimeMessage()
-//        val helper = MimeMessageHelper(message, true, "UTF-8")
-//        helper.setFrom(fromEmail)
-//        helper.setTo(to)
-//        helper.setSubject(subject)
-//        helper.setText(htmlBody, true)
-//        helper.addInline("attachment.png", resourceFile)
-//        emailSender.send(message)
-//    }
 }
