@@ -18,8 +18,10 @@ class FileStorageService(private val environment: Environment, private val fileS
     fun store(file: MultipartFile, filePath: String?): String {
         val isFileExists = fileStorage.checkExistence(filePath)
         return if (isFileExists) {
-            fileStorage.saveFile(file, filePath!!)
-            filePath
+            val updatedFilePath = checkFileExtension(file, filePath!!)
+            fileStorage.deleteFile(filePath)
+            fileStorage.saveFile(file, updatedFilePath)
+            updatedFilePath
         } else {
             val extension = FilenameUtils.getExtension(file.originalFilename)
             val storagePath = generateStoragePath()
@@ -41,9 +43,17 @@ class FileStorageService(private val environment: Environment, private val fileS
         return "$basePath$separator${today.year}$separator${today.monthOfYear}$separator"
     }
 
-    private fun generateFileName(extension: String): String {
+    fun generateFileName(extension: String): String {
         val randomName = RandomStringUtils.random(10, true, true)
         return "$randomName.$extension"
+    }
+
+    fun checkFileExtension(file: MultipartFile, filePath: String): String {
+        val uploadExt = FilenameUtils.getExtension(file.originalFilename)
+        val savedExt = FilenameUtils.getExtension(filePath)
+        LOG.debug("Saved extension [$savedExt], upload extension [$uploadExt]")
+        return if (savedExt != uploadExt) filePath.replace(".$savedExt", ".$uploadExt")
+        else filePath
     }
 
     companion object {

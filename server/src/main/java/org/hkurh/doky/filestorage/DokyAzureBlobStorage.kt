@@ -65,6 +65,11 @@ class DokyAzureBlobStorage : FileStorage {
         }
     }
 
+    override fun deleteFile(filePath: String) {
+        val blobClient = blobContainerClient!!.getBlobClient(filePath)
+        blobClient.deleteIfExists()
+    }
+
     companion object {
         private val LOG = LogFactory.getLog(DokyAzureBlobStorage::class.java)
     }

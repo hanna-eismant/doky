@@ -47,6 +47,9 @@ class DocumentEntity {
     @Column(name = "file_path")
     var filePath: String? = null
 
+    @Column(name = "file_name")
+    var fileName: String? = null
+
     @ManyToOne
     @JoinColumn(name = "creator_id")
     var creator: UserEntity? = null

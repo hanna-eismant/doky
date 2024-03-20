@@ -21,4 +21,5 @@ interface FileStorage {
      * `false` if file does not exist or {@param filePath} is null or empty
      */
     fun checkExistence(filePath: String?): Boolean
+    fun deleteFile(filePath: String)
 }
