@@ -54,6 +54,7 @@ class DocumentFacade(
             try {
                 val path = fileStorageService.store(file, document.filePath)
                 document.filePath = path
+                document.fileName = file.originalFilename
                 documentService.save(document)
             } catch (e: IOException) {
                 throw RuntimeException(e)

@@ -40,6 +40,11 @@ class DokyLocalFilesystemStorage : FileStorage {
         }
     }
 
+    override fun deleteFile(filePath: String) {
+        val file = Paths.get(filePath)
+        Files.deleteIfExists(file)
+    }
+
     @Throws(IOException::class)
     private fun saveFileToFilesystem(file: MultipartFile, path: Path) {
         Files.copy(file.inputStream, path, StandardCopyOption.REPLACE_EXISTING)
