@@ -29,7 +29,7 @@ class FileStorageServiceTest {
     @DisplayName("Should override file when upload existed")
     fun shouldOverrideFile_whenUploadExisted() {
         // given
-        val file = MockMultipartFile(uploadedFileName, "file content".byteInputStream())
+        val file = MockMultipartFile(uploadedFileName, uploadedFileName, null, "file content".byteInputStream())
         whenever(fileStorage.checkExistence(any())).thenReturn(true)
 
         // when
@@ -44,7 +44,7 @@ class FileStorageServiceTest {
     @DisplayName("Should store new file when upload non existing")
     fun shouldStoreNewFile_whenUploadNonExisted() {
         // given
-        val file = MockMultipartFile(uploadedFileName, "file content".byteInputStream())
+        val file = MockMultipartFile(uploadedFileName, uploadedFileName, null, "file content".byteInputStream())
         whenever(fileStorage.checkExistence(any())).thenReturn(false)
         whenever(environment.getProperty(any(), any<String>())).thenReturn(basePath)
 
