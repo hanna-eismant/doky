@@ -7,6 +7,7 @@ import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
@@ -24,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 
 
 @ExtendWith(MockitoExtension::class)
+@Tag("unit")
 @DisplayName("JwtAuthorizationFilter unit test")
 class JwtAuthorizationFilterTest {
     private val response = MockHttpServletResponse()

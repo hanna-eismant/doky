@@ -38,6 +38,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     implementation 'org.flywaydb:flyway-core:9.21.0'
     implementation 'org.flywaydb:flyway-mysql:9.21.0'
@@ -86,9 +87,6 @@ tasks.withType(KotlinCompile).configureEach {
 test {
     useJUnitPlatform()
     maxHeapSize = '1G'
-    testLogging {
-        events "PASSED", "SKIPPED", "FAILED"
-    }
 }
 
 testing {
@@ -115,7 +113,7 @@ testing {
     }
 }
 
-apiTest.onlyIf { project.hasProperty('runApiTests') }
+apiTest.onlyIf { project.hasProperty('runApiTests') && project.property('runApiTests') }
 
 kover {
     excludeSourceSets {

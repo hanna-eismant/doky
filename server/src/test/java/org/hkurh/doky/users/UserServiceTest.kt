@@ -4,6 +4,7 @@ import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.db.UserEntityRepository
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -21,6 +22,7 @@ import org.mockito.kotlin.whenever
 import org.springframework.mail.MailSendException
 
 @ExtendWith(MockitoExtension::class)
+@Tag("unit")
 @DisplayName("UserService unit test")
 class UserServiceTest {
     private val userUid = "user@mail.com"
