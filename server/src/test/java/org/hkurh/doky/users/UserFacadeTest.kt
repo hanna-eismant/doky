@@ -15,6 +15,7 @@ import org.mockito.kotlin.whenever
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @ExtendWith(MockitoExtension::class)
+@Tag("unit")
 @DisplayName("UserFacade unit test")
 class UserFacadeTest {
     private val userUid = "user"

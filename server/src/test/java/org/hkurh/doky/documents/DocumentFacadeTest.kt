@@ -16,6 +16,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
 @ExtendWith(MockitoExtension::class)
+@Tag("unit")
 @DisplayName("UserFacade unit test")
 class DocumentFacadeTest {
 
