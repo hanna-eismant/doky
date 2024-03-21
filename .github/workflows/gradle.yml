@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: tests
 
 on:
   pull_request:
@@ -26,7 +26,7 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-  test:
+  unit:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,12 +42,12 @@ jobs:
       - name: Run tests with Gradle Wrapper
         run: ./gradlew koverVerify
 
-  api:
+  integration:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     services:
-      mysql:
+      db:
         image: mysql:8.0
         env:
           MYSQL_DATABASE: doky-test
@@ -55,6 +55,9 @@ jobs:
           MYSQL_USER: doky-test
           MYSQL_PASSWORD: doky-test
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    env:
+      DB_HOST: db
+      DB_PORT: 3306
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -65,4 +68,4 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
       - name: Run tests with Gradle Wrapper
-        run: ./gradlew apiTest -PrunApiTests=true
+        run: ./gradlew integrationTest -PrunIntegrationTests=true
