@@ -42,7 +42,6 @@ job("Tests for main branch") {
         shellScript {
             content = """
                qodana \
-               --baseline ./qodana.sarif.json \
                --coverage-dir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
                """.trimIndent()
         }
