@@ -13,66 +13,6 @@ import java.time.temporal.TemporalAdjusters
 
 val gradleImageVersion = "gradle:8.2-jdk17"
 
-job("Tests for development branches") {
-    startOn {
-        gitPush {
-            anyRefMatching {
-                +"refs/heads/*"
-                -"refs/heads/main"
-            }
-        }
-    }
-
-    container(displayName = "Unit tests", image = gradleImageVersion) {
-        workDir = "server"
-        kotlinScript { api ->
-            api.gradlew("koverVerify")
-        }
-    }
-
-    container(displayName = "Integration tests", image = gradleImageVersion) {
-        env["DB_HOST"] = "db"
-        env["DB_PORT"] = "3306"
-        service("mysql:8") {
-            alias("db")
-            args(
-                "--log_bin_trust_function_creators=ON",
-                "--max-connections=700"
-            )
-            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
-            env["MYSQL_DATABASE"] = "doky-test"
-            env["MYSQL_USER"] = "doky-test"
-            env["MYSQL_PASSWORD"] = "doky-test"
-        }
-
-        workDir = "server"
-        kotlinScript { api ->
-            api.gradlew("integrationTest", "-PrunIntegrationTests=true")
-        }
-    }
-
-    container(displayName = "API tests", image = gradleImageVersion) {
-        env["DB_HOST"] = "db"
-        env["DB_PORT"] = "3306"
-        service("mysql:8") {
-            alias("db")
-            args(
-                "--log_bin_trust_function_creators=ON",
-                "--max-connections=700"
-            )
-            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
-            env["MYSQL_DATABASE"] = "doky-test"
-            env["MYSQL_USER"] = "doky-test"
-            env["MYSQL_PASSWORD"] = "doky-test"
-        }
-
-        workDir = "server"
-        kotlinScript { api ->
-            api.gradlew("apiTest", "-PrunApiTests=true")
-        }
-    }
-}
-
 job("Tests for main branch") {
     startOn {
         gitPush {
