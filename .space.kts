@@ -36,7 +36,7 @@ job("Check Qodana Settings") {
                qodana \
                --project-dir  server \
                --profile-name qodana.recommended \
-               -v ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath:/data/coverage
+               --coverage-dir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
                """.trimIndent()
         }
     }
