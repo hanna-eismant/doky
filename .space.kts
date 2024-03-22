@@ -13,35 +13,6 @@ import java.time.temporal.TemporalAdjusters
 
 val gradleImageVersion = "gradle:8.2-jdk17"
 
-job("Check Qodana Settings") {
-    val sharedCoveragePath = "coverage"
-    container(displayName = "Unit tests", image = gradleImageVersion) {
-        workDir = "server"
-        shellScript {
-            content = """
-                   ./gradlew koverVerify
-                   mkdir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-                   cd build/kover/bin-reports
-                   cp -a . ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-                   cd ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-                   ls -la
-               """.trimIndent()
-        }
-    }
-
-    container("jetbrains/qodana-jvm:latest") {
-        env["QODANA_TOKEN"] = "{{ project:qodana-token }}"
-        shellScript {
-            content = """
-               qodana \
-               --project-dir  server \
-               --profile-name qodana.recommended \
-               --coverage-dir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-               """.trimIndent()
-        }
-    }
-}
-
 job("Tests for main branch") {
     startOn {
         gitPush {
@@ -52,7 +23,7 @@ job("Tests for main branch") {
     }
 
     val sharedCoveragePath = "coverage"
-    container(displayName = "Unit tests", image = gradleImageVersion) {
+    container(displayName = "Unit tests with coverage", image = gradleImageVersion) {
         workDir = "server"
         shellScript {
             content = """
@@ -64,19 +35,16 @@ job("Tests for main branch") {
                    ls -la
                """.trimIndent()
         }
-//        kotlinScript { api ->
-//            api.gradlew("koverVerify")
-//        }
     }
 
-    container("jetbrains/qodana-jvm:latest") {
+    container(displayName = "Qodana scan", image = "jetbrains/qodana-jvm:latest") {
         env["QODANA_TOKEN"] = "{{ project:qodana-token }}"
         shellScript {
             content = """
                qodana \
                --project-dir  server \
                --profile-name qodana.recommended \
-               -v ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath:/data/coverage
+               --coverage-dir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
                """.trimIndent()
         }
     }
