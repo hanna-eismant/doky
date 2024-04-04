@@ -20,10 +20,18 @@ import java.io.IOException
 @Component
 class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequestFilter() {
     private val authorizationHeader = "Authorization"
+    private val anonymousEndpoints = arrayOf("/register", "/login")
 
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         LOG.debug("Jwt Authorization Filter is invoked.")
+
+        if (anonymousEndpoints.contains(request.requestURI)) {
+            LOG.debug("No check token for request ${request.requestURI}")
+            filterChain.doFilter(request, response)
+            return
+        }
+
         try {
             val token = getTokenFromRequest(request)
             if (token != null) {
