@@ -54,6 +54,16 @@
       "name": "doky.email.templates.path",
       "type": "java.lang.String",
       "description": "Description for doky.email.templates.path."
+    },
+    {
+      "name": "doky.search.solr.host",
+      "type": "java.lang.String",
+      "description": "Description for doky.search.solr.host."
+    },
+    {
+      "name": "doky.search.solr.core.documents",
+      "type": "java.lang.String",
+      "description": "Description for doky.search.solr.core.documents."
     }
   ],
   "hints": [

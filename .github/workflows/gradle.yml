@@ -10,6 +10,20 @@ defaults:
 
 jobs:
 
+  qodana:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2023.3
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+
   unit:
     runs-on: ubuntu-latest
     permissions:

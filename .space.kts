@@ -23,8 +23,7 @@ job("Tests for main branch") {
     }
 
     val sharedCoveragePath = "coverage"
-    container(displayName = "Coverage", image = gradleImageVersion) {
-        workDir = "server"
+    container(displayName = "Unit tests with coverage", image = gradleImageVersion) {
         shellScript {
             content = """
                    ./gradlew koverVerify
@@ -42,15 +41,10 @@ job("Tests for main branch") {
         shellScript {
             content = """
                qodana \
+               --project-dir  server \
+               --profile-name qodana.recommended \
                --coverage-dir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
                """.trimIndent()
-        }
-    }
-
-    container(displayName = "Unit tests", image = gradleImageVersion) {
-        workDir = "server"
-        kotlinScript { api ->
-            api.gradlew("test")
         }
     }
 
