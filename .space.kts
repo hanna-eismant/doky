@@ -26,13 +26,14 @@ job("Tests for main branch") {
     container(displayName = "Unit tests with coverage", image = gradleImageVersion) {
         shellScript {
             content = """
-                   ./gradlew koverVerify
-                   mkdir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-                   cd build/kover/bin-reports
-                   cp -a . ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-                   cd ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-                   ls -la
-               """.trimIndent()
+                cd server
+                ./gradlew koverVerify
+                mkdir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
+                cd build/kover/bin-reports
+                cp -a . ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
+                cd ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
+                ls -la
+                """.trimIndent()
         }
     }
 
@@ -40,11 +41,11 @@ job("Tests for main branch") {
         env["QODANA_TOKEN"] = "{{ project:qodana-token }}"
         shellScript {
             content = """
-               qodana \
-               --project-dir  server \
-               --profile-name qodana.recommended \
-               --coverage-dir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-               """.trimIndent()
+                qodana \
+                --project-dir  server \
+                --profile-name qodana.recommended \
+                --coverage-dir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
+                """.trimIndent()
         }
     }
 
