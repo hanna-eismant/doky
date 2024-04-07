@@ -1,6 +1,8 @@
 package org.hkurh.doky.schedule
 
+import org.apache.commons.lang3.time.DateUtils
 import org.apache.commons.logging.LogFactory
+import org.hkurh.doky.schedule.db.ScheduledTaskEntity
 import org.hkurh.doky.schedule.db.ScheduledTaskEntityRepository
 import org.hkurh.doky.search.DocumentIndexService
 import org.springframework.scheduling.annotation.Scheduled
@@ -15,31 +17,40 @@ class DocumentSolrIndexScheduledTask(
 
     private val taskName = "solr-index-documents"
 
-    @Scheduled(cron = "0 */10 * * * *")
-//    @Scheduled(cron = "0 0 3 * * SUN")
+    @Scheduled(cron = "0 0 3 * * SUN")
     fun runFullIndex() {
-        LOG.info("Start full solr indexing for Documents")
+        LOG.info("[Full Index] Start solr indexing for Documents")
 
-//        documentIndexService.fullIndex()
+        documentIndexService.fullIndex()
+        updateLastRunDate()
 
-        scheduledTaskEntityRepository.findByName(taskName)
-            .let {
-                it.modifiedDate = Date()
-                scheduledTaskEntityRepository.save(it)
-            }
-
-        LOG.info("Finish full solr indexing for Documents")
+        LOG.info("[Full Index] Finish solr indexing for Documents")
     }
 
-//    @Scheduled(cron = "0 */2 * * * *")
+    @Scheduled(cron = "0 */10 * * * *")
 //    @Scheduled(cron = "0 0 3 * * MON-SAT")
     fun runUpdateIndex() {
-        val taskName = "solr-update-index-documents"
-        LOG.info("RUN UPDATE INDEX")
+        LOG.info("[Update Index] Start solr indexing for Documents")
+
+        var runDate = Date(0)
+        scheduledTaskEntityRepository.findByName(taskName)?.lastRunDate?.let { runDate = it }
+        documentIndexService.updateIndex(runDate)
+        updateLastRunDate()
+
+        LOG.info("[Update Index] Finish solr indexing for Documents")
+    }
+
+    private fun updateLastRunDate() {
+        var taskEntity = scheduledTaskEntityRepository.findByName(taskName)
+        if (taskEntity == null) {
+            taskEntity = ScheduledTaskEntity()
+            taskEntity.name = taskName
+        }
+        taskEntity.lastRunDate = Date()
+        scheduledTaskEntityRepository.save(taskEntity)
     }
 
     companion object {
         private val LOG = LogFactory.getLog(DocumentSolrIndexScheduledTask::class.java)
     }
-
 }

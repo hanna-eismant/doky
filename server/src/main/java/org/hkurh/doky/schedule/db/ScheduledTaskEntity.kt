@@ -25,5 +25,5 @@ class ScheduledTaskEntity {
     var name: String = ""
 
     @Column(name = "last_run_date")
-    var modifiedDate: Date? = null
+    var lastRunDate: Date? = null
 }

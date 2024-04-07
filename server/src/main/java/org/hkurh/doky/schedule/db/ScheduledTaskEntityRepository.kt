@@ -7,6 +7,6 @@ interface ScheduledTaskEntityRepository : JpaRepository<ScheduledTaskEntity, Lon
     JpaSpecificationExecutor<ScheduledTaskEntity> {
 
 
-    fun findByName(name: String): ScheduledTaskEntity
+    fun findByName(name: String): ScheduledTaskEntity?
 
 }

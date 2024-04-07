@@ -24,7 +24,7 @@ class DocumentService(private val documentEntityRepository: DocumentEntityReposi
         return documentEntityRepository.findByIdAndCreatorId(documentId, currentUser.id)
     }
 
-    fun find(): List<DocumentEntity?> {
+    fun find(): List<DocumentEntity> {
         val currentUser = userService.getCurrentUser()
         return documentEntityRepository.findByCreatorId(currentUser.id)
     }
