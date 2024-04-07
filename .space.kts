@@ -43,7 +43,7 @@ job("Tests for main branch") {
             content = """
                 qodana \
                 --project-dir  server \
-                --profile-name qodana.recommended \
+                --baseline     qodana.sarif.json \
                 --coverage-dir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
                 """.trimIndent()
         }

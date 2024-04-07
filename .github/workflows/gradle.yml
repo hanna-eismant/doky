@@ -21,7 +21,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          args: --baseline,qodana.sarif.json,--profile-name,qodana.recommended
+          args: --project-dir,server,--baseline,qodana.sarif.json
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2023.3
         env:
