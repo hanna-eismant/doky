@@ -1,6 +1,8 @@
 name: tests
 
 on:
+#  push:
+#    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -19,6 +21,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          args: --baseline,qodana.sarif.json
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2023.3
         env:
