@@ -1,6 +1,8 @@
 package org.hkurh.doky
 
 import io.jsonwebtoken.SignatureAlgorithm
+import org.apache.solr.client.solrj.SolrClient
+import org.apache.solr.client.solrj.impl.Http2SolrClient
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -36,6 +38,16 @@ class DokyApplication {
         return SpringTemplateEngine().apply {
             setTemplateResolver(templateResolver)
         }
+    }
+
+    @Bean
+    fun solrClient(
+        @Value("\${doky.search.solr.host}") host: String
+    ): SolrClient {
+        val solrUrl = "$host/solr"
+        return Http2SolrClient.Builder(solrUrl)
+            .withFollowRedirects(true)
+            .build()
     }
 
     companion object {
