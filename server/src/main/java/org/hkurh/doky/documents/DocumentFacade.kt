@@ -41,10 +41,7 @@ class DocumentFacade(
     }
 
     fun findAllDocuments(): List<DocumentDto?> {
-        val documentEntityList = documentService.find()
-        return documentEntityList.stream()
-            .map { entity -> entity?.toDto() }
-            .collect(Collectors.toList())
+        return documentService.find().map { it.toDto() }
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

@@ -1,5 +1,6 @@
 package org.hkurh.doky.users
 
+import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.errorhandling.DokyAuthenticationException
 import org.hkurh.doky.errorhandling.DokyRegistrationException
 import org.hkurh.doky.users.db.UserEntity
@@ -14,10 +15,8 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import org.springframework.security.crypto.password.PasswordEncoder
 
-@ExtendWith(MockitoExtension::class)
-@Tag("unit")
 @DisplayName("UserFacade unit test")
-class UserFacadeTest {
+class UserFacadeTest: DokyUnitTest {
     private val userUid = "user"
     private val userPassword = "pass"
     private val userPasswordEncoded = "passEncoded"
@@ -25,7 +24,7 @@ class UserFacadeTest {
 
     @Spy
     @InjectMocks
-    private val userFacade: UserFacade? = null
+    lateinit var userFacade: UserFacade
     private val userService: UserService = mock()
     private val passwordEncoder: PasswordEncoder = mock()
 
