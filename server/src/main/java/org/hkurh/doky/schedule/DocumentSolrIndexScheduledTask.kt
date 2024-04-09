@@ -1,6 +1,5 @@
 package org.hkurh.doky.schedule
 
-import org.apache.commons.lang3.time.DateUtils
 import org.apache.commons.logging.LogFactory
 import org.hkurh.doky.schedule.db.ScheduledTaskEntity
 import org.hkurh.doky.schedule.db.ScheduledTaskEntityRepository
