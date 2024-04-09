@@ -27,8 +27,7 @@ class DocumentSolrIndexScheduledTask(
         LOG.info("[Full Index] Finish solr indexing for Documents")
     }
 
-    @Scheduled(cron = "0 */10 * * * *")
-//    @Scheduled(cron = "0 0 3 * * MON-SAT")
+    @Scheduled(cron = "0 0 3 * * MON-SAT")
     fun runUpdateIndex() {
         LOG.info("[Update Index] Start solr indexing for Documents")
 

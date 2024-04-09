@@ -1,5 +1,6 @@
 package org.hkurh.doky.authorization
 
+import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.users.UserFacade
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.DisplayName
@@ -12,14 +13,12 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.mock
 
 
-@ExtendWith(MockitoExtension::class)
-@Tag("unit")
 @DisplayName("AuthorizationUserController unit test")
-class AuthorizationUserControllerTest {
+class AuthorizationUserControllerTest: DokyUnitTest {
 
     @InjectMocks
     @Spy
-    private val controller: AuthorizationUserController? = null
+    lateinit var controller: AuthorizationUserController
     private val userFacade: UserFacade = mock()
 
     @Test

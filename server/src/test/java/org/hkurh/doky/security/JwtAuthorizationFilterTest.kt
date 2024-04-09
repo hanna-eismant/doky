@@ -1,6 +1,7 @@
 package org.hkurh.doky.security
 
 import jakarta.servlet.http.HttpServletResponse
+import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.security.JwtProvider.generateToken
 import org.hkurh.doky.users.UserService
@@ -24,10 +25,8 @@ import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.core.context.SecurityContextHolder
 
 
-@ExtendWith(MockitoExtension::class)
-@Tag("unit")
 @DisplayName("JwtAuthorizationFilter unit test")
-class JwtAuthorizationFilterTest {
+class JwtAuthorizationFilterTest: DokyUnitTest {
     private val response = MockHttpServletResponse()
     private val authorizationHeader = "Authorization"
     private val userUid = "user@mail.com"
@@ -35,7 +34,7 @@ class JwtAuthorizationFilterTest {
 
     @InjectMocks
     @Spy
-    private val filter: JwtAuthorizationFilter? = null
+    lateinit var filter: JwtAuthorizationFilter
     private val userService: UserService = mock()
     private val filterChain: MockFilterChain = mock()
 

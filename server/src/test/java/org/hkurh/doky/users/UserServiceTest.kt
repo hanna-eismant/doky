@@ -1,5 +1,6 @@
 package org.hkurh.doky.users
 
+import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.db.UserEntityRepository
@@ -21,19 +22,17 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.mail.MailSendException
 
-@ExtendWith(MockitoExtension::class)
-@Tag("unit")
 @DisplayName("UserService unit test")
-class UserServiceTest {
+class UserServiceTest: DokyUnitTest {
     private val userUid = "user@mail.com"
     private val userName = "user"
     private val userPassword = "password"
 
     @Spy
     @InjectMocks
-    private val userService: UserService? = null
+    lateinit var userService: UserService
     @Mock
-    private val userEntityRepository: UserEntityRepository? = null
+    lateinit var userEntityRepository: UserEntityRepository
     private val emailService: EmailService = mock()
 
     @Test

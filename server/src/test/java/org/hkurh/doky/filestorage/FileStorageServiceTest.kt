@@ -1,5 +1,6 @@
 package org.hkurh.doky.filestorage
 
+import org.hkurh.doky.DokyUnitTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -13,17 +14,15 @@ import org.mockito.kotlin.*
 import org.springframework.core.env.Environment
 import org.springframework.mock.web.MockMultipartFile
 
-@ExtendWith(MockitoExtension::class)
-@Tag("unit")
 @DisplayName("FileStorageService unit test")
-class FileStorageServiceTest {
+class FileStorageServiceTest: DokyUnitTest {
     private val basePath = "test/storage"
     private val uploadedFileName = "test-file.txt"
     private val uploadedFilePath = "$basePath/test-file.txt"
 
     @InjectMocks
     @Spy
-    private val fileStorageService: FileStorageService? = null
+    lateinit var fileStorageService: FileStorageService
     private val environment: Environment = mock()
     private val fileStorage: FileStorage = mock()
 
