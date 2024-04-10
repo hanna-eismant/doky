@@ -64,6 +64,16 @@
       "name": "doky.search.solr.core.documents",
       "type": "java.lang.String",
       "description": "Description for doky.search.solr.core.documents."
+    },
+    {
+      "name": "doky.version.build",
+      "type": "java.lang.String",
+      "description": "Description for doky.version.build."
+    },
+    {
+      "name": "doky.version.commit",
+      "type": "java.lang.String",
+      "description": "Description for doky.version.commit."
     }
   ],
   "hints": [

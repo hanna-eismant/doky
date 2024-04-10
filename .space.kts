@@ -131,12 +131,17 @@ job("Azure DEV Deployment") {
         env["SPRING_DATASOURCE_USERNAME"] = "{{ project:spring-datasource-username }}"
         env["SPRING_DATASOURCE_PASSWORD"] = "{{ project:spring-datasource-password }}"
 
+        env["BUILD_COMMIT"] = "{{ run:git-checkout.commit }}"
+
         kotlinScript { api ->
             val deployVersion = api.space().projects.automation.deployments.get(
                 project = api.projectIdentifier(),
                 targetIdentifier = TargetIdentifier.Key("azure-dev"),
                 deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
             ).version
+
+            this@container.env["BUILD_NUMBER"] = deployVersion
+
             api.space().projects.automation.deployments.start(
                 project = api.projectIdentifier(),
                 targetIdentifier = TargetIdentifier.Key("azure-dev"),
