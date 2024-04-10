@@ -10,6 +10,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Spy
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
@@ -38,7 +39,7 @@ class UserServiceTest : DokyUnitTest {
     fun shouldSendEmail_whenUserSuccessfullyRegistered() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository.save(any())).thenReturn(userEntity)
+        Mockito.`when`(userEntityRepository.save(any())).thenReturn(userEntity)
 
         // when
         assertDoesNotThrow { userService.create(userUid, userPassword) }
@@ -52,7 +53,7 @@ class UserServiceTest : DokyUnitTest {
     fun shouldNotSendEmail_whenUserNotSuccessfullyRegistered() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository.save(any())).thenThrow(RuntimeException())
+        Mockito.`when`(userEntityRepository.save(any())).thenThrow(RuntimeException())
 
         // when
         assertThrows<RuntimeException> { userService.create(userUid, userPassword) }
@@ -66,7 +67,7 @@ class UserServiceTest : DokyUnitTest {
     fun shouldNotThrowException_whenEmailSendNotSuccessfully() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository.save(any())).thenReturn(userEntity)
+        Mockito.`when`(userEntityRepository.save(any())).thenReturn(userEntity)
         whenever(emailService.sendRegistrationConfirmationEmail(userEntity)).thenThrow(MailSendException(""))
 
         // when - then
@@ -78,7 +79,7 @@ class UserServiceTest : DokyUnitTest {
     fun shouldSetUserNameFromUid_whenRegister() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository.save(any())).thenReturn(userEntity)
+        Mockito.`when`(userEntityRepository.save(any())).thenReturn(userEntity)
 
         // when
         userService.create(userUid, userPassword)
