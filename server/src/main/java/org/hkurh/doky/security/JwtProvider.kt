@@ -26,16 +26,6 @@ object JwtProvider {
                 .compact()
     }
 
-    fun validateToken(token: String): Boolean {
-        try {
-            jwtParser.parseClaimsJws(token)
-            return true
-        } catch (e: Exception) {
-            LOG.warn("Invalid token")
-        }
-        return false
-    }
-
     fun getUsernameFromToken(token: String): String {
         return jwtParser.parseClaimsJws(token).body.subject
     }

@@ -4,18 +4,19 @@ import org.hkurh.doky.DokyUnitTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Spy
-import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.springframework.core.env.Environment
 import org.springframework.mock.web.MockMultipartFile
 
 @DisplayName("FileStorageService unit test")
-class FileStorageServiceTest: DokyUnitTest {
+class FileStorageServiceTest : DokyUnitTest {
     private val basePath = "test/storage"
     private val uploadedFileName = "test-file.txt"
     private val uploadedFilePath = "$basePath/test-file.txt"
@@ -34,7 +35,7 @@ class FileStorageServiceTest: DokyUnitTest {
         whenever(fileStorage.checkExistence(any())).thenReturn(true)
 
         // when
-        val storedPath = fileStorageService?.store(file, uploadedFilePath)
+        val storedPath = fileStorageService.store(file, uploadedFilePath)
 
         // then
         assertEquals(uploadedFilePath, storedPath, "Path for existed document was changed")
@@ -50,10 +51,10 @@ class FileStorageServiceTest: DokyUnitTest {
         whenever(environment.getProperty(any(), any<String>())).thenReturn(basePath)
 
         // when
-        val storedPath = fileStorageService?.store(file, uploadedFilePath)
+        val storedPath = fileStorageService.store(file, uploadedFilePath)
 
         // then
-        assertTrue(storedPath!!.startsWith(basePath), "Path to file should start from base path")
+        assertTrue(storedPath.startsWith(basePath), "Path to file should start from base path")
         verify(fileStorage).saveFile(eq(file), any(), any())
     }
 }

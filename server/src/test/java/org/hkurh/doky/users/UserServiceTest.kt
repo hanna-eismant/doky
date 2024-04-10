@@ -5,15 +5,13 @@ import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.db.UserEntityRepository
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Spy
-import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.mock
@@ -23,7 +21,7 @@ import org.mockito.kotlin.whenever
 import org.springframework.mail.MailSendException
 
 @DisplayName("UserService unit test")
-class UserServiceTest: DokyUnitTest {
+class UserServiceTest : DokyUnitTest {
     private val userUid = "user@mail.com"
     private val userName = "user"
     private val userPassword = "password"
@@ -31,6 +29,7 @@ class UserServiceTest: DokyUnitTest {
     @Spy
     @InjectMocks
     lateinit var userService: UserService
+
     @Mock
     lateinit var userEntityRepository: UserEntityRepository
     private val emailService: EmailService = mock()
@@ -40,10 +39,10 @@ class UserServiceTest: DokyUnitTest {
     fun shouldSendEmail_whenUserSuccessfullyRegistered() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository?.save(any())).thenReturn(userEntity)
+        Mockito.`when`(userEntityRepository.save(any())).thenReturn(userEntity)
 
         // when
-        assertDoesNotThrow { userService?.create(userUid, userPassword) }
+        assertDoesNotThrow { userService.create(userUid, userPassword) }
 
         // then
         verify(emailService).sendRegistrationConfirmationEmail(userEntity)
@@ -54,10 +53,10 @@ class UserServiceTest: DokyUnitTest {
     fun shouldNotSendEmail_whenUserNotSuccessfullyRegistered() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository?.save(any())).thenThrow(RuntimeException())
+        Mockito.`when`(userEntityRepository.save(any())).thenThrow(RuntimeException())
 
         // when
-        assertThrows<RuntimeException> { userService?.create(userUid, userPassword) }
+        assertThrows<RuntimeException> { userService.create(userUid, userPassword) }
 
         // then
         verify(emailService, never()).sendRegistrationConfirmationEmail(userEntity)
@@ -68,11 +67,11 @@ class UserServiceTest: DokyUnitTest {
     fun shouldNotThrowException_whenEmailSendNotSuccessfully() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository?.save(any())).thenReturn(userEntity)
+        Mockito.`when`(userEntityRepository.save(any())).thenReturn(userEntity)
         whenever(emailService.sendRegistrationConfirmationEmail(userEntity)).thenThrow(MailSendException(""))
 
         // when - then
-        assertDoesNotThrow { userService?.create(userUid, userPassword) }
+        assertDoesNotThrow { userService.create(userUid, userPassword) }
     }
 
     @Test
@@ -80,13 +79,13 @@ class UserServiceTest: DokyUnitTest {
     fun shouldSetUserNameFromUid_whenRegister() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository?.save(any())).thenReturn(userEntity)
+        Mockito.`when`(userEntityRepository.save(any())).thenReturn(userEntity)
 
         // when
-        userService?.create(userUid, userPassword)
+        userService.create(userUid, userPassword)
 
         // then
-        verify(userEntityRepository)?.save( argThat<UserEntity> { name == userName })
+        verify(userEntityRepository).save(argThat<UserEntity> { name == userName })
     }
 
     private fun createUserEntity(): UserEntity {
