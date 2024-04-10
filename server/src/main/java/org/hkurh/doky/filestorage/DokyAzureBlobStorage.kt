@@ -23,7 +23,7 @@ class DokyAzureBlobStorage : FileStorage {
     private val connectionString: String? = null
 
     @Value("\${doky.filestorage.azure.container}")
-    private val containerName: String? = null
+    lateinit var containerName: String
     private var blobContainerClient: BlobContainerClient? = null
 
     @PostConstruct

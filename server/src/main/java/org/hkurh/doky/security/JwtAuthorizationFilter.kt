@@ -1,6 +1,5 @@
 package org.hkurh.doky.security
 
-import io.jsonwebtoken.ClaimJwtException
 import io.jsonwebtoken.JwtException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
@@ -8,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.security.JwtProvider.getUsernameFromToken
-import org.hkurh.doky.security.JwtProvider.validateToken
 import org.hkurh.doky.users.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -23,7 +21,11 @@ class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequ
     private val anonymousEndpoints = arrayOf("/register", "/login")
 
     @Throws(ServletException::class, IOException::class)
-    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
+    ) {
         LOG.debug("Jwt Authorization Filter is invoked.")
 
         if (anonymousEndpoints.contains(request.requestURI)) {
@@ -38,7 +40,8 @@ class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequ
                 val usernameFromToken = getUsernameFromToken(token)
                 val currentUser = userService.findUserByUid(usernameFromToken)
                 val dokyUserDetails: DokyUserDetails = DokyUserDetails.createUserDetails(currentUser!!)
-                val authenticationToken = UsernamePasswordAuthenticationToken(dokyUserDetails, null, dokyUserDetails.getAuthorities())
+                val authenticationToken =
+                    UsernamePasswordAuthenticationToken(dokyUserDetails, null, dokyUserDetails.getAuthorities())
                 SecurityContextHolder.getContext().authentication = authenticationToken
             } else {
                 LOG.warn("Token is not presented. Clear authorization context.")

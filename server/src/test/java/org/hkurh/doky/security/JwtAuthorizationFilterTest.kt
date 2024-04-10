@@ -8,12 +8,9 @@ import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Spy
-import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
@@ -26,11 +23,12 @@ import org.springframework.security.core.context.SecurityContextHolder
 
 
 @DisplayName("JwtAuthorizationFilter unit test")
-class JwtAuthorizationFilterTest: DokyUnitTest {
+class JwtAuthorizationFilterTest : DokyUnitTest {
     private val response = MockHttpServletResponse()
     private val authorizationHeader = "Authorization"
     private val userUid = "user@mail.com"
-    private val expiredToken = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkb2t5VG9rZW4iLCJzdWIiOiJoYW5uYV90ZXN0XzNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MDk3OTg1NjIsImV4cCI6MTcwOTg4NDk2Mn0.CJK6Utq0pAd-yWMKjJhLj8On1_6Dt9jHsqj0zQa6o0A"
+    private val expiredToken =
+        "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkb2t5VG9rZW4iLCJzdWIiOiJoYW5uYV90ZXN0XzNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MDk3OTg1NjIsImV4cCI6MTcwOTg4NDk2Mn0.CJK6Utq0pAd-yWMKjJhLj8On1_6Dt9jHsqj0zQa6o0A"
 
     @InjectMocks
     @Spy
@@ -52,7 +50,7 @@ class JwtAuthorizationFilterTest: DokyUnitTest {
         whenever(userService.findUserByUid(userUid)).thenReturn(userEntity)
 
         // when
-        filter?.doFilter(request, response, filterChain)
+        filter.doFilter(request, response, filterChain)
 
         // then
         verify(filterChain).doFilter(request, response)
@@ -69,7 +67,7 @@ class JwtAuthorizationFilterTest: DokyUnitTest {
         val request = MockHttpServletRequest()
 
         // when
-        filter?.doFilter(request, response, filterChain)
+        filter.doFilter(request, response, filterChain)
 
         // then
         verify(filterChain).doFilter(request, response)
@@ -88,7 +86,7 @@ class JwtAuthorizationFilterTest: DokyUnitTest {
         whenever(userService.findUserByUid(userUid)).thenThrow(DokyNotFoundException::class.java)
 
         // when
-        filter?.doFilter(request, response, filterChain)
+        filter.doFilter(request, response, filterChain)
 
         // then
         assertTrue(response.status == HttpServletResponse.SC_FORBIDDEN)
@@ -102,7 +100,7 @@ class JwtAuthorizationFilterTest: DokyUnitTest {
         request.addHeader(authorizationHeader, "Bearer token")
 
         // when
-        filter?.doFilter(request, response, filterChain)
+        filter.doFilter(request, response, filterChain)
 
         // then
         verify(userService, never()).findUserByUid(any())
@@ -117,7 +115,7 @@ class JwtAuthorizationFilterTest: DokyUnitTest {
         request.addHeader(authorizationHeader, "Bearer $expiredToken")
 
         // when
-        filter?.doFilter(request, response, filterChain)
+        filter.doFilter(request, response, filterChain)
 
         // then
         verify(userService, never()).findUserByUid(any())

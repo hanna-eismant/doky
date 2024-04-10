@@ -4,19 +4,21 @@ import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.errorhandling.DokyAuthenticationException
 import org.hkurh.doky.errorhandling.DokyRegistrationException
 import org.hkurh.doky.users.db.UserEntity
-import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.mockito.InjectMocks
 import org.mockito.Spy
-import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @DisplayName("UserFacade unit test")
-class UserFacadeTest: DokyUnitTest {
+class UserFacadeTest : DokyUnitTest {
     private val userUid = "user"
     private val userPassword = "pass"
     private val userPasswordEncoded = "passEncoded"
@@ -43,7 +45,7 @@ class UserFacadeTest: DokyUnitTest {
         whenever(passwordEncoder.matches(userPassword, userPasswordEncoded)).thenReturn(true)
 
         // when - then
-        assertDoesNotThrow { userFacade!!.checkCredentials(userUid, userPassword) }
+        assertDoesNotThrow { userFacade.checkCredentials(userUid, userPassword) }
     }
 
     @Test
@@ -53,7 +55,7 @@ class UserFacadeTest: DokyUnitTest {
         whenever(userService.checkUserExistence(userUid)).thenReturn(false)
 
         // when - then
-        assertThrows<DokyAuthenticationException> { userFacade!!.checkCredentials(userUid, userPassword) }
+        assertThrows<DokyAuthenticationException> { userFacade.checkCredentials(userUid, userPassword) }
     }
 
     @Test
@@ -63,7 +65,7 @@ class UserFacadeTest: DokyUnitTest {
         whenever(userService.checkUserExistence(userUid)).thenReturn(true)
 
         // when - then
-        assertThrows<DokyRegistrationException> { userFacade!!.register(userUid, userPassword) }
+        assertThrows<DokyRegistrationException> { userFacade.register(userUid, userPassword) }
     }
 
     @Test
@@ -74,7 +76,7 @@ class UserFacadeTest: DokyUnitTest {
         whenever(userService.create(userUid, userPasswordEncoded)).thenReturn(userEntity)
 
         // when
-        val registeredUserDto = userFacade!!.register(userUid, userPassword)
+        val registeredUserDto = userFacade.register(userUid, userPassword)
 
         // then
         assertNotNull(registeredUserDto, "Registered user cannot be null")

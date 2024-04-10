@@ -37,18 +37,18 @@ class FileStorageService(private val environment: Environment, private val fileS
         return fileStorage.getFile(filePath)
     }
 
-    fun generateStoragePath(): String {
+    private fun generateStoragePath(): String {
         val basePath = environment.getProperty(STORAGE_PATH_PROPERTY, DEFAULT_STORAGE_PATH)
         val today = DateTime.now(DateTimeZone.getDefault())
         return "$basePath$separator${today.year}$separator${today.monthOfYear}$separator"
     }
 
-    fun generateFileName(extension: String): String {
+    private fun generateFileName(extension: String): String {
         val randomName = RandomStringUtils.random(10, true, true)
         return "$randomName.$extension"
     }
 
-    fun checkFileExtension(file: MultipartFile, filePath: String): String {
+    private fun checkFileExtension(file: MultipartFile, filePath: String): String {
         val uploadExt = FilenameUtils.getExtension(file.originalFilename)
         val savedExt = FilenameUtils.getExtension(filePath)
         LOG.debug("Saved extension [$savedExt], upload extension [$uploadExt]")

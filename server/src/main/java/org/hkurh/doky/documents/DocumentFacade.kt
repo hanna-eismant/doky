@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
-import java.util.stream.Collectors
 
 @Component
 class DocumentFacade(
@@ -28,7 +27,8 @@ class DocumentFacade(
     }
 
     fun update(id: String, document: DocumentRequest) {
-        val existedDocument = documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
+        val existedDocument =
+            documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
         existedDocument.apply {
             name = document.name
             description = document.description
