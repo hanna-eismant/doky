@@ -7,11 +7,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class DokyController {
 
-    @Value("\${doky.version.build:Aardvark-v0.1}")
+    @Value("\${doky.version.build}")
     lateinit var build: String
-
-    @Value("\${doky.version.commit}")
-    lateinit var commit: String
 
     @GetMapping("/version")
     fun version(): VersionDto {
