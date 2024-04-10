@@ -1,4 +1,4 @@
-[![tests](https://github.com/hanna-eismant/doky/actions/workflows/gradle.yml/badge.svg)](https://github.com/hanna-eismant/doky/actions/workflows/gradle.yml)
+[![tests](https://github.com/hanna-eismant/doky/actions/workflows/gradle-main.yml/badge.svg)](https://github.com/hanna-eismant/doky/actions/workflows/gradle-main.yml)
 
 Swagger documentation url:
 
