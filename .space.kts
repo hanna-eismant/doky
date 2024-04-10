@@ -15,11 +15,8 @@ val gradleImageVersion = "gradle:8.2-jdk17"
 
 job("Tests for main branch") {
     startOn {
-        gitPush {
-            anyRefMatching {
-                +"refs/heads/main"
-            }
-        }
+        // every day at 3:59 am UTC
+        schedule { cron("59 3 * * *") }
     }
 
     val sharedCoveragePath = "coverage"
