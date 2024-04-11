@@ -137,12 +137,12 @@ job("Azure DEV Deployment") {
                 targetIdentifier = TargetIdentifier.Key("azure-dev"),
                 deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
             ).version
-//            api.space().projects.automation.deployments.start(
-//                project = api.projectIdentifier(),
-//                targetIdentifier = TargetIdentifier.Key("azure-dev"),
-//                version = deployVersion,
-//                syncWithAutomationJob = true
-//            )
+            api.space().projects.automation.deployments.start(
+                project = api.projectIdentifier(),
+                targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                version = deployVersion,
+                syncWithAutomationJob = true
+            )
             // -P is used by gradle (i.e. name of package), -D is used to pass to azure deployment
             api.gradlew("azureWebAppDeploy", "-DdeployVersion=$deployVersion", "-PdeployVersion=$deployVersion")
         }
