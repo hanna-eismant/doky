@@ -143,7 +143,8 @@ job("Azure DEV Deployment") {
 //                version = deployVersion,
 //                syncWithAutomationJob = true
 //            )
-            api.gradlew("azureWebAppDeploy", "-DdeployVersion=$deployVersion")
+            // -P is used by gradle (i.e. name of package), -D is used to pass to azure deployment
+            api.gradlew("azureWebAppDeploy", "-DdeployVersion=$deployVersion", "-PdeployVersion=$deployVersion")
         }
     }
 }

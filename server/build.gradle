@@ -156,8 +156,8 @@ koverReport {
     }
 }
 
-if (System.hasProperty('deployVersion')) {
-    version = System.getProperty('deployVersion')
+if (project.hasProperty('deployVersion')) {
+    version = project.deployVersion
 } else {
     version = 'Aardvark-v0.1'
 }
