@@ -2,6 +2,8 @@ package org.hkurh.doky.search
 
 import org.apache.commons.logging.LogFactory
 import org.apache.solr.client.solrj.SolrClient
+import org.apache.solr.client.solrj.SolrQuery
+import org.apache.solr.common.params.SolrParams
 import org.hkurh.doky.documents.db.DocumentEntityRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -31,6 +33,19 @@ class DocumentIndexService(
                 LOG.debug("[Update Index] Add [${it.size}] documents to index")
                 push(it)
             }
+    }
+
+    fun search(): List<DocumentBean> {
+        val solrQuery = SolrQuery().apply {
+            set("q", "name:guid~")
+        }
+        val results = solrClient.query(coreName, solrQuery).results
+        return if (results.numFound > 0) {
+            results.map { it.toSolrBean() }
+        } else {
+            emptyList()
+        }
+
     }
 
     private fun push(docs: List<DocumentBean>) {
