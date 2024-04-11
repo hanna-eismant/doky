@@ -11,10 +11,3 @@ profile:
 
 include:
   - name: CheckDependencyLicenses
-
-exclude:
-  - name: JvmCoverageInspection
-
-
-
-
