@@ -156,8 +156,8 @@ koverReport {
     }
 }
 
-if (project.hasProperty('deployVersion')) {
-    version = project.deployVersion
+if (System.hasProperty('deployVersion')) {
+    version = System.getProperty('deployVersion')
 } else {
     version = 'Aardvark-v0.1'
 }
@@ -173,7 +173,7 @@ azurewebapp {
         SPRING_DATASOURCE_PASSWORD = System.env.SPRING_DATASOURCE_PASSWORD
         AZURE_BLOB_CONNECTION = System.env.AZURE_BLOB_CONNECTION
         AZURE_BLOB_CONTAINER = System.env.AZURE_BLOB_CONTAINER
-        BUILD_NUMBER = version
+        BUILD_NUMBER = System.getProperty('deployVersion')
         BUILD_COMMIT = System.env.BUILD_COMMIT
     }
     auth {
