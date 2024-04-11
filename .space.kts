@@ -151,7 +151,9 @@ job("Azure DEV Deployment") {
 //                version = deployVersion,
 //                syncWithAutomationJob = true
 //            )
-            api.gradle("azureWebAppDeploy")
+            println("Deploy Version $deployVersion")
+            println("BUILD_NUMBER ${'$'}BUILD_NUMBER")
+//            api.gradle("azureWebAppDeploy")
         }
     }
 }
