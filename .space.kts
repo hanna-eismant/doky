@@ -119,7 +119,7 @@ job("Azure DEV Deployment") {
                 targetIdentifier = TargetIdentifier.Key(deploymentKey),
                 deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
             ).version
-            println(depVersion)
+            println(deployVersion)
         }
     }
 
