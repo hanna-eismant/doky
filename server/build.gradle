@@ -130,6 +130,21 @@ testing {
 apiTest.onlyIf { project.hasProperty('runApiTests') && project.property('runApiTests') }
 integrationTest.onlyIf { project.hasProperty('runIntegrationTests') && project.property('runIntegrationTests') }
 
+test.testLogging {
+    showStandardStreams = true
+    events "PASSED", "SKIPPED", "FAILED"
+}
+
+apiTest.testLogging {
+    showStandardStreams = true
+    events "PASSED", "SKIPPED", "FAILED"
+}
+
+integrationTest.testLogging {
+    showStandardStreams = true
+    events "PASSED", "SKIPPED", "FAILED"
+}
+
 kover {
     excludeSourceSets {
         names("integrationTest")
