@@ -97,6 +97,7 @@ testing {
             useJUnitJupiter()
         }
         integrationTest(JvmTestSuite) {
+            useJUnitJupiter()
             dependencies {
                 implementation project()
 
@@ -109,6 +110,7 @@ testing {
             }
         }
         apiTest(JvmTestSuite) {
+            useJUnitJupiter()
             dependencies {
                 implementation project()
 

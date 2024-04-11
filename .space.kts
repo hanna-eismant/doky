@@ -21,7 +21,7 @@ job("Tests for main branch") {
     }
 
     val sharedCoveragePath = "coverage"
-    container(displayName = "Tests with coverage", image = gradleImageVersion) {
+    container(displayName = "Coverage", image = gradleImageVersion) {
         env["DB_HOST"] = "db"
         env["DB_PORT"] = "3306"
         service("mysql:8") {
@@ -60,26 +60,35 @@ job("Tests for main branch") {
         }
     }
 
-//    container(displayName = "Integration tests", image = gradleImageVersion) {
-//        env["DB_HOST"] = "db"
-//        env["DB_PORT"] = "3306"
-//        service("mysql:8") {
-//            alias("db")
-//            args(
-//                "--log_bin_trust_function_creators=ON",
-//                "--max-connections=700"
-//            )
-//            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
-//            env["MYSQL_DATABASE"] = "doky-test"
-//            env["MYSQL_USER"] = "doky-test"
-//            env["MYSQL_PASSWORD"] = "doky-test"
-//        }
-//
+//    container(displayName = "Unit tests", image = gradleImageVersion) {
 //        workDir = "server"
 //        kotlinScript { api ->
-//            api.gradlew("integrationTest", "-PrunIntegrationTests=true")
+//            api.gradlew("test")
 //        }
 //    }
+
+    container(displayName = "Tests", image = gradleImageVersion) {
+        env["DB_HOST"] = "db"
+        env["DB_PORT"] = "3306"
+        service("mysql:8") {
+            alias("db")
+            args(
+                "--log_bin_trust_function_creators=ON",
+                "--max-connections=700"
+            )
+            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
+            env["MYSQL_DATABASE"] = "doky-test"
+            env["MYSQL_USER"] = "doky-test"
+            env["MYSQL_PASSWORD"] = "doky-test"
+        }
+
+        workDir = "server"
+        kotlinScript { api ->
+            api.gradlew("test")
+            api.gradlew("integrationTest", "-PrunIntegrationTests=true")
+            api.gradlew("apiTest", "-PrunApiTests=true")
+        }
+    }
 
 //    container(displayName = "API tests", image = gradleImageVersion) {
 //        env["DB_HOST"] = "db"

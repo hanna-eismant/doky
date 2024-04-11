@@ -3,6 +3,8 @@
 #             https://www.jetbrains.com/help/qodana/qodana-yaml.html            #
 #-------------------------------------------------------------------------------#
 version: "1.0"
+projectJDK: "17"
+linter: jetbrains/qodana-jvm:latest
 
 profile:
   name: qodana.recommended
@@ -10,6 +12,9 @@ profile:
 include:
   - name: CheckDependencyLicenses
 
-projectJDK: "17"
+exclude:
+  - name: JvmCoverageInspection
 
-linter: jetbrains/qodana-jvm:latest
+
+
+
