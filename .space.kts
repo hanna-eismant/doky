@@ -111,18 +111,6 @@ job("Azure DEV Deployment") {
         text("spring-profile", value = "dev")
     }
 
-    var deployVersion = "Aardvark-v0.1"
-    host("Get build version") {
-        kotlinScript { api ->
-            deployVersion = api.space().projects.automation.deployments.get(
-                project = api.projectIdentifier(),
-                targetIdentifier = TargetIdentifier.Key(deploymentKey),
-                deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
-            ).version
-            println(deployVersion)
-        }
-    }
-
     container(displayName = "Deploy artifact", image = gradleImageVersion) {
         workDir = "server"
 
@@ -142,28 +130,21 @@ job("Azure DEV Deployment") {
         env["SPRING_DATASOURCE_PASSWORD"] = "{{ project:spring-datasource-password }}"
 
         env["BUILD_COMMIT"] = "{{ run:git-checkout.commit }}"
-        env["BUILD_NUMBER"] = deployVersion
 
-        shellScript {
-            content = """
-                echo "Deploy Version: $deployVersion"
-                echo "BUILD_NUMBER: ${'$'}BUILD_NUMBER"
-                """.trimIndent()
+        kotlinScript { api ->
+            val deployVersion = api.space().projects.automation.deployments.get(
+                project = api.projectIdentifier(),
+                targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
+            ).version
+//            api.space().projects.automation.deployments.start(
+//                project = api.projectIdentifier(),
+//                targetIdentifier = TargetIdentifier.Key("azure-dev"),
+//                version = deployVersion,
+//                syncWithAutomationJob = true
+//            )
+            api.gradle("azureWebAppDeploy -PdeployVersion=$deployVersion")
         }
-
-
-
-//        kotlinScript { api ->
-////            api.space().projects.automation.deployments.start(
-////                project = api.projectIdentifier(),
-////                targetIdentifier = TargetIdentifier.Key("azure-dev"),
-////                version = deployVersion,
-////                syncWithAutomationJob = true
-////            )
-//            println("Deploy Version $deployVersion")
-//            println("BUILD_NUMBER ${'$'}BUILD_NUMBER")
-////            api.gradle("azureWebAppDeploy")
-//        }
     }
 }
 
