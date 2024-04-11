@@ -85,6 +85,7 @@ data class DocumentDto(
     var id: Long,
     var name: String? = null,
     var description: String? = null,
+    var fileName: String? = null,
     var createdBy: String,
     var createdDate: String,
     var modifiedBy: String,

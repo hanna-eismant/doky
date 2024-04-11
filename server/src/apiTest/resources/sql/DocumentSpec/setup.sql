@@ -1,5 +1,5 @@
-insert into document (name, description, created_date, modified_date, creator_id  )
-select "Test_1", "That is a test document", '2024-01-15 13:00:00', '2024-01-15 13:00:00', u.id from user u where u.uid = "hanna_test_1@example.com";
+insert into document (name, description, file_name, created_date, modified_date, creator_id  )
+select "Test_1", "That is a test document", "test.txt", '2024-01-15 13:00:00', '2024-01-15 13:00:00', u.id from user u where u.uid = "hanna_test_1@example.com";
 
 insert into document (name, description, created_date, modified_date, creator_id )
 select "Test_2", "That is a second test document", '2024-01-15 16:00:00', '2024-01-15 16:00:00', u.id from user u where u.uid = "hanna_test_1@example.com";

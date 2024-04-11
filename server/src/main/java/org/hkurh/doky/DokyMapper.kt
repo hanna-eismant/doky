@@ -24,6 +24,7 @@ fun DocumentEntity.toDto(): DocumentDto {
         id = entity.id,
         name = entity.name,
         description = entity.description,
+        fileName = entity.fileName,
         createdBy = userToString(entity.createdBy),
         createdDate = dateToString(entity.createdDate),
         modifiedBy = userToString(entity.modifiedBy),
