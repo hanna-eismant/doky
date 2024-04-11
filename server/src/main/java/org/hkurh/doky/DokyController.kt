@@ -24,7 +24,7 @@ class DokyController {
 }
 
 data class VersionDto(val message: String = "") {
-    val schemaVersion = "1"
+    val schemaVersion = 1
     val label = "version"
     val color = "green"
 }

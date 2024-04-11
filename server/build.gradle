@@ -14,7 +14,6 @@ plugins {
 }
 
 group = 'org.hkurh.doky'
-version = 'Aardvark-v0.1'
 
 java {
     sourceCompatibility = '17'
@@ -157,6 +156,12 @@ koverReport {
     }
 }
 
+if (project.hasProperty('deployVersion')) {
+    version = project.deployVersion
+} else {
+    version = 'Aardvark-v0.1'
+}
+
 azurewebapp {
     subscription = System.env.AZURE_SUBSCRIPTION
     resourceGroup = System.env.AZURE_RESOURCE_GROUP
@@ -168,7 +173,7 @@ azurewebapp {
         SPRING_DATASOURCE_PASSWORD = System.env.SPRING_DATASOURCE_PASSWORD
         AZURE_BLOB_CONNECTION = System.env.AZURE_BLOB_CONNECTION
         AZURE_BLOB_CONTAINER = System.env.AZURE_BLOB_CONTAINER
-        BUILD_NUMBER = System.env.BUILD_NUMBER
+        BUILD_NUMBER = System.getProperty('deployVersion')
         BUILD_COMMIT = System.env.BUILD_COMMIT
     }
     auth {

@@ -12,6 +12,7 @@ import java.time.temporal.TemporalAdjusters
  */
 
 val gradleImageVersion = "gradle:8.2-jdk17"
+val deploymentKey = "azure-dev"
 
 job("Tests for main branch") {
     startOn {
@@ -93,7 +94,7 @@ job("Tests for main branch") {
             val deployVersion = "Aardvark-v0.1." + api.executionNumber()
             api.space().projects.automation.deployments.schedule(
                 project = api.projectIdentifier(),
-                targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                targetIdentifier = TargetIdentifier.Key(deploymentKey),
                 version = deployVersion,
                 scheduledStart = getNextSundayDate()
             )
@@ -136,16 +137,14 @@ job("Azure DEV Deployment") {
                 targetIdentifier = TargetIdentifier.Key("azure-dev"),
                 deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
             ).version
-
-            this@container.env["BUILD_NUMBER"] = deployVersion
-
             api.space().projects.automation.deployments.start(
                 project = api.projectIdentifier(),
                 targetIdentifier = TargetIdentifier.Key("azure-dev"),
                 version = deployVersion,
                 syncWithAutomationJob = true
             )
-            api.gradle("azureWebAppDeploy")
+            // -P is used by gradle (i.e. name of package), -D is used to pass to azure deployment
+            api.gradlew("azureWebAppDeploy", "-DdeployVersion=$deployVersion", "-PdeployVersion=$deployVersion")
         }
     }
 }
