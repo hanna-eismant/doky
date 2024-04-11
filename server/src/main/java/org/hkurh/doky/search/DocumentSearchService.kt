@@ -7,7 +7,7 @@ class DocumentSearchService(
     private val documentIndexService: DocumentIndexService
 ) {
 
-    fun search(): List<DocumentBean> {
-        return documentIndexService.search()
-    }
+//    fun search(id: Long, queryWords: List<String>): List<DocumentBean> {
+//        return documentIndexService.search()
+//    }
 }

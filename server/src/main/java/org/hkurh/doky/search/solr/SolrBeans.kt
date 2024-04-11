@@ -1,8 +1,8 @@
-package org.hkurh.doky.search
+package org.hkurh.doky.search.solr
 
 import org.apache.solr.client.solrj.beans.Field
 
-class DocumentBean {
+class DocumentIndexBean {
     @Field
     var id: String? = null
     @Field
@@ -11,4 +11,9 @@ class DocumentBean {
     var fileName: String? = null
     @Field
     var description: String? = null
+}
+
+class DocumentResultBean {
+    @Field
+    var id: String? = null
 }

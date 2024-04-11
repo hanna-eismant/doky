@@ -3,8 +3,9 @@ package org.hkurh.doky.search
 import org.apache.commons.logging.LogFactory
 import org.apache.solr.client.solrj.SolrClient
 import org.apache.solr.client.solrj.SolrQuery
-import org.apache.solr.common.params.SolrParams
 import org.hkurh.doky.documents.db.DocumentEntityRepository
+import org.hkurh.doky.search.solr.DocumentIndexBean
+import org.hkurh.doky.search.solr.DocumentResultBean
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.util.*
@@ -19,7 +20,7 @@ class DocumentIndexService(
 
     fun fullIndex() {
         documentEntityRepository.findAll()
-            .mapNotNull { it?.toSolrBean() }
+            .mapNotNull { it?.toSolrIndexBean() }
             .let {
                 LOG.debug("[Full Index] Add [${it.size}] documents to index")
                 push(it)
@@ -28,27 +29,36 @@ class DocumentIndexService(
 
     fun updateIndex(runDate: Date) {
         documentEntityRepository.findLatestModified(runDate)
-            .map { it.toSolrBean() }
+            .map { it.toSolrIndexBean() }
             .let {
                 LOG.debug("[Update Index] Add [${it.size}] documents to index")
                 push(it)
             }
     }
 
-    fun search(): List<DocumentBean> {
+    fun search(query: String): List<DocumentResultBean> {
+        val s = fuzzyQuery(query)
         val solrQuery = SolrQuery().apply {
-            set("q", "name:guid~")
+            set("q", s)
+            set("qf", "name^10 description^5 ")
+            set("pf", "name^50 description^10 ")
+            set("q.op", "OR")
+            set("defType", "edismax")
         }
         val results = solrClient.query(coreName, solrQuery).results
         return if (results.numFound > 0) {
-            results.map { it.toSolrBean() }
+            results.map { it.toSolrResultBean() }
         } else {
             emptyList()
         }
-
     }
 
-    private fun push(docs: List<DocumentBean>) {
+    fun fuzzyQuery(query: String): String {
+        val replace = query.replace(" ", "~ ")
+        return "$replace~"
+    }
+
+    private fun push(docs: List<DocumentIndexBean>) {
         if (docs.isNotEmpty()) {
             solrClient.addBeans(coreName, docs)
             solrClient.commit(coreName)

@@ -2,10 +2,12 @@ package org.hkurh.doky.search
 
 import org.apache.solr.common.SolrDocument
 import org.hkurh.doky.documents.db.DocumentEntity
+import org.hkurh.doky.search.solr.DocumentIndexBean
+import org.hkurh.doky.search.solr.DocumentResultBean
 
-fun DocumentEntity.toSolrBean(): DocumentBean {
+fun DocumentEntity.toSolrIndexBean(): DocumentIndexBean {
     val entity = this
-    return DocumentBean().apply {
+    return DocumentIndexBean().apply {
         id = entity.id.toString()
         name = entity.name
         description = entity.description
@@ -13,11 +15,9 @@ fun DocumentEntity.toSolrBean(): DocumentBean {
     }
 }
 
-fun SolrDocument.toSolrBean(): DocumentBean {
+fun SolrDocument.toSolrResultBean(): DocumentResultBean {
     val solrDoc = this
-    return DocumentBean().apply {
+    return DocumentResultBean().apply {
         solrDoc["id"]?.let { i -> id = i.toString() }
-        solrDoc["name"]?.let { n -> name = n.toString() }
-        solrDoc["description"]?.let { d -> description = d.toString() }
     }
 }

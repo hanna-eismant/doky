@@ -6,12 +6,15 @@ import org.springframework.stereotype.Component
 @Component
 class DocumentSearchFacade(
     private val userService: UserService ,
-    private val documentSearchService: DocumentSearchService
+    private val documentSearchService: DocumentSearchService,
+    private val documentIndexService: DocumentIndexService
 ) {
 
-    fun search(query: String): List<DocumentBean> {
-        val user = userService.getCurrentUser()
-        return documentSearchService.search()
+    fun search(query: String)  {
+        documentIndexService.fullIndex()
+        documentIndexService.search(query)
+//        val user = userService.getCurrentUser()
+
     }
 
 
