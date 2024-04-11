@@ -1,4 +1,6 @@
 [![tests](https://github.com/hanna-eismant/doky/actions/workflows/gradle-main.yml/badge.svg)](https://github.com/hanna-eismant/doky/actions/workflows/gradle-main.yml)
+![GitHub License](https://img.shields.io/github/license/hanna-eismant/doky)
+    
 
 > [!NOTE]
 > This project is created for investigations and learning
@@ -25,7 +27,9 @@ Here’s what you need to know:
 To development process there is an DEvV environment that is hosted on Azure
 
 1. Backend - https://doky-dev.azurewebsites.net/
+   ![Website](https://img.shields.io/website?url=https%3A%2F%2Fdoky-dev.azurewebsites.net) 
 2. Frontend - https://doky-dev-front.azurewebsites.net/
+   ![Website](https://img.shields.io/website?url=https%3A%2F%2Fdoky-dev-front.azurewebsites.net)
 
 ## Backend
 Tech Stack:
