@@ -143,7 +143,7 @@ job("Azure DEV Deployment") {
 //                version = deployVersion,
 //                syncWithAutomationJob = true
 //            )
-            api.gradle("azureWebAppDeploy -PdeployVersion=$deployVersion")
+            api.gradlew("azureWebAppDeploy", "-PdeployVersion=$deployVersion")
         }
     }
 }
