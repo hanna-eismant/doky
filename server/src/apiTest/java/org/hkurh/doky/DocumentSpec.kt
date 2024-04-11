@@ -27,7 +27,9 @@ class DocumentSpec : RestSpec() {
     val endpointUpload = "$endpointSingle/upload"
     val documentIdProperty = "id"
     val documentNameProperty = "name"
+    val documentFileNameProperty = "fileName"
     val existedDocumentNameFirst = "Test_1"
+    val existedDocumentFileNameFirst = "test.txt"
     val existedDocumentNameSecond = "Test_2"
     val existedDocumentNameThird = "Test_3"
     val existedDocumentNameFour = "Test_4"
@@ -88,6 +90,8 @@ class DocumentSpec : RestSpec() {
         assertEquals(existedDocumentNameFirst, name)
         val id: Long = response.path(documentIdProperty)
         assertEquals(docId, id)
+        val fileName: String = response.path(documentFileNameProperty)
+        assertEquals(existedDocumentFileNameFirst, fileName)
     }
 
     @Test
