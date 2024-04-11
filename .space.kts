@@ -12,6 +12,7 @@ import java.time.temporal.TemporalAdjusters
  */
 
 val gradleImageVersion = "gradle:8.2-jdk17"
+val deploymentKey = "azure-dev"
 
 job("Tests for main branch") {
     startOn {
@@ -93,7 +94,7 @@ job("Tests for main branch") {
             val deployVersion = "Aardvark-v0.1." + api.executionNumber()
             api.space().projects.automation.deployments.schedule(
                 project = api.projectIdentifier(),
-                targetIdentifier = TargetIdentifier.Key("azure-dev"),
+                targetIdentifier = TargetIdentifier.Key(deploymentKey),
                 version = deployVersion,
                 scheduledStart = getNextSundayDate()
             )
@@ -110,9 +111,20 @@ job("Azure DEV Deployment") {
         text("spring-profile", value = "dev")
     }
 
+    var deployVersion = "Aardvark-v0.1"
+    host("Get build version") {
+        kotlinScript { api ->
+            deployVersion = api.space().projects.automation.deployments.get(
+                project = api.projectIdentifier(),
+                targetIdentifier = TargetIdentifier.Key(deploymentKey),
+                deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
+            ).version
+            println(depVersion)
+        }
+    }
+
     container(displayName = "Deploy artifact", image = gradleImageVersion) {
         workDir = "server"
-        var buildNumber = "Aardvark-v0.1"
 
         env["AZURE_SUBSCRIPTION"] = "{{ project:azure-subscription }}"
         env["AZURE_RESOURCE_GROUP"] = "{{ project:azure-resource-group }}"
@@ -130,19 +142,15 @@ job("Azure DEV Deployment") {
         env["SPRING_DATASOURCE_PASSWORD"] = "{{ project:spring-datasource-password }}"
 
         env["BUILD_COMMIT"] = "{{ run:git-checkout.commit }}"
+        env["BUILD_NUMBER"] = deployVersion
 
         kotlinScript { api ->
-            buildNumber = api.space().projects.automation.deployments.get(
-                project = api.projectIdentifier(),
-                targetIdentifier = TargetIdentifier.Key("azure-dev"),
-                deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
-            ).version
-            println(depVersion)
-        }
-
-        env["BUILD_NUMBER"] = buildNumber
-
-        kotlinScript { api ->
+//            api.space().projects.automation.deployments.start(
+//                project = api.projectIdentifier(),
+//                targetIdentifier = TargetIdentifier.Key("azure-dev"),
+//                version = deployVersion,
+//                syncWithAutomationJob = true
+//            )
             api.gradle("azureWebAppDeploy")
         }
     }
