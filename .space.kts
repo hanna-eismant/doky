@@ -141,7 +141,7 @@ job("Azure DEV Deployment") {
             println(depVersion)
         }
 
-        env["BUILD_NUMBER"] = depVersion
+        env["BUILD_NUMBER"] = buildNumber
 
 //        kotlinScript { api ->
 //            api.gradle("azureWebAppDeploy")
