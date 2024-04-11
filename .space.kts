@@ -112,6 +112,8 @@ job("Azure DEV Deployment") {
 
     container(displayName = "Deploy artifact", image = gradleImageVersion) {
         workDir = "server"
+        var buildNumber = "Aardvark-v0.1"
+        var depVersion
 
         env["AZURE_SUBSCRIPTION"] = "{{ project:azure-subscription }}"
         env["AZURE_RESOURCE_GROUP"] = "{{ project:azure-resource-group }}"
@@ -131,22 +133,19 @@ job("Azure DEV Deployment") {
         env["BUILD_COMMIT"] = "{{ run:git-checkout.commit }}"
 
         kotlinScript { api ->
-            val deployVersion = api.space().projects.automation.deployments.get(
+            depVersion = api.space().projects.automation.deployments.get(
                 project = api.projectIdentifier(),
                 targetIdentifier = TargetIdentifier.Key("azure-dev"),
                 deploymentIdentifier = DeploymentIdentifier.Status(DeploymentIdentifierStatus.scheduled)
             ).version
-
-            this@container.env["BUILD_NUMBER"] = deployVersion
-
-            api.space().projects.automation.deployments.start(
-                project = api.projectIdentifier(),
-                targetIdentifier = TargetIdentifier.Key("azure-dev"),
-                version = deployVersion,
-                syncWithAutomationJob = true
-            )
-            api.gradle("azureWebAppDeploy")
+            println(depVersion)
         }
+
+        env["BUILD_NUMBER"] = depVersion
+
+//        kotlinScript { api ->
+//            api.gradle("azureWebAppDeploy")
+//        }
     }
 }
 
