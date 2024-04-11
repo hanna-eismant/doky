@@ -144,17 +144,26 @@ job("Azure DEV Deployment") {
         env["BUILD_COMMIT"] = "{{ run:git-checkout.commit }}"
         env["BUILD_NUMBER"] = deployVersion
 
-        kotlinScript { api ->
-//            api.space().projects.automation.deployments.start(
-//                project = api.projectIdentifier(),
-//                targetIdentifier = TargetIdentifier.Key("azure-dev"),
-//                version = deployVersion,
-//                syncWithAutomationJob = true
-//            )
-            println("Deploy Version $deployVersion")
-            println("BUILD_NUMBER ${'$'}BUILD_NUMBER")
-//            api.gradle("azureWebAppDeploy")
+        shellScript {
+            content = """
+                echo "Deploy Version: $deployVersion"
+                echo "BUILD_NUMBER: ${'$'}BUILD_NUMBER"
+                """.trimIndent()
         }
+
+
+
+//        kotlinScript { api ->
+////            api.space().projects.automation.deployments.start(
+////                project = api.projectIdentifier(),
+////                targetIdentifier = TargetIdentifier.Key("azure-dev"),
+////                version = deployVersion,
+////                syncWithAutomationJob = true
+////            )
+//            println("Deploy Version $deployVersion")
+//            println("BUILD_NUMBER ${'$'}BUILD_NUMBER")
+////            api.gradle("azureWebAppDeploy")
+//        }
     }
 }
 
