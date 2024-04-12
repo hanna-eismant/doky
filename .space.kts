@@ -16,8 +16,8 @@ val deploymentKey = "azure-dev"
 
 job("Tests for main branch") {
     startOn {
-        // every day at 3:59 am UTC
-        schedule { cron("59 3 * * *") }
+        // every day at 20:53 am UTC
+        schedule { cron("53 20 * * *") }
     }
 
     val sharedCoveragePath = "coverage"
@@ -60,13 +60,6 @@ job("Tests for main branch") {
         }
     }
 
-//    container(displayName = "Unit tests", image = gradleImageVersion) {
-//        workDir = "server"
-//        kotlinScript { api ->
-//            api.gradlew("test")
-//        }
-//    }
-
     container(displayName = "Tests", image = gradleImageVersion) {
         env["DB_HOST"] = "db"
         env["DB_PORT"] = "3306"
@@ -89,27 +82,6 @@ job("Tests for main branch") {
             api.gradlew("apiTest", "-PrunApiTests=true")
         }
     }
-
-//    container(displayName = "API tests", image = gradleImageVersion) {
-//        env["DB_HOST"] = "db"
-//        env["DB_PORT"] = "3306"
-//        service("mysql:8") {
-//            alias("db")
-//            args(
-//                "--log_bin_trust_function_creators=ON",
-//                "--max-connections=700"
-//            )
-//            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
-//            env["MYSQL_DATABASE"] = "doky-test"
-//            env["MYSQL_USER"] = "doky-test"
-//            env["MYSQL_PASSWORD"] = "doky-test"
-//        }
-//
-//        workDir = "server"
-//        kotlinScript { api ->
-//            api.gradlew("apiTest", "-PrunApiTests=true")
-//        }
-//    }
 
     host("Schedule Azure DEV Deployment") {
         kotlinScript { api ->
