@@ -16,16 +16,29 @@ val deploymentKey = "azure-dev"
 
 job("Tests for main branch") {
     startOn {
-        // every day at 3:59 am UTC
-        schedule { cron("59 3 * * *") }
+        // every day at 20:53 am UTC
+        schedule { cron("53 20 * * *") }
     }
 
     val sharedCoveragePath = "coverage"
-    container(displayName = "Unit tests with coverage", image = gradleImageVersion) {
+    container(displayName = "Coverage", image = gradleImageVersion) {
+        env["DB_HOST"] = "db"
+        env["DB_PORT"] = "3306"
+        service("mysql:8") {
+            alias("db")
+            args(
+                "--log_bin_trust_function_creators=ON",
+                "--max-connections=700"
+            )
+            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
+            env["MYSQL_DATABASE"] = "doky-test"
+            env["MYSQL_USER"] = "doky-test"
+            env["MYSQL_PASSWORD"] = "doky-test"
+        }
         shellScript {
             content = """
                 cd server
-                ./gradlew koverVerify
+                ./gradlew koverVerify -PrunIntegrationTests=true -PrunApiTests=true
                 mkdir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
                 cd build/kover/bin-reports
                 cp -a . ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
@@ -47,7 +60,7 @@ job("Tests for main branch") {
         }
     }
 
-    container(displayName = "Integration tests", image = gradleImageVersion) {
+    container(displayName = "Tests", image = gradleImageVersion) {
         env["DB_HOST"] = "db"
         env["DB_PORT"] = "3306"
         service("mysql:8") {
@@ -64,27 +77,8 @@ job("Tests for main branch") {
 
         workDir = "server"
         kotlinScript { api ->
+            api.gradlew("test")
             api.gradlew("integrationTest", "-PrunIntegrationTests=true")
-        }
-    }
-
-    container(displayName = "API tests", image = gradleImageVersion) {
-        env["DB_HOST"] = "db"
-        env["DB_PORT"] = "3306"
-        service("mysql:8") {
-            alias("db")
-            args(
-                "--log_bin_trust_function_creators=ON",
-                "--max-connections=700"
-            )
-            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
-            env["MYSQL_DATABASE"] = "doky-test"
-            env["MYSQL_USER"] = "doky-test"
-            env["MYSQL_PASSWORD"] = "doky-test"
-        }
-
-        workDir = "server"
-        kotlinScript { api ->
             api.gradlew("apiTest", "-PrunApiTests=true")
         }
     }
