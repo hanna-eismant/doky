@@ -4,6 +4,7 @@ import org.apache.solr.client.solrj.SolrClient
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.documents.db.DocumentEntityRepository
+import org.hkurh.doky.search.solr.DocumentIndexBean
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -43,7 +44,7 @@ class DocumentIndexServiceTest : DokyUnitTest {
         documentIndexService.fullIndex()
 
         // then
-        verify(solrClient).addBeans(any<String>(), any<List<DocumentBean>>())
+        verify(solrClient).addBeans(any<String>(), any<List<DocumentIndexBean>>())
         verify(solrClient).commit(any<String>())
     }
 
@@ -62,7 +63,7 @@ class DocumentIndexServiceTest : DokyUnitTest {
         documentIndexService.updateIndex(date)
 
         // then
-        verify(solrClient).addBeans(any<String>(), any<List<DocumentBean>>())
+        verify(solrClient).addBeans(any<String>(), any<List<DocumentIndexBean>>())
         verify(solrClient).commit(any<String>())
     }
 

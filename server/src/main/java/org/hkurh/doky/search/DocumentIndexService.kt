@@ -46,6 +46,7 @@ class DocumentIndexService(
             set("defType", "edismax")
         }
         val results = solrClient.query(coreName, solrQuery).results
+        LOG.debug("Solr found [${results.numFound}] for query [$query]")
         return if (results.numFound > 0) {
             results.map { it.toSolrResultBean() }
         } else {

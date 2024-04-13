@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class DocumentService(private val documentEntityRepository: DocumentEntityRepository, private val userService: UserService) {
     fun create(name: String, description: String?): DocumentEntity {
-        val document = DocumentEntity()
+        var document = DocumentEntity()
         document.name = name
         document.description = description
         val currentUser = userService.getCurrentUser()
