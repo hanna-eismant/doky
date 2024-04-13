@@ -23,7 +23,7 @@ class DocumentSearchFacade(
             val userId = userService.getCurrentUser().id
             val documents = documentEntityRepository.findByListIdAndUserId(documentIdList, userId)
                 .map { it.toDto() }
-            LOG.debug("Return [${documents.size}] result for query [$query]")
+            LOG.debug("Return [${documents.size}] results for query [$query]")
             documents
         }
     }

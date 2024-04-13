@@ -22,7 +22,7 @@ class DocumentIndexService(
         documentEntityRepository.findAll()
             .mapNotNull { it?.toSolrIndexBean() }
             .let {
-                LOG.debug("[Full Index] Add [${it.size}] documents to index")
+                LOG.debug("Full Index: Add [${it.size}] documents to index")
                 push(it)
             }
     }
@@ -31,7 +31,7 @@ class DocumentIndexService(
         documentEntityRepository.findLatestModified(runDate)
             .map { it.toSolrIndexBean() }
             .let {
-                LOG.debug("[Update Index] Add [${it.size}] documents to index")
+                LOG.debug("Update Index: Add [${it.size}] documents to index")
                 push(it)
             }
     }
@@ -46,7 +46,7 @@ class DocumentIndexService(
             set("defType", "edismax")
         }
         val results = solrClient.query(coreName, solrQuery).results
-        LOG.debug("Solr found [${results.numFound}] for query [$query]")
+        LOG.debug("Solr found [${results.numFound}] results for query [$query]")
         return if (results.numFound > 0) {
             results.map { it.toSolrResultBean() }
         } else {
@@ -54,7 +54,7 @@ class DocumentIndexService(
         }
     }
 
-    fun fuzzyQuery(query: String): String {
+    private fun fuzzyQuery(query: String): String {
         val replace = query.replace(" ", "~ ")
         return "$replace~"
     }

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 
-
+@DisplayName("Login API test")
 class LoginSpec : RestSpec() {
     val endpoint = "/login"
     val incorrectUserUid = "test_1234@example.com"
