@@ -15,4 +15,11 @@ interface DocumentEntityRepository : CrudRepository<DocumentEntity?, Long?>, Jpa
 
     @Query("select d from DocumentEntity d where d.modifiedDate >= ?1")
     fun findLatestModified(modifiedDate: Date): List<DocumentEntity>
+
+    @Query("""
+            select d from DocumentEntity d 
+            where d.id in (:documentIdList) 
+            and (d.creator.id = :userId or d.createdBy.id = :userId or d.modifiedBy.id = :userId)
+        """)
+    fun findByListIdAndUserId(documentIdList: List<Long>, userId: Long): List<DocumentEntity>
 }

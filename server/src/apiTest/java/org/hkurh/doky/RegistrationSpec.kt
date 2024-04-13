@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.jdbc.Sql
 
+
+@DisplayName("Registration API test")
 class RegistrationSpec : RestSpec() {
     val newUserUid = "new_user_test@example.com"
     val newUserPassword = "Qwert!2345"
