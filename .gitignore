@@ -43,3 +43,4 @@ bin
 /docker-deployment/doky-server/server.jar
 
 /doky-*.env
+/logs/
