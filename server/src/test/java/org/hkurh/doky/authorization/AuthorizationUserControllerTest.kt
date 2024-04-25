@@ -22,14 +22,17 @@ class AuthorizationUserControllerTest : DokyUnitTest {
     @DisplayName("Should generate token when login")
     fun shouldGenerateToken_whenLogin() {
         // given
-        val authenticationRequest = AuthenticationRequest("user@mail.com", "password")
+        val authenticationRequest = AuthenticationRequest().apply {
+            uid = "test@example.com"
+            password = "password123"
+        }
 
         // when
         val response = controller.login(authenticationRequest)
 
         // then
         response.body!!.apply {
-            assertFalse(token.isNullOrBlank())
+            assertFalse(token.isBlank())
         }
     }
 }

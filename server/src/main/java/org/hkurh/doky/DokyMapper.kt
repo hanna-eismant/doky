@@ -1,7 +1,7 @@
 package org.hkurh.doky
 
 import org.apache.commons.lang3.StringUtils
-import org.hkurh.doky.documents.api.DocumentDto
+import org.hkurh.doky.documents.api.DocumentResponse
 import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.users.api.UserDto
 import org.hkurh.doky.users.db.UserEntity
@@ -18,18 +18,18 @@ fun UserEntity.toDto(): UserDto {
     )
 }
 
-fun DocumentEntity.toDto(): DocumentDto {
+fun DocumentEntity.toDto(): DocumentResponse {
     val entity = this
-    return DocumentDto(
-        id = entity.id,
-        name = entity.name,
-        description = entity.description,
-        fileName = entity.fileName,
-        createdBy = userToString(entity.createdBy),
-        createdDate = dateToString(entity.createdDate),
-        modifiedBy = userToString(entity.modifiedBy),
+    return DocumentResponse().apply {
+        id = entity.id
+        name = entity.name
+        description = entity.description
+        fileName = entity.fileName
+        createdBy = userToString(entity.createdBy)
+        createdDate = dateToString(entity.createdDate)
+        modifiedBy = userToString(entity.modifiedBy)
         modifiedDate = dateToString(entity.modifiedDate)
-    )
+    }
 }
 
 val formatter: DateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm:ss")

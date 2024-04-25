@@ -1,7 +1,7 @@
 package org.hkurh.doky.search
 
 import org.apache.commons.logging.LogFactory
-import org.hkurh.doky.documents.api.DocumentDto
+import org.hkurh.doky.documents.api.DocumentResponse
 import org.hkurh.doky.documents.db.DocumentEntityRepository
 import org.hkurh.doky.toDto
 import org.hkurh.doky.users.UserService
@@ -15,7 +15,7 @@ class DocumentSearchFacade(
     private val documentIndexService: DocumentIndexService
 ) {
 
-    fun search(query: String): List<DocumentDto> {
+    fun search(query: String): List<DocumentResponse> {
         val documentIdList = documentIndexService.search(query)
             .mapNotNull { it.id?.toLong() }
         return if (documentIdList.isEmpty()) Collections.emptyList()

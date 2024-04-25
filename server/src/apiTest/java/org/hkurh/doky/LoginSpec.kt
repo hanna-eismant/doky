@@ -20,7 +20,10 @@ class LoginSpec : RestSpec() {
     @DisplayName("Should receive token for valid user when login")
     fun shouldReceiveTokenWhenLoginValidUser() {
         // given
-        val requestBody = AuthenticationRequest(validUserUid, validUserPassword)
+        val requestBody = AuthenticationRequest().apply {
+            uid = validUserUid
+            password = validUserPassword
+        }
         val requestSpec = prepareRequestSpec().setBody(requestBody).build()
 
         // when
@@ -35,7 +38,10 @@ class LoginSpec : RestSpec() {
     @DisplayName("Should return error when login with non-exist user")
     fun shouldReturnErrorWhenLoginNonExistingUser() {
         // given
-        val requestBody = AuthenticationRequest(incorrectUserUid, incorrectUserPassword)
+        val requestBody = AuthenticationRequest().apply {
+            uid = incorrectUserUid
+            password = incorrectUserPassword
+        }
         val requestSpec = prepareRequestSpec().setBody(requestBody).build()
 
         // when
@@ -51,7 +57,10 @@ class LoginSpec : RestSpec() {
     @DisplayName("Should return error when credentials are empty")
     fun shouldReturnErrorWhenLoginEmptyCredentials() {
         // given
-        val requestBody = AuthenticationRequest(StringUtils.EMPTY, StringUtils.EMPTY)
+        val requestBody = AuthenticationRequest().apply {
+            uid = StringUtils.EMPTY
+            password = StringUtils.EMPTY
+        }
         val requestSpec = prepareRequestSpec().setBody(requestBody).build()
 
         // when

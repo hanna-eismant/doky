@@ -78,16 +78,3 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
         private val LOG = LoggerFactory.getLogger(DocumentController::class.java)
     }
 }
-
-data class DocumentRequest(var name: String, var description: String)
-
-data class DocumentDto(
-    var id: Long,
-    var name: String? = null,
-    var description: String? = null,
-    var fileName: String? = null,
-    var createdBy: String,
-    var createdDate: String,
-    var modifiedBy: String,
-    var modifiedDate: String
-)

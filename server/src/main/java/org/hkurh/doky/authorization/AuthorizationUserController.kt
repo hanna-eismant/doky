@@ -32,20 +32,3 @@ class AuthorizationUserController(private val userFacade: UserFacade) : Authoriz
         return ResponseEntity.created(resourceLocation).body(AuthenticationResponse(token))
     }
 }
-
-data class AuthenticationRequest(
-    @field:NotBlank(message = "Email is required")
-    @field:Size(min = 4, max = 32, message = "Length should be from 4 to 32 characters")
-    @field:Pattern(
-        regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}\$",
-        message = "Should be an valid email address"
-    )
-    var uid: String,
-
-    @field:NotBlank(message = "Password is required")
-    @field:Size(min = 8, max = 32, message = "Length should be from 8 to 32 characters")
-    @field:Pattern(regexp = "^[a-zA-Z\\d!@#$%^&*()_\\-+]*$")
-    var password: String
-)
-
-class AuthenticationResponse(var token: String?)

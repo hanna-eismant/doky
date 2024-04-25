@@ -44,14 +44,14 @@ interface DocumentApi {
 
     @ApiResponses(
             ApiResponse(responseCode = "200", description = "List if documents is retrieved successfully",
-                    content = [Content(array = ArraySchema(schema = Schema(implementation = DocumentDto::class)))]))
+                    content = [Content(array = ArraySchema(schema = Schema(implementation = DocumentResponse::class)))]))
     @Operation(summary = "Get all documents that was created by current customer")
     fun getAll(): ResponseEntity<*>?
 
     @Operation(summary = "Get metadata for document")
     @ApiResponses(
             ApiResponse(responseCode = "200", description = "Document information is retrieved successfully",
-                    content = [Content(schema = Schema(implementation = DocumentDto::class))]),
+                    content = [Content(schema = Schema(implementation = DocumentResponse::class))]),
             ApiResponse(responseCode = "404", description = "No document with provided id"))
     operator fun get(@PathVariable id: String): ResponseEntity<*>?
 }
