@@ -74,6 +74,11 @@
       "name": "doky.version.commit",
       "type": "java.lang.String",
       "description": "Description for doky.version.commit."
+    },
+    {
+      "name": "doky.password.reset.token.duration",
+      "type": "java.lang.Long",
+      "description": "Determine how long in minutes token for resetting password is valid."
     }
   ],
   "hints": [

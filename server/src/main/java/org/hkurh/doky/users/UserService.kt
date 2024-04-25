@@ -19,11 +19,6 @@ class UserService(
         return userEntityRepository.findByUid(userUid) ?: throw DokyNotFoundException("User doesn't exist")
     }
 
-    fun checkUserExistence(userUid: String): Boolean {
-        val userEntity = userEntityRepository.findByUid(userUid)
-        return userEntity != null
-    }
-
     fun create(userUid: String, encodedPassword: String): UserEntity {
         val userEntity = UserEntity()
         userEntity.uid = userUid
@@ -53,6 +48,14 @@ class UserService(
 
     fun extractNameFromUid(userUid: String): String {
         return userUid.split("@").first()
+    }
+
+    fun exists(email: String) : Boolean {
+       return userEntityRepository.existsByUid(email)
+    }
+
+    fun exists(id: Long) : Boolean {
+        return userEntityRepository.existsById(id)
     }
 
     companion object {
