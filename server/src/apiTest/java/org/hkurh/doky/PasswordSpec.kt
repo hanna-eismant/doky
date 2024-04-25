@@ -5,7 +5,6 @@ import org.hkurh.doky.password.api.ResetPasswordRequest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
-import org.springframework.test.context.jdbc.Sql
 
 @DisplayName("Password API test")
 class PasswordSpec : RestSpec() {

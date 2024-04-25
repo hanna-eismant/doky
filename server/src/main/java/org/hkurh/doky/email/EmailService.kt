@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
 import org.thymeleaf.context.Context
 import org.thymeleaf.spring6.SpringTemplateEngine
+import java.nio.charset.StandardCharsets
 
 
 @Service
@@ -26,6 +27,32 @@ class EmailService(
     lateinit var logoFile: Resource
 
     fun sendRegistrationConfirmationEmail(user: UserEntity) {
+        val htmlBody = prepareRegistrationConfirmationEmail(user)
+        sendEmail(htmlBody, user.uid, "Doky Registration")
+    }
+
+    fun sendRestorePasswordEmail(user: UserEntity, token: String) {
+        val htmlBody = prepareRestorePasswordEmail(user, token)
+        sendEmail(htmlBody, user.uid, "Doky Restore Password")
+    }
+
+    private fun sendEmail(emailTemplate: String, toEmail: String, subject: String) {
+        val message = emailSender.createMimeMessage()
+        MimeMessageHelper(
+            message,
+            MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+            StandardCharsets.UTF_8.name()
+        ).apply {
+            setFrom(fromEmail)
+            setTo(toEmail)
+            setSubject(subject)
+            setText(emailTemplate, true)
+            addInline("logo-white-no-bg.svg", logoFile)
+        }
+        emailSender.send(message)
+    }
+
+    private fun prepareRegistrationConfirmationEmail(user: UserEntity): String {
         val template = "registration.html"
         val variables = HashMap<String, Any>().apply {
             user.name?.let { put("username", it) }
@@ -33,19 +60,10 @@ class EmailService(
         val context = Context().apply {
             setVariables(variables)
         }
-        val htmlBody: String = templateEngine.process(template, context)
-        val message = emailSender.createMimeMessage()
-        MimeMessageHelper(message, true, "UTF-8").apply {
-            setFrom(fromEmail)
-            setTo(user.uid)
-            setSubject("Doky Registration")
-            setText(htmlBody, true)
-            addInline("logo-white-no-bg.svg", logoFile)
-        }
-        emailSender.send(message)
+        return templateEngine.process(template, context)
     }
 
-    fun sendRestorePasswordEmail(user: UserEntity, token: String) {
+    private fun prepareRestorePasswordEmail(user: UserEntity, token: String): String {
         val template = "restore-password.html"
         val variables = HashMap<String, Any>().apply {
             user.name?.let { put("username", it) }
@@ -55,15 +73,6 @@ class EmailService(
         val context = Context().apply {
             setVariables(variables)
         }
-        val htmlBody: String = templateEngine.process(template, context)
-        val message = emailSender.createMimeMessage()
-        MimeMessageHelper(message, true, "UTF-8").apply {
-            setFrom(fromEmail)
-            setTo(user.uid)
-            setSubject("Doky Restore Password")
-            setText(htmlBody, true)
-            addInline("logo-white-no-bg.svg", logoFile)
-        }
-        emailSender.send(message)
+        return templateEngine.process(template, context)
     }
 }
