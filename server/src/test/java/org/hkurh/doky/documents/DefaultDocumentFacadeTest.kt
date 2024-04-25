@@ -18,7 +18,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
-@DisplayName("UserFacade unit test")
+@DisplayName("DefaultUserFacade unit test")
 class DefaultDocumentFacadeTest : DokyUnitTest {
 
     private var documentService: DocumentService = mock()

@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.jdbc.Sql
 
 @ExtendWith(SmtpServerExtension::class)
-@DisplayName("UserService integration test")
-class UserServiceIntegrationTest : DokyIntegrationTest() {
+@DisplayName("DefaultUserService integration test")
+class DefaultUserServiceIntegrationTest : DokyIntegrationTest() {
 
     @Autowired
     lateinit var userService: UserService

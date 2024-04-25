@@ -4,14 +4,13 @@ import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.db.UserEntityRepository
+import org.hkurh.doky.users.impl.DefaultUserService
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Spy
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.mock
@@ -20,19 +19,16 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.mail.MailSendException
 
-@DisplayName("UserService unit test")
-class UserServiceTest : DokyUnitTest {
+@DisplayName("DefaultUserService unit test")
+class DefaultUserServiceTest : DokyUnitTest {
     private val userUid = "user@mail.com"
     private val userName = "user"
     private val userPassword = "password"
 
-    @Spy
-    @InjectMocks
-    lateinit var userService: UserService
-
     @Mock
     lateinit var userEntityRepository: UserEntityRepository
     private val emailService: EmailService = mock()
+    private var userService = DefaultUserService(userEntityRepository, emailService)
 
     @Test
     @DisplayName("Should send registration email when user is successfully registered")

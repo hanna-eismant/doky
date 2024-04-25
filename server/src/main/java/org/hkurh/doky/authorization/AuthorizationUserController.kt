@@ -1,9 +1,6 @@
 package org.hkurh.doky.authorization
 
 import jakarta.validation.Valid
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Pattern
-import jakarta.validation.constraints.Size
 import org.hkurh.doky.security.JwtProvider.generateToken
 import org.hkurh.doky.users.UserFacade
 import org.springframework.http.ResponseEntity

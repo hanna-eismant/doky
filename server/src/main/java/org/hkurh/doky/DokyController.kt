@@ -1,6 +1,5 @@
 package org.hkurh.doky
 
-import com.azure.core.annotation.Get
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,12 +17,12 @@ class DokyController {
     }
 
     @GetMapping("/version")
-    fun version(): VersionDto {
-        return VersionDto(build)
+    fun version(): VersionResponse {
+        return VersionResponse(build)
     }
 }
 
-data class VersionDto(val message: String = "") {
+data class VersionResponse(val message: String = "") {
     val schemaVersion = 1
     val label = "version"
     val color = "green"

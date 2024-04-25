@@ -13,7 +13,4 @@ class DocumentIndexBean {
     var description: String? = null
 }
 
-class DocumentResultBean {
-    @Field
-    var id: String? = null
-}
+
