@@ -40,7 +40,7 @@ class UserFacadeTest : DokyUnitTest {
     @DisplayName("Should done without errors when user is valid when login")
     fun shouldSetToken_whenUserIsValid() {
         // given
-        whenever(userService.checkUserExistence(userUid)).thenReturn(true)
+        whenever(userService.exists(userUid)).thenReturn(true)
         whenever(userService.findUserByUid(userUid)).thenReturn(userEntity)
         whenever(passwordEncoder.matches(userPassword, userPasswordEncoded)).thenReturn(true)
 
@@ -52,7 +52,7 @@ class UserFacadeTest : DokyUnitTest {
     @DisplayName("Should throw exception when user login is incorrect when login")
     fun shouldThrowException_whenUserIsIncorrect() {
         // given
-        whenever(userService.checkUserExistence(userUid)).thenReturn(false)
+        whenever(userService.exists(userUid)).thenReturn(false)
 
         // when - then
         assertThrows<DokyAuthenticationException> { userFacade.checkCredentials(userUid, userPassword) }
@@ -62,7 +62,7 @@ class UserFacadeTest : DokyUnitTest {
     @DisplayName("Should throw exception when user exists when register")
     fun shouldThrowException_whenExistingUserRegister() {
         // given
-        whenever(userService.checkUserExistence(userUid)).thenReturn(true)
+        whenever(userService.exists(userUid)).thenReturn(true)
 
         // when - then
         assertThrows<DokyRegistrationException> { userFacade.register(userUid, userPassword) }

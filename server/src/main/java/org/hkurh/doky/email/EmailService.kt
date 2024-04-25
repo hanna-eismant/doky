@@ -16,6 +16,9 @@ class EmailService(
     val templateEngine: SpringTemplateEngine
 ) {
 
+    @Value("\${doky.app.host}")
+    lateinit var host: String
+
     @Value("\${doky.email.from}")
     lateinit var fromEmail: String
 
@@ -36,6 +39,28 @@ class EmailService(
             setFrom(fromEmail)
             setTo(user.uid)
             setSubject("Doky Registration")
+            setText(htmlBody, true)
+            addInline("logo-white-no-bg.svg", logoFile)
+        }
+        emailSender.send(message)
+    }
+
+    fun sendRestorePasswordEmail(user: UserEntity, token: String) {
+        val template = "restore-password.html"
+        val variables = HashMap<String, Any>().apply {
+            user.name?.let { put("username", it) }
+            put("restoreLink", "$host/password/update?token=$token")
+            put("mailto", fromEmail)
+        }
+        val context = Context().apply {
+            setVariables(variables)
+        }
+        val htmlBody: String = templateEngine.process(template, context)
+        val message = emailSender.createMimeMessage()
+        MimeMessageHelper(message, true, "UTF-8").apply {
+            setFrom(fromEmail)
+            setTo(user.uid)
+            setSubject("Doky Restore Password")
             setText(htmlBody, true)
             addInline("logo-white-no-bg.svg", logoFile)
         }

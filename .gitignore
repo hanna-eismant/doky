@@ -44,3 +44,4 @@ bin
 
 /doky-*.env
 /logs/
+/.run/

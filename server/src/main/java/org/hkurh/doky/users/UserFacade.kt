@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
 @Component
 class UserFacade(private val userService: UserService, private val passwordEncoder: PasswordEncoder) {
     fun checkCredentials(userUid: String, password: String) {
-        if (!userService.checkUserExistence(userUid)) throw DokyAuthenticationException("User doesn't exist")
+        if (!userService.exists(userUid)) throw DokyAuthenticationException("User doesn't exist")
         val userEntity = userService.findUserByUid(userUid)
         val encodedPassword = userEntity!!.password
         if (!passwordEncoder.matches(password, encodedPassword))
@@ -20,7 +20,7 @@ class UserFacade(private val userService: UserService, private val passwordEncod
     }
 
     fun register(userUid: String, password: String): UserDto {
-        if (userService.checkUserExistence(userUid)) throw DokyRegistrationException("User already exists")
+        if (userService.exists(userUid)) throw DokyRegistrationException("User already exists")
         val encodedPassword = passwordEncoder.encode(password)
         val userEntity = userService.create(userUid, encodedPassword)
         LOG.info("Register new user $userEntity")

@@ -18,7 +18,7 @@ import java.io.IOException
 @Component
 class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequestFilter() {
     private val authorizationHeader = "Authorization"
-    private val anonymousEndpoints = arrayOf("/register", "/login")
+    private val anonymousEndpoints = arrayOf("/register", "/login", "/password/reset")
 
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(
