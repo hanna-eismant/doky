@@ -3,28 +3,25 @@ package org.hkurh.doky.password
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.errorhandling.DokyNotFoundException
+import org.hkurh.doky.password.impl.DefaultPasswordFacade
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.mockito.InjectMocks
-import org.mockito.Spy
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import org.mockito.kotlin.whenever
 
-@DisplayName("PasswordFacadeTest unit test")
-class PasswordFacadeTest : DokyUnitTest {
+@DisplayName("DefaultPasswordFacadeTest unit test")
+class DefaultPasswordFacadeTest : DokyUnitTest {
 
-    @Spy
-    @InjectMocks
-    lateinit var passwordFacade: PasswordFacade
     private val userService: UserService = mock()
     private val resetPasswordService: ResetPasswordService = mock()
     private val emailService: EmailService = mock()
+    private var passwordFacade = DefaultPasswordFacade(userService, resetPasswordService, emailService)
 
     private val userEmail = "test@example.com"
     private val generatedToken = "token"

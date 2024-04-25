@@ -1,12 +1,11 @@
 package org.hkurh.doky.filestorage
 
 import org.hkurh.doky.DokyUnitTest
+import org.hkurh.doky.filestorage.impl.DefaultFileStorageService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.InjectMocks
-import org.mockito.Spy
 import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
@@ -15,17 +14,15 @@ import org.mockito.kotlin.whenever
 import org.springframework.core.env.Environment
 import org.springframework.mock.web.MockMultipartFile
 
-@DisplayName("FileStorageService unit test")
-class FileStorageServiceTest : DokyUnitTest {
+@DisplayName("DefaultFileStorageService unit test")
+class DefaultFileStorageServiceTest : DokyUnitTest {
     private val basePath = "test/storage"
     private val uploadedFileName = "test-file.txt"
     private val uploadedFilePath = "$basePath/test-file.txt"
 
-    @InjectMocks
-    @Spy
-    lateinit var fileStorageService: FileStorageService
     private val environment: Environment = mock()
     private val fileStorage: FileStorage = mock()
+    private var fileStorageService = DefaultFileStorageService(environment, fileStorage)
 
     @Test
     @DisplayName("Should override file when upload existed")

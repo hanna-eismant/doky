@@ -1,7 +1,8 @@
-package org.hkurh.doky.filestorage
+package org.hkurh.doky.filestorage.impl
 
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.logging.LogFactory
+import org.hkurh.doky.filestorage.FileStorage
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile

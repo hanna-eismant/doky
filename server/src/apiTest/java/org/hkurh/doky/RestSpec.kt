@@ -3,8 +3,6 @@ package org.hkurh.doky
 import io.restassured.RestAssured.given
 import io.restassured.builder.RequestSpecBuilder
 import org.hkurh.doky.authorization.AuthenticationRequest
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -13,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.jdbc.SqlMergeMode
-import org.springframework.transaction.annotation.Transactional
 
 @ActiveProfiles("test")
 @Tag("api")
@@ -45,7 +42,10 @@ class RestSpec {
     }
 
     fun prepareRequestSpecWithLogin(): RequestSpecBuilder {
-        val requestBody = AuthenticationRequest(validUserUid, validUserPassword)
+        val requestBody = AuthenticationRequest().apply {
+            uid = validUserUid
+            password = validUserPassword
+        }
         val request = prepareRequestSpec().setBody(requestBody).build()
         val loginResponse = given(request).post(loginEndpoint)
         val token: String = loginResponse.path("token")
