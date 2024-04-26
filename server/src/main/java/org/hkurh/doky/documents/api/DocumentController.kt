@@ -13,6 +13,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.io.IOException
 import java.net.MalformedURLException
 
+/**
+ * Controller class for handling document-related operations.
+ */
 @RestController
 @RequestMapping("/documents")
 @Secured(DokyAuthority.Role.ROLE_USER)

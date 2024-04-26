@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
+/**
+ * Represents a controller for handling user authorization and registration.
+ *
+ * @property userFacade The facade for user-related operations.
+ */
 @RestController
 class AuthorizationUserController(private val userFacade: UserFacade) : AuthorizationUserApi {
     @PostMapping("/login")

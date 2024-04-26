@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * Represents a controller for searching documents.
+ *
+ * This controller handles searching documents based on a query parameter.
+ */
 @RestController
 @RequestMapping("/documents")
 @Secured(DokyAuthority.Role.ROLE_USER)

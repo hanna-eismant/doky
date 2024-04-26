@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * This class is responsible for handling password-related operations through RESTful endpoints.
+ *
+ * @param passwordFacade The [PasswordFacade] instance used to delegate the password operations.
+ */
 @RestController
 @RequestMapping("/password")
 class PasswordController(

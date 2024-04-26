@@ -5,6 +5,10 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import java.util.*
 
+/**
+ * Repository interface for managing DocumentEntity objects.
+ * Inherits from CrudRepository and JpaSpecificationExecutor.
+ */
 interface DocumentEntityRepository : CrudRepository<DocumentEntity?, Long?>, JpaSpecificationExecutor<DocumentEntity?> {
 
     @Query("select d from DocumentEntity d where d.creator.id = ?1")
@@ -16,10 +20,12 @@ interface DocumentEntityRepository : CrudRepository<DocumentEntity?, Long?>, Jpa
     @Query("select d from DocumentEntity d where d.modifiedDate >= ?1")
     fun findLatestModified(modifiedDate: Date): List<DocumentEntity>
 
-    @Query("""
+    @Query(
+        """
             select d from DocumentEntity d 
             where d.id in (:documentIdList) 
             and (d.creator.id = :userId or d.createdBy.id = :userId or d.modifiedBy.id = :userId)
-        """)
+        """
+    )
     fun findByListIdAndUserId(documentIdList: List<Long>, userId: Long): List<DocumentEntity>
 }
