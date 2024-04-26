@@ -129,6 +129,22 @@ $dokka.location:org.hkurh.doky.errorhandling/ValidationErrorResponse///PointingT
 $dokka.location:org.hkurh.doky.errorhandling/ValidationErrorResponse/ValidationErrorResponse/#org.hkurh.doky.errorhandling.Error#kotlin.collections.MutableList[org.hkurh.doky.errorhandling.Field]/PointingToDeclaration/server/org.hkurh.doky.errorhandling/-validation-error-response/-validation-error-response.html
 $dokka.location:org.hkurh.doky.errorhandling/ValidationErrorResponse/error/#/PointingToDeclaration/server/org.hkurh.doky.errorhandling/-validation-error-response/error.html
 $dokka.location:org.hkurh.doky.errorhandling/ValidationErrorResponse/fields/#/PointingToDeclaration/server/org.hkurh.doky.errorhandling/-validation-error-response/fields.html
+$dokka.location:org.hkurh.doky.events////PointingToDeclaration/server/org.hkurh.doky.events/index.html
+$dokka.location:org.hkurh.doky.events/DokyEventListener.Companion///PointingToDeclaration/server/org.hkurh.doky.events/-doky-event-listener/-companion/index.html
+$dokka.location:org.hkurh.doky.events/DokyEventListener///PointingToDeclaration/server/org.hkurh.doky.events/-doky-event-listener/index.html
+$dokka.location:org.hkurh.doky.events/DokyEventListener/DokyEventListener/#org.hkurh.doky.email.EmailService/PointingToDeclaration/server/org.hkurh.doky.events/-doky-event-listener/-doky-event-listener.html
+$dokka.location:org.hkurh.doky.events/DokyEventListener/sendRegistrationEmail/#org.hkurh.doky.events.UserRegistrationEvent/PointingToDeclaration/server/org.hkurh.doky.events/-doky-event-listener/send-registration-email.html
+$dokka.location:org.hkurh.doky.events/DokyEventPublisher.Companion///PointingToDeclaration/server/org.hkurh.doky.events/-doky-event-publisher/-companion/index.html
+$dokka.location:org.hkurh.doky.events/DokyEventPublisher///PointingToDeclaration/server/org.hkurh.doky.events/-doky-event-publisher/index.html
+$dokka.location:org.hkurh.doky.events/DokyEventPublisher/DokyEventPublisher/#org.springframework.context.ApplicationEventPublisher/PointingToDeclaration/server/org.hkurh.doky.events/-doky-event-publisher/-doky-event-publisher.html
+$dokka.location:org.hkurh.doky.events/DokyEventPublisher/publishUserRegistrationEvent/#org.hkurh.doky.users.db.UserEntity/PointingToDeclaration/server/org.hkurh.doky.events/-doky-event-publisher/publish-user-registration-event.html
+$dokka.location:org.hkurh.doky.events/DokyEventsConfig///PointingToDeclaration/server/org.hkurh.doky.events/-doky-events-config/index.html
+$dokka.location:org.hkurh.doky.events/DokyEventsConfig/DokyEventsConfig/#/PointingToDeclaration/server/org.hkurh.doky.events/-doky-events-config/-doky-events-config.html
+$dokka.location:org.hkurh.doky.events/DokyEventsConfig/applicationEventMulticaster/#/PointingToDeclaration/server/org.hkurh.doky.events/-doky-events-config/application-event-multicaster.html
+$dokka.location:org.hkurh.doky.events/DokyEventsConfig/threadPoolTaskExecutor/#/PointingToDeclaration/server/org.hkurh.doky.events/-doky-events-config/thread-pool-task-executor.html
+$dokka.location:org.hkurh.doky.events/UserRegistrationEvent///PointingToDeclaration/server/org.hkurh.doky.events/-user-registration-event/index.html
+$dokka.location:org.hkurh.doky.events/UserRegistrationEvent/UserRegistrationEvent/#kotlin.Any#org.hkurh.doky.users.db.UserEntity/PointingToDeclaration/server/org.hkurh.doky.events/-user-registration-event/-user-registration-event.html
+$dokka.location:org.hkurh.doky.events/UserRegistrationEvent/user/#/PointingToDeclaration/server/org.hkurh.doky.events/-user-registration-event/user.html
 $dokka.location:org.hkurh.doky.filestorage.impl////PointingToDeclaration/server/org.hkurh.doky.filestorage.impl/index.html
 $dokka.location:org.hkurh.doky.filestorage.impl/DefaultFileStorageService.Companion///PointingToDeclaration/server/org.hkurh.doky.filestorage.impl/-default-file-storage-service/-companion/index.html
 $dokka.location:org.hkurh.doky.filestorage.impl/DefaultFileStorageService.Companion/DEFAULT_STORAGE_PATH/#/PointingToDeclaration/server/org.hkurh.doky.filestorage.impl/-default-file-storage-service/-companion/-d-e-f-a-u-l-t_-s-t-o-r-a-g-e_-p-a-t-h.html
@@ -324,7 +340,7 @@ $dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/register/#kotlin.Str
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/updateCurrentUser/#org.hkurh.doky.users.api.UserDto/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-facade/update-current-user.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService.Companion///PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/-companion/index.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService///PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/index.html
-$dokka.location:org.hkurh.doky.users.impl/DefaultUserService/DefaultUserService/#org.hkurh.doky.users.db.UserEntityRepository#org.hkurh.doky.email.EmailService/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/-default-user-service.html
+$dokka.location:org.hkurh.doky.users.impl/DefaultUserService/DefaultUserService/#org.hkurh.doky.users.db.UserEntityRepository#org.hkurh.doky.events.DokyEventPublisher/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/-default-user-service.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService/create/#kotlin.String#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/create.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService/exists/#kotlin.Long/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/exists.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService/exists/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/exists.html
@@ -381,6 +397,7 @@ org.hkurh.doky.documents.impl
 org.hkurh.doky.email
 org.hkurh.doky.email.impl
 org.hkurh.doky.errorhandling
+org.hkurh.doky.events
 org.hkurh.doky.filestorage
 org.hkurh.doky.filestorage.impl
 org.hkurh.doky.password
