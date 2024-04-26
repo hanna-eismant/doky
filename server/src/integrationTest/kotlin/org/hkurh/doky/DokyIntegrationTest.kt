@@ -12,5 +12,4 @@ import org.springframework.test.context.jdbc.SqlMergeMode
 @SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 @Sql(scripts = ["classpath:sql/create_base_test_data.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = ["classpath:sql/cleanup_base_test_data.sql"], executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-class DokyIntegrationTest {
-}
+class DokyIntegrationTest

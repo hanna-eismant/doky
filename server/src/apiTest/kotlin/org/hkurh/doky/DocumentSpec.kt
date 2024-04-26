@@ -7,7 +7,9 @@ import org.hkurh.doky.documents.db.DocumentEntityRepository
 import org.hkurh.doky.users.db.UserEntityRepository
 import org.junit.Rule
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.rules.TemporaryFolder

@@ -3,8 +3,8 @@ package org.hkurh.doky.documents.impl
 import org.apache.commons.lang3.StringUtils
 import org.hkurh.doky.documents.DocumentFacade
 import org.hkurh.doky.documents.DocumentService
-import org.hkurh.doky.documents.api.DocumentResponse
 import org.hkurh.doky.documents.api.DocumentRequest
+import org.hkurh.doky.documents.api.DocumentResponse
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.filestorage.FileStorageService
 import org.hkurh.doky.toDto
