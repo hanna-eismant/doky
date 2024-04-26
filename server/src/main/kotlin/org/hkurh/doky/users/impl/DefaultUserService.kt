@@ -38,8 +38,7 @@ class DefaultUserService(
     override fun getCurrentUser(): UserEntity {
         val userEntity =
             (SecurityContextHolder.getContext().authentication.principal as DokyUserDetails).getUserEntity()
-        LOG.debug("Get current user ${userEntity!!.id}")
-        return userEntity
+        return userEntity!!
     }
 
     override fun updateUser(user: UserEntity) {

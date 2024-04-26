@@ -20,8 +20,9 @@ class DefaultDocumentService(
         document.description = description
         val currentUser = userService.getCurrentUser()
         document.creator = currentUser
-        LOG.debug("Created new Document ${document.id} by User ${currentUser.id}")
-        return documentEntityRepository.save(document)
+        val savedDocument = documentEntityRepository.save(document)
+        LOG.debug("Created new Document [${savedDocument.id}] by User [${currentUser.id}]")
+        return savedDocument
     }
 
     override fun find(id: String): DocumentEntity? {

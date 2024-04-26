@@ -46,7 +46,7 @@ class DocumentEntity {
     @JoinColumn(name = "modified_by")
     var modifiedBy: UserEntity? = null
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     var name: String? = null
 
     @Lob

@@ -1,5 +1,6 @@
 package org.hkurh.doky.documents.api
 
+import jakarta.validation.Valid
 import org.hkurh.doky.documents.DocumentFacade
 import org.hkurh.doky.security.DokyAuthority
 import org.slf4j.LoggerFactory
@@ -47,7 +48,7 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
     }
 
     @PostMapping
-    override fun create(@RequestBody document: DocumentRequest): ResponseEntity<*> {
+    override fun create(@RequestBody @Valid document: DocumentRequest): ResponseEntity<*> {
         val createdDocument = documentFacade.createDocument(document.name, document.description)
         val resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}").build(createdDocument!!.id)
@@ -55,7 +56,7 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
     }
 
     @PutMapping("/{id}")
-    override fun update(@PathVariable id: String, @RequestBody document: DocumentRequest): ResponseEntity<*>? {
+    override fun update(@PathVariable id: String, @RequestBody @Valid document: DocumentRequest): ResponseEntity<*>? {
         documentFacade.update(id, document)
         return ResponseEntity.ok<Any>(null)
     }

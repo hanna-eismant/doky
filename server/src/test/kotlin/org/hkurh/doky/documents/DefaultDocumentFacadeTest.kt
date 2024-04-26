@@ -40,7 +40,10 @@ class DefaultDocumentFacadeTest : DokyUnitTest {
             name = "Test"
             description = "Description"
         }
-        val updatedDocument = DocumentRequest("Another Name", "Description for Document")
+        val updatedDocument = DocumentRequest().apply {
+            name = "Another Name"
+            description = "Description for Document"
+        }
         whenever(documentService.find(originId)).thenReturn(originDocument)
 
         // when
@@ -66,7 +69,10 @@ class DefaultDocumentFacadeTest : DokyUnitTest {
     fun shouldThrowException_whenUpdateNonExistingDocument() {
         // given
         val originId = "1"
-        val updatedDocument = DocumentRequest("Another Name", "Description for Document")
+        val updatedDocument = DocumentRequest().apply {
+            name = "Another Name"
+            description = "Description for Document"
+        }
         whenever(documentService.find(originId)).thenReturn(null)
 
         // when - then
