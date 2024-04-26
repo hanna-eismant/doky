@@ -19,11 +19,12 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          args: --project-dir,server,--baseline,qodana.sarif.json
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2023.3
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+        with:
+          args: --project-dir,server,--baseline,qodana.sarif.json
 
   unit:
     runs-on: ubuntu-latest
