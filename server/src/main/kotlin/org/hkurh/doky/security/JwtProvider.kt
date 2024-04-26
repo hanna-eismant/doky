@@ -5,7 +5,6 @@ import io.jsonwebtoken.SignatureAlgorithm
 import org.hkurh.doky.DokyApplication
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 /**
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component
  */
 @Component
 object JwtProvider {
-    private val LOG = LoggerFactory.getLogger(JwtProvider::class.java)
     private val jwtParser = Jwts.parserBuilder().setSigningKey(DokyApplication.SECRET_KEY_SPEC).build()
 
     /**
