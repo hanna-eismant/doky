@@ -1,8 +1,6 @@
 package org.hkurh.doky.documents.api
 
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotEmpty
-import jakarta.validation.constraints.NotNull
 
 /**
  * Represents a document request.
@@ -11,9 +9,7 @@ import jakarta.validation.constraints.NotNull
  * @property description The description of the document.
  */
 class DocumentRequest {
-    @NotNull
-    @NotBlank
-    @NotEmpty
+    @NotBlank(message = "Document Name can not be blank and should contain at least one non space character")
     var name: String = ""
     var description: String = ""
 }
