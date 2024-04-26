@@ -3,17 +3,12 @@ package org.hkurh.doky
 import io.restassured.RestAssured.given
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hkurh.doky.documents.api.DocumentRequest
-import org.hkurh.doky.documents.db.DocumentEntityRepository
-import org.hkurh.doky.users.db.UserEntityRepository
 import org.junit.Rule
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.rules.TemporaryFolder
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.jdbc.Sql
@@ -33,28 +28,20 @@ class DocumentSpec : RestSpec() {
     val documentFileNameProperty = "fileName"
     val existedDocumentNameFirst = "Test_1"
     val existedDocumentFileNameFirst = "test.txt"
-    val existedDocumentNameSecond = "Test_2"
     val existedDocumentNameThird = "Test_3"
-    val existedDocumentNameFour = "Test_4"
     val newDocumentName = "Apples"
     val newDocumentDescription = "Do you like apples?"
     val uploadFileName = "test_1.txt"
 
     @Value("\${doky.filestorage.path}")
-    val fileStoragePath: String? = null
+    lateinit var fileStoragePath: String
 
     @Rule
     var temporaryFolder = TemporaryFolder()
 
-    @Autowired
-    lateinit var documentEntityRepository: DocumentEntityRepository
-
-    @Autowired
-    lateinit var userEntityRepository: UserEntityRepository
-
     @AfterEach
     fun tearDown() {
-        fileStoragePath?.let {
+        fileStoragePath.let {
             FileSystemUtils.deleteRecursively(Paths.get(it))
         }
     }
@@ -98,26 +85,6 @@ class DocumentSpec : RestSpec() {
         assertEquals(docId, id)
         val fileName: String = response.path(documentFileNameProperty)
         assertEquals(existedDocumentFileNameFirst, fileName)
-    }
-
-    @Test
-    @DisplayName("Should get all existing documents for user")
-    @Sql(scripts = ["classpath:sql/DocumentSpec/setup.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    fun shouldGetAllExistingDocumentsForUser() {
-        // given
-        val requestSpec = prepareRequestSpecWithLogin().build()
-
-        // when:
-        val response = given(requestSpec).get(endpoint)
-
-        // then
-        response.then().statusCode(HttpStatus.OK.value())
-        val documents: List<Map<String, String>> = response.path(".")
-
-        assertNotNull(documents.find { d -> (existedDocumentNameFirst == d[documentNameProperty]) })
-        assertNotNull(documents.find { d -> (existedDocumentNameSecond == d[documentNameProperty]) })
-        assertNull(documents.find { d -> (existedDocumentNameThird == d[documentNameProperty]) })
-        assertNull(documents.find { d -> (existedDocumentNameFour == d[documentNameProperty]) })
     }
 
     @Test

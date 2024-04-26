@@ -17,10 +17,12 @@ import org.springframework.test.context.jdbc.Sql
 
 @DisplayName("Document Search API test")
 class SearchSpec : RestSpec()  {
-    val endpoint = "/documents/search"
+    val endpoint = "/documents"
     val documentNameProperty = "name"
-    val documentName1 = "Test note 1"
-    val documentName2 = "Test note 2"
+    val documentNameFirst = "Test note 1"
+    val documentNameSecond = "Lorem"
+    val documentNameThird = "Test note 2"
+    val documentNameFour = "Cras at nulla ex"
 
     @Value("\${doky.search.solr.core.documents:documents-test}")
     lateinit var coreName: String
@@ -33,6 +35,27 @@ class SearchSpec : RestSpec()  {
     fun setUp() {
         solrClient.deleteByQuery(coreName, "*:*")
         documentIndexer.fullIndex()
+    }
+
+    @Test
+    @DisplayName("Should get all existing documents for user")
+    @Sql(scripts = ["classpath:sql/SearchSpec/setup.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = ["classpath:sql/SearchSpec/cleanup.sql"], executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    fun shouldGetAllExistingDocumentsForUser() {
+        // given
+        val requestSpec = prepareRequestSpecWithLogin().build()
+
+        // when:
+        val response = given(requestSpec).get(endpoint)
+
+        // then
+        response.then().statusCode(HttpStatus.OK.value())
+        val documents: List<Map<String, String>> = response.path(".")
+
+        assertNotNull(documents.find { d -> (documentNameFirst == d[documentNameProperty]) })
+        assertNotNull(documents.find { d -> (documentNameSecond == d[documentNameProperty]) })
+        assertNull(documents.find { d -> (documentNameThird == d[documentNameProperty]) })
+        assertNull(documents.find { d -> (documentNameFour == d[documentNameProperty]) })
     }
 
     @Test
@@ -50,8 +73,8 @@ class SearchSpec : RestSpec()  {
         response.then().statusCode(HttpStatus.OK.value())
         val documents: List<Map<String, String>> = response.path(".")
 
-        assertNotNull(documents.find { d -> (documentName1 == d[documentNameProperty]) })
-        assertNull(documents.find { d -> (documentName2 == d[documentNameProperty]) })
+        assertNotNull(documents.find { d -> (documentNameFirst == d[documentNameProperty]) })
+        assertNull(documents.find { d -> (documentNameThird == d[documentNameProperty]) })
     }
 
     @Test

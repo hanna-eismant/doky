@@ -38,13 +38,6 @@ interface DocumentFacade {
     fun findDocument(id: String): DocumentResponse?
 
     /**
-     * Retrieves a list of all documents.
-     *
-     * @return A list of [DocumentResponse] objects representing the retrieved documents. The list may contain null values if the document retrieval failed.
-     */
-    fun findAllDocuments(): List<DocumentResponse?>
-
-    /**
      * Saves a file and attach it to document with the given ID.
      *
      * @param file The file to be saved.
