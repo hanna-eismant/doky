@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service
 class DefaultDocumentService(
     private val documentEntityRepository: DocumentEntityRepository,
     private val userService: UserService
-) :
-    DocumentService {
+) : DocumentService {
 
     override fun create(name: String, description: String?): DocumentEntity {
         val document = DocumentEntity()
@@ -29,11 +28,6 @@ class DefaultDocumentService(
         val documentId = id.toLong()
         val currentUser = userService.getCurrentUser()
         return documentEntityRepository.findByIdAndCreatorId(documentId, currentUser.id)
-    }
-
-    override fun find(): List<DocumentEntity> {
-        val currentUser = userService.getCurrentUser()
-        return documentEntityRepository.findByCreatorId(currentUser.id)
     }
 
     override fun save(document: DocumentEntity) {

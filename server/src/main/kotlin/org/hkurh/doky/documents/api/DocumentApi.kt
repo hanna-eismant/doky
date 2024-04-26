@@ -2,7 +2,6 @@ package org.hkurh.doky.documents.api
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.headers.Header
-import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -42,11 +41,11 @@ interface DocumentApi {
     @ApiResponses(ApiResponse(responseCode = "200", description = "Document is updated"))
     fun update(@PathVariable id: String, document: DocumentRequest): ResponseEntity<*>?
 
-    @ApiResponses(
-            ApiResponse(responseCode = "200", description = "List if documents is retrieved successfully",
-                    content = [Content(array = ArraySchema(schema = Schema(implementation = DocumentResponse::class)))]))
-    @Operation(summary = "Get all documents that was created by current customer")
-    fun getAll(): ResponseEntity<*>?
+//    @ApiResponses(
+//            ApiResponse(responseCode = "200", description = "List if documents is retrieved successfully",
+//                    content = [Content(array = ArraySchema(schema = Schema(implementation = DocumentResponse::class)))]))
+//    @Operation(summary = "Get all documents that was created by current customer")
+//    fun getAll(): ResponseEntity<*>?
 
     @Operation(summary = "Get metadata for document")
     @ApiResponses(

@@ -21,8 +21,9 @@ class DocumentSearchController(
     private val documentSearchFacade: DocumentSearchFacade
 ) : DocumentSearchApi {
 
-    @GetMapping("/search")
-    fun search(@RequestParam(name = "q") query: String): ResponseEntity<*> {
+    @GetMapping
+    override fun search(@RequestParam q: String?): ResponseEntity<*> {
+        val query = q?.ifEmpty { "*" } ?: "*"
         val documents = documentSearchFacade.search(query)
         return ResponseEntity.ok(documents)
     }
