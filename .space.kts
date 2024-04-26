@@ -14,6 +14,32 @@ import java.time.temporal.TemporalAdjusters
 val gradleImageVersion = "gradle:8.2-jdk17"
 val deploymentKey = "azure-dev"
 
+job("Checks for Merge Request") {
+    startOn {
+        codeReviewOpened {
+            branchToCheckout = CodeReviewBranch.MERGE_REQUEST_SOURCE
+        }
+    }
+
+    container(displayName = "Unit tests", image = gradleImageVersion) {
+        workDir = "server"
+        kotlinScript { api ->
+            api.gradlew("test")
+        }
+    }
+
+    container(displayName = "Qodana scan", image = "jetbrains/qodana-jvm:latest") {
+        env["QODANA_TOKEN"] = "{{ project:qodana-token }}"
+        shellScript {
+            content = """
+                qodana \
+                --project-dir  server \
+                --baseline     qodana.sarif.json \
+                """.trimIndent()
+        }
+    }
+}
+
 job("Tests for main branch") {
     startOn {
         // every day at 20:53 am UTC
