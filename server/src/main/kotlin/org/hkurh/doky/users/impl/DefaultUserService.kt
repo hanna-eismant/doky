@@ -1,20 +1,19 @@
 package org.hkurh.doky.users.impl
 
-import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.errorhandling.DokyNotFoundException
+import org.hkurh.doky.events.DokyEventPublisher
 import org.hkurh.doky.security.DokyUserDetails
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.db.UserEntityRepository
 import org.slf4j.LoggerFactory
-import org.springframework.mail.MailException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
 class DefaultUserService(
     private val userEntityRepository: UserEntityRepository,
-    private val emailService: EmailService
+    private val eventPublisher: DokyEventPublisher,
 ) : UserService {
     override fun findUserByUid(userUid: String): UserEntity? {
         return userEntityRepository.findByUid(userUid) ?: throw DokyNotFoundException("User doesn't exist")
@@ -26,12 +25,8 @@ class DefaultUserService(
         userEntity.password = encodedPassword
         userEntity.name = extractNameFromUid(userUid)
         val createdUser = userEntityRepository.save(userEntity)
-        LOG.debug("Created new user ${createdUser.id}")
-        try {
-            emailService.sendRegistrationConfirmationEmail(createdUser)
-        } catch (e: MailException) {
-            LOG.error("Error during sending registration email for user [${createdUser.id}]", e)
-        }
+        LOG.debug("Created new user [${createdUser.id}]")
+        eventPublisher.publishUserRegistrationEvent(createdUser)
         return createdUser
     }
 
