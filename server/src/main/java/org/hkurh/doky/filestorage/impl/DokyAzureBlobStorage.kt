@@ -1,4 +1,4 @@
-package org.hkurh.doky.filestorage
+package org.hkurh.doky.filestorage.impl
 
 import com.azure.storage.blob.BlobContainerClient
 import com.azure.storage.blob.BlobContainerClientBuilder
@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.logging.LogFactory
+import org.hkurh.doky.filestorage.FileStorage
 import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty

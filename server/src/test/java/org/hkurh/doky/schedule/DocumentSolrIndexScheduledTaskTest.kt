@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.InjectMocks
-import org.mockito.Spy
 import org.mockito.kotlin.check
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
@@ -19,11 +17,11 @@ import java.util.*
 @DisplayName("DocumentSolrIndexScheduledTask unit test")
 class DocumentSolrIndexScheduledTaskTest : DokyUnitTest {
 
-    @Spy
-    @InjectMocks
-    lateinit var documentSolrIndexScheduledTask: DocumentSolrIndexScheduledTask
     private val documentIndexService: DocumentIndexService = mock()
     private val scheduledTaskEntityRepository: ScheduledTaskEntityRepository = mock()
+    private var documentSolrIndexScheduledTask =
+        DocumentSolrIndexScheduledTask(documentIndexService, scheduledTaskEntityRepository)
+
     private val taskName = "solr-index-documents"
     private val scheduledTask = ScheduledTaskEntity()
     private val runDate = Date(0)

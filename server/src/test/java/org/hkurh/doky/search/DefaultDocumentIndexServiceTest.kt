@@ -6,14 +6,13 @@ import org.apache.solr.common.SolrDocumentList
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.documents.db.DocumentEntityRepository
+import org.hkurh.doky.search.impl.DefaultDocumentIndexService
 import org.hkurh.doky.search.solr.DocumentIndexBean
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.InjectMocks
-import org.mockito.Spy
 import org.mockito.kotlin.any
 import org.mockito.kotlin.check
 import org.mockito.kotlin.doReturn
@@ -22,14 +21,12 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import java.util.*
 
-@DisplayName("DocumentIndexService unit test")
-class DocumentIndexServiceTest : DokyUnitTest {
+@DisplayName("DefaultDocumentIndexService unit test")
+class DefaultDocumentIndexServiceTest : DokyUnitTest {
 
-    @InjectMocks
-    @Spy
-    lateinit var documentIndexService: DocumentIndexService
     private var documentEntityRepository: DocumentEntityRepository = mock()
     private var solrClient: SolrClient = mock()
+    private var documentIndexService = DefaultDocumentIndexService(documentEntityRepository, solrClient)
 
     @BeforeEach
     fun setUp() {

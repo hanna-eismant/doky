@@ -15,6 +15,15 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
+/**
+ * The [WebSecurityConfig] class is a configuration class that defines the security configuration for the web application.
+ *
+ * It is annotated with `@EnableWebSecurity` to enable web security features, `@Configuration` to indicate that it is a
+ * configuration class, and `@EnableMethodSecurity` with `secured
+ * Enabled` set to `true` to enable method level security using the `@Secured` annotation.
+ *
+ * The class provides two `@Bean` methods that configure the security filter chain and the CORS configuration source.
+ */
 @EnableWebSecurity
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)

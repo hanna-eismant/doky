@@ -8,11 +8,20 @@ import org.joda.time.DateTimeZone
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
+/**
+ * [JwtProvider] is a utility class responsible for generating and parsing JSON Web Tokens (JWTs).
+ */
 @Component
 object JwtProvider {
     private val LOG = LoggerFactory.getLogger(JwtProvider::class.java)
     private val jwtParser = Jwts.parserBuilder().setSigningKey(DokyApplication.SECRET_KEY_SPEC).build()
 
+    /**
+     * Generates a token for the given username.
+     *
+     * @param username The username for which to generate the token.
+     * @return The generated token.
+     */
     fun generateToken(username: String): String {
         LOG.debug("Generate token for user $username")
         val currentTime = DateTime(DateTimeZone.getDefault())
@@ -26,6 +35,12 @@ object JwtProvider {
                 .compact()
     }
 
+    /**
+     * Retrieves the username from the provided token.
+     *
+     * @param token The token from which to extract the username.
+     * @return The extracted username.
+     */
     fun getUsernameFromToken(token: String): String {
         return jwtParser.parseClaimsJws(token).body.subject
     }

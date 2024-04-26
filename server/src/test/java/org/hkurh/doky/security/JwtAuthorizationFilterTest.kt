@@ -9,8 +9,6 @@ import org.hkurh.doky.users.db.UserEntity
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.InjectMocks
-import org.mockito.Spy
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
@@ -30,11 +28,9 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
     private val expiredToken =
         "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkb2t5VG9rZW4iLCJzdWIiOiJoYW5uYV90ZXN0XzNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MDk3OTg1NjIsImV4cCI6MTcwOTg4NDk2Mn0.CJK6Utq0pAd-yWMKjJhLj8On1_6Dt9jHsqj0zQa6o0A"
 
-    @InjectMocks
-    @Spy
-    lateinit var filter: JwtAuthorizationFilter
     private val userService: UserService = mock()
     private val filterChain: MockFilterChain = mock()
+    private var filter = JwtAuthorizationFilter(userService)
 
     @Test
     @DisplayName("Should add user to security context when token is valid")

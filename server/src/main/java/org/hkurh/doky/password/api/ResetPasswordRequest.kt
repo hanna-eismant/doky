@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 
+/**
+ * Represents a request to reset a password.
+ */
 class ResetPasswordRequest {
     @NotBlank(message = "Email is required")
     @Size(min = 4, max = 32, message = "Length should be from 4 to 32 characters")

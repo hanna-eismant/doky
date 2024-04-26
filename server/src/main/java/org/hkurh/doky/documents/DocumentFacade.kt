@@ -1,87 +1,65 @@
 package org.hkurh.doky.documents
 
-import org.apache.commons.lang3.StringUtils
-import org.hkurh.doky.documents.api.DocumentDto
 import org.hkurh.doky.documents.api.DocumentRequest
-import org.hkurh.doky.errorhandling.DokyNotFoundException
-import org.hkurh.doky.filestorage.FileStorageService
-import org.hkurh.doky.toDto
-import org.slf4j.LoggerFactory
+import org.hkurh.doky.documents.api.DocumentResponse
 import org.springframework.core.io.Resource
-import org.springframework.core.io.UrlResource
-import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 
-@Component
-class DocumentFacade(
-    private val documentService: DocumentService,
-    private val fileStorageService: FileStorageService
-) {
-    fun createDocument(name: String, description: String?): DocumentDto? {
-        val documentEntity = documentService.create(name, description)
-        LOG.debug("Created new Document with id [${documentEntity.id}]")
-        return documentEntity.toDto()
-    }
+/**
+ * Represents a facade for managing documents.
+ */
+interface DocumentFacade {
+    /**
+     * Creates a document with the specified name and description.
+     *
+     * @param name The name of the document.
+     * @param description The description of the document.
+     * @return A [DocumentResponse] object representing the created document, or null if the document creation failed.
+     */
+    fun createDocument(name: String, description: String?): DocumentResponse?
 
-    fun update(id: String, document: DocumentRequest) {
-        val existedDocument =
-            documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
-        existedDocument.apply {
-            name = document.name
-            description = document.description
-            documentService.save(this)
-        }
-    }
+    /**
+     * Updates a document with the specified ID using the provided document request.
+     *
+     * @param id The ID of the document to update.
+     * @param document The document request containing the updated information.
+     */
+    fun update(id: String, document: DocumentRequest)
 
-    fun findDocument(id: String): DocumentDto? {
-        return documentService.find(id)?.toDto()
-    }
+    /**
+     * Finds a document with the specified ID.
+     *
+     * @param id The ID of the document to find.
+     * @return The [DocumentResponse] object representing the found document, or null if the document is not found.
+     */
+    fun findDocument(id: String): DocumentResponse?
 
-    fun findAllDocuments(): List<DocumentDto?> {
-        return documentService.find().map { it.toDto() }
-    }
+    /**
+     * Retrieves a list of all documents.
+     *
+     * @return A list of [DocumentResponse] objects representing the retrieved documents. The list may contain null values if the document retrieval failed.
+     */
+    fun findAllDocuments(): List<DocumentResponse?>
 
+    /**
+     * Saves a file and attach it to document with the given ID.
+     *
+     * @param file The file to be saved.
+     * @param id The ID of the document to which the file should be attached.
+     */
     @Transactional(propagation = Propagation.REQUIRED)
-    fun saveFile(file: MultipartFile, id: String) {
-        val document = documentService.find(id)
-        if (document != null) {
-            try {
-                val path = fileStorageService.store(file, document.filePath)
-                document.filePath = path
-                document.fileName = file.originalFilename
-                documentService.save(document)
-            } catch (e: IOException) {
-                throw RuntimeException(e)
-            }
-        } else {
-            throw DokyNotFoundException("Document with id [$id] not found")
-        }
-    }
+    fun saveFile(file: MultipartFile, id: String)
 
+    /**
+     * Retrieves the resource representing the file attached to the document with the specified ID.
+     *
+     * @param id The ID of the document.
+     * @return The [Resource] object representing the attached file, or null if the file is not found.
+     * @throws IOException If an I/O error occurs while retrieving the file.
+     */
     @Throws(IOException::class)
-    fun getFile(id: String): Resource? {
-        val document = documentService.find(id)
-        return if (StringUtils.isNotBlank(document?.filePath)) {
-            val filePath = document!!.filePath
-            val file = fileStorageService.getFile(filePath!!)
-            if (file != null) {
-                val fileUri = file.toUri()
-                LOG.debug("Download file for Document [$id] with URI [$fileUri]")
-                UrlResource(fileUri)
-            } else {
-                LOG.warn("File [$filePath] attached to document [$id] does not exists in storage")
-                null
-            }
-        } else {
-            LOG.debug("No attached file for Document [$id]")
-            null
-        }
-    }
-
-    companion object {
-        private val LOG = LoggerFactory.getLogger(DocumentFacade::class.java)
-    }
+    fun getFile(id: String): Resource?
 }

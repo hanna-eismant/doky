@@ -3,6 +3,9 @@ package org.hkurh.doky.schedule.db
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 
+/**
+ * The repository interface for accessing the [ScheduledTaskEntity] table.
+ */
 interface ScheduledTaskEntityRepository : JpaRepository<ScheduledTaskEntity, Long>,
     JpaSpecificationExecutor<ScheduledTaskEntity> {
 

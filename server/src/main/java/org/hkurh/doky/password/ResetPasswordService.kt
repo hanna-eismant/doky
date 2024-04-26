@@ -1,28 +1,16 @@
 package org.hkurh.doky.password
 
-import org.hkurh.doky.password.db.ResetPasswordTokenEntity
-import org.hkurh.doky.password.db.ResetPasswordTokenRepository
 import org.hkurh.doky.users.db.UserEntity
-import org.springframework.stereotype.Service
 
-@Service
-class ResetPasswordService(
-    private var tokenUtil: TokenUtil,
-    private val resetPasswordTokenRepository: ResetPasswordTokenRepository
-) {
-
-    fun generateAndSaveResetToken(user: UserEntity): String {
-        resetPasswordTokenRepository.findByUser(user)?.let {
-            resetPasswordTokenRepository.delete(it)
-        }
-        val token = tokenUtil.generateToken()
-        val expirationDate = tokenUtil.calculateExpirationDate()
-        val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
-            this.token = token
-            this.user = user
-            this.expirationDate = expirationDate
-        }
-        val savedPasswordTokenEntity = resetPasswordTokenRepository.save(resetPasswordTokenEntity)
-        return savedPasswordTokenEntity.token!!
-    }
+/**
+ * ResetPasswordService interface provides methods for manipulating a reset password token.
+ */
+interface ResetPasswordService {
+    /**
+     * Generate and save a reset password token for the specified user.
+     *
+     * @param user The [UserEntity] for which the reset password token will be generated and saved.
+     * @return The generated reset password token.
+     */
+    fun generateAndSaveResetToken(user: UserEntity): String
 }

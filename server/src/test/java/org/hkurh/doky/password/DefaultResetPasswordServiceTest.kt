@@ -3,6 +3,8 @@ package org.hkurh.doky.password
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenRepository
+import org.hkurh.doky.password.impl.DefaultResetPasswordService
+import org.hkurh.doky.password.impl.DefaultTokenService
 import org.hkurh.doky.users.db.UserEntity
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -15,12 +17,12 @@ import org.mockito.kotlin.whenever
 import java.util.*
 
 
-@DisplayName("ResetPasswordService unit test")
-class ResetPasswordServiceTest : DokyUnitTest {
+@DisplayName("DefaultResetPasswordService unit test")
+class DefaultResetPasswordServiceTest : DokyUnitTest {
 
-    private var tokenUtil: TokenUtil = mock()
+    private var tokenUtil: DefaultTokenService = mock()
     private var resetPasswordTokenRepository: ResetPasswordTokenRepository = mock()
-    private var resetPasswordService = ResetPasswordService(tokenUtil, resetPasswordTokenRepository)
+    private var resetPasswordService = DefaultResetPasswordService(tokenUtil, resetPasswordTokenRepository)
 
     private val mockUser = mock<UserEntity>()
     private val tokenId: Long = 1

@@ -15,6 +15,19 @@ import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import java.io.IOException
 
+/**
+ * [JwtAuthorizationFilter] is a class that implements the [OncePerRequestFilter] interface to handle JWT authorization.
+ *
+ * The filter checks the incoming request for a JWT token in the Authorization header. If a token is found, it is validated and the associated user is authenticated.
+ *
+ * The filter has a list of anonymous endpoints that do not require token authentication. Requests to these endpoints will pass through the filter without further token checks.
+ *
+ * If a token is not presented or is invalid, the filter clears the authorization context, and the user is not authenticated.
+ *
+ * If the token is valid, the filter sets the authentication context with the authenticated user's information.
+ *
+ * Only requests that pass through the filter will be authenticated and have access to the authenticated user's information.
+ */
 @Component
 class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequestFilter() {
     private val authorizationHeader = "Authorization"

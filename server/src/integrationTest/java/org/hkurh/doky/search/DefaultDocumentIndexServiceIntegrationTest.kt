@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.test.context.jdbc.Sql
 
 
-@DisplayName("DocumentIndexService integration test")
-class DocumentIndexServiceIntegrationTest : DokyIntegrationTest() {
+@DisplayName("DefaultDocumentIndexService integration test")
+class DefaultDocumentIndexServiceIntegrationTest : DokyIntegrationTest() {
 
     @Value("\${doky.search.solr.core.documents:documents-test}")
     lateinit var coreName: String

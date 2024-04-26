@@ -4,6 +4,7 @@ import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.errorhandling.DokyAuthenticationException
 import org.hkurh.doky.errorhandling.DokyRegistrationException
 import org.hkurh.doky.users.db.UserEntity
+import org.hkurh.doky.users.impl.DefaultUserFacade
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
@@ -11,24 +12,20 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import org.mockito.InjectMocks
-import org.mockito.Spy
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import org.springframework.security.crypto.password.PasswordEncoder
 
-@DisplayName("UserFacade unit test")
-class UserFacadeTest : DokyUnitTest {
+@DisplayName("DefaultUserFacade unit test")
+class DefaultUserFacadeTest : DokyUnitTest {
     private val userUid = "user"
     private val userPassword = "pass"
     private val userPasswordEncoded = "passEncoded"
     private val userEntity = UserEntity()
 
-    @Spy
-    @InjectMocks
-    lateinit var userFacade: UserFacade
     private val userService: UserService = mock()
     private val passwordEncoder: PasswordEncoder = mock()
+    private var userFacade = DefaultUserFacade(userService, passwordEncoder)
 
     @BeforeEach
     fun setUp() {
