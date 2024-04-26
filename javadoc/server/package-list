@@ -33,7 +33,7 @@ $dokka.location:org.hkurh.doky.documents.api/DocumentController/getAll/#/Pointin
 $dokka.location:org.hkurh.doky.documents.api/DocumentController/update/#kotlin.String#org.hkurh.doky.documents.api.DocumentRequest/PointingToDeclaration/server/org.hkurh.doky.documents.api/-document-controller/update.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentController/uploadFile/#org.springframework.web.multipart.MultipartFile#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.documents.api/-document-controller/upload-file.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentRequest///PointingToDeclaration/server/org.hkurh.doky.documents.api/-document-request/index.html
-$dokka.location:org.hkurh.doky.documents.api/DocumentRequest/DocumentRequest/#kotlin.String#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.documents.api/-document-request/-document-request.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentRequest/DocumentRequest/#/PointingToDeclaration/server/org.hkurh.doky.documents.api/-document-request/-document-request.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentRequest/description/#/PointingToDeclaration/server/org.hkurh.doky.documents.api/-document-request/description.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentRequest/name/#/PointingToDeclaration/server/org.hkurh.doky.documents.api/-document-request/name.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentResponse///PointingToDeclaration/server/org.hkurh.doky.documents.api/-document-response/index.html
