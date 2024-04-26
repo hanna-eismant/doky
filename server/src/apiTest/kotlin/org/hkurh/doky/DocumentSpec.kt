@@ -63,7 +63,10 @@ class DocumentSpec : RestSpec() {
     @DisplayName("Should create new document")
     fun shouldCreateNewDocument() {
         // given
-        val requestBody = DocumentRequest(newDocumentName, newDocumentDescription)
+        val requestBody = DocumentRequest().apply {
+            name = newDocumentName
+            description = newDocumentDescription
+        }
         val requestSpec = prepareRequestSpecWithLogin().setBody(requestBody).build()
 
         // when
@@ -118,7 +121,7 @@ class DocumentSpec : RestSpec() {
     }
 
     @Test
-    @DisplayName("Should return not found when get existing document that belongs to another user")
+    @DisplayName("Should return 404 when get existing document that belongs to another user")
     @Sql(scripts = ["classpath:sql/DocumentSpec/setup.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     fun shouldReturn404whenGetDocumentAnotherUser() {
         // given
@@ -154,7 +157,7 @@ class DocumentSpec : RestSpec() {
     }
 
     @Test
-    @DisplayName("Should return error when upload file for document that does not belong to current customer")
+    @DisplayName("Should return 404 when upload file for document that does not belong to current customer")
     @Sql(scripts = ["classpath:sql/DocumentSpec/setup.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     fun shouldReturnErrorWhenUploadFileToNonExistingDocument() {
         // given
@@ -170,6 +173,24 @@ class DocumentSpec : RestSpec() {
 
         // then
         response.then().statusCode(HttpStatus.NOT_FOUND.value())
+    }
+
+
+    @Test
+    @DisplayName("Should return error 400 when sending empty attributes in document request")
+    fun shouldReturnError400WhenSendingEmptyAttributesInDocumentRequest() {
+        // given
+        val requestBodyEmpty = DocumentRequest().apply {
+            name = ""
+            description = ""
+        }
+        val requestSpec = prepareRequestSpecWithLogin().setBody(requestBodyEmpty).build()
+
+        // when
+        val response = given(requestSpec).post(endpoint)
+
+        // then
+        response.then().statusCode(HttpStatus.BAD_REQUEST.value())
     }
 
     fun getDocumentId(docName: String): Long? {
