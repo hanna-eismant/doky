@@ -1,6 +1,7 @@
 package org.hkurh.doky.users
 
 import com.icegreen.greenmail.util.GreenMail
+import org.awaitility.Awaitility.await
 import org.hkurh.doky.DokyIntegrationTest
 import org.hkurh.doky.SmtpServerExtension
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.jdbc.Sql
+import java.util.concurrent.TimeUnit
 
 @ExtendWith(SmtpServerExtension::class)
 @DisplayName("DefaultUserService integration test")
@@ -34,6 +36,7 @@ class DefaultUserServiceIntegrationTest : DokyIntegrationTest() {
         userService.create(userEmail, "password")
 
         // then
+        await().atMost(10, TimeUnit.SECONDS).until { smtpServer!!.receivedMessages.isNotEmpty() }
         smtpServer!!.apply {
             assertNotNull(receivedMessages, "No emails sent")
             assertEquals(1, receivedMessages.size, "Incorrect amount of messages")

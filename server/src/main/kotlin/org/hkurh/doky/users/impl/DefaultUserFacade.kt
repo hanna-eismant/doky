@@ -26,7 +26,7 @@ class DefaultUserFacade(private val userService: UserService, private val passwo
         if (userService.exists(userUid)) throw DokyRegistrationException("User already exists")
         val encodedPassword = passwordEncoder.encode(password)
         val userEntity = userService.create(userUid, encodedPassword)
-        LOG.info("Register new user $userEntity")
+        LOG.info("Register new user [${userEntity.id}]")
         return userEntity.toDto()
     }
 

@@ -23,7 +23,6 @@ object JwtProvider {
      * @return The generated token.
      */
     fun generateToken(username: String): String {
-        LOG.debug("Generate token for user $username")
         val currentTime = DateTime(DateTimeZone.getDefault())
         val expireTokenTime = currentTime.plusDays(1)
         return Jwts.builder()
