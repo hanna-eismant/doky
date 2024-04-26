@@ -34,14 +34,11 @@ build/
 /.jpb/
 
 ### Gradle ###
+/.gradle/
 server/.gradle
-
 server/out
 
-bin
-/.gradle/
+### Custom ###
+/doky
 /docker-deployment/doky-server/server.jar
-
 /doky-*.env
-/logs/
-/.run/
