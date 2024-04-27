@@ -20,7 +20,7 @@ class DefaultPasswordFacade(
 
         val user = userService.findUserByUid(email)
         val token = resetPasswordService.generateAndSaveResetToken(user!!)
-        LOG.debug("Generate reset password token for user ${user.id}")
+        LOG.debug("Generate reset password token for user [${user.id}]")
         try {
             emailService.sendRestorePasswordEmail(user, token)
         } catch (e: Exception) {

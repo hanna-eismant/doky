@@ -4,7 +4,9 @@ import jakarta.servlet.http.HttpServletResponse
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.security.JwtProvider.generateToken
+import org.hkurh.doky.toDto
 import org.hkurh.doky.users.UserService
+import org.hkurh.doky.users.db.AuthorityEntity
 import org.hkurh.doky.users.db.UserEntity
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -36,13 +38,14 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
     @DisplayName("Should add user to security context when token is valid")
     fun shouldAddUserToSecurityContext_whenTokenIsValid() {
         // given
-        val token = generateToken(userUid)
-        val request = MockHttpServletRequest()
-        request.addHeader(authorizationHeader, "Bearer $token")
-
         val userEntity = UserEntity().apply {
             uid = userUid
+            authorities = mutableSetOf(AuthorityEntity())
         }
+        val userDto = userEntity.toDto()
+        val token = generateToken(userDto.uid, userDto.roles)
+        val request = MockHttpServletRequest()
+        request.addHeader(authorizationHeader, "Bearer $token")
         whenever(userService.findUserByUid(userUid)).thenReturn(userEntity)
 
         // when
@@ -76,7 +79,12 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
     @DisplayName("Should set response error status when user is incorrect")
     fun shouldSetResponseError_whenIncorrectUser() {
         // given
-        val token = generateToken(userUid)
+        val userEntity = UserEntity().apply {
+            uid = userUid
+            authorities = mutableSetOf(AuthorityEntity())
+        }
+        val userDto = userEntity.toDto()
+        val token = userDto.name?.let { generateToken(it, userDto.roles) }
         val request = MockHttpServletRequest()
         request.addHeader(authorizationHeader, "Bearer $token")
         whenever(userService.findUserByUid(userUid)).thenThrow(DokyNotFoundException::class.java)

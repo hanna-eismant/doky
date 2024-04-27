@@ -11,11 +11,12 @@ import java.util.*
 
 fun UserEntity.toDto(): UserDto {
     val entity = this
-    return UserDto(
-        id = entity.id,
-        uid = entity.uid,
+    return UserDto().apply {
+        id = entity.id
+        uid = entity.uid
         name = entity.name
-    )
+        roles = entity.authorities.map { it.authority.name }.toMutableSet()
+    }
 }
 
 fun DocumentEntity.toDto(): DocumentResponse {

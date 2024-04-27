@@ -26,7 +26,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
  */
 @EnableWebSecurity
 @Configuration
-@EnableMethodSecurity(securedEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 internal class WebSecurityConfig(private val jwtAuthorizationFilter: JwtAuthorizationFilter) {
     @Bean
     @Throws(Exception::class)
