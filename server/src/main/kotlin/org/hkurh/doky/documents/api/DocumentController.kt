@@ -2,12 +2,11 @@ package org.hkurh.doky.documents.api
 
 import jakarta.validation.Valid
 import org.hkurh.doky.documents.DocumentFacade
-import org.hkurh.doky.security.DokyAuthority
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.annotation.Secured
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -19,7 +18,7 @@ import java.net.MalformedURLException
  */
 @RestController
 @RequestMapping("/documents")
-@Secured(DokyAuthority.Role.ROLE_USER)
+@PreAuthorize("hasRole('ROLE_USER')")
 class DocumentController(private val documentFacade: DocumentFacade) : DocumentApi {
 
     @PostMapping("/{id}/upload")

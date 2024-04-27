@@ -13,23 +13,27 @@ import org.springframework.stereotype.Component
 @Component
 object JwtProvider {
     private val jwtParser = Jwts.parserBuilder().setSigningKey(DokyApplication.SECRET_KEY_SPEC).build()
+    private const val USERNAME_KEY = "username"
+    private const val ROLES_KEY = "roles"
 
     /**
      * Generates a token for the given username.
      *
      * @param username The username for which to generate the token.
+     * @param roles The list of roles associated to user.
      * @return The generated token.
      */
-    fun generateToken(username: String): String {
+    fun generateToken(username: String, roles: Set<Any>): String {
         val currentTime = DateTime(DateTimeZone.getDefault())
         val expireTokenTime = currentTime.plusDays(1)
+        val claims = mapOf(USERNAME_KEY to username, ROLES_KEY to roles)
         return Jwts.builder()
-                .setId("dokyToken")
-                .setSubject(username)
-                .setIssuedAt(currentTime.toDate())
-                .setExpiration(expireTokenTime.toDate())
-                .signWith(DokyApplication.SECRET_KEY_SPEC, SignatureAlgorithm.HS256)
-                .compact()
+            .setId("dokyToken")
+            .setClaims(claims)
+            .setIssuedAt(currentTime.toDate())
+            .setExpiration(expireTokenTime.toDate())
+            .signWith(DokyApplication.SECRET_KEY_SPEC, SignatureAlgorithm.HS256)
+            .compact()
     }
 
     /**
@@ -39,6 +43,6 @@ object JwtProvider {
      * @return The extracted username.
      */
     fun getUsernameFromToken(token: String): String {
-        return jwtParser.parseClaimsJws(token).body.subject
+        return jwtParser.parseClaimsJws(token).body[USERNAME_KEY].toString()
     }
 }

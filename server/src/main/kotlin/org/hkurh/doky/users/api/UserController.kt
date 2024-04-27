@@ -1,9 +1,8 @@
 package org.hkurh.doky.users.api
 
-import org.hkurh.doky.security.DokyAuthority
 import org.hkurh.doky.users.UserFacade
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.annotation.Secured
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
  * @param userFacade The [UserFacade] instance for handling user-related business logic.
  */
 @RestController
-@Secured(DokyAuthority.Role.ROLE_USER)
+@PreAuthorize("hasRole('ROLE_USER')")
 class UserController(private val userFacade: UserFacade) : UserApi {
 
     @GetMapping("/users/current")

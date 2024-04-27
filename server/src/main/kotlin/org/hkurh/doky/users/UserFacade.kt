@@ -12,7 +12,7 @@ interface UserFacade {
      * @param userUid The user's unique ID.
      * @param password The user's password.
      */
-    fun checkCredentials(userUid: String, password: String)
+    fun checkCredentials(userUid: String, password: String): UserDto
 
     /**
      * Registers a new user with the given user UID and password.

@@ -31,7 +31,7 @@ import java.io.IOException
 @Component
 class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequestFilter() {
     private val authorizationHeader = "Authorization"
-    private val anonymousEndpoints = arrayOf("/register", "/login", "/password/reset")
+    private val anonymousEndpoints = setOf("/register", "/login", "/password/reset")
 
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(
@@ -48,30 +48,36 @@ class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequ
         }
 
         try {
-            val token = getTokenFromRequest(request)
-            if (token != null) {
-                val usernameFromToken = getUsernameFromToken(token)
-                val currentUser = userService.findUserByUid(usernameFromToken)
-                val dokyUserDetails: DokyUserDetails = DokyUserDetails.createUserDetails(currentUser!!)
+            processAuthorization(request, filterChain, response)
+        } catch (e: Exception) {
+            if (e is JwtException || e is DokyNotFoundException) {
+                response.status = HttpServletResponse.SC_FORBIDDEN
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, e.message)
+            } else {
+                throw e
+            }
+        }
+    }
+
+    private fun processAuthorization(
+        request: HttpServletRequest,
+        filterChain: FilterChain,
+        response: HttpServletResponse
+    ) {
+        val token = getTokenFromRequest(request)
+        if (token != null) {
+            val usernameFromToken = getUsernameFromToken(token)
+            userService.findUserByUid(usernameFromToken)?.let {
+                val dokyUserDetails = DokyUserDetails(it)
                 val authenticationToken =
                     UsernamePasswordAuthenticationToken(dokyUserDetails, null, dokyUserDetails.getAuthorities())
                 SecurityContextHolder.getContext().authentication = authenticationToken
-            } else {
-                LOG.warn("Token is not presented. Clear authorization context.")
-                SecurityContextHolder.clearContext()
             }
-            filterChain.doFilter(request, response)
-        } catch (e: Exception) {
-            when (e) {
-                is JwtException,
-                is DokyNotFoundException -> {
-                    response.status = HttpServletResponse.SC_FORBIDDEN
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN, e.message)
-                }
-
-                else -> throw e
-            }
+        } else {
+            LOG.warn("Token is not presented. Clear authorization context.")
+            SecurityContextHolder.clearContext()
         }
+        filterChain.doFilter(request, response)
     }
 
     private fun getTokenFromRequest(request: HttpServletRequest): String? {

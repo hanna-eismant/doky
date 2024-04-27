@@ -14,12 +14,13 @@ import org.springframework.stereotype.Component
 @Component
 class DefaultUserFacade(private val userService: UserService, private val passwordEncoder: PasswordEncoder) :
     UserFacade {
-    override fun checkCredentials(userUid: String, password: String) {
+    override fun checkCredentials(userUid: String, password: String): UserDto {
         if (!userService.exists(userUid)) throw DokyAuthenticationException("User doesn't exist")
         val userEntity = userService.findUserByUid(userUid)
         val encodedPassword = userEntity!!.password
         if (!passwordEncoder.matches(password, encodedPassword))
             throw DokyAuthenticationException("Incorrect credentials")
+        return userEntity.toDto()
     }
 
     override fun register(userUid: String, password: String): UserDto {

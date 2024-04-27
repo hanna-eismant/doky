@@ -4,7 +4,7 @@ import org.apache.solr.client.solrj.SolrClient
 import org.apache.solr.common.params.CommonParams
 import org.apache.solr.common.params.ModifiableSolrParams
 import org.hkurh.doky.DokyIntegrationTest
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -47,6 +47,6 @@ class DefaultDocumentIndexServiceIntegrationTest : DokyIntegrationTest() {
         // then
         val solrParams = ModifiableSolrParams()
         solrParams.add(CommonParams.Q, "*:*")
-        assertTrue(solrClient.query(coreName, solrParams).results.size == 4)
+        assertEquals(4, solrClient.query(coreName, solrParams).results.size)
     }
 }

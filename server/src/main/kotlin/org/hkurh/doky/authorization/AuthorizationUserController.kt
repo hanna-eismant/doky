@@ -20,8 +20,8 @@ class AuthorizationUserController(private val userFacade: UserFacade) : Authoriz
     override fun login(@Valid @RequestBody authenticationRequest: AuthenticationRequest): ResponseEntity<AuthenticationResponse> {
         val username = authenticationRequest.uid
         val password = authenticationRequest.password
-        userFacade.checkCredentials(username, password)
-        val token = generateToken(username)
+        val user = userFacade.checkCredentials(username, password)
+        val token = generateToken(user.uid, user.roles)
         return ResponseEntity.ok(AuthenticationResponse(token))
     }
 
@@ -30,7 +30,7 @@ class AuthorizationUserController(private val userFacade: UserFacade) : Authoriz
         val registeredUser = userFacade.register(registrationRequest.uid, registrationRequest.password)
         val resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}").build(registeredUser.id)
-        val token = generateToken(registeredUser.uid)
+        val token = generateToken(registeredUser.uid, registeredUser.roles)
         return ResponseEntity.created(resourceLocation).body(AuthenticationResponse(token))
     }
 }
