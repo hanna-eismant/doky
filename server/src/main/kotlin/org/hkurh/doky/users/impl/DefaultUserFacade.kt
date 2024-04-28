@@ -1,6 +1,5 @@
 package org.hkurh.doky.users.impl
 
-import org.apache.commons.lang3.StringUtils
 import org.hkurh.doky.errorhandling.DokyAuthenticationException
 import org.hkurh.doky.errorhandling.DokyRegistrationException
 import org.hkurh.doky.toDto
@@ -37,8 +36,9 @@ class DefaultUserFacade(private val userService: UserService, private val passwo
 
     override fun updateCurrentUser(userDto: UserDto) {
         val currentUser = userService.getCurrentUser()
-        if (StringUtils.isNotBlank(userDto.name)) currentUser.name = userDto.name!!
-        if (StringUtils.isNotBlank(userDto.password)) currentUser.password = passwordEncoder.encode(userDto.password)
+        currentUser.name = userDto.name?.ifEmpty { currentUser.name } ?: userDto.name
+        currentUser.password =
+            userDto.password?.ifEmpty { currentUser.password } ?: passwordEncoder.encode(userDto.password)
         userService.updateUser(currentUser)
     }
 
