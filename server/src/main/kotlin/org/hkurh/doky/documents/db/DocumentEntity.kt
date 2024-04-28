@@ -21,7 +21,7 @@ import java.util.*
 
 @Entity
 @EntityListeners(value = [AuditingEntityListener::class])
-@Table(name = "document")
+@Table(name = "documents")
 class DocumentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

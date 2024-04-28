@@ -1,1 +1,1 @@
-delete u from user u where u.uid = "hkurh.test.01@yopmail.com";
+DELETE u FROM users u WHERE u.uid = "hkurh.test.01@yopmail.com";

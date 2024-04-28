@@ -15,9 +15,11 @@ import java.util.*
 
 @Entity
 @Table(
-    name = "reset_password_token",
-    indexes = [Index(name = "idx_reset_password_token_token", columnList = "token")],
-    uniqueConstraints = [UniqueConstraint(name = "uq_reset_password_token_token", columnNames = ["token"])]
+    name = "reset_password_tokens",
+    indexes = [Index(name = "idx_reset_password_tokens_token", columnList = "token")],
+    uniqueConstraints = [
+        UniqueConstraint(name = "uc_reset_password_tokens_token", columnNames = ["token"]),
+        UniqueConstraint(name = "uc_reset_password_tokens_user", columnNames = ["user"])]
 )
 class ResetPasswordTokenEntity {
 

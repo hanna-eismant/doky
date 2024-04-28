@@ -161,7 +161,7 @@ class DocumentSpec : RestSpec() {
     }
 
     fun getDocumentId(docName: String): Long? {
-        val existedDocumentQuery = "select d.id from document d where d.name = ?"
+        val existedDocumentQuery = "select d.id from documents d where d.name = ?"
         val args = arrayOf(docName)
         val argTypes = intArrayOf(Types.VARCHAR)
         return jdbcTemplate.queryForObject(existedDocumentQuery, args, argTypes, Long::class.java)

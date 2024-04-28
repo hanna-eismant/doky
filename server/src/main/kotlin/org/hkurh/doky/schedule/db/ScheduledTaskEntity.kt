@@ -9,7 +9,7 @@ import jakarta.persistence.Table
 import java.util.*
 
 @Entity
-@Table(name = "scheduled_task")
+@Table(name = "scheduled_tasks")
 class ScheduledTaskEntity {
 
     @Id

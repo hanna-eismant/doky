@@ -14,9 +14,11 @@ import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
 
 @Entity
-@Table(name = "user",
-        indexes = [Index(name = "idx_userentity_uid", columnList = "uid")],
-        uniqueConstraints = [UniqueConstraint(name = "uc_userentity_uid", columnNames = ["uid"])])
+@Table(
+    name = "users",
+    indexes = [Index(name = "idx_users_uid", columnList = "uid")],
+    uniqueConstraints = [UniqueConstraint(name = "uc_users_uid", columnNames = ["uid"])]
+)
 class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

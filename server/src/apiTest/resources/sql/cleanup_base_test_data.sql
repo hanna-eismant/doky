@@ -1,7 +1,7 @@
-delete d from document d inner join user u on d.creator_id = u.id where u.uid = "hanna_test_1@example.com";
+DELETE d FROM documents d INNER JOIN users u ON d.creator_id = u.id WHERE u.uid = "hanna_test_1@example.com";
 
-delete from reset_password_token;
+DELETE FROM reset_password_tokens;
 
-delete a from user_authorities a inner join user u on a.user_id = u.id where u.uid = "hanna_test_1@example.com";
+DELETE a FROM user_authorities a INNER JOIN users u ON a.user_id = u.id WHERE u.uid = "hanna_test_1@example.com";
 
-delete u from user u where u.uid = "hanna_test_1@example.com";
+DELETE u FROM users u WHERE u.uid = "hanna_test_1@example.com";
