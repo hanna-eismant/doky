@@ -2,6 +2,9 @@ package org.hkurh.doky.users
 
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.events.DokyEventPublisher
+import org.hkurh.doky.security.UserAuthority
+import org.hkurh.doky.users.db.AuthorityEntity
+import org.hkurh.doky.users.db.AuthorityEntityRepository
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.db.UserEntityRepository
 import org.hkurh.doky.users.impl.DefaultUserService
@@ -30,8 +33,9 @@ class DefaultUserServiceTest : DokyUnitTest {
     private val userPassword = "password"
 
     private var userEntityRepository: MockUserEntityRepository = mock()
+    private var authorityEntityRepository: AuthorityEntityRepository = mock()
     private val eventPublisher: DokyEventPublisher = mock()
-    private var userService = DefaultUserService(userEntityRepository, eventPublisher)
+    private var userService = DefaultUserService(userEntityRepository, authorityEntityRepository, eventPublisher)
 
     @Test
     @DisplayName("Should publish user registration event when user is successfully registered")
@@ -75,12 +79,36 @@ class DefaultUserServiceTest : DokyUnitTest {
         verify(userEntityRepository).save(argThat<UserEntity> { name == userName })
     }
 
+    @Test
+    @DisplayName("Should assign USER authority when register")
+    fun shouldAssignUserAuthority_whenRegister() {
+        // given
+        val userEntity = createUserEntity()
+        val authority = createAuthorityEntity()
+        whenever(userEntityRepository.save(any())).thenReturn(userEntity)
+        whenever(authorityEntityRepository.findByAuthority(UserAuthority.ROLE_USER)).thenReturn(authority)
+
+        // when
+        userService.create(userUid, userPassword)
+
+        // then
+        verify(userEntityRepository).save(argThat<UserEntity> {
+            authorities.find { a -> a.authority == UserAuthority.ROLE_USER } != null
+        })
+    }
+
     private fun createUserEntity(): UserEntity {
         return UserEntity().apply {
             id = 1
             uid = userUid
             name = userName
             password = userPassword
+        }
+    }
+
+    private fun createAuthorityEntity(): AuthorityEntity {
+        return AuthorityEntity().apply {
+            authority = UserAuthority.ROLE_USER
         }
     }
 

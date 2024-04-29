@@ -4,7 +4,9 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.events.DokyEventPublisher
 import org.hkurh.doky.security.DokyUserDetails
+import org.hkurh.doky.security.UserAuthority
 import org.hkurh.doky.users.UserService
+import org.hkurh.doky.users.db.AuthorityEntityRepository
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.db.UserEntityRepository
 import org.springframework.security.core.context.SecurityContextHolder
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 class DefaultUserService(
     private val userEntityRepository: UserEntityRepository,
+    private val authorityEntityRepository: AuthorityEntityRepository,
     private val eventPublisher: DokyEventPublisher,
 ) : UserService {
     override fun findUserByUid(userUid: String): UserEntity? {
@@ -20,10 +23,13 @@ class DefaultUserService(
     }
 
     override fun create(userUid: String, encodedPassword: String): UserEntity {
-        val userEntity = UserEntity()
-        userEntity.uid = userUid
-        userEntity.password = encodedPassword
-        userEntity.name = extractNameFromUid(userUid)
+        val userEntity = UserEntity().apply {
+            uid = userUid
+            password = encodedPassword
+            name = extractNameFromUid(userUid)
+            authorityEntityRepository.findByAuthority(UserAuthority.ROLE_USER)
+                ?.let { authorities.add(it) }
+        }
         val createdUser = userEntityRepository.save(userEntity)
         LOG.debug { "Created new user [${createdUser.id}]" }
         eventPublisher.publishUserRegistrationEvent(createdUser)

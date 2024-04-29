@@ -135,8 +135,8 @@ testing {
     }
 }
 
-apiTest.onlyIf { project.hasProperty('runApiTests') && project.property('runApiTests') }
-integrationTest.onlyIf { project.hasProperty('runIntegrationTests') && project.property('runIntegrationTests') }
+//apiTest.onlyIf { project.hasProperty('runApiTests') && project.property('runApiTests') }
+//integrationTest.onlyIf { project.hasProperty('runIntegrationTests') && project.property('runIntegrationTests') }
 
 test.testLogging {
     showStandardStreams = true
