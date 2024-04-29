@@ -1,10 +1,10 @@
 package org.hkurh.doky.documents.impl
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.documents.DocumentService
 import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.documents.db.DocumentEntityRepository
 import org.hkurh.doky.users.UserService
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
@@ -20,7 +20,7 @@ class DefaultDocumentService(
         val currentUser = userService.getCurrentUser()
         document.creator = currentUser
         val savedDocument = documentEntityRepository.save(document)
-        LOG.debug("Created new Document [${savedDocument.id}] by User [${currentUser.id}]")
+        LOG.debug { "Created new Document [${savedDocument.id}] by User [${currentUser.id}]" }
         return savedDocument
     }
 
@@ -35,6 +35,6 @@ class DefaultDocumentService(
     }
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(DocumentService::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

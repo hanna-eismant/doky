@@ -2,10 +2,10 @@ package org.hkurh.doky.filestorage.impl
 
 import com.azure.storage.blob.BlobContainerClient
 import com.azure.storage.blob.BlobContainerClientBuilder
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.annotation.PostConstruct
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.lang3.StringUtils
-import org.apache.commons.logging.LogFactory
 import org.hkurh.doky.filestorage.FileStorage
 import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Value
@@ -29,7 +29,7 @@ class DokyAzureBlobStorage : FileStorage {
 
     @PostConstruct
     fun init() {
-        LOG.debug("Azure Blob container name $containerName initialized")
+        LOG.debug { "Azure Blob container name $containerName initialized" }
         blobContainerClient = BlobContainerClientBuilder()
                 .connectionString(connectionString)
                 .containerName(containerName)
@@ -72,6 +72,6 @@ class DokyAzureBlobStorage : FileStorage {
     }
 
     companion object {
-        private val LOG = LogFactory.getLog(DokyAzureBlobStorage::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

@@ -1,12 +1,12 @@
 package org.hkurh.doky.users.impl
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.events.DokyEventPublisher
 import org.hkurh.doky.security.DokyUserDetails
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.db.UserEntityRepository
-import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
@@ -25,7 +25,7 @@ class DefaultUserService(
         userEntity.password = encodedPassword
         userEntity.name = extractNameFromUid(userUid)
         val createdUser = userEntityRepository.save(userEntity)
-        LOG.debug("Created new user [${createdUser.id}]")
+        LOG.debug { "Created new user [${createdUser.id}]" }
         eventPublisher.publishUserRegistrationEvent(createdUser)
         return createdUser
     }
@@ -38,7 +38,7 @@ class DefaultUserService(
 
     override fun updateUser(user: UserEntity) {
         userEntityRepository.save(user)
-        LOG.debug("User is updated ${user.id}")
+        LOG.debug { "User is updated ${user.id}" }
     }
 
     private fun extractNameFromUid(userUid: String): String {
@@ -54,6 +54,6 @@ class DefaultUserService(
     }
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(DefaultUserService::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

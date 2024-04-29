@@ -1,7 +1,7 @@
 package org.hkurh.doky.events
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.email.EmailService
-import org.slf4j.LoggerFactory
 import org.springframework.context.event.EventListener
 import org.springframework.mail.MailException
 import org.springframework.stereotype.Component
@@ -14,14 +14,14 @@ class DokyEventListener(
     @EventListener
     fun sendRegistrationEmail(event: UserRegistrationEvent) {
         try {
-            LOG.debug("Process user registration event for user [${event.user.id}]")
+            LOG.debug { "Process user registration event for user [${event.user.id}]" }
             emailService.sendRegistrationConfirmationEmail(event.user)
         } catch (e: MailException) {
-            LOG.error("Error during sending registration email for user [${event.user.id}]", e)
+            LOG.error(e) { "Error during sending registration email for user [${event.user.id}]" }
         }
     }
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(DokyEventListener::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

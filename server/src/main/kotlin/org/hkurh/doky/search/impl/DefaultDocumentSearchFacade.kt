@@ -1,6 +1,6 @@
 package org.hkurh.doky.search.impl
 
-import org.apache.commons.logging.LogFactory
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.documents.api.DocumentResponse
 import org.hkurh.doky.documents.db.DocumentEntityRepository
 import org.hkurh.doky.search.DocumentIndexService
@@ -25,12 +25,12 @@ class DefaultDocumentSearchFacade(
             val userId = userService.getCurrentUser().id
             val documents = documentEntityRepository.findByListIdAndUserId(documentIdList, userId)
                 .map { it.toDto() }
-            LOG.debug("Return [${documents.size}] results for query [$query]")
+            LOG.debug { "Return [${documents.size}] results for query [$query]" }
             documents
         }
     }
 
     companion object {
-        private val LOG = LogFactory.getLog(DocumentSearchFacade::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

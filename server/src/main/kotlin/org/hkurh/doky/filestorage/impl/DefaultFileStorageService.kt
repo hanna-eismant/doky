@@ -1,8 +1,8 @@
 package org.hkurh.doky.filestorage.impl
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.lang3.RandomStringUtils
-import org.apache.commons.logging.LogFactory
 import org.hkurh.doky.filestorage.FileStorage
 import org.hkurh.doky.filestorage.FileStorageService
 import org.joda.time.DateTime
@@ -54,13 +54,13 @@ class DefaultFileStorageService(private val environment: Environment, private va
     private fun checkFileExtension(file: MultipartFile, filePath: String): String {
         val uploadExt = FilenameUtils.getExtension(file.originalFilename)
         val savedExt = FilenameUtils.getExtension(filePath)
-        LOG.debug("Saved extension [$savedExt], upload extension [$uploadExt]")
+        LOG.debug { "Saved extension [$savedExt], upload extension [$uploadExt]" }
         return if (savedExt != uploadExt) filePath.replace(".$savedExt", ".$uploadExt")
         else filePath
     }
 
     companion object {
-        private val LOG = LogFactory.getLog(DefaultFileStorageService::class.java)
+        private val LOG = KotlinLogging.logger {}
         const val STORAGE_PATH_PROPERTY = "doky.filestorage.path"
         const val DEFAULT_STORAGE_PATH = "./mediadata"
     }

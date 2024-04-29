@@ -1,12 +1,12 @@
 package org.hkurh.doky.users.impl
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.errorhandling.DokyAuthenticationException
 import org.hkurh.doky.errorhandling.DokyRegistrationException
 import org.hkurh.doky.toDto
 import org.hkurh.doky.users.UserFacade
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.api.UserDto
-import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
@@ -26,7 +26,7 @@ class DefaultUserFacade(private val userService: UserService, private val passwo
         if (userService.exists(userUid)) throw DokyRegistrationException("User already exists")
         val encodedPassword = passwordEncoder.encode(password)
         val userEntity = userService.create(userUid, encodedPassword)
-        LOG.info("Register new user [${userEntity.id}]")
+        LOG.info { "Register new user [${userEntity.id}]" }
         return userEntity.toDto()
     }
 
@@ -43,6 +43,6 @@ class DefaultUserFacade(private val userService: UserService, private val passwo
     }
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(DefaultUserFacade::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

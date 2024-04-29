@@ -1,7 +1,7 @@
 package org.hkurh.doky.events
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.users.db.UserEntity
-import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
 
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component
 class DokyEventPublisher(private val applicationEventPublisher: ApplicationEventPublisher) {
 
     fun publishUserRegistrationEvent(user: UserEntity) {
-        LOG.debug("Publishing user registration event for user [${user.id}]")
+        LOG.debug { "Publishing user registration event for user [${user.id}]" }
         val event = UserRegistrationEvent(this, user)
         applicationEventPublisher.publishEvent(event)
     }
 
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(DokyEventPublisher::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

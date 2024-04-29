@@ -1,8 +1,8 @@
 package org.hkurh.doky.documents.api
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.validation.Valid
 import org.hkurh.doky.documents.DocumentFacade
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -33,7 +33,7 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
         return try {
             val file = documentFacade.getFile(id)
             if (file == null) {
-                LOG.debug("No attached file for document [$id]")
+                LOG.debug { "No attached file for document [$id]" }
                 return ResponseEntity.notFound().build<Any>()
             }
             val header = "attachment; filename=\"${file.filename}\""
@@ -66,12 +66,12 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
         return if (document != null) {
             ResponseEntity.ok(document)
         } else {
-            LOG.debug("No Document with id [$id]")
+            LOG.debug { "No Document with id [$id]" }
             ResponseEntity.notFound().build<Any>()
         }
     }
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(DocumentController::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

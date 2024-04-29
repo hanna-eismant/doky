@@ -1,5 +1,6 @@
 package org.hkurh.doky.documents.impl
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.commons.lang3.StringUtils
 import org.hkurh.doky.documents.DocumentFacade
 import org.hkurh.doky.documents.DocumentService
@@ -8,7 +9,6 @@ import org.hkurh.doky.documents.api.DocumentResponse
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.filestorage.FileStorageService
 import org.hkurh.doky.toDto
-import org.slf4j.LoggerFactory
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
 import org.springframework.stereotype.Component
@@ -24,7 +24,7 @@ class DefaultDocumentFacade(
 ) : DocumentFacade {
     override fun createDocument(name: String, description: String?): DocumentResponse? {
         val documentEntity = documentService.create(name, description)
-        LOG.debug("Created new Document with id [${documentEntity.id}]")
+        LOG.debug { "Created new Document with id [${documentEntity.id}]" }
         return documentEntity.toDto()
     }
 
@@ -67,19 +67,19 @@ class DefaultDocumentFacade(
             val file = fileStorageService.getFile(filePath!!)
             if (file != null) {
                 val fileUri = file.toUri()
-                LOG.debug("Download file for Document [$id] with URI [$fileUri]")
+                LOG.debug { "Download file for Document [$id] with URI [$fileUri]" }
                 UrlResource(fileUri)
             } else {
-                LOG.warn("File [$filePath] attached to document [$id] does not exists in storage")
+                LOG.warn { "File [$filePath] attached to document [$id] does not exists in storage" }
                 null
             }
         } else {
-            LOG.debug("No attached file for Document [$id]")
+            LOG.debug { "No attached file for Document [$id]" }
             null
         }
     }
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(DefaultDocumentFacade::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

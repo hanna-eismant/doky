@@ -1,5 +1,6 @@
 package org.hkurh.doky.security
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.jsonwebtoken.JwtException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
@@ -8,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.security.JwtProvider.getUsernameFromToken
 import org.hkurh.doky.users.UserService
-import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -39,10 +39,10 @@ class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequ
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        LOG.debug("Jwt Authorization Filter is invoked.")
+        LOG.debug { "Jwt Authorization Filter is invoked." }
 
         if (anonymousEndpoints.contains(request.requestURI)) {
-            LOG.debug("No check token for request ${request.requestURI}")
+            LOG.debug { "No check token for request ${request.requestURI}" }
             filterChain.doFilter(request, response)
             return
         }
@@ -74,7 +74,7 @@ class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequ
                 SecurityContextHolder.getContext().authentication = authenticationToken
             }
         } else {
-            LOG.warn("Token is not presented. Clear authorization context.")
+            LOG.warn { "Token is not presented. Clear authorization context." }
             SecurityContextHolder.clearContext()
         }
         filterChain.doFilter(request, response)
@@ -88,6 +88,6 @@ class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequ
     }
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(JwtAuthorizationFilter::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

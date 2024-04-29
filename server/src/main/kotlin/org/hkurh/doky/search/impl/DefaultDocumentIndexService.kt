@@ -1,6 +1,6 @@
 package org.hkurh.doky.search.impl
 
-import org.apache.commons.logging.LogFactory
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.solr.client.solrj.SolrClient
 import org.apache.solr.client.solrj.SolrQuery
 import org.hkurh.doky.documents.db.DocumentEntityRepository
@@ -26,7 +26,7 @@ class DefaultDocumentIndexService(
         documentEntityRepository.findAll()
             .mapNotNull { it?.toSolrIndexBean() }
             .let {
-                LOG.debug("Full Index: Add [${it.size}] documents to index")
+                LOG.debug { "Full Index: Add [${it.size}] documents to index" }
                 push(it)
             }
     }
@@ -35,7 +35,7 @@ class DefaultDocumentIndexService(
         documentEntityRepository.findLatestModified(runDate)
             .map { it.toSolrIndexBean() }
             .let {
-                LOG.debug("Update Index: Add [${it.size}] documents to index")
+                LOG.debug { "Update Index: Add [${it.size}] documents to index" }
                 push(it)
             }
     }
@@ -50,7 +50,7 @@ class DefaultDocumentIndexService(
             set("defType", "edismax")
         }
         val results = solrClient.query(coreName, solrQuery).results
-        LOG.debug("Solr found [${results.numFound}] results for query [$query]")
+        LOG.debug { "Solr found [${results.numFound}] results for query [$query]" }
         return if (results.numFound > 0) {
             results.map { it.toSolrResultBean() }
         } else {
@@ -71,6 +71,6 @@ class DefaultDocumentIndexService(
     }
 
     companion object {
-        private val LOG = LogFactory.getLog(DefaultDocumentIndexService::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

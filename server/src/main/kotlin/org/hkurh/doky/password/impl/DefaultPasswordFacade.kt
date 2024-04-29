@@ -1,11 +1,11 @@
 package org.hkurh.doky.password.impl
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.password.PasswordFacade
 import org.hkurh.doky.password.ResetPasswordService
 import org.hkurh.doky.users.UserService
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
@@ -20,16 +20,16 @@ class DefaultPasswordFacade(
 
         val user = userService.findUserByUid(email)
         val token = resetPasswordService.generateAndSaveResetToken(user!!)
-        LOG.debug("Generate reset password token for user [${user.id}]")
+        LOG.debug { "Generate reset password token for user [${user.id}]" }
         try {
             emailService.sendRestorePasswordEmail(user, token)
         } catch (e: Exception) {
-            LOG.error("Error sending reset password email for user ${user.id}", e)
+            LOG.error(e) { "Error sending reset password email for user ${user.id}" }
         }
     }
 
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(DefaultPasswordFacade::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }

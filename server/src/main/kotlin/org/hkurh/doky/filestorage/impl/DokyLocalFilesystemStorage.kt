@@ -1,7 +1,7 @@
 package org.hkurh.doky.filestorage.impl
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.commons.lang3.StringUtils
-import org.apache.commons.logging.LogFactory
 import org.hkurh.doky.filestorage.FileStorage
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
@@ -49,10 +49,10 @@ class DokyLocalFilesystemStorage : FileStorage {
     @Throws(IOException::class)
     private fun saveFileToFilesystem(file: MultipartFile, path: Path) {
         Files.copy(file.inputStream, path, StandardCopyOption.REPLACE_EXISTING)
-        LOG.debug("Save uploaded file to ${path.toAbsolutePath()}")
+        LOG.debug { "Save uploaded file to ${path.toAbsolutePath()}" }
     }
 
     companion object {
-        private val LOG = LogFactory.getLog(DokyLocalFilesystemStorage::class.java)
+        private val LOG = KotlinLogging.logger {}
     }
 }
