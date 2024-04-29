@@ -323,6 +323,8 @@ $dokka.location:org.hkurh.doky.users.db/AuthorityEntity///PointingToDeclaration/
 $dokka.location:org.hkurh.doky.users.db/AuthorityEntity/AuthorityEntity/#/PointingToDeclaration/server/org.hkurh.doky.users.db/-authority-entity/-authority-entity.html
 $dokka.location:org.hkurh.doky.users.db/AuthorityEntity/authority/#/PointingToDeclaration/server/org.hkurh.doky.users.db/-authority-entity/authority.html
 $dokka.location:org.hkurh.doky.users.db/AuthorityEntity/id/#/PointingToDeclaration/server/org.hkurh.doky.users.db/-authority-entity/id.html
+$dokka.location:org.hkurh.doky.users.db/AuthorityEntityRepository///PointingToDeclaration/server/org.hkurh.doky.users.db/-authority-entity-repository/index.html
+$dokka.location:org.hkurh.doky.users.db/AuthorityEntityRepository/findByAuthority/#org.hkurh.doky.security.UserAuthority/PointingToDeclaration/server/org.hkurh.doky.users.db/-authority-entity-repository/find-by-authority.html
 $dokka.location:org.hkurh.doky.users.db/UserEntity///PointingToDeclaration/server/org.hkurh.doky.users.db/-user-entity/index.html
 $dokka.location:org.hkurh.doky.users.db/UserEntity/UserEntity/#/PointingToDeclaration/server/org.hkurh.doky.users.db/-user-entity/-user-entity.html
 $dokka.location:org.hkurh.doky.users.db/UserEntity/authorities/#/PointingToDeclaration/server/org.hkurh.doky.users.db/-user-entity/authorities.html
@@ -343,7 +345,7 @@ $dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/register/#kotlin.Str
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/updateCurrentUser/#org.hkurh.doky.users.api.UserDto/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-facade/update-current-user.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService.Companion///PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/-companion/index.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService///PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/index.html
-$dokka.location:org.hkurh.doky.users.impl/DefaultUserService/DefaultUserService/#org.hkurh.doky.users.db.UserEntityRepository#org.hkurh.doky.events.DokyEventPublisher/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/-default-user-service.html
+$dokka.location:org.hkurh.doky.users.impl/DefaultUserService/DefaultUserService/#org.hkurh.doky.users.db.UserEntityRepository#org.hkurh.doky.users.db.AuthorityEntityRepository#org.hkurh.doky.events.DokyEventPublisher/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/-default-user-service.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService/create/#kotlin.String#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/create.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService/exists/#kotlin.Long/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/exists.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService/exists/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/exists.html
