@@ -1,10 +1,3 @@
-import java.time.DayOfWeek
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalAdjusters
-
 /**
  * JetBrains Space Automation
  * This Kotlin-script file lets you automate build activities
@@ -13,88 +6,6 @@ import java.time.temporal.TemporalAdjusters
 
 val gradleImageVersion = "gradle:8.2-jdk17"
 val deploymentKey = "azure-dev"
-
-job("Tests for main branch") {
-    startOn {
-        // every day at 20:53 am UTC
-        schedule { cron("53 20 * * *") }
-    }
-
-    val sharedCoveragePath = "coverage"
-    container(displayName = "Coverage", image = gradleImageVersion) {
-        env["DB_HOST"] = "db"
-        env["DB_PORT"] = "3306"
-        service("mysql:8") {
-            alias("db")
-            args(
-                "--log_bin_trust_function_creators=ON",
-                "--max-connections=700"
-            )
-            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
-            env["MYSQL_DATABASE"] = "doky-test"
-            env["MYSQL_USER"] = "doky-test"
-            env["MYSQL_PASSWORD"] = "doky-test"
-        }
-        shellScript {
-            content = """
-                cd server
-                ./gradlew koverVerify -PrunIntegrationTests=true -PrunApiTests=true
-                mkdir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-                cd build/kover/bin-reports
-                cp -a . ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-                cd ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-                ls -la
-                """.trimIndent()
-        }
-    }
-
-    container(displayName = "Qodana scan", image = "jetbrains/qodana-jvm:latest") {
-        env["QODANA_TOKEN"] = "{{ project:qodana-token }}"
-        shellScript {
-            content = """
-                qodana \
-                --project-dir  server \
-                --baseline     qodana.sarif.json \
-                --coverage-dir ${'$'}JB_SPACE_FILE_SHARE_PATH/$sharedCoveragePath
-                """.trimIndent()
-        }
-    }
-
-    container(displayName = "Tests", image = gradleImageVersion) {
-        env["DB_HOST"] = "db"
-        env["DB_PORT"] = "3306"
-        service("mysql:8") {
-            alias("db")
-            args(
-                "--log_bin_trust_function_creators=ON",
-                "--max-connections=700"
-            )
-            env["MYSQL_ROOT_PASSWORD"] = "doky-test"
-            env["MYSQL_DATABASE"] = "doky-test"
-            env["MYSQL_USER"] = "doky-test"
-            env["MYSQL_PASSWORD"] = "doky-test"
-        }
-
-        workDir = "server"
-        kotlinScript { api ->
-            api.gradlew("test")
-            api.gradlew("integrationTest", "-PrunIntegrationTests=true")
-            api.gradlew("apiTest", "-PrunApiTests=true")
-        }
-    }
-
-    host("Schedule Azure DEV Deployment") {
-        kotlinScript { api ->
-            val deployVersion = "Aardvark-v0.1." + api.executionNumber()
-            api.space().projects.automation.deployments.schedule(
-                project = api.projectIdentifier(),
-                targetIdentifier = TargetIdentifier.Key(deploymentKey),
-                version = deployVersion,
-                scheduledStart = getNextSundayDate()
-            )
-        }
-    }
-}
 
 job("Azure DEV Deployment") {
     startOn {
@@ -141,12 +52,4 @@ job("Azure DEV Deployment") {
             api.gradlew("azureWebAppDeploy", "-DdeployVersion=$deployVersion", "-PdeployVersion=$deployVersion")
         }
     }
-}
-
-fun getNextSundayDate(): Instant {
-    var date = ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("UTC"))
-    // set time to 11:59 pm UTC
-    date = date.withHour(23).withMinute(59).withSecond(0).withNano(0)
-    val sunday = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
-    return Instant.parse(sunday.format(DateTimeFormatter.ISO_INSTANT))
 }
