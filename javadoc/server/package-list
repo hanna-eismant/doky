@@ -384,7 +384,6 @@ $dokka.location:org.hkurh.doky/DokyApplication/templateEngine/#org.thymeleaf.tem
 $dokka.location:org.hkurh.doky/DokyApplication/templateResolver/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky/-doky-application/template-resolver.html
 $dokka.location:org.hkurh.doky/DokyController///PointingToDeclaration/server/org.hkurh.doky/-doky-controller/index.html
 $dokka.location:org.hkurh.doky/DokyController/DokyController/#/PointingToDeclaration/server/org.hkurh.doky/-doky-controller/-doky-controller.html
-$dokka.location:org.hkurh.doky/DokyController/build/#/PointingToDeclaration/server/org.hkurh.doky/-doky-controller/build.html
 $dokka.location:org.hkurh.doky/DokyController/root/#/PointingToDeclaration/server/org.hkurh.doky/-doky-controller/root.html
 $dokka.location:org.hkurh.doky/DokyController/version/#/PointingToDeclaration/server/org.hkurh.doky/-doky-controller/version.html
 $dokka.location:org.hkurh.doky/VersionResponse///PointingToDeclaration/server/org.hkurh.doky/-version-response/index.html
