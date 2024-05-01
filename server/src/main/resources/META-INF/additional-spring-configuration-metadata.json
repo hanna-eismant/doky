@@ -79,6 +79,21 @@
       "name": "doky.password.reset.token.duration",
       "type": "java.lang.Long",
       "description": "Determine how long in minutes token for resetting password is valid."
+    },
+    {
+      "name": "spring.cloud.azure.appconfiguration.stores[0].connection-string",
+      "type": "java.lang.String",
+      "description": "Description for spring.cloud.azure.appconfiguration.stores[0].connection-string."
+    },
+    {
+      "name": "spring.cloud.azure.appconfiguration.stores[0].selects[0].label-filter",
+      "type": "java.lang.String",
+      "description": "Description for spring.cloud.azure.appconfiguration.stores[0].selects[0].label-filter."
+    },
+    {
+      "name": "spring.cloud.azure.appconfiguration.stores[0].selects[0].key-filter",
+      "type": "java.lang.String",
+      "description": "Description for spring.cloud.azure.appconfiguration.stores[0].selects[0].key-filter."
     }
   ],
   "hints": [

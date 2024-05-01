@@ -15,8 +15,10 @@ import java.io.IOException
 import java.nio.file.Path
 
 @Service
-class DefaultFileStorageService(private val environment: Environment, private val fileStorage: FileStorage) :
-    FileStorageService {
+class DefaultFileStorageService(
+    private val environment: Environment,
+    @Suppress("SpringJavaInjectionPointsAutowiringInspection") private val fileStorage: FileStorage
+) : FileStorageService {
     @Throws(IOException::class)
     override fun store(file: MultipartFile, filePath: String?): String {
         val isFileExists = fileStorage.checkExistence(filePath)
