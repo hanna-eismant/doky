@@ -23,6 +23,7 @@ class DefaultDocumentIndexService(
     lateinit var coreName: String
 
     override fun fullIndex() {
+        solrClient.deleteByQuery(coreName, "*:*")
         documentEntityRepository.findAll()
             .mapNotNull { it?.toSolrIndexBean() }
             .let {
