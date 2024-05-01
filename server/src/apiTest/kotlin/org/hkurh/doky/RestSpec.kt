@@ -4,6 +4,9 @@ import io.restassured.RestAssured.given
 import io.restassured.builder.RequestSpecBuilder
 import org.hkurh.doky.authorization.AuthenticationRequest
 import org.junit.jupiter.api.Tag
+import org.junit.platform.suite.api.IncludeTags
+import org.junit.platform.suite.api.Suite
+import org.junit.platform.suite.api.SuiteDisplayName
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
@@ -14,6 +17,9 @@ import org.springframework.test.context.jdbc.SqlMergeMode
 
 @ActiveProfiles("test")
 @Tag("api")
+@Suite
+@SuiteDisplayName("API Tests")
+@IncludeTags("api")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 @Sql(scripts = ["classpath:sql/create_base_test_data.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
