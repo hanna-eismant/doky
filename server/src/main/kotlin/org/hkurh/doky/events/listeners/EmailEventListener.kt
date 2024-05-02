@@ -1,13 +1,14 @@
-package org.hkurh.doky.events
+package org.hkurh.doky.events.listeners
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.email.EmailService
+import org.hkurh.doky.events.UserRegistrationEvent
 import org.springframework.context.event.EventListener
 import org.springframework.mail.MailException
 import org.springframework.stereotype.Component
 
 @Component
-class DokyEventListener(
+class EmailEventListener(
     private val emailService: EmailService
 ) {
 

@@ -1,5 +1,6 @@
 package org.hkurh.doky.search
 
+import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.search.solr.DocumentResultBean
 import java.util.*
 
@@ -26,4 +27,12 @@ interface DocumentIndexService {
      * @return A list of [DocumentResultBean] objects representing the search results.
      */
     fun search(query: String): List<DocumentResultBean>
+
+
+    /**
+     * Updates the information of a document in index.
+     *
+     * @param document The [DocumentEntity] object representing the document to update.
+     */
+    fun updateDocumentInfo(document: DocumentEntity)
 }

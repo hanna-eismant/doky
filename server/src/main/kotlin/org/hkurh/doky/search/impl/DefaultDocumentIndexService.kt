@@ -3,6 +3,7 @@ package org.hkurh.doky.search.impl
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.solr.client.solrj.SolrClient
 import org.apache.solr.client.solrj.SolrQuery
+import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.documents.db.DocumentEntityRepository
 import org.hkurh.doky.search.DocumentIndexService
 import org.hkurh.doky.search.solr.DocumentIndexBean
@@ -59,6 +60,10 @@ class DefaultDocumentIndexService(
         }
     }
 
+    override fun updateDocumentInfo(document: DocumentEntity) {
+        push(document.toSolrIndexBean())
+    }
+
     private fun fuzzyQuery(query: String): String {
         val replace = query.replace(" ", "~ ")
         return "$replace~"
@@ -69,6 +74,12 @@ class DefaultDocumentIndexService(
             solrClient.addBeans(coreName, docs)
             solrClient.commit(coreName)
         }
+    }
+
+    private fun push(doc: DocumentIndexBean) {
+        LOG.debug { "Pushing doc [${doc.id}] to index" }
+        solrClient.addBean(coreName, doc)
+        solrClient.commit(coreName)
     }
 
     companion object {

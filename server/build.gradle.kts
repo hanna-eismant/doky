@@ -127,6 +127,9 @@ testing {
                 implementation("org.springframework.boot:spring-boot-starter-web")
                 implementation("org.springframework.boot:spring-boot-starter-test")
 
+                implementation("org.springframework.boot:spring-boot-starter-security")
+                implementation("io.github.oshai:kotlin-logging:6.0.9")
+
                 implementation("org.junit.platform:junit-platform-suite-api:1.10.2")
 
                 implementation("com.icegreen:greenmail:2.0.1")

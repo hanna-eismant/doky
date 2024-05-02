@@ -4,13 +4,15 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.documents.DocumentService
 import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.documents.db.DocumentEntityRepository
+import org.hkurh.doky.events.EventPublisher
 import org.hkurh.doky.users.UserService
 import org.springframework.stereotype.Service
 
 @Service
 class DefaultDocumentService(
     private val documentEntityRepository: DocumentEntityRepository,
-    private val userService: UserService
+    private val userService: UserService,
+    private val eventPublisher: EventPublisher
 ) : DocumentService {
 
     override fun create(name: String, description: String?): DocumentEntity {
@@ -20,6 +22,7 @@ class DefaultDocumentService(
         val currentUser = userService.getCurrentUser()
         document.creator = currentUser
         val savedDocument = documentEntityRepository.save(document)
+        eventPublisher.publishDocumentUpdatedEvent(savedDocument)
         LOG.debug { "Created new Document [${savedDocument.id}] by User [${currentUser.id}]" }
         return savedDocument
     }
@@ -31,7 +34,8 @@ class DefaultDocumentService(
     }
 
     override fun save(document: DocumentEntity) {
-        documentEntityRepository.save(document)
+        val savedDocument = documentEntityRepository.save(document)
+        eventPublisher.publishDocumentUpdatedEvent(savedDocument)
     }
 
     companion object {

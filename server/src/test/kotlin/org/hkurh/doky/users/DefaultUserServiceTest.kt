@@ -1,7 +1,7 @@
 package org.hkurh.doky.users
 
 import org.hkurh.doky.DokyUnitTest
-import org.hkurh.doky.events.DokyEventPublisher
+import org.hkurh.doky.events.EventPublisher
 import org.hkurh.doky.security.UserAuthority
 import org.hkurh.doky.users.db.AuthorityEntity
 import org.hkurh.doky.users.db.AuthorityEntityRepository
@@ -34,7 +34,7 @@ class DefaultUserServiceTest : DokyUnitTest {
 
     private var userEntityRepository: MockUserEntityRepository = mock()
     private var authorityEntityRepository: AuthorityEntityRepository = mock()
-    private val eventPublisher: DokyEventPublisher = mock()
+    private val eventPublisher: EventPublisher = mock()
     private var userService = DefaultUserService(userEntityRepository, authorityEntityRepository, eventPublisher)
 
     @Test

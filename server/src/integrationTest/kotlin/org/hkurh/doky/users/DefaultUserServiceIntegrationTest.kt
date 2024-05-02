@@ -4,6 +4,7 @@ import com.icegreen.greenmail.util.GreenMail
 import org.awaitility.Awaitility.await
 import org.hkurh.doky.DokyIntegrationTest
 import org.hkurh.doky.SmtpServerExtension
+import org.hkurh.doky.users.impl.DefaultUserService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit
 class DefaultUserServiceIntegrationTest : DokyIntegrationTest() {
 
     @Autowired
-    lateinit var userService: UserService
+    lateinit var userService: DefaultUserService
 
     var smtpServer: GreenMail? = null
 

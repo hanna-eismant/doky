@@ -7,7 +7,7 @@ import org.springframework.context.event.SimpleApplicationEventMulticaster
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 
 @Configuration
-class DokyEventsConfig {
+class EventConfig {
 
     @Bean
     fun applicationEventMulticaster(): ApplicationEventMulticaster {

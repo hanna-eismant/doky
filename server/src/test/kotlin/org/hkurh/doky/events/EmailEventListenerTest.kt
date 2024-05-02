@@ -2,6 +2,7 @@ package org.hkurh.doky.events
 
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.email.EmailService
+import org.hkurh.doky.events.listeners.EmailEventListener
 import org.hkurh.doky.users.db.UserEntity
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -11,11 +12,11 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.mail.MailSendException
 
-@DisplayName("DokyEventListenerTest unit test")
-class DokyEventListenerTest : DokyUnitTest {
+@DisplayName("EmailEventListenerTest unit test")
+class EmailEventListenerTest : DokyUnitTest {
 
     private val emailService: EmailService = mock()
-    private val eventListener = DokyEventListener(emailService)
+    private val eventListener = EmailEventListener(emailService)
 
     @Test
     @DisplayName("Should send an email")

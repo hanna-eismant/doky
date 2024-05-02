@@ -2,7 +2,7 @@ package org.hkurh.doky.users.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.errorhandling.DokyNotFoundException
-import org.hkurh.doky.events.DokyEventPublisher
+import org.hkurh.doky.events.EventPublisher
 import org.hkurh.doky.security.DokyUserDetails
 import org.hkurh.doky.security.UserAuthority
 import org.hkurh.doky.users.UserService
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
 class DefaultUserService(
     private val userEntityRepository: UserEntityRepository,
     private val authorityEntityRepository: AuthorityEntityRepository,
-    private val eventPublisher: DokyEventPublisher,
+    private val eventPublisher: EventPublisher,
 ) : UserService {
     override fun findUserByUid(userUid: String): UserEntity? {
         return userEntityRepository.findByUid(userUid) ?: throw DokyNotFoundException("User doesn't exist")
