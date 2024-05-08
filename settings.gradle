@@ -1,2 +1,3 @@
 rootProject.name = 'doky'
 include 'server'
+include 'web-front'
