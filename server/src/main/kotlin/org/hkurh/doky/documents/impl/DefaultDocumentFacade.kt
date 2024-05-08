@@ -42,6 +42,10 @@ class DefaultDocumentFacade(
         return documentService.find(id)?.toDto()
     }
 
+    override fun findAllDocuments(): List<DocumentResponse?> {
+        return documentService.find().map { it.toDto() }
+    }
+
     @Transactional(propagation = Propagation.REQUIRED)
     override fun saveFile(file: MultipartFile, id: String) {
         val document = documentService.find(id)

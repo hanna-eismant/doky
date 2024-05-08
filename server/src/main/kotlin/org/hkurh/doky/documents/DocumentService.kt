@@ -24,6 +24,13 @@ interface DocumentService {
     fun find(id: String): DocumentEntity?
 
     /**
+     * Finds all documents.
+     *
+     * @return A list of [DocumentEntity] objects representing the found documents.
+     */
+    fun find(): List<DocumentEntity>
+
+    /**
      * Saves the given document.
      *
      * @param document The [DocumentEntity] object to be saved.

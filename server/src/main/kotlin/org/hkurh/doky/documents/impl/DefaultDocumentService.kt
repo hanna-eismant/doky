@@ -33,6 +33,11 @@ class DefaultDocumentService(
         return documentEntityRepository.findByIdAndCreatorId(documentId, currentUser.id)
     }
 
+    override fun find(): List<DocumentEntity> {
+        val currentUser = userService.getCurrentUser()
+        return documentEntityRepository.findByCreatorId(currentUser.id)
+    }
+
     override fun save(document: DocumentEntity) {
         val savedDocument = documentEntityRepository.save(document)
         eventPublisher.publishDocumentUpdatedEvent(savedDocument)

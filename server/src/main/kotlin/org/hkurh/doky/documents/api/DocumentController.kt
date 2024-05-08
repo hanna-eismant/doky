@@ -71,6 +71,12 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
         }
     }
 
+    @GetMapping
+    override fun getAll(): ResponseEntity<*> {
+        val documents = documentFacade.findAllDocuments()
+        return ResponseEntity.ok(documents)
+    }
+
     companion object {
         private val LOG = KotlinLogging.logger {}
     }

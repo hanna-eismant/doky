@@ -82,6 +82,10 @@ class DefaultDocumentServiceTest : DokyUnitTest {
      * Mock implementation of the [DocumentEntityRepository] interface.
      */
     class MockDocumentEntityRepository : DocumentEntityRepository {
+        override fun findByCreatorId(documentId: Long): List<DocumentEntity> {
+            TODO("Not yet implemented")
+        }
+
         override fun findByIdAndCreatorId(documentId: Long, creatorId: Long): DocumentEntity? {
             TODO("Not yet implemented")
         }
@@ -94,7 +98,7 @@ class DefaultDocumentServiceTest : DokyUnitTest {
             TODO("Not yet implemented")
         }
 
-        override fun <S : DocumentEntity?> save(entity: S): S {
+        override fun <S : DocumentEntity?> save(entity: S & Any): S & Any {
             TODO("Not yet implemented")
         }
 
@@ -161,7 +165,7 @@ class DefaultDocumentServiceTest : DokyUnitTest {
         override fun <S : DocumentEntity?, R : Any?> findBy(
             spec: Specification<DocumentEntity?>,
             queryFunction: Function<FluentQuery.FetchableFluentQuery<S>, R>
-        ): R {
+        ): R & Any {
             TODO("Not yet implemented")
         }
 
