@@ -67,7 +67,10 @@ dependencies {
 
     implementation("org.flywaydb:flyway-core:9.21.0")
     implementation("org.flywaydb:flyway-mysql:9.21.0")
+    implementation("org.flywaydb:flyway-sqlserver:9.21.0")
     implementation("com.mysql:mysql-connector-j:8.3.0")
+    implementation("com.microsoft.sqlserver:mssql-jdbc:12.6.1.jre11")
+
 
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
     implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
@@ -80,7 +83,6 @@ dependencies {
     implementation("io.github.oshai:kotlin-logging:6.0.9")
 
     implementation("com.azure:azure-storage-blob:12.25.3")
-    implementation("org.apache.solr:solr-solrj:9.5.0")
 
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
@@ -133,7 +135,6 @@ testing {
                 implementation("org.junit.platform:junit-platform-suite-api:1.10.2")
 
                 implementation("com.icegreen:greenmail:2.0.1")
-                implementation("org.apache.solr:solr-solrj:9.5.0")
                 implementation("org.awaitility:awaitility:4.2.1")
             }
         }
@@ -152,8 +153,6 @@ testing {
                 implementation("org.mockito:mockito-junit-jupiter:4.0.0")
                 implementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
                 implementation("io.rest-assured:rest-assured:5.3.0")
-
-                implementation("org.apache.solr:solr-solrj:9.5.0")
             }
         }
     }

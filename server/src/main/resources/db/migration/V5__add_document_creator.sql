@@ -1,5 +1,0 @@
-ALTER TABLE document
-    ADD creator_id BIGINT NULL;
-
-ALTER TABLE document
-    ADD CONSTRAINT FK_DOCUMENT_ON_CREATOR FOREIGN KEY (creator_id) REFERENCES user (id);
