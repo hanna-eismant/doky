@@ -336,7 +336,6 @@ $dokka.location:org.hkurh.doky/DokyApplication.Companion/main/#kotlin.Array[kotl
 $dokka.location:org.hkurh.doky/DokyApplication///PointingToDeclaration/server/org.hkurh.doky/-doky-application/index.html
 $dokka.location:org.hkurh.doky/DokyApplication/DokyApplication/#/PointingToDeclaration/server/org.hkurh.doky/-doky-application/-doky-application.html
 $dokka.location:org.hkurh.doky/DokyApplication/encoder/#/PointingToDeclaration/server/org.hkurh.doky/-doky-application/encoder.html
-$dokka.location:org.hkurh.doky/DokyApplication/solrClient/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky/-doky-application/solr-client.html
 $dokka.location:org.hkurh.doky/DokyApplication/templateEngine/#org.thymeleaf.templateresolver.ITemplateResolver?/PointingToDeclaration/server/org.hkurh.doky/-doky-application/template-engine.html
 $dokka.location:org.hkurh.doky/DokyApplication/templateResolver/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky/-doky-application/template-resolver.html
 $dokka.location:org.hkurh.doky/DokyController///PointingToDeclaration/server/org.hkurh.doky/-doky-controller/index.html
