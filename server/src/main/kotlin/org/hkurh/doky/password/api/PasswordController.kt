@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
  * @param passwordFacade The [PasswordFacade] instance used to delegate the password operations.
  */
 @RestController
-@RequestMapping("/password")
+@RequestMapping("/api/password")
 class PasswordController(
     val passwordFacade: PasswordFacade
 ) : PasswordApi {

@@ -12,9 +12,9 @@ import org.springframework.test.context.jdbc.Sql
 
 @DisplayName("Registration API test")
 class RegistrationSpec : RestSpec() {
+    val endpoint = "$restPrefix/register"
     val newUserUid = "new_user_test@example.com"
     val newUserPassword = "Qwert!2345"
-    val endpoint = "/register"
 
     @Test
     @DisplayName("Should register user when it does not exist")
