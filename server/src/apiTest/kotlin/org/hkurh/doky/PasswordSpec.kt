@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus
 @DisplayName("Password API test")
 class PasswordSpec : RestSpec() {
 
-    private val endpoint = "/password"
+    private val endpoint = "$restPrefix/password"
     private val resetEndpoint = "$endpoint/reset"
     private val nonExistUserEmail = "test-no-registered@test.com"
 

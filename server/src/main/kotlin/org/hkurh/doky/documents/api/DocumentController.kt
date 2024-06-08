@@ -17,7 +17,7 @@ import java.net.MalformedURLException
  * Controller class for handling document-related operations.
  */
 @RestController
-@RequestMapping("/documents")
+@RequestMapping("/api/documents")
 @PreAuthorize("hasRole('ROLE_USER')")
 class DocumentController(private val documentFacade: DocumentFacade) : DocumentApi {
 

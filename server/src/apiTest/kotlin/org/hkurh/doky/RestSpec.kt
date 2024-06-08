@@ -26,7 +26,8 @@ import org.springframework.test.context.jdbc.SqlMergeMode
 @Sql(scripts = ["classpath:sql/cleanup_base_test_data.sql"], executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class RestSpec {
     protected val baseHost = "http://localhost"
-    protected val loginEndpoint = "/login"
+    protected val restPrefix = "/api"
+    protected val loginEndpoint = "$restPrefix/login"
     protected val authorizationHeader = "Authorization"
     protected val locationHeader = "Location"
     protected val contentTypeHeader = "Content-Type"

@@ -1,16 +1,12 @@
 package org.hkurh.doky
 
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RestController
+@RestController()
+@RequestMapping("/api")
 class DokyController {
-
-    @GetMapping("/")
-    fun root(): ResponseEntity<*> {
-        return ResponseEntity.ok().body("OK")
-    }
 
     @GetMapping("/version")
     fun version(): VersionResponse {

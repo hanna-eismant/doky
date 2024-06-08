@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus
 
 @DisplayName("Login API test")
 class LoginSpec : RestSpec() {
-    val endpoint = "/login"
+    val endpoint = "$restPrefix/login"
     val incorrectUserUid = "test_1234@example.com"
     val incorrectUserPassword = "pass-12345"
 

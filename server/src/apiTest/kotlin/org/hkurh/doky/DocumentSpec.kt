@@ -20,7 +20,7 @@ import java.sql.Types
 @Sql(scripts = ["classpath:sql/DocumentSpec/cleanup.sql"], executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @DisplayName("Documents API test")
 class DocumentSpec : RestSpec() {
-    val endpoint = "/documents"
+    val endpoint = "$restPrefix/documents"
     val endpointSingle = "$endpoint/{id}"
     val endpointUpload = "$endpointSingle/upload"
     val documentIdProperty = "id"

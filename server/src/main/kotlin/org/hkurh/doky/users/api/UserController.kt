@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 /**
@@ -15,15 +16,16 @@ import org.springframework.web.bind.annotation.RestController
  * @param userFacade The [UserFacade] instance for handling user-related business logic.
  */
 @RestController
+@RequestMapping("/api/users")
 @PreAuthorize("hasRole('ROLE_USER')")
 class UserController(private val userFacade: UserFacade) : UserApi {
 
-    @GetMapping("/users/current")
+    @GetMapping("/current")
     override fun getUser(): UserDto {
         return userFacade.getCurrentUser()
     }
 
-    @PutMapping("/users/current")
+    @PutMapping("/current")
     override fun updateUser(@Validated @RequestBody userDto: UserDto): ResponseEntity<*> {
         userFacade.updateCurrentUser(userDto)
         return ResponseEntity.noContent().build<Any>()
