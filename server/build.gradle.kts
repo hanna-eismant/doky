@@ -223,6 +223,7 @@ koverReport {
 
 node {
     download = true
+    distBaseUrl = null
     version = "20.12.2"
     npmInstallCommand = "ci"
     nodeProjectDir = file("${project.projectDir}/doky-front")
