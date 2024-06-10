@@ -230,8 +230,7 @@ node {
 
 tasks.register<NpmTask>("npmBuild") {
     dependsOn("npmInstall")
-//    args = listOf("run", "build")   // prod
-    args = listOf("run", "build", "--", "--env", "be-env=local") // local
+    args = listOf("run", "build")
 }
 
 tasks.register<Copy>("copyFrontDist") {
