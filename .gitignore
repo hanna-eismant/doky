@@ -43,3 +43,4 @@ server/out
 /docker-deployment/doky-server/server.jar
 /doky-*.env
 /.azure
+/server/src/main/resources/static/
