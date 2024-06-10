@@ -1,3 +1,3 @@
-[submodule "web-front/doky-front"]
-	path = web-front/doky-front
-	url = https://git.jetbrains.space/doky/main/doky-front.git
+[submodule "server/doky-front"]
+	path = server/doky-front
+	url = https://github.com/hanna-eismant/doky-front.git
