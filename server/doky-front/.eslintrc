@@ -1,0 +1,53 @@
+{
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "no-debugger": 2,
+    "indent": [
+      2,
+      2
+    ],
+    "no-trailing-spaces": 2,
+    "no-undef": 2,
+    "eqeqeq": 2,
+    "semi": [
+      2,
+      "always"
+    ],
+    "quotes": [
+      2,
+      "single"
+    ],
+    "prefer-const": 2,
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": false
+      }
+    ],
+    "no-return-assign": [
+      "error",
+      "always"
+    ],
+    "react/react-in-jsx-scope": 0,
+    "react-hooks/exhaustive-deps": 2,
+    "react/prop-types": 0
+  }
+}

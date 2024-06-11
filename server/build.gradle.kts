@@ -1,3 +1,4 @@
+import com.github.gradle.node.npm.task.NpmTask
 import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.MetricType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -13,12 +14,17 @@ plugins {
     id("org.jetbrains.kotlinx.kover") version "0.7.6"
     id("org.jetbrains.dokka") version "1.9.20"
     id("com.github.gmazzo.buildconfig") version "5.3.5"
+    id("com.github.node-gradle.node") version "7.0.2"
 }
 
 dependencyManagement {
     imports {
         mavenBom("com.azure.spring:spring-cloud-azure-dependencies:5.3.0")
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
 }
 
 group = "org.hkurh.doky"
@@ -37,7 +43,7 @@ buildConfig {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
@@ -213,4 +219,26 @@ koverReport {
             }
         }
     }
+}
+
+node {
+    download = true
+    version = "20.12.2"
+    npmInstallCommand = "ci"
+    nodeProjectDir = file("${project.projectDir}/doky-front")
+}
+
+tasks.register<NpmTask>("npmBuild") {
+    dependsOn("npmInstall")
+    args = listOf("run", "build")
+}
+
+tasks.register<Copy>("copyFrontDistSrc") {
+    dependsOn("npmBuild")
+    from("$projectDir/doky-front/dist")
+    into("$projectDir/src/main/resources/static")
+}
+
+tasks.named("processResources") {
+    dependsOn("copyFrontDistSrc")
 }
