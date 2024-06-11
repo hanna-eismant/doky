@@ -1,3 +1,0 @@
-[submodule "server/doky-front"]
-	path = server/doky-front
-	url = https://github.com/hanna-eismant/doky-front.git
