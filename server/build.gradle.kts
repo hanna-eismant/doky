@@ -233,12 +233,6 @@ tasks.register<NpmTask>("npmBuild") {
     args = listOf("run", "build")
 }
 
-tasks.register<Copy>("copyFrontDist") {
-    dependsOn("npmBuild")
-    from("$projectDir/doky-front/dist")
-    into("$buildDir/resources/main/static")
-}
-
 tasks.register<Copy>("copyFrontDistSrc") {
     dependsOn("npmBuild")
     from("$projectDir/doky-front/dist")
@@ -246,6 +240,5 @@ tasks.register<Copy>("copyFrontDistSrc") {
 }
 
 tasks.named("processResources") {
-    dependsOn("copyFrontDist")
     dependsOn("copyFrontDistSrc")
 }
