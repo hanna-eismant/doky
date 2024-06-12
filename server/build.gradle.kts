@@ -242,3 +242,9 @@ tasks.register<Copy>("copyFrontDistSrc") {
 tasks.named("processResources") {
     dependsOn("copyFrontDistSrc")
 }
+
+tasks.named("clean") {
+    doLast {
+        delete("server/src/main/resources/static")
+    }
+}
