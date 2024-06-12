@@ -117,7 +117,6 @@ $dokka.location:org.hkurh.doky.errorhandling/DokyControllerAdvice/authentication
 $dokka.location:org.hkurh.doky.errorhandling/DokyControllerAdvice/ioException/#java.io.IOException/PointingToDeclaration/server/org.hkurh.doky.errorhandling/-doky-controller-advice/io-exception.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyControllerAdvice/notFound/#org.hkurh.doky.errorhandling.DokyNotFoundException/PointingToDeclaration/server/org.hkurh.doky.errorhandling/-doky-controller-advice/not-found.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyControllerAdvice/registrationException/#org.hkurh.doky.errorhandling.DokyRegistrationException/PointingToDeclaration/server/org.hkurh.doky.errorhandling/-doky-controller-advice/registration-exception.html
-$dokka.location:org.hkurh.doky.errorhandling/DokyControllerAdvice/renderDefaultPage/#org.springframework.web.servlet.NoHandlerFoundException/PointingToDeclaration/server/org.hkurh.doky.errorhandling/-doky-controller-advice/render-default-page.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyControllerAdvice/validationException/#org.springframework.web.bind.MethodArgumentNotValidException/PointingToDeclaration/server/org.hkurh.doky.errorhandling/-doky-controller-advice/validation-exception.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyNotFoundException///PointingToDeclaration/server/org.hkurh.doky.errorhandling/-doky-not-found-exception/index.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyNotFoundException/DokyNotFoundException/#kotlin.String?/PointingToDeclaration/server/org.hkurh.doky.errorhandling/-doky-not-found-exception/-doky-not-found-exception.html
@@ -342,6 +341,9 @@ $dokka.location:org.hkurh.doky/DokyApplication/templateResolver/#kotlin.String/P
 $dokka.location:org.hkurh.doky/DokyController///PointingToDeclaration/server/org.hkurh.doky/-doky-controller/index.html
 $dokka.location:org.hkurh.doky/DokyController/DokyController/#/PointingToDeclaration/server/org.hkurh.doky/-doky-controller/-doky-controller.html
 $dokka.location:org.hkurh.doky/DokyController/version/#/PointingToDeclaration/server/org.hkurh.doky/-doky-controller/version.html
+$dokka.location:org.hkurh.doky/DokyWebConfig///PointingToDeclaration/server/org.hkurh.doky/-doky-web-config/index.html
+$dokka.location:org.hkurh.doky/DokyWebConfig/DokyWebConfig/#/PointingToDeclaration/server/org.hkurh.doky/-doky-web-config/-doky-web-config.html
+$dokka.location:org.hkurh.doky/DokyWebConfig/addResourceHandlers/#org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry/PointingToDeclaration/server/org.hkurh.doky/-doky-web-config/add-resource-handlers.html
 $dokka.location:org.hkurh.doky/VersionResponse///PointingToDeclaration/server/org.hkurh.doky/-version-response/index.html
 $dokka.location:org.hkurh.doky/VersionResponse/VersionResponse/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky/-version-response/-version-response.html
 $dokka.location:org.hkurh.doky/VersionResponse/color/#/PointingToDeclaration/server/org.hkurh.doky/-version-response/color.html
