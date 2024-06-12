@@ -72,9 +72,7 @@ dependencies {
     implementation("com.azure.spring:spring-cloud-azure-starter-keyvault")
 
     implementation("org.flywaydb:flyway-core:9.21.0")
-    implementation("org.flywaydb:flyway-mysql:9.21.0")
     implementation("org.flywaydb:flyway-sqlserver:9.21.0")
-    implementation("com.mysql:mysql-connector-j:8.3.0")
     implementation("com.microsoft.sqlserver:mssql-jdbc:12.6.1.jre11")
 
 
@@ -241,4 +239,10 @@ tasks.register<Copy>("copyFrontDistSrc") {
 
 tasks.named("processResources") {
     dependsOn("copyFrontDistSrc")
+}
+
+tasks.named("clean") {
+    doLast {
+        delete("server/src/main/resources/static")
+    }
 }

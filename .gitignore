@@ -44,3 +44,5 @@ server/out
 /doky-*.env
 /.azure
 /server/src/main/resources/static/
+/server/property 'buildDir'/
+/filestorage/
