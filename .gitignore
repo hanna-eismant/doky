@@ -46,3 +46,4 @@ server/out
 /server/src/main/resources/static/
 /server/property 'buildDir'/
 /filestorage/
+**/.DS_Store

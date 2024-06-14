@@ -2,25 +2,25 @@ import {BASE_URL} from 'config';
 
 const apiPrefix = '/api';
 
-const HEADERS = {
-  'Content-Type': 'application/json'
-};
-
-const getHeaders = () => {
+const getAuthHeader = () => {
   const jwt = localStorage.getItem('jwt');
-  return jwt ? {
-    Authorization: `Bearer ${jwt}`,
-    ...HEADERS
-  } : HEADERS;
+  return jwt ? {Authorization: `Bearer ${jwt}`} : {};
 };
 
-const getDefaultOptions = () => ({
-  headers: getHeaders()
+const getContentTypeHeader = (contentType) => {
+  return contentType ? {'Content-Type': contentType} : {}
+}
+
+const getDefaultOptions = (contentType) => ({
+  headers: {
+    ...getAuthHeader(),
+    ...getContentTypeHeader(contentType)
+  }
 });
 
 const request = async (url, method, data = {}) => {
   const response = await fetch(BASE_URL + apiPrefix + '/' + url, {
-    ...getDefaultOptions(),
+    ...getDefaultOptions('application/json'),
     method,
     body: JSON.stringify(data)
   });
@@ -34,6 +34,14 @@ const request = async (url, method, data = {}) => {
 
 export const post = (url, data = {}) =>
   request(url, 'POST', data);
+
+export const postFormData = async (url, formData = {}) => {
+  const response = await fetch(BASE_URL + apiPrefix + '/' + url, {
+    ...getDefaultOptions(),
+    method: 'POST',
+    body: formData
+  })
+}
 
 export const put = async (url, data = {}) =>
   request(url, 'PUT', data);
