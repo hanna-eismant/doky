@@ -94,6 +94,16 @@
       "name": "spring.cloud.azure.appconfiguration.stores[0].selects[0].key-filter",
       "type": "java.lang.String",
       "description": "Description for spring.cloud.azure.appconfiguration.stores[0].selects[0].key-filter."
+    },
+    {
+      "name": "spring.cloud.azure.appconfiguration.stores[0].monitoring.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Description for spring.cloud.azure.appconfiguration.stores[0].monitoring.enabled."
+    },
+    {
+      "name": "spring.cloud.azure.appconfiguration.stores[0].monitoring.triggers[0].key",
+      "type": "java.lang.String",
+      "description": "Description for spring.cloud.azure.appconfiguration.stores[0].monitoring.triggers[0].key."
     }
   ],
   "hints": [
