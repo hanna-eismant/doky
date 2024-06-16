@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 
 import {useRegister} from './useRegister.js';
 import {useForm} from '../../hooks/useForm.js';
+import { useHomeRedirect } from '../../hooks/useHomeRedirect.js';
 import {FormInput} from '../../components';
 import AlertError from '../../components/AlertError.jsx';
 
@@ -23,6 +24,8 @@ const Register = () => {
   } = useForm(initialFormData, register, () => {
     navigate('/');
   });
+
+  useHomeRedirect();
 
   return (
     <>

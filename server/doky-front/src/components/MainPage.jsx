@@ -1,7 +1,8 @@
 import React, {useMemo} from 'react';
-import {Link, Outlet, useLocation} from 'react-router-dom';
+import {Link, Outlet, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import {ToastContextProvider} from './Toasts/ToastsContext';
+import { useUser } from '../hooks/useUser';
 
 const menuItems = [
   {
@@ -35,7 +36,9 @@ const MenuItem = ({name, path, isActive}) => {
 const MainPage = () => {
   const location = useLocation();
 
-  return (
+  const user = useUser();
+
+  return user && (
     <div className="container-fluid">
       <ToastContextProvider>
         <div className="row">
@@ -58,7 +61,7 @@ const MainPage = () => {
           </nav>
           <main className="ms-sm-auto col-lg-10">
             <div className="row">
-              <Outlet/>
+              <Outlet context={{ user }}/>
             </div>
           </main>
         </div>

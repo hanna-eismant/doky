@@ -1,10 +1,9 @@
 import React from 'react';
 import EditUserProfileForm from './EditUserProfileForm';
-import {useQuery} from '../../hooks/useQuery';
-import {getCurrentUser} from '../../api/users';
+import { useOutletContext } from 'react-router-dom';
 
 const UserProfile = () => {
-  const {isLoading, data} = useQuery(getCurrentUser);
+  const { user } = useOutletContext();
 
   return (
     <>
@@ -15,7 +14,7 @@ const UserProfile = () => {
         </h1>
       </div>
       <div>
-        {!isLoading && <EditUserProfileForm user={data}/>}
+        <EditUserProfileForm user={user} />
       </div>
     </>
   );

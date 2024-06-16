@@ -1,10 +1,11 @@
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate }from 'react-router-dom';
 
 import {FormInput} from '../../components';
 import AlertError from '../../components/AlertError.jsx';
 import {useLogin} from './useLogin.js';
 import {useForm} from '../../hooks/useForm.js';
+import { useHomeRedirect } from '../../hooks/useHomeRedirect.js';
 
 const initialFormData = {
   uid: '',
@@ -24,6 +25,8 @@ const Login = () => {
   } = useForm(initialFormData, login, () => {
     navigate('/');
   });
+
+  useHomeRedirect();
 
   return (
     <>
