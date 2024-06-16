@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const autoprefixer = require('autoprefixer')
 
 module.exports = (env, argv) => {
-  const beEnv = env['be-env'] || 'dev';
+  const beEnv = env['be-env'] || 'auto';
   return {
     mode: argv.mode,
     devtool: argv.mode === 'development'
