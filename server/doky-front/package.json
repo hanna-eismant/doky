@@ -13,7 +13,7 @@
     "lint:fix": "npm run lint -- --fix",
     "build": "webpack --mode=production",
     "serve": "serve dist -s",
-    "prepare": "husky"
+    "prepare": "cd ../.. && husky server/doky-front/.husky"
   },
   "author": "",
   "license": "ISC",
