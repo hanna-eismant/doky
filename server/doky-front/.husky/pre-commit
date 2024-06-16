@@ -1,1 +1,2 @@
+cd server/doky-front
 npm run lint
