@@ -28,25 +28,26 @@ const Documents = () => {
       <div className="table-responsive">
         <table className="table table-striped table-hover">
           <thead>
-          <tr>
-            <th scope="col">Actions</th>
-            <th scope="col">Name</th>
-            <th scope="col">Modified Date</th>
-          </tr>
+            <tr>
+              <th scope="col">Actions</th>
+              <th scope="col">Name</th>
+              <th scope="col">Modified Date</th>
+            </tr>
           </thead>
           <tbody>
-          {!isLoading ? data.map?.((document) => (
-            <tr key={document.id}>
-              <td>
-                <button type="button" className="btn btn-outline-primary"
-                        onClick={getGoToEditDocumentHandler(document.id)}>
-                  <i className="bi bi-file-earmark-plus me-1"></i><span>Edit</span>
-                </button>
-              </td>
-              <td>{document.name}</td>
-              <td>{document.modifiedDate}</td>
-            </tr>
-          )) : 'Loading'}
+            {!isLoading ? data.map?.((document) => (
+              <tr key={document.id}>
+                <td>
+                  <button
+                    type="button" className="btn btn-outline-primary"
+                    onClick={getGoToEditDocumentHandler(document.id)}>
+                    <i className="bi bi-file-earmark-plus me-1"></i><span>Edit</span>
+                  </button>
+                </td>
+                <td>{document.name}</td>
+                <td>{document.modifiedDate}</td>
+              </tr>
+            )) : 'Loading'}
           </tbody>
         </table>
       </div>

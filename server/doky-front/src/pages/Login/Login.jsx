@@ -32,9 +32,9 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="col-3">
           <img className="mb-3 mt-3 img-fluid" src="/logo-color-bg.svg"/>
           <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue}
-                     errors={uid.errors}/>
+            errors={uid.errors}/>
           <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}
-                     errors={password.errors}/>
+            errors={password.errors}/>
           <div className="mt-3 row">
             <input type="submit" value="Login" className="btn btn-primary mb-3"/>
             <Link to="/register" className="m-3">Register</Link>

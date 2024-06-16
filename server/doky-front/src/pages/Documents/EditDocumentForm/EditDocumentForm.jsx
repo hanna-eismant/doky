@@ -22,9 +22,9 @@ const EditDocumentForm = ({document}) => {
           {globalError ? <AlertError message={globalError}/> : null}
           <form onSubmit={handleSubmit} className="mt-3">
             <HorizontalFormInput id="name" label="Name" type="text" value={data.name} onChange={name.setValue}
-                                 errors={name.errors}/>
+              errors={name.errors}/>
             <HorizontalFormText id="description" label="Description" value={data.description}
-                                onChange={description.setValue}/>
+              onChange={description.setValue}/>
             <div className="mt-4">
               <div>File:</div>
               <div>{document.fileName}</div>
