@@ -7,13 +7,13 @@ const getClampedRowsCount = (str, min, max) => {
 };
 
 const HorizontalFormText = ({
-                              label,
-                              id,
-                              minRows = 3,
-                              maxRows = 10,
-                              value = '',
-                              onChange = noop
-                            }) => {
+  label,
+  id,
+  minRows = 3,
+  maxRows = 10,
+  value = '',
+  onChange = noop
+}) => {
 
   const handleOnChange = useCallback(event => {
     event.preventDefault();

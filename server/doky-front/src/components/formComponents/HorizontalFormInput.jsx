@@ -18,9 +18,10 @@ const HorizontalFormInput = ({label, id, type, value = '', disabled = false, onC
     <div>
       <label className="form-label" htmlFor={id}>{label}:</label>
       <div className="has-validation">
-        <input className={inputClassesList} id={id} type={type} value={value} disabled={disabled}
-               onChange={handleOnChange}
-               aria-describedby={'validation' + id + 'Feedback'}/>
+        <input
+          className={inputClassesList} id={id} type={type} value={value} disabled={disabled}
+          onChange={handleOnChange}
+          aria-describedby={'validation' + id + 'Feedback'} />
         {hasErrors ?
           <div id={'validation' + id + 'Feedback'} className="invalid-feedback">
             {errors.map((message) => (<div key={message}>{message}</div>))}

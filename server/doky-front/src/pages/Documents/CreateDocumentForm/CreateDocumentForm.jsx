@@ -29,10 +29,12 @@ const CreateDocumentForm = ({onCreated}) => {
     <>
       {globalError ? <AlertError message={globalError}/> : null}
       <form onSubmit={handleSubmit} className="mt-3">
-        <HorizontalFormInput id="name" label="Name" type="text" value={data.name} onChange={name.setValue}
-                             errors={name.errors}/>
-        <HorizontalFormText id="description" label="Description" value={data.description}
-                            onChange={description.setValue}/>
+        <HorizontalFormInput
+          id="name" label="Name" type="text" value={data.name} onChange={name.setValue}
+          errors={name.errors}/>
+        <HorizontalFormText
+          id="description" label="Description" value={data.description}
+          onChange={description.setValue}/>
         <div className="d-flex justify-content-between py-2">
           <input type="submit" value="Create" className="btn btn-primary mb-3 float-right"/>
         </div>

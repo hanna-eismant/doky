@@ -20,7 +20,7 @@ const EditUserProfileForm = ({user}) => {
       {globalError ? <AlertError message={globalError}/> : null}
       <form onSubmit={handleSubmit} className="mt-3">
         <HorizontalFormInput id="uid" label="Email" type="text" value={data.uid} disabled={true}
-                             onChange={uid.setValue}/>
+          onChange={uid.setValue}/>
         <HorizontalFormInput id="name" label="Name" type="text" value={data.name} onChange={name.setValue}/>
         <div className="d-flex justify-content-between py-2">
           <input type="submit" value="Save" disabled={isLoading} className="btn btn-primary mb-3 float-right"/>
