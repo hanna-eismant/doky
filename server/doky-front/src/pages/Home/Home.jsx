@@ -1,17 +1,19 @@
 import React, {useCallback} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
-import {useQuery} from '../../hooks/useQuery';
-import {getCurrentUser} from '../../api/users';
+import { useNavigate} from 'react-router-dom';
+import { useStore } from '../../hooks/useStore';
 
 const Home = () => {
-  const {isLoading, data} = useQuery(getCurrentUser);
 
   const navigate = useNavigate();
 
-  const logout = useCallback(() => {
+  const { user, setUser } = useStore();
+
+  const logout = useCallback((e) => {
+    e.preventDefault();
     localStorage.removeItem('jwt');
+    setUser(null);
     navigate('/login');
-  }, [navigate]);
+  }, [navigate, setUser]);
 
   return (
     <>
@@ -19,13 +21,10 @@ const Home = () => {
         className="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       </div>
       <div>
-        Hello, <strong>{isLoading ? '-' : data.name}</strong>
+        Hello, <strong>{user.name}</strong>
       </div>
       <div>
-        {data.uid
-          ? <a href="#" onClick={logout}>Logout</a>
-          : <Link to="login">Login</Link>
-        }
+        <a href="#" onClick={logout}>Logout</a>
       </div>
     </>
   );

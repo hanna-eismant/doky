@@ -1,7 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Outlet} from 'react-router-dom';
 
-const BasePage = ({children}) => (
+const BasePage = () => (
   <>
     <header className="navbar bg-primary text-white bg-gradient sticky-top">
       <div className="container-fluid">
@@ -16,7 +16,7 @@ const BasePage = ({children}) => (
         </Link>
       </div>
     </header>
-    {children}
+    <Outlet />
   </>
 );
 

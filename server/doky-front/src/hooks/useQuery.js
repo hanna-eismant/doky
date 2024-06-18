@@ -24,9 +24,9 @@ const dedupeRequest = request => {
   };
 };
 
-export const useQuery = request => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState({});
+export const useQuery = (request, options) => {
+  const [isLoading, setIsLoading] = useState(!options?.skip);
+  const [data, setData] = useState(null);
 
   /*
    * Usage of useCallback might looks more obvious
@@ -39,11 +39,15 @@ export const useQuery = request => {
   const dedupedRequest = useMemo(() => dedupeRequest(request), [request]);
 
   useEffect(() => {
+    setData(null);
+    if (options?.skip) {
+      return;
+    }
     dedupedRequest().then(data => {
       setData(data); // still called twice but with reference equal data
       setIsLoading(false);
     });
-  }, [dedupedRequest]);
+  }, [dedupedRequest, options?.skip]);
 
   return {data, isLoading};
 };
