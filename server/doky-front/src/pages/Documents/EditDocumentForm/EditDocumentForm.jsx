@@ -6,7 +6,7 @@ import {useForm} from '../../../hooks/useForm.js';
 import AlertError from '../../../components/AlertError.jsx';
 import HorizontalFormInput from '../../../components/formComponents/HorizontalFormInput.jsx';
 import HorizontalFormText from '../../../components/formComponents/HorizontalFormText.jsx';
-import SingleFileUploader from "../../../components/formComponents/SingleFileUploader.jsx";
+import SingleFileUploader from '../../../components/formComponents/SingleFileUploader.jsx';
 
 const EditDocumentForm = ({document}) => {
   const [editDocument, {isLoading}] = useMutation(updateDocument);

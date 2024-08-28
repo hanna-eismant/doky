@@ -8,8 +8,8 @@ const getAuthHeader = () => {
 };
 
 const getContentTypeHeader = (contentType) => {
-  return contentType ? {'Content-Type': contentType} : {}
-}
+  return contentType ? {'Content-Type': contentType} : {};
+};
 
 const getDefaultOptions = (contentType) => ({
   headers: {
@@ -36,12 +36,12 @@ export const post = (url, data = {}) =>
   request(url, 'POST', data);
 
 export const postFormData = async (url, formData = {}) => {
-  const response = await fetch(BASE_URL + apiPrefix + '/' + url, {
+  await fetch(BASE_URL + apiPrefix + '/' + url, {
     ...getDefaultOptions(),
     method: 'POST',
     body: formData
-  })
-}
+  });
+};
 
 export const put = async (url, data = {}) =>
   request(url, 'PUT', data);

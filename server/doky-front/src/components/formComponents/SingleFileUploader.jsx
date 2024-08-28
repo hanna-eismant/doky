@@ -1,42 +1,36 @@
-import React, {useId, useState} from "react";
-import {useAddToast} from "../Toasts";
-import {uploadDocument} from "../../api/documents";
+import React, {useId, useState} from 'react';
+import {useAddToast} from '../Toasts';
+import {uploadDocument} from '../../api/documents';
 
-const SingleFileUploader = ({
-                              documentId
-                            }) => {
+const SingleFileUploader = ({documentId}) => {
 
-  const [file, setFile] = useState(null)
-  const id = useId()
+  const [file, setFile] = useState(null);
+  const id = useId();
   const addToast = useAddToast();
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
     }
-  }
+  };
 
   const handleUpload = async () => {
-    console.log("Document id " + documentId)
     if (file) {
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append('file', file);
 
       try {
-        const response = await uploadDocument(documentId, formData)
+        const response = await uploadDocument(documentId, formData);
         if (response.ok) {
-          console.log("Upload OK")
-          // Handle successful upload
+          addToast('uploaded');
         } else {
-          console.log("Upload ERROR")
-          // Handle upload error
+          // todo: fetch all document info
         }
       } catch (error) {
-        console.log("Upload ERROR 2")
-        // Handle network error
+        // todo: show message that upload failed
       }
     }
-  }
+  };
 
   return (
     <>
