@@ -1,11 +1,12 @@
 import React from 'react';
-import HorizontalFormInput from '../../../components/formComponents/HorizontalFormInput.jsx';
-import HorizontalFormText from '../../../components/formComponents/HorizontalFormText.jsx';
 import {useAddToast} from '../../../components/Toasts';
 import {useMutation} from '../../../hooks/useMutation.js';
-import {updateDocument} from '../../../api/documents.js';
+import {updateDocument, uploadDocument} from '../../../api/documents.js';
 import {useForm} from '../../../hooks/useForm.js';
 import AlertError from '../../../components/AlertError.jsx';
+import HorizontalFormInput from '../../../components/formComponents/HorizontalFormInput.jsx';
+import HorizontalFormText from '../../../components/formComponents/HorizontalFormText.jsx';
+import FileUploader from '../../../components/formComponents/FileUploader.jsx';
 
 const EditDocumentForm = ({document}) => {
   const [editDocument, {isLoading}] = useMutation(updateDocument);
@@ -14,6 +15,21 @@ const EditDocumentForm = ({document}) => {
   const {data, fields: {name, description}, handleSubmit, globalError} = useForm(document, editDocument, () => {
     addToast('saved');
   });
+
+  const onUpload = async (formData) => {
+
+    try {
+      const response = await uploadDocument(document.id, formData);
+      if (response.ok) {
+        addToast('uploaded');
+      } else {
+        console.error(response);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+  };
 
   return (
     <div className="container-fluid">
@@ -29,12 +45,10 @@ const EditDocumentForm = ({document}) => {
               <div>File:</div>
               <div>{document.fileName}</div>
               <div>
-                <button type="button" className="btn btn-outline-primary me-2">
-                  <i className="bi bi-cloud-upload me-1"></i><span>Upload New</span>
-                </button>
                 <button type="button" className="btn btn-outline-primary me-2" disabled={!document.fileName}>
                   <i className="bi bi-cloud-download me-1"></i><span>Download</span>
                 </button>
+                <FileUploader onUpload={onUpload}/>
               </div>
             </div>
             <div className="d-flex justify-content-between py-2 mt-5 border-top">
