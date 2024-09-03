@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import {FormInput} from '../../components';
 import AlertError from '../../components/AlertError.jsx';
@@ -14,16 +14,13 @@ const initialFormData = {
 const Login = () => {
 
   const login = useLogin();
-  const navigate = useNavigate();
 
   const {
     data,
     fields: {uid, password},
     globalError,
     handleSubmit
-  } = useForm(initialFormData, login, () => {
-    navigate('/');
-  });
+  } = useForm(initialFormData, login);
 
   return (
     <>

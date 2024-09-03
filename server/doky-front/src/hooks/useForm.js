@@ -1,7 +1,8 @@
 import {useCallback, useState} from 'react';
 import {useFormData} from './useFormData';
+import { noop } from '../utils';
 
-export const useForm = (initialData, mutation, onSuccess) => {
+export const useForm = (initialData, mutation, onSuccess = noop) => {
   const form = useFormData(initialData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
