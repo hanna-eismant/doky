@@ -48,7 +48,7 @@ const EditDocumentForm = ({document}) => {
                 <button type="button" className="btn btn-outline-primary me-2" disabled={!document.fileName}>
                   <i className="bi bi-cloud-download me-1"></i><span>Download</span>
                 </button>
-                <FileUploader documentId={document.id} onUpload={onUpload}/>
+                <FileUploader onUpload={onUpload}/>
               </div>
             </div>
             <div className="d-flex justify-content-between py-2 mt-5 border-top">
