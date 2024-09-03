@@ -35,8 +35,8 @@ const request = async (url, method, data = {}) => {
 export const post = (url, data = {}) =>
   request(url, 'POST', data);
 
-export const postFormData = async (url, formData = {}) => {
-  await fetch(BASE_URL + apiPrefix + '/' + url, {
+export const postFormData = (url, formData = {}) => {
+  return fetch(BASE_URL + apiPrefix + '/' + url, {
     ...getDefaultOptions(),
     method: 'POST',
     body: formData
