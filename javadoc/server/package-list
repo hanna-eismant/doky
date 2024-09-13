@@ -261,13 +261,16 @@ $dokka.location:org.hkurh.doky.security/UserAuthority/entries/#/PointingToDeclar
 $dokka.location:org.hkurh.doky.security/UserAuthority/valueOf/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.security/-user-authority/value-of.html
 $dokka.location:org.hkurh.doky.security/UserAuthority/values/#/PointingToDeclaration/server/org.hkurh.doky.security/-user-authority/values.html
 $dokka.location:org.hkurh.doky.users.api////PointingToDeclaration/server/org.hkurh.doky.users.api/index.html
+$dokka.location:org.hkurh.doky.users.api/UpdateUserRequest///PointingToDeclaration/server/org.hkurh.doky.users.api/-update-user-request/index.html
+$dokka.location:org.hkurh.doky.users.api/UpdateUserRequest/UpdateUserRequest/#/PointingToDeclaration/server/org.hkurh.doky.users.api/-update-user-request/-update-user-request.html
+$dokka.location:org.hkurh.doky.users.api/UpdateUserRequest/name/#/PointingToDeclaration/server/org.hkurh.doky.users.api/-update-user-request/name.html
 $dokka.location:org.hkurh.doky.users.api/UserApi///PointingToDeclaration/server/org.hkurh.doky.users.api/-user-api/index.html
 $dokka.location:org.hkurh.doky.users.api/UserApi/getUser/#/PointingToDeclaration/server/org.hkurh.doky.users.api/-user-api/get-user.html
-$dokka.location:org.hkurh.doky.users.api/UserApi/updateUser/#org.hkurh.doky.users.api.UserDto/PointingToDeclaration/server/org.hkurh.doky.users.api/-user-api/update-user.html
+$dokka.location:org.hkurh.doky.users.api/UserApi/updateUser/#org.hkurh.doky.users.api.UpdateUserRequest/PointingToDeclaration/server/org.hkurh.doky.users.api/-user-api/update-user.html
 $dokka.location:org.hkurh.doky.users.api/UserController///PointingToDeclaration/server/org.hkurh.doky.users.api/-user-controller/index.html
 $dokka.location:org.hkurh.doky.users.api/UserController/UserController/#org.hkurh.doky.users.UserFacade/PointingToDeclaration/server/org.hkurh.doky.users.api/-user-controller/-user-controller.html
 $dokka.location:org.hkurh.doky.users.api/UserController/getUser/#/PointingToDeclaration/server/org.hkurh.doky.users.api/-user-controller/get-user.html
-$dokka.location:org.hkurh.doky.users.api/UserController/updateUser/#org.hkurh.doky.users.api.UserDto/PointingToDeclaration/server/org.hkurh.doky.users.api/-user-controller/update-user.html
+$dokka.location:org.hkurh.doky.users.api/UserController/updateUser/#org.hkurh.doky.users.api.UpdateUserRequest/PointingToDeclaration/server/org.hkurh.doky.users.api/-user-controller/update-user.html
 $dokka.location:org.hkurh.doky.users.api/UserDto///PointingToDeclaration/server/org.hkurh.doky.users.api/-user-dto/index.html
 $dokka.location:org.hkurh.doky.users.api/UserDto/UserDto/#/PointingToDeclaration/server/org.hkurh.doky.users.api/-user-dto/-user-dto.html
 $dokka.location:org.hkurh.doky.users.api/UserDto/id/#/PointingToDeclaration/server/org.hkurh.doky.users.api/-user-dto/id.html
@@ -299,7 +302,7 @@ $dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/DefaultUserFacade/#o
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/checkCredentials/#kotlin.String#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-facade/check-credentials.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/getCurrentUser/#/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-facade/get-current-user.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/register/#kotlin.String#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-facade/register.html
-$dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/updateCurrentUser/#org.hkurh.doky.users.api.UserDto/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-facade/update-current-user.html
+$dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/updateCurrentUser/#org.hkurh.doky.users.api.UpdateUserRequest/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-facade/update-current-user.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService.Companion///PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/-companion/index.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService///PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/index.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService/DefaultUserService/#org.hkurh.doky.users.db.UserEntityRepository#org.hkurh.doky.users.db.AuthorityEntityRepository#org.hkurh.doky.events.EventPublisher/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/-default-user-service.html
@@ -314,7 +317,7 @@ $dokka.location:org.hkurh.doky.users/UserFacade///PointingToDeclaration/server/
 $dokka.location:org.hkurh.doky.users/UserFacade/checkCredentials/#kotlin.String#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.users/-user-facade/check-credentials.html
 $dokka.location:org.hkurh.doky.users/UserFacade/getCurrentUser/#/PointingToDeclaration/server/org.hkurh.doky.users/-user-facade/get-current-user.html
 $dokka.location:org.hkurh.doky.users/UserFacade/register/#kotlin.String#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.users/-user-facade/register.html
-$dokka.location:org.hkurh.doky.users/UserFacade/updateCurrentUser/#org.hkurh.doky.users.api.UserDto/PointingToDeclaration/server/org.hkurh.doky.users/-user-facade/update-current-user.html
+$dokka.location:org.hkurh.doky.users/UserFacade/updateCurrentUser/#org.hkurh.doky.users.api.UpdateUserRequest/PointingToDeclaration/server/org.hkurh.doky.users/-user-facade/update-current-user.html
 $dokka.location:org.hkurh.doky.users/UserService///PointingToDeclaration/server/org.hkurh.doky.users/-user-service/index.html
 $dokka.location:org.hkurh.doky.users/UserService/create/#kotlin.String#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.users/-user-service/create.html
 $dokka.location:org.hkurh.doky.users/UserService/exists/#kotlin.Long/PointingToDeclaration/server/org.hkurh.doky.users/-user-service/exists.html
