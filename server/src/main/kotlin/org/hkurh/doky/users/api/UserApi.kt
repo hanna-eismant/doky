@@ -19,8 +19,11 @@ interface UserApi {
     fun getUser(): UserDto
 
     @ApiResponses(
-        ApiResponse(responseCode = "201", description = "User information is updated successfully",
-            content = [Content(schema = Schema(implementation = UserDto::class))]))
+        ApiResponse(
+            responseCode = "200", description = "User information is updated successfully",
+            content = [Content(schema = Schema(implementation = UpdateUserRequest::class))]
+        )
+    )
     @Operation(summary = "Update current user info")
-    fun updateUser(userDto: UserDto): ResponseEntity<*>?
+    fun updateUser(updateUserRequest: UpdateUserRequest): ResponseEntity<*>?
 }

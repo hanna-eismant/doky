@@ -6,6 +6,7 @@ import org.hkurh.doky.errorhandling.DokyRegistrationException
 import org.hkurh.doky.toDto
 import org.hkurh.doky.users.UserFacade
 import org.hkurh.doky.users.UserService
+import org.hkurh.doky.users.api.UpdateUserRequest
 import org.hkurh.doky.users.api.UserDto
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
@@ -34,11 +35,9 @@ class DefaultUserFacade(private val userService: UserService, private val passwo
         return userService.getCurrentUser().toDto()
     }
 
-    override fun updateCurrentUser(userDto: UserDto) {
+    override fun updateCurrentUser(updateUserRequest: UpdateUserRequest) {
         val currentUser = userService.getCurrentUser()
-        currentUser.name = userDto.name?.ifEmpty { currentUser.name } ?: userDto.name
-        currentUser.password =
-            userDto.password?.ifEmpty { currentUser.password } ?: passwordEncoder.encode(userDto.password)
+        currentUser.name = updateUserRequest.name?.ifEmpty { currentUser.name } ?: updateUserRequest.name
         userService.updateUser(currentUser)
     }
 

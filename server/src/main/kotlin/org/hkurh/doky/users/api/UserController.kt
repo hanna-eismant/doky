@@ -26,8 +26,8 @@ class UserController(private val userFacade: UserFacade) : UserApi {
     }
 
     @PutMapping("/current")
-    override fun updateUser(@Validated @RequestBody userDto: UserDto): ResponseEntity<*> {
-        userFacade.updateCurrentUser(userDto)
-        return ResponseEntity.noContent().build<Any>()
+    override fun updateUser(@Validated @RequestBody updateUserRequest: UpdateUserRequest): ResponseEntity<*> {
+        userFacade.updateCurrentUser(updateUserRequest)
+        return ResponseEntity.ok().build<Any>()
     }
 }
