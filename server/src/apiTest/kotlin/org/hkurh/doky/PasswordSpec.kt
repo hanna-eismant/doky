@@ -46,5 +46,4 @@ class PasswordSpec : RestSpec() {
         // then
         response.then().statusCode(HttpStatus.NO_CONTENT.value())
     }
-
 }

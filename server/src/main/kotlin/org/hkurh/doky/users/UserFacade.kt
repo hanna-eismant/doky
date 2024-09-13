@@ -1,5 +1,6 @@
 package org.hkurh.doky.users
 
+import org.hkurh.doky.users.api.UpdateUserRequest
 import org.hkurh.doky.users.api.UserDto
 
 /**
@@ -33,7 +34,7 @@ interface UserFacade {
     /**
      * Updates the information of the current user that is authenticated for request.
      *
-     * @param userDto The updated user information as a [UserDto] object.
+     * @param updateUserRequest The updated user information as a [UpdateUserRequest] object.
      */
-    fun updateCurrentUser(userDto: UserDto)
+    fun updateCurrentUser(updateUserRequest: UpdateUserRequest)
 }
