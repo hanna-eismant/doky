@@ -39,7 +39,10 @@ interface DocumentApi {
     fun create(@RequestBody document: DocumentRequest): ResponseEntity<*>?
 
     @Operation(summary = "Update document with metadata")
-    @ApiResponses(ApiResponse(responseCode = "200", description = "Document is updated"))
+    @ApiResponses(
+        ApiResponse(responseCode = "200", description = "Document is updated"),
+        ApiResponse(responseCode = "404", description = "No document with provided id")
+    )
     fun update(@PathVariable id: String, document: DocumentRequest): ResponseEntity<*>?
 
     @Operation(summary = "Get metadata for document")
