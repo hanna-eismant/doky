@@ -333,6 +333,8 @@ $dokka.location:org.hkurh.doky//toDto/org.hkurh.doky.users.db.UserEntity#/Pointi
 $dokka.location:org.hkurh.doky//userToString/#org.hkurh.doky.users.db.UserEntity?/PointingToDeclaration/server/org.hkurh.doky/user-to-string.html
 $dokka.location:org.hkurh.doky/ApiDocumentationConfig///PointingToDeclaration/server/org.hkurh.doky/-api-documentation-config/index.html
 $dokka.location:org.hkurh.doky/ApiDocumentationConfig/ApiDocumentationConfig/#/PointingToDeclaration/server/org.hkurh.doky/-api-documentation-config/-api-documentation-config.html
+$dokka.location:org.hkurh.doky/DokyApi///PointingToDeclaration/server/org.hkurh.doky/-doky-api/index.html
+$dokka.location:org.hkurh.doky/DokyApi/appVersion/#/PointingToDeclaration/server/org.hkurh.doky/-doky-api/app-version.html
 $dokka.location:org.hkurh.doky/DokyApplication.Companion///PointingToDeclaration/server/org.hkurh.doky/-doky-application/-companion/index.html
 $dokka.location:org.hkurh.doky/DokyApplication.Companion/SECRET_KEY_SPEC/#/PointingToDeclaration/server/org.hkurh.doky/-doky-application/-companion/-s-e-c-r-e-t_-k-e-y_-s-p-e-c.html
 $dokka.location:org.hkurh.doky/DokyApplication.Companion/main/#kotlin.Array[kotlin.String]/PointingToDeclaration/server/org.hkurh.doky/-doky-application/-companion/main.html
@@ -343,7 +345,7 @@ $dokka.location:org.hkurh.doky/DokyApplication/templateEngine/#org.thymeleaf.tem
 $dokka.location:org.hkurh.doky/DokyApplication/templateResolver/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky/-doky-application/template-resolver.html
 $dokka.location:org.hkurh.doky/DokyController///PointingToDeclaration/server/org.hkurh.doky/-doky-controller/index.html
 $dokka.location:org.hkurh.doky/DokyController/DokyController/#/PointingToDeclaration/server/org.hkurh.doky/-doky-controller/-doky-controller.html
-$dokka.location:org.hkurh.doky/DokyController/version/#/PointingToDeclaration/server/org.hkurh.doky/-doky-controller/version.html
+$dokka.location:org.hkurh.doky/DokyController/appVersion/#/PointingToDeclaration/server/org.hkurh.doky/-doky-controller/app-version.html
 $dokka.location:org.hkurh.doky/DokyWebConfig///PointingToDeclaration/server/org.hkurh.doky/-doky-web-config/index.html
 $dokka.location:org.hkurh.doky/DokyWebConfig/DokyWebConfig/#/PointingToDeclaration/server/org.hkurh.doky/-doky-web-config/-doky-web-config.html
 $dokka.location:org.hkurh.doky/DokyWebConfig/addResourceHandlers/#org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry/PointingToDeclaration/server/org.hkurh.doky/-doky-web-config/add-resource-handlers.html
