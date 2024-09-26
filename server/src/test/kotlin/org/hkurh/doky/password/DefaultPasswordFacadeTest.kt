@@ -2,13 +2,11 @@ package org.hkurh.doky.password
 
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.email.EmailService
-import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.password.impl.DefaultPasswordFacade
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
@@ -61,12 +59,12 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
 
     @Test
     @DisplayName("Should throw exception when user doesn't exist")
-    fun shouldThrowException_whenUserDoesNotExist() {
+    fun shouldDoNothing_whenUserDoesNotExist() {
         // given
         whenever(userService.exists(userEmail)).thenReturn(false)
 
         // when - then
-        assertThrows<DokyNotFoundException> { passwordFacade.reset(userEmail) }
+        passwordFacade.reset(userEmail)
 
         // then
         verifyNoMoreInteractions(resetPasswordService)

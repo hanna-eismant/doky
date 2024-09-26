@@ -15,8 +15,7 @@ interface PasswordApi {
 
     @Operation(summary = "Send a request (email) to restore password for user")
     @ApiResponses(
-        ApiResponse(responseCode = "204", description = "Reset password request is applied successfully"),
-        ApiResponse(responseCode = "404", description = "There no registered user with provided email")
+        ApiResponse(responseCode = "204", description = "Reset password request is applied successfully")
     )
     fun reset(@RequestBody resetPasswordRequest: ResetPasswordRequest): ResponseEntity<Any>
 }
