@@ -19,26 +19,4 @@ Here’s what you need to know:
    find specific documents using keywords, tags, or metadata.
 3. **Access Control**: Set permissions based on roles. Only authorized users can view, edit, or delete documents.
 4. **Collaborate Seamlessly**: Work together in real time. Share files, leave comments, and collaborate effortlessly.
-
-# Technical Information
-
-## DEV environment
-
-To development process there is an DEvV environment that is hosted on Azure
-
-1. Backend - https://doky-dev.azurewebsites.net/
-   ![Website](https://img.shields.io/website?url=https%3A%2F%2Fdoky-dev.azurewebsites.net) 
-2. Frontend - https://doky-dev-front.azurewebsites.net/
-   ![Website](https://img.shields.io/website?url=https%3A%2F%2Fdoky-dev-front.azurewebsites.net)
-
-## Backend
-Tech Stack:
-1. **MySql**: A reliable relational database management system (RDBMS) for structured data storage.
-2. **Spring Boot**: The backbone of Doky’s backend infrastructure, enabling rapid development and simplified 
-   configuration.
-3. **Apache Solr**: A powerful, open-source search platform built on Apache Lucene, offering full-text search, 
-   faceted search, and distributed capabilities. To configure Solr separate project is created - 
-   https://github.com/hanna-eismant/doky-solr
-                                                    
-## Frontend
-As project has RESTfull API, the frontend has a separate project - https://github.com/hanna-eismant/doky-front
+   
