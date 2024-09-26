@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController()
 @RequestMapping("/api")
-class DokyController {
+class DokyController : DokyApi {
 
-    @GetMapping("/version")
-    fun version(): VersionResponse {
+    @GetMapping("/app-version")
+    override fun appVersion(): VersionResponse {
         return VersionResponse(BuildConfig.buildVersion)
     }
 }
