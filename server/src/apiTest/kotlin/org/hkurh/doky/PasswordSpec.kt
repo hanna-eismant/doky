@@ -2,6 +2,7 @@ package org.hkurh.doky
 
 import io.restassured.RestAssured.given
 import org.hkurh.doky.password.api.ResetPasswordRequest
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
@@ -15,8 +16,8 @@ class PasswordSpec : RestSpec() {
 
 
     @Test
-    @DisplayName("Should return Not Fount if no user with provided email")
-    fun shouldReturnNotFount_whenNoUserWithProvidedEmail() {
+    @DisplayName("Should process if no user with provided email")
+    fun shouldProcess_whenNoUserWithProvidedEmail() {
         // given
         val requestBody = ResetPasswordRequest().apply {
             email = nonExistUserEmail
@@ -27,12 +28,12 @@ class PasswordSpec : RestSpec() {
         val response = given(requestSpec).post(resetEndpoint)
 
         // then
-        response.then().statusCode(HttpStatus.NOT_FOUND.value())
+        response.then().statusCode(HttpStatus.NO_CONTENT.value())
     }
 
-    //    @Ignore("Need to fix that ORM uses `user` column name without escaping (reserved on SQL Server)")
-//    @Test
-//    @DisplayName("Should process if user with provided email exists")
+    @Disabled("Need to fix that ORM uses `user` column name without escaping (reserved on SQL Server)")
+    @Test
+    @DisplayName("Should process if user with provided email exists")
     fun shouldProcess_whenUserExists() {
         // given
         val requestBody = ResetPasswordRequest().apply {
