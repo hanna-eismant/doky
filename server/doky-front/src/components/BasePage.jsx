@@ -10,7 +10,7 @@ const BasePage = () => (
           <span className="version-badge">
             <img
               alt="Endpoint Badge"
-              src="https://img.shields.io/endpoint?url=https%3A%2F%2Fserver.blackfield-1e13811b.westeurope.azurecontainerapps.io%2Fapi%2Fversion"
+              src="https://img.shields.io/endpoint?url=https%3A%2F%2Fserver.blackfield-1e13811b.westeurope.azurecontainerapps.io%2Fapi%2Fapp-version"
             />
           </span>
         </Link>
