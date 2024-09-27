@@ -19,7 +19,7 @@ import java.util.*
     indexes = [Index(name = "idx_reset_password_tokens_token", columnList = "token")],
     uniqueConstraints = [
         UniqueConstraint(name = "uc_reset_password_tokens_token", columnNames = ["token"]),
-        UniqueConstraint(name = "uc_reset_password_tokens_user", columnNames = ["user"])]
+        UniqueConstraint(name = "uc_reset_password_tokens_app_user", columnNames = ["app_user"])]
 )
 class ResetPasswordTokenEntity {
 
@@ -29,7 +29,7 @@ class ResetPasswordTokenEntity {
     var id: Long = -1
 
     @OneToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "app_user")
     var user: UserEntity? = null
 
     @Column(name = "token")

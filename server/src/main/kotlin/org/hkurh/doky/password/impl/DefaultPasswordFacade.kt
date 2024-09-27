@@ -16,7 +16,10 @@ class DefaultPasswordFacade(
 ) : PasswordFacade {
 
     override fun reset(email: String) {
-        if (!userService.exists(email)) return
+        if (!userService.exists(email)) {
+            LOG.debug { "Requested reset password token for non existing user" }
+            return
+        }
 
         val user = userService.findUserByUid(email)
         val resetToken = resetPasswordService.generateAndSaveResetToken(user!!)
