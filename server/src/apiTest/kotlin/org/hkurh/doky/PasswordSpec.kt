@@ -2,7 +2,6 @@ package org.hkurh.doky
 
 import io.restassured.RestAssured.given
 import org.hkurh.doky.password.api.ResetPasswordRequest
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
@@ -31,7 +30,6 @@ class PasswordSpec : RestSpec() {
         response.then().statusCode(HttpStatus.NO_CONTENT.value())
     }
 
-    @Disabled("Need to fix that ORM uses `user` column name without escaping (reserved on SQL Server)")
     @Test
     @DisplayName("Should process if user with provided email exists")
     fun shouldProcess_whenUserExists() {
