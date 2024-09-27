@@ -2,14 +2,15 @@ import BasePage from '../components/BasePage.jsx';
 import MainPage from '../components/MainPage.jsx';
 import Documents from '../pages/Documents/Documents.jsx';
 import CreateDocumentPage from '../pages/Documents/CreateDocumentPage.jsx';
-import EditDocumentPage  from '../pages/Documents/EditDocumentPage.jsx';
+import EditDocumentPage from '../pages/Documents/EditDocumentPage.jsx';
 import UserProfile from '../pages/UserProfile';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-import { NotFoundPage } from '../pages/NotFoundPage.jsx';
+import {NotFoundPage} from '../pages/NotFoundPage.jsx';
 
 import Home from '../pages/Home';
-import { authPageLoader, mainPageLoader } from './loaders';
+import {authPageLoader, mainPageLoader} from './loaders';
+import ResetPassword from '../pages/ResetPassword';
 
 export const mainPageRoute = {
   id: 'main', // used for accessing data fetched by this route loader
@@ -39,6 +40,11 @@ export const routes = [
       {
         path: 'register',
         element: <Register />,
+        loader: authPageLoader
+      },
+      {
+        path: 'reset-password',
+        element: <ResetPassword/>,
         loader: authPageLoader
       }
     ]
