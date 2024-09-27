@@ -1,6 +1,6 @@
 import {useCallback, useState} from 'react';
 import {useFormData} from './useFormData';
-import { noop } from '../utils';
+import {noop} from '../utils';
 
 export const useForm = (initialData, mutation, onSuccess = noop) => {
   const form = useFormData(initialData);
@@ -14,6 +14,7 @@ export const useForm = (initialData, mutation, onSuccess = noop) => {
       form.setGlobalError(response.error.message);
       form.setFieldsErrors(response.fields);
     } else {
+      form.setGlobalError(null);
       onSuccess();
     }
     setIsSubmitting(false);
