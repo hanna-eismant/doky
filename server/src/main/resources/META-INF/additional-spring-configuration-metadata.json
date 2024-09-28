@@ -104,6 +104,11 @@
       "name": "spring.cloud.azure.appconfiguration.stores[0].monitoring.triggers[0].key",
       "type": "java.lang.String",
       "description": "Description for spring.cloud.azure.appconfiguration.stores[0].monitoring.triggers[0].key."
+    },
+    {
+      "name": "doky.kafka.topic.emails",
+      "type": "java.lang.String",
+      "description": "Description for doky.kafka.topic.emails."
     }
   ],
   "hints": [
