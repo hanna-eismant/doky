@@ -1,5 +1,6 @@
 ![GitHub License](https://img.shields.io/github/license/hanna-eismant/doky)
 [![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://hanna-eismant.github.io/doky/javadoc/)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=hanna-eismant_doky&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=hanna-eismant_doky)
     
 
 > [!NOTE]
