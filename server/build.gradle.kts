@@ -20,6 +20,7 @@ plugins {
 dependencyManagement {
     imports {
         mavenBom("com.azure.spring:spring-cloud-azure-dependencies:5.3.0")
+        mavenBom("org.springframework.boot:spring-boot-dependencies:3.1.2")
     }
 }
 
@@ -88,6 +89,9 @@ dependencies {
 
     implementation("com.azure:azure-storage-blob:12.25.3")
 
+    implementation("org.apache.kafka:kafka-clients")
+    implementation("org.springframework.kafka:spring-kafka")
+
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
@@ -100,7 +104,7 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
     testImplementation("com.icegreen:greenmail:2.0.1")
     testImplementation("org.awaitility:awaitility:4.2.1")
-
+    testImplementation("org.springframework.kafka:spring-kafka-test")
     testImplementation("io.rest-assured:rest-assured:5.3.0")
 }
 
@@ -140,6 +144,10 @@ testing {
 
                 implementation("com.icegreen:greenmail:2.0.1")
                 implementation("org.awaitility:awaitility:4.2.1")
+
+                implementation("org.springframework.kafka:spring-kafka-test")
+                implementation("org.apache.kafka:kafka-clients")
+                implementation("org.springframework.kafka:spring-kafka")
             }
         }
         register<JvmTestSuite>("apiTest") {
@@ -157,6 +165,10 @@ testing {
                 implementation("org.mockito:mockito-junit-jupiter:4.0.0")
                 implementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
                 implementation("io.rest-assured:rest-assured:5.3.0")
+
+                implementation("org.springframework.kafka:spring-kafka-test")
+                implementation("org.apache.kafka:kafka-clients")
+                implementation("org.springframework.kafka:spring-kafka")
             }
         }
     }

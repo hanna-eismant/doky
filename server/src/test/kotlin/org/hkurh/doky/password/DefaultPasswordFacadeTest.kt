@@ -1,7 +1,8 @@
 package org.hkurh.doky.password
 
 import org.hkurh.doky.DokyUnitTest
-import org.hkurh.doky.email.EmailService
+import org.hkurh.doky.kafka.EmailType
+import org.hkurh.doky.kafka.KafkaEmailNotificationService
 import org.hkurh.doky.password.impl.DefaultPasswordFacade
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
@@ -13,17 +14,18 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import org.mockito.kotlin.whenever
 
-@DisplayName("DefaultPasswordFacadeTest unit test")
+@DisplayName("DefaultPasswordFacade unit test")
 class DefaultPasswordFacadeTest : DokyUnitTest {
 
     private val userService: UserService = mock()
     private val resetPasswordService: ResetPasswordService = mock()
-    private val emailService: EmailService = mock()
-    private var passwordFacade = DefaultPasswordFacade(userService, resetPasswordService, emailService)
+    private val kafkaEmailNotificationService: KafkaEmailNotificationService = mock()
+    private val passwordFacade = DefaultPasswordFacade(userService, resetPasswordService, kafkaEmailNotificationService)
 
     private val userEmail = "test@example.com"
     private val generatedToken = "token"
     private val userEntity = UserEntity().apply {
+        id = 14
         uid = userEmail
     }
 
@@ -54,7 +56,7 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
         passwordFacade.reset(userEmail)
 
         // then
-        verify(emailService, times(1)).sendRestorePasswordEmail(userEntity, generatedToken)
+        verify(kafkaEmailNotificationService, times(1)).sendNotification(userEntity.id, EmailType.RESET_PASSWORD)
     }
 
     @Test
@@ -68,6 +70,6 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
 
         // then
         verifyNoMoreInteractions(resetPasswordService)
-        verifyNoMoreInteractions(emailService)
+        verifyNoMoreInteractions(kafkaEmailNotificationService)
     }
 }

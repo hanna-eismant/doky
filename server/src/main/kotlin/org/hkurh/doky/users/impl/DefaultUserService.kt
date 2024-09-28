@@ -2,7 +2,8 @@ package org.hkurh.doky.users.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.errorhandling.DokyNotFoundException
-import org.hkurh.doky.events.EventPublisher
+import org.hkurh.doky.kafka.EmailType
+import org.hkurh.doky.kafka.KafkaEmailNotificationService
 import org.hkurh.doky.security.DokyUserDetails
 import org.hkurh.doky.security.UserAuthority
 import org.hkurh.doky.users.UserService
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service
 class DefaultUserService(
     private val userEntityRepository: UserEntityRepository,
     private val authorityEntityRepository: AuthorityEntityRepository,
-    private val eventPublisher: EventPublisher,
+    private val kafkaEmailNotificationService: KafkaEmailNotificationService,
 ) : UserService {
     override fun findUserByUid(userUid: String): UserEntity? {
         return userEntityRepository.findByUid(userUid) ?: throw DokyNotFoundException("User doesn't exist")
@@ -32,7 +33,7 @@ class DefaultUserService(
         }
         val createdUser = userEntityRepository.save(userEntity)
         LOG.debug { "Created new user [${createdUser.id}]" }
-        eventPublisher.publishUserRegistrationEvent(createdUser)
+        kafkaEmailNotificationService.sendNotification(createdUser.id, EmailType.REGISTRATION)
         return createdUser
     }
 
@@ -44,7 +45,7 @@ class DefaultUserService(
 
     override fun updateUser(user: UserEntity) {
         userEntityRepository.save(user)
-        LOG.debug { "User is updated ${user.id}" }
+        LOG.debug { "User is updated [${user.id}]" }
     }
 
     private fun extractNameFromUid(userUid: String): String {

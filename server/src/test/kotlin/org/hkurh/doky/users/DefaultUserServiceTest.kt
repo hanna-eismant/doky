@@ -1,7 +1,8 @@
 package org.hkurh.doky.users
 
 import org.hkurh.doky.DokyUnitTest
-import org.hkurh.doky.events.EventPublisher
+import org.hkurh.doky.kafka.EmailType
+import org.hkurh.doky.kafka.KafkaEmailNotificationService
 import org.hkurh.doky.security.UserAuthority
 import org.hkurh.doky.users.db.AuthorityEntity
 import org.hkurh.doky.users.db.AuthorityEntityRepository
@@ -34,8 +35,9 @@ class DefaultUserServiceTest : DokyUnitTest {
 
     private var userEntityRepository: MockUserEntityRepository = mock()
     private var authorityEntityRepository: AuthorityEntityRepository = mock()
-    private val eventPublisher: EventPublisher = mock()
-    private var userService = DefaultUserService(userEntityRepository, authorityEntityRepository, eventPublisher)
+    private val kafkaEmailNotificationService: KafkaEmailNotificationService = mock()
+    private var userService =
+        DefaultUserService(userEntityRepository, authorityEntityRepository, kafkaEmailNotificationService)
 
     @Test
     @DisplayName("Should publish user registration event when user is successfully registered")
@@ -48,7 +50,7 @@ class DefaultUserServiceTest : DokyUnitTest {
         assertDoesNotThrow { userService.create(userUid, userPassword) }
 
         // then
-        verify(eventPublisher).publishUserRegistrationEvent(userEntity)
+        verify(kafkaEmailNotificationService).sendNotification(userEntity.id, EmailType.REGISTRATION)
     }
 
     @Test
@@ -62,7 +64,7 @@ class DefaultUserServiceTest : DokyUnitTest {
         assertThrows<RuntimeException> { userService.create(userUid, userPassword) }
 
         // then
-        verify(eventPublisher, never()).publishUserRegistrationEvent(userEntity)
+        verify(kafkaEmailNotificationService, never()).sendNotification(userEntity.id, EmailType.REGISTRATION)
     }
 
     @Test
@@ -99,7 +101,7 @@ class DefaultUserServiceTest : DokyUnitTest {
 
     private fun createUserEntity(): UserEntity {
         return UserEntity().apply {
-            id = 1
+            id = 14
             uid = userUid
             name = userName
             password = userPassword
