@@ -15,6 +15,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.20"
     id("com.github.gmazzo.buildconfig") version "5.3.5"
     id("com.github.node-gradle.node") version "7.0.2"
+    id("jacoco")
 }
 
 dependencyManagement {
@@ -22,6 +23,10 @@ dependencyManagement {
         mavenBom("com.azure.spring:spring-cloud-azure-dependencies:5.3.0")
         mavenBom("org.springframework.boot:spring-boot-dependencies:3.1.2")
     }
+}
+
+jacoco {
+    toolVersion = "0.8.8"
 }
 
 java {
@@ -189,6 +194,7 @@ tasks.test {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")
     }
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.named<Test>("apiTest") {
@@ -196,6 +202,7 @@ tasks.named<Test>("apiTest") {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")
     }
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.named<Test>("integrationTest") {
@@ -203,6 +210,7 @@ tasks.named<Test>("integrationTest") {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")
     }
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 kover {
@@ -228,6 +236,13 @@ koverReport {
                 }
             }
         }
+    }
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required = true   // Enables XML reports needed for CI tools
+        html.required = true  // Enables HTML reports for human readability
     }
 }
 
