@@ -193,6 +193,21 @@ $dokka.location:org.hkurh.doky.filestorage/FileStorage/saveFile/#org.springframe
 $dokka.location:org.hkurh.doky.filestorage/FileStorageService///PointingToDeclaration/server/org.hkurh.doky.filestorage/-file-storage-service/index.html
 $dokka.location:org.hkurh.doky.filestorage/FileStorageService/getFile/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.filestorage/-file-storage-service/get-file.html
 $dokka.location:org.hkurh.doky.filestorage/FileStorageService/store/#org.springframework.web.multipart.MultipartFile#kotlin.String?/PointingToDeclaration/server/org.hkurh.doky.filestorage/-file-storage-service/store.html
+$dokka.location:org.hkurh.doky.kafka////PointingToDeclaration/server/org.hkurh.doky.kafka/index.html
+$dokka.location:org.hkurh.doky.kafka/EmailType.REGISTRATION///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}server/org.hkurh.doky.kafka/-email-type/-r-e-g-i-s-t-r-a-t-i-o-n/index.html
+$dokka.location:org.hkurh.doky.kafka/EmailType.RESET_PASSWORD///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}server/org.hkurh.doky.kafka/-email-type/-r-e-s-e-t_-p-a-s-s-w-o-r-d/index.html
+$dokka.location:org.hkurh.doky.kafka/EmailType///PointingToDeclaration/server/org.hkurh.doky.kafka/-email-type/index.html
+$dokka.location:org.hkurh.doky.kafka/EmailType/entries/#/PointingToDeclaration/server/org.hkurh.doky.kafka/-email-type/entries.html
+$dokka.location:org.hkurh.doky.kafka/EmailType/valueOf/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.kafka/-email-type/value-of.html
+$dokka.location:org.hkurh.doky.kafka/EmailType/values/#/PointingToDeclaration/server/org.hkurh.doky.kafka/-email-type/values.html
+$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationService.Companion///PointingToDeclaration/server/org.hkurh.doky.kafka/-kafka-email-notification-service/-companion/index.html
+$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationService///PointingToDeclaration/server/org.hkurh.doky.kafka/-kafka-email-notification-service/index.html
+$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationService/KafkaEmailNotificationService/#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/server/org.hkurh.doky.kafka/-kafka-email-notification-service/-kafka-email-notification-service.html
+$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationService/sendNotification/#kotlin.Long#org.hkurh.doky.kafka.EmailType/PointingToDeclaration/server/org.hkurh.doky.kafka/-kafka-email-notification-service/send-notification.html
+$dokka.location:org.hkurh.doky.kafka/SendEmailMessage///PointingToDeclaration/server/org.hkurh.doky.kafka/-send-email-message/index.html
+$dokka.location:org.hkurh.doky.kafka/SendEmailMessage/SendEmailMessage/#/PointingToDeclaration/server/org.hkurh.doky.kafka/-send-email-message/-send-email-message.html
+$dokka.location:org.hkurh.doky.kafka/SendEmailMessage/emailType/#/PointingToDeclaration/server/org.hkurh.doky.kafka/-send-email-message/email-type.html
+$dokka.location:org.hkurh.doky.kafka/SendEmailMessage/userId/#/PointingToDeclaration/server/org.hkurh.doky.kafka/-send-email-message/user-id.html
 $dokka.location:org.hkurh.doky.password.api////PointingToDeclaration/server/org.hkurh.doky.password.api/index.html
 $dokka.location:org.hkurh.doky.password.api/PasswordApi///PointingToDeclaration/server/org.hkurh.doky.password.api/-password-api/index.html
 $dokka.location:org.hkurh.doky.password.api/PasswordApi/reset/#org.hkurh.doky.password.api.ResetPasswordRequest/PointingToDeclaration/server/org.hkurh.doky.password.api/-password-api/reset.html
@@ -215,7 +230,7 @@ $dokka.location:org.hkurh.doky.password.db/ResetPasswordTokenRepository/findByUs
 $dokka.location:org.hkurh.doky.password.impl////PointingToDeclaration/server/org.hkurh.doky.password.impl/index.html
 $dokka.location:org.hkurh.doky.password.impl/DefaultPasswordFacade.Companion///PointingToDeclaration/server/org.hkurh.doky.password.impl/-default-password-facade/-companion/index.html
 $dokka.location:org.hkurh.doky.password.impl/DefaultPasswordFacade///PointingToDeclaration/server/org.hkurh.doky.password.impl/-default-password-facade/index.html
-$dokka.location:org.hkurh.doky.password.impl/DefaultPasswordFacade/DefaultPasswordFacade/#org.hkurh.doky.users.UserService#org.hkurh.doky.password.ResetPasswordService#org.hkurh.doky.email.EmailService/PointingToDeclaration/server/org.hkurh.doky.password.impl/-default-password-facade/-default-password-facade.html
+$dokka.location:org.hkurh.doky.password.impl/DefaultPasswordFacade/DefaultPasswordFacade/#org.hkurh.doky.users.UserService#org.hkurh.doky.password.ResetPasswordService#org.hkurh.doky.kafka.KafkaEmailNotificationService/PointingToDeclaration/server/org.hkurh.doky.password.impl/-default-password-facade/-default-password-facade.html
 $dokka.location:org.hkurh.doky.password.impl/DefaultPasswordFacade/reset/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.password.impl/-default-password-facade/reset.html
 $dokka.location:org.hkurh.doky.password.impl/DefaultResetPasswordService///PointingToDeclaration/server/org.hkurh.doky.password.impl/-default-reset-password-service/index.html
 $dokka.location:org.hkurh.doky.password.impl/DefaultResetPasswordService/DefaultResetPasswordService/#org.hkurh.doky.password.TokenService#org.hkurh.doky.password.db.ResetPasswordTokenRepository/PointingToDeclaration/server/org.hkurh.doky.password.impl/-default-reset-password-service/-default-reset-password-service.html
@@ -305,7 +320,7 @@ $dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/register/#kotlin.Str
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserFacade/updateCurrentUser/#org.hkurh.doky.users.api.UpdateUserRequest/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-facade/update-current-user.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService.Companion///PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/-companion/index.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService///PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/index.html
-$dokka.location:org.hkurh.doky.users.impl/DefaultUserService/DefaultUserService/#org.hkurh.doky.users.db.UserEntityRepository#org.hkurh.doky.users.db.AuthorityEntityRepository#org.hkurh.doky.events.EventPublisher/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/-default-user-service.html
+$dokka.location:org.hkurh.doky.users.impl/DefaultUserService/DefaultUserService/#org.hkurh.doky.users.db.UserEntityRepository#org.hkurh.doky.users.db.AuthorityEntityRepository#org.hkurh.doky.kafka.KafkaEmailNotificationService/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/-default-user-service.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService/create/#kotlin.String#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/create.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService/exists/#kotlin.Long/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/exists.html
 $dokka.location:org.hkurh.doky.users.impl/DefaultUserService/exists/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky.users.impl/-default-user-service/exists.html
@@ -349,6 +364,10 @@ $dokka.location:org.hkurh.doky/DokyController/appVersion/#/PointingToDeclaration
 $dokka.location:org.hkurh.doky/DokyWebConfig///PointingToDeclaration/server/org.hkurh.doky/-doky-web-config/index.html
 $dokka.location:org.hkurh.doky/DokyWebConfig/DokyWebConfig/#/PointingToDeclaration/server/org.hkurh.doky/-doky-web-config/-doky-web-config.html
 $dokka.location:org.hkurh.doky/DokyWebConfig/addResourceHandlers/#org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry/PointingToDeclaration/server/org.hkurh.doky/-doky-web-config/add-resource-handlers.html
+$dokka.location:org.hkurh.doky/KafkaProducerConfig///PointingToDeclaration/server/org.hkurh.doky/-kafka-producer-config/index.html
+$dokka.location:org.hkurh.doky/KafkaProducerConfig/KafkaProducerConfig/#/PointingToDeclaration/server/org.hkurh.doky/-kafka-producer-config/-kafka-producer-config.html
+$dokka.location:org.hkurh.doky/KafkaProducerConfig/kafkaTemplate/#/PointingToDeclaration/server/org.hkurh.doky/-kafka-producer-config/kafka-template.html
+$dokka.location:org.hkurh.doky/KafkaProducerConfig/producerFactory/#/PointingToDeclaration/server/org.hkurh.doky/-kafka-producer-config/producer-factory.html
 $dokka.location:org.hkurh.doky/VersionResponse///PointingToDeclaration/server/org.hkurh.doky/-version-response/index.html
 $dokka.location:org.hkurh.doky/VersionResponse/VersionResponse/#kotlin.String/PointingToDeclaration/server/org.hkurh.doky/-version-response/-version-response.html
 $dokka.location:org.hkurh.doky/VersionResponse/color/#/PointingToDeclaration/server/org.hkurh.doky/-version-response/color.html
@@ -368,6 +387,7 @@ org.hkurh.doky.events
 org.hkurh.doky.events.listeners
 org.hkurh.doky.filestorage
 org.hkurh.doky.filestorage.impl
+org.hkurh.doky.kafka
 org.hkurh.doky.password
 org.hkurh.doky.password.api
 org.hkurh.doky.password.db
