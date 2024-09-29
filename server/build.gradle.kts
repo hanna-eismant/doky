@@ -15,7 +15,6 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.20"
     id("com.github.gmazzo.buildconfig") version "5.3.5"
     id("com.github.node-gradle.node") version "7.0.2"
-//    id("jacoco")
 }
 
 dependencyManagement {
@@ -24,10 +23,6 @@ dependencyManagement {
         mavenBom("org.springframework.boot:spring-boot-dependencies:3.1.2")
     }
 }
-
-//jacoco {
-//    toolVersion = "0.8.8"
-//}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -79,7 +74,9 @@ dependencies {
 
     implementation("org.flywaydb:flyway-core:9.21.0")
     implementation("org.flywaydb:flyway-sqlserver:9.21.0")
+    implementation("org.flywaydb:flyway-mysql:9.21.0")
     implementation("com.microsoft.sqlserver:mssql-jdbc:12.6.1.jre11")
+    implementation("com.mysql:mysql-connector-j:8.3.0")
 
 
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
@@ -122,11 +119,6 @@ tasks.withType<KotlinCompile>().configureEach {
         freeCompilerArgs += "-Xjsr305=strict"
         jvmTarget = "17"
     }
-}
-
-tasks.test {
-    useJUnitPlatform()
-    maxHeapSize = "1G"
 }
 
 testing {
@@ -179,40 +171,48 @@ testing {
     }
 }
 
+tasks.test {
+    useJUnitPlatform()
+    maxHeapSize = "1G"
+    testLogging {
+        showStandardStreams = true
+        events("PASSED", "SKIPPED", "FAILED")
+    }
+}
+
 tasks.named<Test>("apiTest") {
     onlyIf { project.hasProperty("runApiTests") && project.property("runApiTests").toString().toBoolean() }
+    testLogging {
+        showStandardStreams = true
+        events("PASSED", "SKIPPED", "FAILED")
+    }
 }
 
 tasks.named<Test>("integrationTest") {
     onlyIf {
         project.hasProperty("runIntegrationTests") && project.property("runIntegrationTests").toString().toBoolean()
     }
-}
-
-tasks.test {
     testLogging {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")
     }
-//    finalizedBy(tasks.jacocoTestReport)
 }
 
-tasks.named<Test>("apiTest") {
-    testLogging {
-        showStandardStreams = true
-        events("PASSED", "SKIPPED", "FAILED")
-    }
-//    finalizedBy(tasks.jacocoTestReport)
-}
 
-tasks.named<Test>("integrationTest") {
-    testLogging {
-        showStandardStreams = true
-        events("PASSED", "SKIPPED", "FAILED")
-    }
-//    finalizedBy(tasks.jacocoTestReport)
-}
+//tasks.named<Test>("apiTest") {
+//    testLogging {
+//        showStandardStreams = true
+//        events("PASSED", "SKIPPED", "FAILED")
+//    }
+//}
 
+//
+//tasks.named<Test>("integrationTest") {
+//    testLogging {
+//        showStandardStreams = true
+//        events("PASSED", "SKIPPED", "FAILED")
+//    }
+//}
 kover {
     excludeSourceSets {
         names("integrationTest")
