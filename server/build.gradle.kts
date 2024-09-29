@@ -194,7 +194,7 @@ tasks.test {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")
     }
-    finalizedBy(tasks.jacocoTestReport)
+//    finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.named<Test>("apiTest") {
@@ -202,7 +202,7 @@ tasks.named<Test>("apiTest") {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")
     }
-    finalizedBy(tasks.jacocoTestReport)
+//    finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.named<Test>("integrationTest") {
@@ -210,7 +210,7 @@ tasks.named<Test>("integrationTest") {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")
     }
-    finalizedBy(tasks.jacocoTestReport)
+//    finalizedBy(tasks.jacocoTestReport)
 }
 
 kover {
