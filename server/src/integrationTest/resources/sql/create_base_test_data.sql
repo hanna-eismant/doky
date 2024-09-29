@@ -1,8 +1,6 @@
-IF NOT EXISTS (SELECT * FROM users WHERE uid = 'hanna_test_1@example.com')
-    INSERT INTO users (uid, name, password)
-    VALUES ('hanna_test_1@example.com', 'Hanna', '$2a$10$bdZSuBncZqaM4XwHcjxbpeQuXeOxk6vCEsFrTwa91xh3M3JpvW41m');
+INSERT IGNORE INTO users (uid, name, password) VALUES ("hanna_test_1@example.com", "Hanna", "$2a$10$bdZSuBncZqaM4XwHcjxbpeQuXeOxk6vCEsFrTwa91xh3M3JpvW41m");
 
-INSERT INTO user_authorities(authority_id, user_id)
-SELECT
-    (SELECT id FROM authorities WHERE authority = 'ROLE_USER'),
-    (SELECT id FROM users WHERE uid = 'hanna_test_1@example.com');
+INSERT IGNORE INTO user_authorities (user_id, authority_id)
+SELECT u.id, a.id
+FROM users u, authorities a
+WHERE a.authority = 'ROLE_USER' AND u.uid = "hanna_test_1@example.com"
