@@ -15,7 +15,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.20"
     id("com.github.gmazzo.buildconfig") version "5.3.5"
     id("com.github.node-gradle.node") version "7.0.2"
-    id("jacoco")
+//    id("jacoco")
 }
 
 dependencyManagement {
@@ -25,9 +25,9 @@ dependencyManagement {
     }
 }
 
-jacoco {
-    toolVersion = "0.8.8"
-}
+//jacoco {
+//    toolVersion = "0.8.8"
+//}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -239,12 +239,12 @@ koverReport {
     }
 }
 
-tasks.jacocoTestReport {
-    reports {
-        xml.required = true   // Enables XML reports needed for CI tools
-        html.required = true  // Enables HTML reports for human readability
-    }
-}
+//tasks.jacocoTestReport {
+//    reports {
+//        xml.required = true   // Enables XML reports needed for CI tools
+//        html.required = true  // Enables HTML reports for human readability
+//    }
+//}
 
 node {
     download = true
@@ -254,11 +254,15 @@ node {
 }
 
 tasks.register<NpmTask>("npmBuild") {
+    description = "Runs npm build and creates dist folder"
+    group = "npm"
     dependsOn("npmInstall")
     args = listOf("run", "build")
 }
 
 tasks.register<Copy>("copyFrontDistSrc") {
+    description = "Copy build front files to static folder under resources"
+    group = "npm"
     dependsOn("npmBuild")
     from("$projectDir/doky-front/dist")
     into("$projectDir/src/main/resources/static")
