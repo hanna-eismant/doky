@@ -3,6 +3,10 @@ import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.MetricType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val flywayVersion = "9.21.0"
+val mysqlConnectorVersion = "8.3.0"
+val sqlserverConnectorVersion = "12.6.1.jre11"
+
 plugins {
     java
     id("jvm-test-suite")
@@ -72,11 +76,11 @@ dependencies {
     implementation("com.azure.spring:spring-cloud-azure-appconfiguration-config-web")
     implementation("com.azure.spring:spring-cloud-azure-starter-keyvault")
 
-    implementation("org.flywaydb:flyway-core:9.21.0")
-    implementation("org.flywaydb:flyway-sqlserver:9.21.0")
-    implementation("org.flywaydb:flyway-mysql:9.21.0")
-    implementation("com.microsoft.sqlserver:mssql-jdbc:12.6.1.jre11")
-    implementation("com.mysql:mysql-connector-j:8.3.0")
+    implementation("org.flywaydb:flyway-core:${flywayVersion}")
+    implementation("org.flywaydb:flyway-sqlserver:${flywayVersion}")
+    implementation("org.flywaydb:flyway-mysql:${flywayVersion}")
+    implementation("com.microsoft.sqlserver:mssql-jdbc:${sqlserverConnectorVersion}")
+    implementation("com.mysql:mysql-connector-j:${mysqlConnectorVersion}")
 
 
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
@@ -198,21 +202,6 @@ tasks.named<Test>("integrationTest") {
     }
 }
 
-
-//tasks.named<Test>("apiTest") {
-//    testLogging {
-//        showStandardStreams = true
-//        events("PASSED", "SKIPPED", "FAILED")
-//    }
-//}
-
-//
-//tasks.named<Test>("integrationTest") {
-//    testLogging {
-//        showStandardStreams = true
-//        events("PASSED", "SKIPPED", "FAILED")
-//    }
-//}
 kover {
     excludeSourceSets {
         names("integrationTest")
@@ -238,13 +227,6 @@ koverReport {
         }
     }
 }
-
-//tasks.jacocoTestReport {
-//    reports {
-//        xml.required = true   // Enables XML reports needed for CI tools
-//        html.required = true  // Enables HTML reports for human readability
-//    }
-//}
 
 node {
     download = true
