@@ -2,9 +2,12 @@ val kotlinVersion = "1.9.25"
 val springBootVersion = "3.3.4"
 val springDependencyVersion = "1.1.6"
 val springAzureVersion = "5.16.0"
-val kotlinLoggingVersion = "6.0.9"
-var greenmailVersion = "2.0.1"
 
+val kotlinLoggingVersion = "6.0.9"
+
+var greenmailVersion = "2.0.1"
+var awaitilityVersion = "4.2.1"
+val junitSuiteVersion = "1.10.2"
 
 plugins {
     kotlin("jvm") version "1.9.25"
@@ -19,6 +22,11 @@ dependencyManagement {
         mavenBom("com.azure.spring:spring-cloud-azure-dependencies:$springAzureVersion")
         mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
     }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
 }
 
 java {
@@ -56,14 +64,13 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-//    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-//    testImplementation("org.junit.platform:junit-platform-suite-api:1.10.2")
     testImplementation("org.springframework.kafka:spring-kafka-test")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation("org.junit.platform:junit-platform-suite-api:1.10.2")
+    testImplementation("org.junit.platform:junit-platform-suite-api:$junitSuiteVersion")
     testImplementation("org.mockito:mockito-junit-jupiter:4.0.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
     testImplementation("com.icegreen:greenmail:$greenmailVersion")
+    testImplementation("org.awaitility:awaitility:$awaitilityVersion")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
@@ -74,6 +81,38 @@ kotlin {
     }
 }
 
-tasks.withType<Test> {
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter()
+        }
+        register<JvmTestSuite>("integrationTest") {
+            dependencies {
+                implementation(project())
+
+                implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+                implementation("org.springframework.boot:spring-boot-starter-test")
+
+                implementation("io.github.oshai:kotlin-logging:$kotlinLoggingVersion")
+
+                implementation("org.junit.platform:junit-platform-suite-api:$junitSuiteVersion")
+
+                implementation("com.icegreen:greenmail:$greenmailVersion")
+                implementation("org.awaitility:awaitility:$awaitilityVersion")
+
+                implementation("org.springframework.kafka:spring-kafka-test")
+                implementation("org.apache.kafka:kafka-clients")
+                implementation("org.springframework.kafka:spring-kafka")
+            }
+        }
+    }
+}
+
+tasks.test {
     useJUnitPlatform()
+    maxHeapSize = "1G"
+    testLogging {
+        showStandardStreams = true
+        events("PASSED", "SKIPPED", "FAILED")
+    }
 }
