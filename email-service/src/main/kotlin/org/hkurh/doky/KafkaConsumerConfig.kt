@@ -33,6 +33,9 @@ class KafkaConsumerConfig {
     @Value("\${doky.kafka.emails.group.id}")
     private var groupId: String = ""
 
+    @Value("\${spring.kafka.properties.max.poll.interval.ms}")
+    private var pullInterval: Int = 300000
+
     @Bean
     fun consumerFactory(): DefaultKafkaConsumerFactory<String, SendEmailMessage> {
         val configProps = mutableMapOf<String, Any>(
@@ -41,9 +44,11 @@ class KafkaConsumerConfig {
             SaslConfigs.SASL_MECHANISM to saslMechanism,
             SaslConfigs.SASL_JAAS_CONFIG to saslConfig,
             ConsumerConfig.GROUP_ID_CONFIG to groupId,
-            JsonDeserializer.TRUSTED_PACKAGES to "org.hkurh.doky.kafka",
+            ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG to pullInterval,
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
-            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer::class.java
+            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer::class.java,
+            JsonDeserializer.TRUSTED_PACKAGES to "org.hkurh.doky.kafka",
+            JsonDeserializer.VALUE_DEFAULT_TYPE to SendEmailMessage::class.java
         )
         return DefaultKafkaConsumerFactory(configProps)
     }
