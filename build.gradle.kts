@@ -5,6 +5,13 @@ allprojects {
     }
 }
 
+group = "org.hkurh"
+version = if (project.hasProperty("deployVersion")) {
+    project.property("deployVersion") as String
+} else {
+    "Aardvark-v0.1"
+}
+
 plugins {
     id("org.sonarqube") version "5.1.0.4882"
 }

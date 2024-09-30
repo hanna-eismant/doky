@@ -1,0 +1,44 @@
+{
+  "properties": [
+    {
+      "name": "spring.kafka.jaas.config",
+      "type": "java.lang.String",
+      "description": "Description for spring.kafka.jaas.config."
+    },
+    {
+      "name": "spring.kafka.session.timeout.ms",
+      "type": "java.lang.Integer",
+      "description": "Description for spring.kafka.session.timeout.ms."
+    },
+    {
+      "name": "doky.email.from",
+      "type": "java.lang.String",
+      "description": "Description for doky.email.from."
+    },
+    {
+      "name": "doky.email.templates.path",
+      "type": "java.lang.String",
+      "description": "Description for doky.email.templates.path."
+    },
+    {
+      "name": "doky.kafka.emails.topic",
+      "type": "java.lang.String",
+      "description": "Description for doky.kafka.emails.topic."
+    },
+    {
+      "name": "doky.kafka.emails.group.id",
+      "type": "java.lang.String",
+      "description": "Description for doky.kafka.emails.group.id."
+    },
+    {
+      "name": "doky.kafka.emails.consumer.id",
+      "type": "java.lang.String",
+      "description": "Description for doky.kafka.emails.consumer.id."
+    },
+    {
+      "name": "doky.kafka.emails.consumer.autostart",
+      "type": "java.lang.Boolean",
+      "description": "Description for doky.kafka.emails.consumer.autostart."
+    }
+  ]
+}
