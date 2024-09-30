@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafka
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
+import org.springframework.kafka.listener.ContainerProperties
 import org.springframework.kafka.support.serializer.JsonDeserializer
 
 
@@ -36,6 +37,9 @@ class KafkaConsumerConfig {
     @Value("\${spring.kafka.properties.max.poll.interval.ms}")
     private var pullInterval: Int = 300000
 
+    @Value("\${spring.kafka.properties.auto.offset.reset}")
+    private var autoOffsetReset: String = "earliest"
+
     @Bean
     fun consumerFactory(): DefaultKafkaConsumerFactory<String, SendEmailMessage> {
         val configProps = mutableMapOf<String, Any>(
@@ -45,6 +49,7 @@ class KafkaConsumerConfig {
             SaslConfigs.SASL_JAAS_CONFIG to saslConfig,
             ConsumerConfig.GROUP_ID_CONFIG to groupId,
             ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG to pullInterval,
+            ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to autoOffsetReset,
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer::class.java,
             JsonDeserializer.TRUSTED_PACKAGES to "org.hkurh.doky.kafka",
@@ -57,6 +62,7 @@ class KafkaConsumerConfig {
     fun kafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, SendEmailMessage> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, SendEmailMessage>()
         factory.consumerFactory = consumerFactory()
+        factory.containerProperties.ackMode = ContainerProperties.AckMode.RECORD
         return factory
     }
 }
