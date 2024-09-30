@@ -35,6 +35,12 @@ java {
     }
 }
 
+version = if (project.hasProperty("deployVersion")) {
+    project.property("deployVersion") as String
+} else {
+    "Aardvark-v0.1"
+}
+
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
