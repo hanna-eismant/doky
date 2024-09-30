@@ -35,15 +35,16 @@ build/
 
 ### Gradle ###
 /.gradle/
-server/.gradle
-server/out
+app-server/.gradle
+app-server/out
+email-service/.gradle
+email-service/out
+
 
 ### Custom ###
 /doky
-/docker-deployment/doky-server/server.jar
 /doky-*.env
 /.azure
-/server/src/main/resources/static/
-/server/property 'buildDir'/
+/app-server/src/main/resources/static/
 /filestorage/
 **/.DS_Store

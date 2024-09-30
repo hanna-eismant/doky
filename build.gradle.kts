@@ -5,6 +5,8 @@ allprojects {
     }
 }
 
+group = "org.hkurh"
+
 plugins {
     id("org.sonarqube") version "5.1.0.4882"
 }
