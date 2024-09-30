@@ -20,16 +20,22 @@ class KafkaEmailNotificationConsumerService(
         topics = ["\${doky.kafka.emails.topic}"],
         groupId = "\${doky.kafka.emails.group.id}",
         containerFactory = "kafkaListenerContainerFactory",
-        autoStartup = "true"
+        autoStartup = "true",
+        concurrency = "\${doky.kafka.emails.concurrency}"
     )
     fun listen(@Payload message: SendEmailMessage) {
-        LOG.debug { "Received message: $message" }
-        message.userId.let {
-            when (message.emailType) {
-                EmailType.REGISTRATION -> sendRegistrationEmail(message.userId!!)
-                EmailType.RESET_PASSWORD -> sendResetPasswordEmail(message.userId!!)
-                null -> LOG.warn { "No email type specified" }
+        try {
+            LOG.debug { "Received message: $message" }
+            message.userId.let {
+                when (message.emailType) {
+                    EmailType.REGISTRATION -> sendRegistrationEmail(message.userId!!)
+                    EmailType.RESET_PASSWORD -> sendResetPasswordEmail(message.userId!!)
+                    null -> LOG.warn { "No email type specified" }
+                }
             }
+        } catch (e: Exception) {
+            LOG.error(e) { "Error processing message: $message" }
+            throw e
         }
     }
 

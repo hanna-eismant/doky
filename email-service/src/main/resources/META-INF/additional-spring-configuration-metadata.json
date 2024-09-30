@@ -39,6 +39,11 @@
       "name": "doky.kafka.emails.consumer.autostart",
       "type": "java.lang.Boolean",
       "description": "Description for doky.kafka.emails.consumer.autostart."
+    },
+    {
+      "name": "doky.kafka.emails.concurrency",
+      "type": "java.lang.Integer",
+      "description": "Description for doky.kafka.emails.concurrency."
     }
   ]
 }
