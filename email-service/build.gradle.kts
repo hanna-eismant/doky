@@ -5,9 +5,12 @@ val springAzureVersion = "5.16.0"
 
 val kotlinLoggingVersion = "6.0.9"
 
-var greenmailVersion = "2.0.1"
-var awaitilityVersion = "4.2.1"
+val greenmailVersion = "2.0.1"
+val awaitilityVersion = "4.2.1"
 val junitSuiteVersion = "1.10.2"
+val jupiterVersion = "5.8.2"
+val mockitoJupiterVersion = "4.0.0"
+val mockitoKotlinVersion = "5.0.0"
 
 plugins {
     kotlin("jvm") version "1.9.25"
@@ -50,6 +53,7 @@ configurations {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -71,10 +75,10 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:$jupiterVersion")
     testImplementation("org.junit.platform:junit-platform-suite-api:$junitSuiteVersion")
-    testImplementation("org.mockito:mockito-junit-jupiter:4.0.0")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:$mockitoJupiterVersion")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation("com.icegreen:greenmail:$greenmailVersion")
     testImplementation("org.awaitility:awaitility:$awaitilityVersion")
 
