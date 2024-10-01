@@ -14,7 +14,7 @@
     "build": "webpack --mode=production",
     "build:remote": "npm run build -- --env be-env=remote", 
     "serve": "serve dist -s",
-    "prepare": "cd ../.. && husky server/doky-front/.husky"
+    "prepare": "cd ../.. && husky app-server/doky-front/.husky"
   },
   "author": "",
   "license": "ISC",

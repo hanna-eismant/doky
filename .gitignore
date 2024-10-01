@@ -48,3 +48,6 @@ email-service/out
 /app-server/src/main/resources/static/
 /filestorage/
 **/.DS_Store
+/app-server/doky-front/dist/
+/app-server/doky-front/node_modules/
+/app-server/doky-front/.idea/
