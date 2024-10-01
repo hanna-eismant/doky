@@ -2,8 +2,8 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const autoprefixer = require('autoprefixer')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const autoprefixer = require('autoprefixer');
 
 module.exports = (env, argv) => {
   const beEnv = env['be-env'] || 'auto';
@@ -39,9 +39,9 @@ module.exports = (env, argv) => {
         {
           test: /\.(jsx?)$/,
           exclude: /(node_modules)/,
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: [["@babel/preset-react", {runtime: "automatic"}]]
+            presets: [['@babel/preset-react', {runtime: 'automatic'}]]
           }
         },
         {
@@ -49,7 +49,7 @@ module.exports = (env, argv) => {
           use: [
             {
               loader: argv.mode === 'development'
-                ? "style-loader"
+                ? 'style-loader'
                 : MiniCssExtractPlugin.loader
             },
             {
@@ -76,4 +76,4 @@ module.exports = (env, argv) => {
       ]
     }
   };
-}
+};
