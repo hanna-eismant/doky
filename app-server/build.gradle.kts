@@ -5,9 +5,16 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val springBootVersion = "3.1.2"
 val springAzureVersion = "5.3.0"
+
 val flywayVersion = "9.21.0"
 val mysqlConnectorVersion = "8.3.0"
 val sqlserverConnectorVersion = "12.6.1.jre11"
+
+val kotlinLoggingVersion = "6.0.9"
+
+val junitSuiteApi = "1.10.2"
+val greenmailVersion = "2.0.1"
+var awaitilityVersion = "4.2.1"
 
 plugins {
     java
@@ -89,7 +96,7 @@ dependencies {
 
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.1")
     implementation("commons-io:commons-io:2.11.0")
-    implementation("io.github.oshai:kotlin-logging:6.0.9")
+    implementation("io.github.oshai:kotlin-logging:$kotlinLoggingVersion")
 
     implementation("com.azure:azure-storage-blob:12.25.3")
 
@@ -103,11 +110,11 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.apache.httpcomponents:httpclient:4.5.13")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation("org.junit.platform:junit-platform-suite-api:1.10.2")
+    testImplementation("org.junit.platform:junit-platform-suite-api:$junitSuiteApi")
     testImplementation("org.mockito:mockito-junit-jupiter:4.0.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
 
-    testImplementation("org.awaitility:awaitility:4.2.1")
+    testImplementation("org.awaitility:awaitility:$awaitilityVersion")
     testImplementation("org.springframework.kafka:spring-kafka-test")
     testImplementation("io.rest-assured:rest-assured:5.3.0")
 }
@@ -137,12 +144,12 @@ testing {
                 implementation("org.springframework.boot:spring-boot-starter-test")
 
                 implementation("org.springframework.boot:spring-boot-starter-security")
-                implementation("io.github.oshai:kotlin-logging:6.0.9")
+                implementation("io.github.oshai:kotlin-logging:$kotlinLoggingVersion")
 
-                implementation("org.junit.platform:junit-platform-suite-api:1.10.2")
+                implementation("org.junit.platform:junit-platform-suite-api:$junitSuiteApi")
 
-                implementation("com.icegreen:greenmail:2.0.1")
-                implementation("org.awaitility:awaitility:4.2.1")
+                implementation("com.icegreen:greenmail:$greenmailVersion")
+                implementation("org.awaitility:awaitility:$awaitilityVersion")
 
                 implementation("org.springframework.kafka:spring-kafka-test")
                 implementation("org.apache.kafka:kafka-clients")
@@ -160,7 +167,7 @@ testing {
                 implementation("org.springframework:spring-mock:2.0.8")
                 implementation("org.apache.httpcomponents:httpclient:4.5.13")
                 implementation("org.junit.jupiter:junit-jupiter:5.8.2")
-                implementation("org.junit.platform:junit-platform-suite-api:1.10.2")
+                implementation("org.junit.platform:junit-platform-suite-api:$junitSuiteApi")
                 implementation("org.mockito:mockito-junit-jupiter:4.0.0")
                 implementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
                 implementation("io.rest-assured:rest-assured:5.3.0")
@@ -183,7 +190,6 @@ tasks.test {
 }
 
 tasks.named<Test>("apiTest") {
-    onlyIf { project.hasProperty("runApiTests") && project.property("runApiTests").toString().toBoolean() }
     testLogging {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")
@@ -191,9 +197,6 @@ tasks.named<Test>("apiTest") {
 }
 
 tasks.named<Test>("integrationTest") {
-    onlyIf {
-        project.hasProperty("runIntegrationTests") && project.property("runIntegrationTests").toString().toBoolean()
-    }
     testLogging {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")

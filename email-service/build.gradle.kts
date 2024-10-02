@@ -130,9 +130,6 @@ tasks.test {
 }
 
 tasks.named<Test>("integrationTest") {
-    onlyIf {
-        project.hasProperty("runIntegrationTests") && project.property("runIntegrationTests").toString().toBoolean()
-    }
     testLogging {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")
