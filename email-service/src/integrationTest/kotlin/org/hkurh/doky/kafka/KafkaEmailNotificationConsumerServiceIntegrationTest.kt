@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
 @DisplayName("KafkaEmailNotificationConsumerService integration test")
 class KafkaEmailNotificationConsumerServiceIntegrationTest : DokyIntegrationTest() {
 
-    val userEmail = "hanna_test_1@example.com"
+    val userEmail = "hanna_test_1@yopmail.com"
 
     var smtpServer: GreenMail? = null
 

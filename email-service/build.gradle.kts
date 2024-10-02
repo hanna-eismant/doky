@@ -4,6 +4,7 @@ val springDependencyVersion = "1.1.6"
 val springAzureVersion = "5.16.0"
 
 val kotlinLoggingVersion = "6.0.9"
+val sendgridVersion = "4.10.1"
 
 val greenmailVersion = "2.0.1"
 val awaitilityVersion = "4.2.1"
@@ -65,6 +66,7 @@ dependencies {
     implementation("io.github.oshai:kotlin-logging:$kotlinLoggingVersion")
     implementation("org.apache.kafka:kafka-clients")
     implementation("com.fasterxml.jackson.core:jackson-annotations")
+    implementation("com.sendgrid:sendgrid-java:$sendgridVersion")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
