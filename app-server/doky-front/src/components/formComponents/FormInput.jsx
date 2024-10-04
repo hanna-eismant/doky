@@ -17,7 +17,7 @@ const FormInput = ({label, id, type, value = '', onChange = noop, errors}) => {
 
   return (
     <div className='row mb-3'>
-      <label className='col-sm-2 col-form-label' htmlFor={id}>{label}:</label>
+      <label className='col-form-label' htmlFor={id}>{label}:</label>
       <div className='input-group has-validation'>
         <input
           className={inputClassesList} id={id} type={type} value={value} onChange={handleOnChange}

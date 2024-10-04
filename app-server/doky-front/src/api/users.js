@@ -13,3 +13,5 @@ export const login = (uid, password) =>
 export const register = payload => post('register', payload);
 
 export const requestResetPassword = payload => post('password/reset', payload);
+
+export const updatePassword = payload => post('password/update', payload);
