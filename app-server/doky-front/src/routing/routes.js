@@ -11,6 +11,7 @@ import {NotFoundPage} from '../pages/NotFoundPage.jsx';
 import Home from '../pages/Home';
 import {authPageLoader, mainPageLoader} from './loaders';
 import ResetPassword from '../pages/ResetPassword';
+import UpdatePassword from '../pages/UpdatePassword';
 
 export const mainPageRoute = {
   id: 'main', // used for accessing data fetched by this route loader
@@ -45,6 +46,11 @@ export const routes = [
       {
         path: 'reset-password',
         element: <ResetPassword/>,
+        loader: authPageLoader
+      },
+      {
+        path: 'password/update',
+        element: <UpdatePassword/>,
         loader: authPageLoader
       }
     ]
