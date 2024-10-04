@@ -3,7 +3,7 @@ package org.hkurh.doky.kafka
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
-import org.hkurh.doky.password.db.ResetPasswordTokenRepository
+import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.db.UserEntityRepository
 import org.junit.jupiter.api.DisplayName
@@ -19,11 +19,11 @@ import java.util.*
 class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
 
     private val userEntityRepository: UserEntityRepository = mock()
-    private val resetPasswordTokenRepository: ResetPasswordTokenRepository = mock()
+    private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository = mock()
     private val emailService: EmailService = mock()
 
     private val service =
-        KafkaEmailNotificationConsumerService(userEntityRepository, resetPasswordTokenRepository, emailService)
+        KafkaEmailNotificationConsumerService(userEntityRepository, resetPasswordTokenEntityRepository, emailService)
 
 
     @Test
@@ -55,7 +55,7 @@ class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
         val user = createUser(existingUserId)
         val resetToken = createResetToken(user, token)
         whenever(userEntityRepository.findById(existingUserId)).thenReturn(Optional.ofNullable(user) as Optional<UserEntity?>)
-        whenever(resetPasswordTokenRepository.findByUser(user)).thenReturn(resetToken)
+        whenever(resetPasswordTokenEntityRepository.findByUser(user)).thenReturn(resetToken)
 
         val message = SendEmailMessage().apply {
             userId = existingUserId

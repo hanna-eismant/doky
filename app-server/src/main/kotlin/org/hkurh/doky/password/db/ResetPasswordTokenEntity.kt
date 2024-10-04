@@ -29,12 +29,12 @@ class ResetPasswordTokenEntity {
     var id: Long = -1
 
     @OneToOne
-    @JoinColumn(name = "app_user")
-    var user: UserEntity? = null
+    @JoinColumn(name = "app_user", nullable = false, unique = true)
+    lateinit var user: UserEntity
 
-    @Column(name = "token")
-    var token: String? = null
+    @Column(name = "token", nullable = false, unique = true)
+    lateinit var token: String
 
-    @Column(name = "expiration_date")
-    var expirationDate: Date? = null
+    @Column(name = "expiration_date", nullable = false)
+    lateinit var expirationDate: Date
 }

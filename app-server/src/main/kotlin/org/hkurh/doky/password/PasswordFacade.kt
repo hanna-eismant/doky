@@ -10,4 +10,12 @@ interface PasswordFacade {
      * @param email The email of the user whose password needs to be reset.
      */
     fun reset(email: String)
+
+    /**
+     * Updates the password using the provided token.
+     *
+     * @param password The new password to set.
+     * @param token The token used to validate the password reset request.
+     */
+    fun update(password: String, token: String)
 }

@@ -9,8 +9,8 @@ import org.springframework.data.repository.CrudRepository
  * Repository interface for managing reset password tokens.
  * This interface extends the CrudRepository and JpaSpecificationExecutor interfaces.
  */
-interface ResetPasswordTokenRepository :
+interface ResetPasswordTokenEntityRepository :
     CrudRepository<ResetPasswordTokenEntity, Long>, JpaSpecificationExecutor<ResetPasswordTokenEntity> {
 
-        fun findByUser(user: UserEntity): ResetPasswordTokenEntity?
-    }
+    fun findByUser(user: UserEntity): ResetPasswordTokenEntity?
+}

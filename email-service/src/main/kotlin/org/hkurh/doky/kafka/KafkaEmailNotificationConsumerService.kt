@@ -2,7 +2,7 @@ package org.hkurh.doky.kafka
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.email.EmailService
-import org.hkurh.doky.password.db.ResetPasswordTokenRepository
+import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.users.db.UserEntityRepository
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Payload
@@ -11,10 +11,9 @@ import org.springframework.stereotype.Service
 @Service
 class KafkaEmailNotificationConsumerService(
     private val userEntityRepository: UserEntityRepository,
-    private val resetPasswordTokenRepository: ResetPasswordTokenRepository,
+    private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
     private val emailService: EmailService
 ) {
-
     @KafkaListener(
         id = "\${doky.kafka.emails.consumer.id}",
         topics = ["\${doky.kafka.emails.topic}"],
@@ -47,7 +46,7 @@ class KafkaEmailNotificationConsumerService(
 
     private fun sendResetPasswordEmail(userId: Long) {
         userEntityRepository.findById(userId).ifPresent { user ->
-            resetPasswordTokenRepository.findByUser(user)?.apply {
+            resetPasswordTokenEntityRepository.findByUser(user)?.apply {
                 this.token?.let { emailService.sendRestorePasswordEmail(user, it) }
             }
         }
