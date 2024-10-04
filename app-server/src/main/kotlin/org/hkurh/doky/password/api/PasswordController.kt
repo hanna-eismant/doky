@@ -24,4 +24,10 @@ class PasswordController(
         passwordFacade.reset(resetPasswordRequest.email)
         return ResponseEntity.noContent().build()
     }
+
+    @PostMapping("/update")
+    override fun update(@RequestBody @Valid updatePasswordRequest: UpdatePasswordRequest): ResponseEntity<Any> {
+        passwordFacade.update(updatePasswordRequest.password, updatePasswordRequest.token)
+        return ResponseEntity.noContent().build()
+    }
 }

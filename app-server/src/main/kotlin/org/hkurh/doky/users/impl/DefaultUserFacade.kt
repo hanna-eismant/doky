@@ -12,8 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
 @Component
-class DefaultUserFacade(private val userService: UserService, private val passwordEncoder: PasswordEncoder) :
-    UserFacade {
+class DefaultUserFacade(
+    private val userService: UserService,
+    private val passwordEncoder: PasswordEncoder
+) : UserFacade {
     override fun checkCredentials(userUid: String, password: String): UserDto {
         if (!userService.exists(userUid)) throw DokyAuthenticationException("User doesn't exist")
         val userEntity = userService.findUserByUid(userUid)

@@ -30,6 +30,12 @@ class DokyControllerAdvice {
         return ErrorResponse(Error(exception.message!!))
     }
 
+    @ExceptionHandler(DokyInvalidTokenException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun badRequest(exception: Exception): ErrorResponse {
+        return ErrorResponse(Error(exception.message!!))
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun validationException(exception: MethodArgumentNotValidException): ValidationErrorResponse {
