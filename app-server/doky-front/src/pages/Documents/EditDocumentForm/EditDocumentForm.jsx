@@ -1,7 +1,7 @@
 import React from 'react';
 import {useAddToast} from '../../../components/Toasts';
 import {useMutation} from '../../../hooks/useMutation.js';
-import {updateDocument, uploadDocument} from '../../../api/documents.js';
+import {downloadDocument, updateDocument, uploadDocument} from '../../../api/documents.js';
 import {useForm} from '../../../hooks/useForm.js';
 import AlertError from '../../../components/AlertError.jsx';
 import HorizontalFormInput from '../../../components/formComponents/HorizontalFormInput.jsx';
@@ -31,6 +31,18 @@ const EditDocumentForm = ({document}) => {
 
   };
 
+
+  const handleDownload = async () => {
+    const { body } = await downloadDocument(document.id);
+    const handleSave = await window.showSaveFilePicker();
+
+    // create a FileSystemWritableFileStream to write to
+    const writableStream = await handleSave.createWritable();
+
+    body.pipeTo(writableStream);
+  };
+
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -45,7 +57,7 @@ const EditDocumentForm = ({document}) => {
               <div>File:</div>
               <div>{document.fileName}</div>
               <div>
-                <button type="button" className="btn btn-outline-primary me-2" disabled={!document.fileName}>
+                <button type="button" className="btn btn-outline-primary me-2" disabled={!document.fileName} onClick={handleDownload}>
                   <i className="bi bi-cloud-download me-1"></i><span>Download</span>
                 </button>
                 <FileUploader onUpload={onUpload}/>

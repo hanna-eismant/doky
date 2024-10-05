@@ -2,7 +2,7 @@ import {BASE_URL} from 'config';
 
 const apiPrefix = '/api';
 
-const getAuthHeader = () => {
+export const getAuthHeader = () => {
   const jwt = localStorage.getItem('jwt');
   return jwt ? {Authorization: `Bearer ${jwt}`} : {};
 };
@@ -51,3 +51,7 @@ export const get = async url => {
 
   return response.json();
 };
+
+export const download = url => fetch(BASE_URL + apiPrefix + '/' + url, {
+  headers: getAuthHeader()
+});
