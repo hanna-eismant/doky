@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import React, {useState} from 'react';
 import {useForm} from '../../hooks/useForm.js';
 import {useRequestResetPassword} from './useRequestResetPassword.js';
+import Logo from '../../components/Logo/Logo.jsx';
 
 const initialFormData = {
   email: ''
@@ -30,7 +31,7 @@ const ResetPassword = () => {
       {globalError ? <AlertError message={globalError}/> : ''}
       <div className='d-flex align-items-center justify-content-center'>
         <div className='col-3'>
-          <img alt='doky logo' className='mb-3 mt-3 img-fluid' src='/logo-color-bg.svg'/>
+          <Logo/>
 
           {isSent && !globalError ? (
             <div className='mt-3 row text-center'>
