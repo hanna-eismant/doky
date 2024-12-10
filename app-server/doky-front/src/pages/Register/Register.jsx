@@ -5,6 +5,7 @@ import {useRegister} from './useRegister.js';
 import {useForm} from '../../hooks/useForm.js';
 import {FormInput} from '../../components';
 import AlertError from '../../components/AlertError.jsx';
+import Logo from '../../components/Logo/Logo.jsx';
 
 const initialFormData = {
   uid: '',
@@ -29,7 +30,7 @@ const Register = () => {
       {globalError ? <AlertError message={globalError}/> : ''}
       <div className="d-flex align-items-center justify-content-center">
         <form onSubmit={handleSubmit} className="col-3">
-          <img className="mb-3 mt-3 img-fluid" src="/logo-color-bg.svg"/>
+          <Logo/>
           <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue}
             errors={uid.errors}/>
           <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}

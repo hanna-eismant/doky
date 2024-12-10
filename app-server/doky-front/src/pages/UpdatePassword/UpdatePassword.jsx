@@ -4,6 +4,7 @@ import {Link, useNavigate, useSearchParams} from 'react-router-dom';
 import React from 'react';
 import {useForm} from '../../hooks/useForm.js';
 import {useUpdatePassword} from './useUpdatePassword.js';
+import Logo from '../../components/Logo/Logo.jsx';
 
 const initialFormData = {
   password: '',
@@ -36,7 +37,7 @@ const UpdatePassword = () => {
       {globalError ? <AlertError message={globalError}/> : ''}
       <div className='d-flex align-items-center justify-content-center'>
         <div className='col-3'>
-          <img alt='doky logo' className='mb-3 mt-3 img-fluid' src='/logo-color-bg.svg'/>
+          <Logo/>
           <form onSubmit={handleSubmit}>
             <FormInput id='password' label='Password' type='password' value={data.password}
               onChange={password.setValue}
