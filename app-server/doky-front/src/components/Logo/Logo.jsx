@@ -1,11 +1,5 @@
-import React from 'react';
+import React, {memo} from 'react';
 
-const Logo = () => {
-  return (
-    <>
-      <img className='mb-3 mt-3 img-fluid' alt="Logo" src='/logo-color-bg.svg'/>
-    </>
-  );
-};
+const Logo = () => <img className='mb-3 mt-3 img-fluid' alt="Logo" src='/logo-color-bg.svg'/>;
 
-export default Logo;
+export default memo(Logo);
