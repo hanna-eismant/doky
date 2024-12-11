@@ -10,7 +10,7 @@ class DokyController : DokyApi {
 
     @GetMapping("/app-version")
     override fun appVersion(): VersionResponse {
-        return VersionResponse(BuildConfig.buildVersion)
+        return VersionResponse(BuildConfig.DEPLOY_VERSION)
     }
 }
 
