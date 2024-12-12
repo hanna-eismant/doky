@@ -32,7 +32,7 @@ class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
         // given
         val existingUserId = 16L
         val user = createUser(existingUserId)
-        whenever(userEntityRepository.findById(existingUserId)).thenReturn(Optional.ofNullable(user) as Optional<UserEntity?>)
+        whenever(userEntityRepository.findById(existingUserId)).thenReturn(Optional.ofNullable(user))
 
         val message = SendEmailMessage().apply {
             userId = existingUserId
@@ -54,7 +54,7 @@ class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
         val token = "<TOKEN>"
         val user = createUser(existingUserId)
         val resetToken = createResetToken(user, token)
-        whenever(userEntityRepository.findById(existingUserId)).thenReturn(Optional.ofNullable(user) as Optional<UserEntity?>)
+        whenever(userEntityRepository.findById(existingUserId)).thenReturn(Optional.ofNullable(user))
         whenever(resetPasswordTokenEntityRepository.findByUser(user)).thenReturn(resetToken)
 
         val message = SendEmailMessage().apply {

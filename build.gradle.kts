@@ -8,7 +8,34 @@ allprojects {
 group = "org.hkurh"
 
 plugins {
+    kotlin("jvm") version "1.9.25"
+    kotlin("plugin.spring") version "1.9.25"
+    kotlin("plugin.jpa") version "1.9.25" apply false
+    id("org.springframework.boot") version "3.3.4" apply false
+    id("io.spring.dependency-management") version "1.1.6"
     id("org.sonarqube") version "5.1.0.4882"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom(libs.spring.boot.bom.get().toString())
+        mavenBom(libs.azure.spring.bom.get().toString())
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+subprojects {
+    val libs = rootProject.extensions.getByType<VersionCatalogsExtension>().named("libs")
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    dependencies {
+        implementation(libs.findLibrary("kotlin.logging").get())
+        testImplementation(libs.findBundle("testing.unit").get())
+    }
 }
 
 val branchName = if (project.hasProperty("branchName")) {
