@@ -47,7 +47,7 @@ class KafkaEmailNotificationConsumerService(
     private fun sendResetPasswordEmail(userId: Long) {
         userEntityRepository.findById(userId).ifPresent { user ->
             resetPasswordTokenEntityRepository.findByUser(user)?.apply {
-                this.token?.let { emailService.sendRestorePasswordEmail(user, it) }
+                this.token.let { emailService.sendRestorePasswordEmail(user, it) }
             }
         }
     }

@@ -44,7 +44,7 @@ class DefaultUserServiceTest : DokyUnitTest {
     fun shouldPublishEvent_whenUserSuccessfullyRegistered() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository.save(any())).thenReturn(userEntity)
+        whenever(userEntityRepository.save(any<UserEntity>())).thenReturn(userEntity)
 
         // when
         assertDoesNotThrow { userService.create(userUid, userPassword) }
@@ -58,7 +58,7 @@ class DefaultUserServiceTest : DokyUnitTest {
     fun shouldNotPublishEvent_whenUserNotSuccessfullyRegistered() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository.save(any())).thenThrow(RuntimeException())
+        whenever(userEntityRepository.save(any<UserEntity>())).thenThrow(RuntimeException())
 
         // when
         assertThrows<RuntimeException> { userService.create(userUid, userPassword) }
@@ -72,7 +72,7 @@ class DefaultUserServiceTest : DokyUnitTest {
     fun shouldSetUserNameFromUid_whenRegister() {
         // given
         val userEntity = createUserEntity()
-        whenever(userEntityRepository.save(any())).thenReturn(userEntity)
+        whenever(userEntityRepository.save(any<UserEntity>())).thenReturn(userEntity)
 
         // when
         userService.create(userUid, userPassword)
@@ -87,7 +87,7 @@ class DefaultUserServiceTest : DokyUnitTest {
         // given
         val userEntity = createUserEntity()
         val authority = createAuthorityEntity()
-        whenever(userEntityRepository.save(any())).thenReturn(userEntity)
+        whenever(userEntityRepository.save(any<UserEntity>())).thenReturn(userEntity)
         whenever(authorityEntityRepository.findByAuthority(UserAuthority.ROLE_USER)).thenReturn(authority)
 
         // when
@@ -126,7 +126,7 @@ class DefaultUserServiceTest : DokyUnitTest {
             TODO("Not yet implemented")
         }
 
-        override fun <S : UserEntity?> save(entity: S & Any): S & Any {
+        override fun <S : UserEntity> save(entity: S): S {
             TODO("Not yet implemented")
         }
 
@@ -138,15 +138,15 @@ class DefaultUserServiceTest : DokyUnitTest {
             TODO("Not yet implemented")
         }
 
-        override fun findAll(spec: Specification<UserEntity?>): MutableList<UserEntity?> {
+        override fun findAll(spec: Specification<UserEntity?>?): MutableList<UserEntity?> {
             TODO("Not yet implemented")
         }
 
-        override fun findAll(spec: Specification<UserEntity?>, pageable: Pageable): Page<UserEntity?> {
+        override fun findAll(spec: Specification<UserEntity?>?, pageable: Pageable): Page<UserEntity?> {
             TODO("Not yet implemented")
         }
 
-        override fun findAll(spec: Specification<UserEntity?>, sort: Sort): MutableList<UserEntity?> {
+        override fun findAll(spec: Specification<UserEntity?>?, sort: Sort): MutableList<UserEntity?> {
             TODO("Not yet implemented")
         }
 
@@ -158,15 +158,11 @@ class DefaultUserServiceTest : DokyUnitTest {
             TODO("Not yet implemented")
         }
 
-        override fun count(spec: Specification<UserEntity?>): Long {
+        override fun count(spec: Specification<UserEntity?>?): Long {
             TODO("Not yet implemented")
         }
 
-        override fun delete(entity: UserEntity) {
-            TODO("Not yet implemented")
-        }
-
-        override fun delete(spec: Specification<UserEntity?>): Long {
+        override fun delete(spec: Specification<UserEntity?>?): Long {
             TODO("Not yet implemented")
         }
 
@@ -190,10 +186,14 @@ class DefaultUserServiceTest : DokyUnitTest {
             TODO("Not yet implemented")
         }
 
-        override fun <S : UserEntity?, R : Any?> findBy(
+        override fun <S : UserEntity?, R : Any> findBy(
             spec: Specification<UserEntity?>,
             queryFunction: Function<FluentQuery.FetchableFluentQuery<S>, R>
-        ): R & Any {
+        ): R {
+            TODO("Not yet implemented")
+        }
+
+        override fun delete(entity: UserEntity) {
             TODO("Not yet implemented")
         }
 
@@ -208,6 +208,5 @@ class DefaultUserServiceTest : DokyUnitTest {
         override fun findById(id: Long): Optional<UserEntity?> {
             TODO("Not yet implemented")
         }
-
     }
 }

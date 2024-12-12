@@ -1,0 +1,87 @@
+[versions]
+kotlin-jvm = "1.9.25"
+spring-boot = "3.3.4"
+azure-spring = "5.16.0"
+kotlin-logging = "6.0.9"
+flyway = "9.21.0"
+jupiter = "5.8.2"
+mockito-jupiter = "4.0.0"
+mockito-kotlin = "5.0.0"
+sendgrid = "4.10.1"
+jackson-joda = "2.13.1"
+awaitility = "4.2.1"
+greenmail = "2.0.1"
+jakarta-validation-api = "3.0.2"
+jjwt = "0.11.2"
+openapi-starter = "2.3.0"
+commons-io = "2.11.0"
+azure-blob = "12.25.3"
+httpclient = "4.5.13"
+rest-assured = "5.3.0"
+junit4 = "4.13.2"
+
+[libraries]
+spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
+azure-spring-bom = { group = "com.azure.spring", name = "spring-cloud-azure-dependencies", version.ref = "azure-spring" }
+spring-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
+spring-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
+spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
+spring-boot-starter-mail = { group = "org.springframework.boot", name = "spring-boot-starter-mail" }
+spring-boot-starter-thymeleaf = { group = "org.springframework.boot", name = "spring-boot-starter-thymeleaf" }
+spring-boot-starter-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
+spring-boot-starter-jdbc = { group = "org.springframework.boot", name = "spring-boot-starter-jdbc" }
+spring-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
+spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
+spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+spring-boot-config-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor" }
+spring-boot-devtools = { group = "org.springframework.boot", name = "spring-boot-devtools" }
+spring-kafka-production = { group = "org.springframework.kafka", name = "spring-kafka" }
+spring-kafka-test = { group = "org.springframework.kafka", name = "spring-kafka-test" }
+azure-appconfiguration-config-web = { group = "com.azure.spring", name = "spring-cloud-azure-appconfiguration-config-web" }
+azure-starter-keyvault = { group = "com.azure.spring", name = "spring-cloud-azure-starter-keyvault" }
+kotlin-logging = { group = "io.github.oshai", name = "kotlin-logging", version.ref = "kotlin-logging" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin-jvm" }
+flyway-core = { group = "org.flywaydb", name = "flyway-core", version.ref = "flyway" }
+flyway-sqlserver = { group = "org.flywaydb", name = "flyway-sqlserver", version.ref = "flyway" }
+flyway-mysql = { group = "org.flywaydb", name = "flyway-mysql", version.ref = "flyway" }
+sqlserver-connector = { group = "com.microsoft.sqlserver", name = "mssql-jdbc" }
+mysql-connector = { group = "com.mysql", name = "mysql-connector-j" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "jupiter" }
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
+mockito-jupiter = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mockito-jupiter" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito-kotlin" }
+sendgrid = { group = "com.sendgrid", name = "sendgrid-java", version.ref = "sendgrid" }
+kafka-clients = { group = "org.apache.kafka", name = "kafka-clients" }
+jackson-annotations = { group = "com.fasterxml.jackson.core", name = "jackson-annotations" }
+jackson-datatype-joda = { group = "com.fasterxml.jackson.datatype", name = "jackson-datatype-joda", version.ref = "jackson-joda" }
+awaitility = { group = "org.awaitility", name = "awaitility", version.ref = "awaitility" }
+greenmail = { group = "com.icegreen", name = "greenmail", version.ref = "greenmail" }
+jakarta-validation-api = { group = "jakarta.validation", name = "jakarta.validation-api", version.ref = "jakarta-validation-api" }
+jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { group = "io.jsonwebtoken", name = "jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version.ref = "jjwt" }
+openapi-starter = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "openapi-starter" }
+commons-io = { group = "commons-io", name = "commons-io", version.ref = "commons-io" }
+azure-blob = { group = "com.azure", name = "azure-storage-blob", version.ref = "azure-blob" }
+httpclient = { group = "org.apache.httpcomponents", name = "httpclient", version.ref = "httpclient" }
+rest-assured = { group = "io.rest-assured", name = "rest-assured", version.ref = "rest-assured" }
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+
+[bundles]
+flyway = ["flyway-core", "flyway-sqlserver", "flyway-mysql"]
+database-connectors = ["sqlserver-connector", "mysql-connector"]
+testing-unit = ["junit-jupiter", "mockito-jupiter", "mockito-kotlin"]
+testing-integration = ["spring-boot-starter-test", "awaitility"]
+testing-web = ["httpclient", "rest-assured"]
+spring-starter-web = ["spring-boot-starter", "spring-boot-starter-actuator", "spring-boot-starter-web"]
+mail = ["spring-boot-starter-mail", "spring-boot-starter-thymeleaf", "sendgrid"]
+azure-keyvault = ["azure-appconfiguration-config-web", "azure-starter-keyvault"]
+kafka = ["spring-kafka-production", "kafka-clients"]
+json = ["jackson-annotations", "jackson-datatype-joda"]
+validation = ["spring-boot-starter-validation", "jakarta-validation-api"]
+jwt = ["jjwt-api", "jjwt-impl", "jjwt-jackson"]
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-jvm" }
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+

@@ -4,9 +4,6 @@ import io.restassured.RestAssured.given
 import io.restassured.builder.RequestSpecBuilder
 import org.hkurh.doky.authorization.AuthenticationRequest
 import org.junit.jupiter.api.Tag
-import org.junit.platform.suite.api.IncludeTags
-import org.junit.platform.suite.api.Suite
-import org.junit.platform.suite.api.SuiteDisplayName
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
@@ -19,9 +16,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
 @ActiveProfiles("test")
 @Tag("api")
-@Suite
-@SuiteDisplayName("API Tests")
-@IncludeTags("api")
 @SpringJUnitConfig
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EmbeddedKafka(topics = ["emails-test"])
