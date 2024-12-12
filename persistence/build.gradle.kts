@@ -1,9 +1,3 @@
-plugins {
-    kotlin("plugin.spring")
-    id("io.spring.dependency-management")
-    kotlin("plugin.jpa")
-}
-
 dependencyManagement {
     imports {
         mavenBom(libs.spring.boot.bom.get().toString())

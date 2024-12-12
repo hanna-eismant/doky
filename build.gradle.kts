@@ -30,8 +30,19 @@ java {
 }
 
 subprojects {
-    val libs = rootProject.extensions.getByType<VersionCatalogsExtension>().named("libs")
     apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
+    apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
+    apply(plugin = "org.springframework.boot")
+    apply(plugin = "io.spring.dependency-management")
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    val libs = rootProject.extensions.getByType<VersionCatalogsExtension>().named("libs")
     dependencies {
         implementation(libs.findLibrary("kotlin.logging").get())
         testImplementation(libs.findBundle("testing.unit").get())

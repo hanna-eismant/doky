@@ -1,10 +1,3 @@
-plugins {
-    kotlin("plugin.spring")
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
-    kotlin("plugin.jpa")
-}
-
 dependencyManagement {
     imports {
         mavenBom(libs.spring.boot.bom.get().toString())
@@ -69,9 +62,6 @@ testing {
                 implementation(libs.spring.boot.starter.jdbc.get().toString())
 
                 implementation(libs.kotlin.logging.get().toString())
-
-//                implementation(libs.spring.boot.starter.data.jpa.get().toString())
-//                implementation("org.springframework.boot:spring-boot-starter-data-jpa")
             }
         }
     }

@@ -1,10 +1,6 @@
 import com.github.gradle.node.npm.task.NpmTask
 
 plugins {
-    kotlin("plugin.spring")
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
-
     id("com.microsoft.azure.azurewebapp") version "1.7.1"
     id("org.jetbrains.dokka") version "1.9.20"
     id("com.github.gmazzo.buildconfig") version "5.3.5"
