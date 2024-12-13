@@ -22,8 +22,6 @@ dependencies {
     implementation(libs.bundles.kafka)
     implementation(libs.bundles.json)
 
-    developmentOnly(libs.spring.boot.devtools)
-
     annotationProcessor(libs.spring.boot.config.processor)
 
     testImplementation(libs.bundles.testing.integration)
