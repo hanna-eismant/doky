@@ -8,12 +8,12 @@ allprojects {
 group = "org.hkurh"
 
 plugins {
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
-    kotlin("plugin.jpa") version "1.9.25" apply false
-    id("org.springframework.boot") version "3.3.4" apply false
-    id("io.spring.dependency-management") version "1.1.6"
-    id("org.sonarqube") version "5.1.0.4882"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.plugin.spring)
+    alias(libs.plugins.kotlin.plugin.jpa) apply false
+    alias(libs.plugins.spring.boot) apply false
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.sonarqube)
 }
 
 dependencyManagement {
@@ -33,7 +33,6 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
     apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
-    apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
 
     java {
@@ -44,7 +43,7 @@ subprojects {
 
     val libs = rootProject.extensions.getByType<VersionCatalogsExtension>().named("libs")
     dependencies {
-        implementation(libs.findLibrary("kotlin.logging").get())
+        implementation(libs.findBundle("logging").get())
         testImplementation(libs.findBundle("testing.unit").get())
     }
 }

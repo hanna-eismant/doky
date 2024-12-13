@@ -19,6 +19,13 @@ azure-blob = "12.25.3"
 httpclient = "4.5.13"
 rest-assured = "5.3.0"
 junit4 = "4.13.2"
+logback-encoder = "8.0"
+spring-dependency-management = "1.1.6"
+sonarqube = "5.1.0.4882"
+azurewebapp = "1.7.1"
+dokka = "1.9.20"
+buildconfig = "5.3.5"
+node-gradle = "7.0.2"
 
 [libraries]
 spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
@@ -34,7 +41,6 @@ spring-boot-starter-security = { group = "org.springframework.boot", name = "spr
 spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
 spring-boot-config-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor" }
-spring-boot-devtools = { group = "org.springframework.boot", name = "spring-boot-devtools" }
 spring-kafka-production = { group = "org.springframework.kafka", name = "spring-kafka" }
 spring-kafka-test = { group = "org.springframework.kafka", name = "spring-kafka-test" }
 azure-appconfiguration-config-web = { group = "com.azure.spring", name = "spring-cloud-azure-appconfiguration-config-web" }
@@ -66,8 +72,11 @@ azure-blob = { group = "com.azure", name = "azure-storage-blob", version.ref = "
 httpclient = { group = "org.apache.httpcomponents", name = "httpclient", version.ref = "httpclient" }
 rest-assured = { group = "io.rest-assured", name = "rest-assured", version.ref = "rest-assured" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic" }
+logback-encoder = { group = "net.logstash.logback", name = "logstash-logback-encoder", version.ref = "logback-encoder" }
 
 [bundles]
+logging = ["kotlin-logging", "logback-classic", "logback-encoder"]
 flyway = ["flyway-core", "flyway-sqlserver", "flyway-mysql"]
 database-connectors = ["sqlserver-connector", "mysql-connector"]
 testing-unit = ["junit-jupiter", "mockito-jupiter", "mockito-kotlin"]
@@ -83,5 +92,12 @@ jwt = ["jjwt-api", "jjwt-impl", "jjwt-jackson"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-jvm" }
+kotlin-plugin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin-jvm" }
+kotlin-plugin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin-jvm" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
-
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
+sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
+azurewebapp = { id = "com.microsoft.azure.azurewebapp", version.ref = "azurewebapp" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
+node-gradle = { id = "com.github.node-gradle.node", version.ref = "node-gradle" }
