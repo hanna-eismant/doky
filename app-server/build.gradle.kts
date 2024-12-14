@@ -30,6 +30,7 @@ dependencies {
     implementation(libs.commons.io)
     implementation(libs.azure.blob)
     implementation(libs.bundles.kafka)
+    implementation(libs.dd.trace.api)
 
     annotationProcessor(libs.spring.boot.config.processor)
 

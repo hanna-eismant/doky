@@ -26,6 +26,7 @@ azurewebapp = "1.7.1"
 dokka = "1.9.20"
 buildconfig = "5.3.5"
 node-gradle = "7.0.2"
+dd-trace-api = "[1.44.0,2.0.0)"
 
 [libraries]
 spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
@@ -74,6 +75,7 @@ rest-assured = { group = "io.rest-assured", name = "rest-assured", version.ref =
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 logback-classic = { group = "ch.qos.logback", name = "logback-classic" }
 logback-encoder = { group = "net.logstash.logback", name = "logstash-logback-encoder", version.ref = "logback-encoder" }
+dd-trace-api = { group = "com.datadoghq", name = "dd-trace-api", version.ref = "dd-trace-api" }
 
 [bundles]
 logging = ["kotlin-logging", "logback-classic", "logback-encoder"]

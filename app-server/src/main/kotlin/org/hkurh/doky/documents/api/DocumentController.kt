@@ -1,5 +1,6 @@
 package org.hkurh.doky.documents.api
 
+import datadog.trace.api.Trace
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.validation.Valid
 import org.hkurh.doky.documents.DocumentFacade
@@ -22,12 +23,14 @@ import java.net.MalformedURLException
 class DocumentController(private val documentFacade: DocumentFacade) : DocumentApi {
 
     @PostMapping("/{id}/upload")
+    @Trace(operationName = "document.upload")
     override fun uploadFile(@RequestBody file: MultipartFile, @PathVariable id: String): ResponseEntity<*> {
         documentFacade.saveFile(file, id)
         return ResponseEntity.ok<Any>(null)
     }
 
     @GetMapping("/{id}/download")
+    @Trace(operationName = "document.download")
     @Throws(IOException::class)
     override fun downloadFile(@PathVariable id: String): ResponseEntity<*> {
         return try {
@@ -47,6 +50,7 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
     }
 
     @PostMapping
+    @Trace(operationName = "document.create")
     override fun create(@RequestBody @Valid document: DocumentRequest): ResponseEntity<*> {
         val createdDocument = documentFacade.createDocument(document.name, document.description)
         val resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -55,12 +59,14 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
     }
 
     @PutMapping("/{id}")
+    @Trace(operationName = "document.update")
     override fun update(@PathVariable id: String, @RequestBody @Valid document: DocumentRequest): ResponseEntity<*>? {
         documentFacade.update(id, document)
         return ResponseEntity.ok<Any>(null)
     }
 
     @GetMapping("/{id}")
+    @Trace(operationName = "document.get.single")
     override fun get(@PathVariable id: String): ResponseEntity<*> {
         val document = documentFacade.findDocument(id)
         return if (document != null) {
@@ -72,6 +78,7 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
     }
 
     @GetMapping
+    @Trace(operationName = "document.get.all")
     override fun getAll(): ResponseEntity<*> {
         val documents = documentFacade.findAllDocuments()
         return ResponseEntity.ok(documents)
