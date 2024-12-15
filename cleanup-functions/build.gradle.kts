@@ -35,7 +35,7 @@ dependencies {
 
 azurefunctions {
     resourceGroup = "doky"
-    appName = "cleanup"
+    appName = "cleanup-functions"
 }
 
 tasks {
