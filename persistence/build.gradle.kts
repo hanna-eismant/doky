@@ -15,19 +15,3 @@ kotlin {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
 }
-
-testing {
-    suites {
-        val test by getting(JvmTestSuite::class) {
-            useJUnitJupiter()
-        }
-    }
-}
-
-tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        showStandardStreams = true
-        events("PASSED", "SKIPPED", "FAILED")
-    }
-}

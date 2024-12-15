@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "java",
+    "MAIN_CLASS": "org.hkurh.doky.CleanupFunctionsApplication",
+    "SPRING_PROFILES_ACTIVE": "<SPRING_PROFILE>",
+    "SPRING_DATASOURCE_URL": "<DATABASE_URL>",
+    "SPRING_DATASOURCE_USERNAME": "<DATABASE_USERNAME>",
+    "SPRING_DATASOURCE_PASSWORD": "<DATABASE_PASSWORD>"
+  }
+}

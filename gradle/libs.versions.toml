@@ -1,5 +1,5 @@
 [versions]
-kotlin-jvm = "1.9.25"
+kotlin-jvm = "2.1.0"
 spring-boot = "3.3.4"
 azure-spring = "5.16.0"
 kotlin-logging = "6.0.9"
@@ -27,6 +27,9 @@ dokka = "1.9.20"
 buildconfig = "5.3.5"
 node-gradle = "7.0.2"
 dd-trace-api = "[1.44.0,2.0.0)"
+azurefunctions = "1.12.0"
+azure-functions-java = "3.1.0"
+spring-cloud-function-adapter-azure = "4.2.0"
 
 [libraries]
 spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
@@ -76,6 +79,8 @@ junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 logback-classic = { group = "ch.qos.logback", name = "logback-classic" }
 logback-encoder = { group = "net.logstash.logback", name = "logstash-logback-encoder", version.ref = "logback-encoder" }
 dd-trace-api = { group = "com.datadoghq", name = "dd-trace-api", version.ref = "dd-trace-api" }
+azure-functions-java = { group = "com.microsoft.azure.functions", name = "azure-functions-java-library", version.ref = "azure-functions-java" }
+spring-cloud-function-adapter-azure = { group = "org.springframework.cloud", name = "spring-cloud-function-adapter-azure", version.ref = "spring-cloud-function-adapter-azure" }
 
 [bundles]
 logging = ["kotlin-logging", "logback-classic", "logback-encoder"]
@@ -91,6 +96,7 @@ kafka = ["spring-kafka-production", "kafka-clients"]
 json = ["jackson-annotations", "jackson-datatype-joda"]
 validation = ["spring-boot-starter-validation", "jakarta-validation-api"]
 jwt = ["jjwt-api", "jjwt-impl", "jjwt-jackson"]
+azure-functions = ["azure-functions-java", "spring-cloud-function-adapter-azure"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-jvm" }
@@ -103,3 +109,4 @@ azurewebapp = { id = "com.microsoft.azure.azurewebapp", version.ref = "azureweba
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
 node-gradle = { id = "com.github.node-gradle.node", version.ref = "node-gradle" }
+azurefunctions = { id = "com.microsoft.azure.azurefunctions", version.ref = "azurefunctions" }

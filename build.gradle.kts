@@ -5,7 +5,7 @@ allprojects {
     }
 }
 
-group = "org.hkurh"
+group = "org.hkurh.doky"
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
