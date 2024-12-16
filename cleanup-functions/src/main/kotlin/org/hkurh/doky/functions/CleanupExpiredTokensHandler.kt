@@ -16,9 +16,9 @@ class CleanupExpiredTokensHandler {
     lateinit var expiredTokensService: ExpiredTokensService
 
     @FunctionName("CleanupExpiredTokens")
-    @FixedDelayRetry(maxRetryCount = 4, delayInterval = "00:00:10")
+    @FixedDelayRetry(maxRetryCount = 4, delayInterval = "00:10:00")
     fun execute(
-        @TimerTrigger(name = "CleanupExpiredTokensTrigger", schedule = "0 */1 * * * *") timerInfo: String?,
+        @TimerTrigger(name = "CleanupExpiredTokensTrigger", schedule = "0 0 3 * * *") timerInfo: String?,
         context: ExecutionContext?
     ) {
         expiredTokensService.clearPasswordResetTokens()

@@ -14,7 +14,7 @@ class DefaultExpiredTokensService(
         val currentDate = Date()
         val expiredTokens = resetPasswordTokenEntityRepository.findByExpirationDateLessThan(currentDate)
         resetPasswordTokenEntityRepository.deleteAll(expiredTokens)
-        LOG.debug { "Cleaned up [${expiredTokens.size}] expired tokens" }
+        LOG.info { "Cleaned up [${expiredTokens.size}] expired tokens" }
     }
 
     companion object {
