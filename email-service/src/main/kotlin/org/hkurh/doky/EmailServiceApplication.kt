@@ -1,6 +1,7 @@
 package org.hkurh.doky
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.WebApplicationType
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -30,5 +31,7 @@ class EmailServiceApplication {
 }
 
 fun main(args: Array<String>) {
-    runApplication<EmailServiceApplication>(*args)
+    runApplication<EmailServiceApplication>(*args) {
+        setWebApplicationType(WebApplicationType.NONE)
+    }
 }
