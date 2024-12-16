@@ -4,5 +4,6 @@ plugins {
 
 rootProject.name = "doky"
 include("app-server")
+include("cleanup-functions")
 include("email-service")
 include("persistence")
