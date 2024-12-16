@@ -1,3 +1,6 @@
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+
 allprojects {
     repositories {
         mavenLocal()
@@ -6,6 +9,16 @@ allprojects {
 }
 
 group = "org.hkurh.doky"
+val deployVersion: String by extra {
+    if (project.hasProperty("deployVersion")) {
+        project.property("deployVersion") as String
+    } else {
+        "Aardvark-v0.1"
+    }
+}
+val buildDate: String by extra {
+    ZonedDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z"))
+}
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
