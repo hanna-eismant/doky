@@ -24,7 +24,7 @@ class KafkaEmailNotificationConsumerService(
     )
     fun listen(@Payload message: SendEmailMessage) {
         try {
-            LOG.debug { "Received message: $message" }
+            LOG.debug { "Received message: [$message]" }
             message.userId.let {
                 when (message.emailType) {
                     EmailType.REGISTRATION -> sendRegistrationEmail(message.userId!!)
@@ -33,8 +33,7 @@ class KafkaEmailNotificationConsumerService(
                 }
             }
         } catch (e: Exception) {
-            LOG.error(e) { "Error processing message: $message" }
-            throw e
+            LOG.error(e) { "Error processing message: [$message]" }
         }
     }
 
