@@ -1,3 +1,7 @@
+plugins {
+    alias(libs.plugins.spring.boot)
+}
+
 dependencyManagement {
     imports {
         mavenBom(libs.spring.boot.bom.get().toString())
@@ -77,5 +81,30 @@ tasks.named<Test>("integrationTest") {
     testLogging {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")
+    }
+}
+
+val deployVersion = rootProject.extra["deployVersion"] as String
+val buildDate = rootProject.extra["buildDate"] as String
+
+tasks {
+    jar {
+        manifest {
+            attributes(
+                "Manifest-Version" to "1.0",
+                "Main-Class" to "org.hkurh.doky.EmailServiceApplication",
+                "Implementation-Title" to "Doky Email Service",
+                "Implementation-Version" to deployVersion,
+                "Implementation-Vendor" to "hkurh-pets",
+                "Created-By" to "Kotlin Gradle",
+                "Built-By" to "Hanna Kurhuzenkava",
+                "Build-Jdk" to "17",
+                "Build-Date" to buildDate
+            )
+        }
+    }
+
+    assemble {
+        dependsOn(jar)
     }
 }

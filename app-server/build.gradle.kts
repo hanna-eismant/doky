@@ -126,11 +126,8 @@ tasks.named<Test>("integrationTest") {
     }
 }
 
-val deployVersion = if (project.hasProperty("deployVersion")) {
-    project.property("deployVersion") as String
-} else {
-    "Aardvark-v0.1"
-}
+val deployVersion = rootProject.extra["deployVersion"] as String
+val buildDate = rootProject.extra["buildDate"] as String
 
 buildConfig {
     packageName("org.hkurh.doky")
@@ -144,11 +141,13 @@ tasks {
             attributes(
                 "Manifest-Version" to "1.0",
                 "Main-Class" to "org.hkurh.doky.DokyApplication",
-                "Implementation-Title" to "Doky",
+                "Implementation-Title" to "Doky App Server",
                 "Implementation-Version" to deployVersion,
                 "Implementation-Vendor" to "hkurh-pets",
                 "Created-By" to "Kotlin Gradle",
-                "Built-By" to "Hanna Kurhuzenkava"
+                "Built-By" to "Hanna Kurhuzenkava",
+                "Build-Jdk" to "17",
+                "Build-Date" to buildDate
             )
         }
     }
