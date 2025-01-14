@@ -27,7 +27,7 @@ module.exports = (env, argv) => {
     },
     devServer: {
       historyApiFallback: true,
-      port: 10001
+      port: 10010
     },
     resolve: {
       alias: {

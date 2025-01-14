@@ -6,6 +6,7 @@ import org.hkurh.doky.documents.api.DocumentRequest
 import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.filestorage.FileStorageService
+import org.hkurh.doky.users.UserService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -23,7 +24,8 @@ class DefaultDocumentFacadeTest : DokyUnitTest {
 
     private var documentService: DocumentService = mock()
     private var fileStorageService: FileStorageService = mock()
-    private var documentFacade = DefaultDocumentFacade(documentService, fileStorageService)
+    private var userService: UserService = mock()
+    private var documentFacade = DefaultDocumentFacade(documentService, fileStorageService, userService)
 
     @BeforeEach
     fun setUp() {

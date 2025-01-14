@@ -29,6 +29,12 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
         return ResponseEntity.ok<Any>(null)
     }
 
+    @GetMapping("/{id}/download/token")
+    override fun getDownloadToken(@PathVariable id: String): ResponseEntity<DownloadTokenResponse>? {
+        val token = documentFacade.generateDownloadToken(id)
+        return ResponseEntity.ok(DownloadTokenResponse(token))
+    }
+
     @GetMapping("/{id}/download")
     @Trace(operationName = "document.download")
     @Throws(IOException::class)

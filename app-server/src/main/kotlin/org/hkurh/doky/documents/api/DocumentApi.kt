@@ -21,16 +21,30 @@ import java.io.IOException
 interface DocumentApi {
     @Operation(summary = "Upload file to document entry")
     @ApiResponses(
-            ApiResponse(responseCode = "200", description = "File is uploaded and attached to document"),
-            ApiResponse(responseCode = "404", description = "Document with provided id does not exist"))
+        ApiResponse(responseCode = "200", description = "File is uploaded and attached to document"),
+        ApiResponse(responseCode = "404", description = "Document with provided id does not exist")
+    )
     fun uploadFile(@RequestBody file: MultipartFile, @PathVariable id: String): ResponseEntity<*>?
+
+    @Operation(summary = "Get token to authorize file download")
+    @ApiResponses(
+        ApiResponse(responseCode = "200", description = "Token is generated and provided"),
+        ApiResponse(responseCode = "404", description = "Document with provided id does not exist")
+    )
+    fun getDownloadToken(@PathVariable id: String): ResponseEntity<DownloadTokenResponse>?
 
     @Operation(summary = "Download file attached to document entry")
     @ApiResponses(
-            ApiResponse(responseCode = "200", description = "File is sent to client and can be downloaded",
-                    content = [Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)],
-                    headers = [Header(name = "attachment; filename=...")]),
-            ApiResponse(responseCode = "404", description = "No document with requested id, or no attached file for document"))
+        ApiResponse(
+            responseCode = "200", description = "File is sent to client and can be downloaded",
+            content = [Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)],
+            headers = [Header(name = "attachment; filename=...")]
+        ),
+        ApiResponse(
+            responseCode = "404",
+            description = "No document with requested id, or no attached file for document"
+        )
+    )
     @Throws(IOException::class)
     fun downloadFile(@PathVariable id: String): ResponseEntity<*>?
 
@@ -47,9 +61,12 @@ interface DocumentApi {
 
     @Operation(summary = "Get metadata for document")
     @ApiResponses(
-            ApiResponse(responseCode = "200", description = "Document information is retrieved successfully",
-                    content = [Content(schema = Schema(implementation = DocumentResponse::class))]),
-            ApiResponse(responseCode = "404", description = "No document with provided id"))
+        ApiResponse(
+            responseCode = "200", description = "Document information is retrieved successfully",
+            content = [Content(schema = Schema(implementation = DocumentResponse::class))]
+        ),
+        ApiResponse(responseCode = "404", description = "No document with provided id")
+    )
     operator fun get(@PathVariable id: String): ResponseEntity<*>?
 
     @ApiResponses(
