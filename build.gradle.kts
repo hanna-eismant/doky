@@ -3,6 +3,9 @@ import java.time.format.DateTimeFormatter
 
 allprojects {
     repositories {
+        maven {
+            url = uri("https://repo.maven.apache.org/maven2")
+        }
         mavenLocal()
         mavenCentral()
     }
