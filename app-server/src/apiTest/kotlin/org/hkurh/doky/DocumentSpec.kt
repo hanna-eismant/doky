@@ -22,10 +22,12 @@ import java.sql.Types
 class DocumentSpec : RestSpec() {
     val endpoint = "$restPrefix/documents"
     val endpointSingle = "$endpoint/{id}"
+    val endpointDownloadToken = "$endpoint/{id}/download/token"
     val endpointUpload = "$endpointSingle/upload"
     val documentIdProperty = "id"
     val documentNameProperty = "name"
     val documentFileNameProperty = "fileName"
+    val tokenProperty = "token"
     val existedDocumentNameFirst = "Test_1"
     val existedDocumentFileNameFirst = "test.txt"
     val existedDocumentNameThird = "Test_3"
@@ -128,7 +130,7 @@ class DocumentSpec : RestSpec() {
     @Sql(scripts = ["classpath:sql/DocumentSpec/setup.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     fun shouldReturnErrorWhenUploadFileToNonExistingDocument() {
         // given
-        val docId = getDocumentId(existedDocumentNameThird) as Long
+        val docId = getDocumentId(existedDocumentNameThird)
         val requestSpec = prepareRequestSpecWithLogin()
             .addPathParam(documentIdProperty, docId)
             .addMultiPart("file", createFileToUpload(), "text/plain")
@@ -160,11 +162,72 @@ class DocumentSpec : RestSpec() {
         response.then().statusCode(HttpStatus.BAD_REQUEST.value())
     }
 
-    fun getDocumentId(docName: String): Long? {
+    @Test
+    @DisplayName("Should generate download token")
+    @Sql(scripts = ["classpath:sql/DocumentSpec/setup.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    fun shouldGenerateDownloadToken() {
+        // given
+        val documentId = getDocumentId(existedDocumentNameFirst)
+        val requestSpec = prepareRequestSpecWithLogin()
+            .addPathParam(documentIdProperty, documentId)
+            .build()
+
+        // when
+        val response = given(requestSpec).get(endpointDownloadToken)
+
+        // then
+        response.then().statusCode(HttpStatus.OK.value())
+        val token: String = response.path(tokenProperty)
+        val tokenRow = getDownloadToken(token)
+        val userId = getUserId(validUserUid)
+        assertEquals(tokenRow.app_user, userId)
+        assertEquals(tokenRow.document, documentId)
+    }
+
+    @Test
+    @DisplayName("Should return 404 when generate download token for non existing document")
+    @Sql(scripts = ["classpath:sql/DocumentSpec/setup.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    fun shouldReturn404WhenGenerateDownloadTokenForNonExistingDocument() {
+        // given
+        val documentId = getDocumentId(existedDocumentNameThird)
+        val requestSpec = prepareRequestSpecWithLogin()
+            .addPathParam(documentIdProperty, documentId)
+            .build()
+
+        // when
+        val response = given(requestSpec).get(endpointDownloadToken)
+
+        // then
+        response.then().statusCode(HttpStatus.NOT_FOUND.value())
+    }
+
+    fun getDocumentId(documentName: String): Long {
         val existedDocumentQuery = "select d.id from documents d where d.name = ?"
-        val args = arrayOf(docName)
+        val args = arrayOf(documentName)
         val argTypes = intArrayOf(Types.VARCHAR)
-        return jdbcTemplate.queryForObject(existedDocumentQuery, args, argTypes, Long::class.java)
+        val documentId = jdbcTemplate.queryForObject(existedDocumentQuery, args, argTypes, Long::class.java)
+        return documentId ?: throw IllegalArgumentException("Document not found with name: $documentName")
+    }
+
+    fun getUserId(userUid: String): Long {
+        val existedDocumentQuery = "select u.id from users u where u.uid = ?"
+        val args = arrayOf(userUid)
+        val argTypes = intArrayOf(Types.VARCHAR)
+        val userId = jdbcTemplate.queryForObject(existedDocumentQuery, args, argTypes, Long::class.java)
+        return userId ?: throw IllegalArgumentException("User not found with UID: $userUid")
+    }
+
+    fun getDownloadToken(token: String): DownloadDocumentTokenRow {
+        val downloadTokenQuery = "select * from download_document_tokens dt where dt.token = ?"
+        val args = arrayOf(token)
+        val argTypes = intArrayOf(Types.VARCHAR)
+        return jdbcTemplate.queryForObject(downloadTokenQuery, args, argTypes) { rs, _ ->
+            DownloadDocumentTokenRow(
+                token = rs.getString("token"),
+                document = rs.getLong("document"),
+                app_user = rs.getLong("app_user")
+            )
+        } ?: throw IllegalArgumentException("Download token not found for token: $token")
     }
 
     fun createFileToUpload(): File? {
@@ -175,3 +238,9 @@ class DocumentSpec : RestSpec() {
         return file
     }
 }
+
+data class DownloadDocumentTokenRow(
+    val token: String,
+    val document: Long,
+    val app_user: Long
+)

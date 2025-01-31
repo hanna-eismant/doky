@@ -9,6 +9,7 @@ import org.hkurh.doky.documents.api.DocumentResponse
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.filestorage.FileStorageService
 import org.hkurh.doky.toDto
+import org.hkurh.doky.users.UserService
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
 import org.springframework.stereotype.Component
@@ -20,7 +21,8 @@ import java.io.IOException
 @Component
 class DefaultDocumentFacade(
     private val documentService: DocumentService,
-    private val fileStorageService: FileStorageService
+    private val fileStorageService: FileStorageService,
+    private val userService: UserService
 ) : DocumentFacade {
     override fun createDocument(name: String, description: String?): DocumentResponse? {
         val documentEntity = documentService.create(name, description)
@@ -48,18 +50,14 @@ class DefaultDocumentFacade(
 
     @Transactional(propagation = Propagation.REQUIRED)
     override fun saveFile(file: MultipartFile, id: String) {
-        val document = documentService.find(id)
-        if (document != null) {
-            try {
-                val path = fileStorageService.store(file, document.filePath)
-                document.filePath = path
-                document.fileName = file.originalFilename
-                documentService.save(document)
-            } catch (e: IOException) {
-                throw RuntimeException(e)
-            }
-        } else {
-            throw DokyNotFoundException("Document with id [$id] not found")
+        val document = documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
+        try {
+            val path = fileStorageService.store(file, document.filePath)
+            document.filePath = path
+            document.fileName = file.originalFilename
+            documentService.save(document)
+        } catch (e: IOException) {
+            throw RuntimeException(e)
         }
     }
 
@@ -81,6 +79,14 @@ class DefaultDocumentFacade(
             LOG.debug { "No attached file for Document [$id]" }
             null
         }
+    }
+
+    override fun generateDownloadToken(id: String): String {
+        val user = userService.getCurrentUser()
+        val document = documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
+        LOG.debug { "Generate token for user [${user.id}] and document [$id]" }
+        val token = documentService.generateDownloadToken(user, document)
+        return token
     }
 
     companion object {

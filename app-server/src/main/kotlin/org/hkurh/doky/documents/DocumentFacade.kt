@@ -62,4 +62,12 @@ interface DocumentFacade {
      */
     @Throws(IOException::class)
     fun getFile(id: String): Resource?
+
+    /**
+     * Generates a download token for the specified document ID and current user.
+     *
+     * @param id The ID of the document for which the download token is being generated.
+     * @return A string representing the generated download token.
+     */
+    fun generateDownloadToken(id: String): String
 }
