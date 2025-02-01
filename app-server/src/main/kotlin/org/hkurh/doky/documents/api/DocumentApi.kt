@@ -24,14 +24,14 @@ interface DocumentApi {
         ApiResponse(responseCode = "200", description = "File is uploaded and attached to document"),
         ApiResponse(responseCode = "404", description = "Document with provided id does not exist")
     )
-    fun uploadFile(@RequestBody file: MultipartFile, @PathVariable id: String): ResponseEntity<*>?
+    fun uploadFile(@RequestBody file: MultipartFile, @PathVariable id: Long): ResponseEntity<*>?
 
     @Operation(summary = "Get token to authorize file download")
     @ApiResponses(
         ApiResponse(responseCode = "200", description = "Token is generated and provided"),
         ApiResponse(responseCode = "404", description = "Document with provided id does not exist")
     )
-    fun getDownloadToken(@PathVariable id: String): ResponseEntity<DownloadTokenResponse>?
+    fun getDownloadToken(@PathVariable id: Long): ResponseEntity<DownloadTokenResponse>?
 
     @Operation(summary = "Download file attached to document entry")
     @ApiResponses(
@@ -40,13 +40,14 @@ interface DocumentApi {
             content = [Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)],
             headers = [Header(name = "attachment; filename=...")]
         ),
+        ApiResponse(responseCode = "401", description = "Token is invalid or expired"),
         ApiResponse(
             responseCode = "404",
             description = "No document with requested id, or no attached file for document"
         )
     )
     @Throws(IOException::class)
-    fun downloadFile(@PathVariable id: String): ResponseEntity<*>?
+    fun downloadFile(@PathVariable id: Long, @RequestBody downloadFileRequest: DownloadFileRequest): ResponseEntity<*>?
 
     @Operation(summary = "Create document with metadata")
     @ApiResponses(ApiResponse(responseCode = "201", description = "Document is created"))
@@ -57,7 +58,7 @@ interface DocumentApi {
         ApiResponse(responseCode = "200", description = "Document is updated"),
         ApiResponse(responseCode = "404", description = "No document with provided id")
     )
-    fun update(@PathVariable id: String, document: DocumentRequest): ResponseEntity<*>?
+    fun update(@PathVariable id: Long, document: DocumentRequest): ResponseEntity<*>?
 
     @Operation(summary = "Get metadata for document")
     @ApiResponses(
@@ -67,7 +68,7 @@ interface DocumentApi {
         ),
         ApiResponse(responseCode = "404", description = "No document with provided id")
     )
-    operator fun get(@PathVariable id: String): ResponseEntity<*>?
+    operator fun get(@PathVariable id: Long): ResponseEntity<*>?
 
     @ApiResponses(
         ApiResponse(

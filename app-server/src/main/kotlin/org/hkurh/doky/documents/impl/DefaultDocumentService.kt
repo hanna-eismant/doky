@@ -4,19 +4,13 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.documents.DocumentService
 import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.documents.db.DocumentEntityRepository
-import org.hkurh.doky.documents.db.DownloadDocumentTokenEntity
-import org.hkurh.doky.documents.db.DownloadDocumentTokenEntityRepository
-import org.hkurh.doky.security.JwtProvider
 import org.hkurh.doky.users.UserService
-import org.hkurh.doky.users.db.UserEntity
 import org.springframework.stereotype.Service
 
 @Service
 class DefaultDocumentService(
     private val documentEntityRepository: DocumentEntityRepository,
-    private val downloadDocumentTokenEntityRepository: DownloadDocumentTokenEntityRepository,
     private val userService: UserService,
-    private val jwtProvider: JwtProvider
 ) : DocumentService {
 
     override fun create(name: String, description: String?): DocumentEntity {
@@ -30,10 +24,9 @@ class DefaultDocumentService(
         return savedDocument
     }
 
-    override fun find(id: String): DocumentEntity? {
-        val documentId = id.toLong()
+    override fun find(id: Long): DocumentEntity? {
         val currentUser = userService.getCurrentUser()
-        return documentEntityRepository.findByIdAndCreatorId(documentId, currentUser.id)
+        return documentEntityRepository.findByIdAndCreatorId(id, currentUser.id)
     }
 
     override fun find(): List<DocumentEntity> {
@@ -43,19 +36,6 @@ class DefaultDocumentService(
 
     override fun save(document: DocumentEntity) {
         documentEntityRepository.save(document)
-    }
-
-    override fun generateDownloadToken(user: UserEntity, document: DocumentEntity): String {
-        val token = jwtProvider.generateDownloadToken(user)
-        val tokenEntity =
-            downloadDocumentTokenEntityRepository.findByUserAndDocument(user, document) ?: DownloadDocumentTokenEntity()
-        tokenEntity.apply {
-            this.user = user
-            this.document = document
-            this.token = token
-        }
-        downloadDocumentTokenEntityRepository.save(tokenEntity)
-        return token
     }
 
     companion object {

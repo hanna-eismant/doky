@@ -7,6 +7,9 @@ import org.hkurh.doky.users.db.UserEntity
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.springframework.stereotype.Component
+import java.util.*
+
+
 
 /**
  * [JwtProvider] is a utility class responsible for generating and parsing JSON Web Tokens (JWTs).
@@ -14,8 +17,11 @@ import org.springframework.stereotype.Component
 @Component
 object JwtProvider {
     private val jwtParser = Jwts.parserBuilder().setSigningKey(DokyApplication.SECRET_KEY_SPEC).build()
+    private const val ID_KEY = "token_id"
     private const val USERNAME_KEY = "username"
     private const val ROLES_KEY = "roles"
+    private const val AUTH_TOKEN_ID = "dokyAuthToken"
+    private const val DOWNLOAD_TOKEN_ID = "dokyDownloadToken"
 
     /**
      * Generates a token for the given username.
@@ -27,9 +33,12 @@ object JwtProvider {
     fun generateToken(username: String, roles: Set<Any>): String {
         val currentTime = DateTime(DateTimeZone.getDefault())
         val expireTokenTime = currentTime.plusDays(1)
-        val claims = mapOf(USERNAME_KEY to username, ROLES_KEY to roles)
+        val claims = mapOf(
+            ID_KEY to AUTH_TOKEN_ID,
+            USERNAME_KEY to username,
+            ROLES_KEY to roles
+        )
         return Jwts.builder()
-            .setId("dokyToken")
             .setClaims(claims)
             .setIssuedAt(currentTime.toDate())
             .setExpiration(expireTokenTime.toDate())
@@ -38,19 +47,18 @@ object JwtProvider {
     }
 
     /**
-     * Generates a download token for a given user and document. The token is a JWT
-     * with an expiration time of 10 minutes and includes claims containing the user ID
-     * and document ID.
+     * Generates a download token for a given user. The token is a JWT that includes claims related to the user and has a 10-minute expiration time.
      *
-     * @param user the user for whom the token is being generated
-     * @return a JWT download token as a string
+     * @param user The [UserEntity] object representing the user for whom the download token is generated.
+     * @return A JWT string representing the generated download token.
      */
     fun generateDownloadToken(user: UserEntity): String {
         val currentTime = DateTime(DateTimeZone.getDefault())
         val expireTokenTime = currentTime.plusMinutes(10)
-        val claims = mapOf("user" to user.id)
+        val claims = mapOf(
+            ID_KEY to DOWNLOAD_TOKEN_ID
+        )
         return Jwts.builder()
-            .setId("dokyDownloadToken")
             .setClaims(claims)
             .setIssuedAt(currentTime.toDate())
             .setExpiration(expireTokenTime.toDate())
@@ -66,5 +74,19 @@ object JwtProvider {
      */
     fun getUsernameFromToken(token: String): String {
         return jwtParser.parseClaimsJws(token).body[USERNAME_KEY].toString()
+    }
+
+    /**
+     * Validates if the given download token is valid.
+     * This method parses the token, checks its ID, and ensures it is not expired.
+     *
+     * @param token The JWT download token to be validated.
+     * @return True if the token is valid and not expired; otherwise, false.
+     */
+    fun isDownloadTokenValid(token: String): Boolean {
+        val claims = jwtParser.parseClaimsJws(token).body
+        if (claims[ID_KEY] != DOWNLOAD_TOKEN_ID) return false
+        val expiration = claims.expiration
+        return expiration.after(Date())
     }
 }

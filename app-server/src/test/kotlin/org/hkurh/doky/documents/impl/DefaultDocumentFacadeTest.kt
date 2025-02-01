@@ -2,6 +2,7 @@ package org.hkurh.doky.documents.impl
 
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.documents.DocumentService
+import org.hkurh.doky.documents.DownloadTokenService
 import org.hkurh.doky.documents.api.DocumentRequest
 import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.errorhandling.DokyNotFoundException
@@ -23,9 +24,11 @@ import org.mockito.kotlin.whenever
 class DefaultDocumentFacadeTest : DokyUnitTest {
 
     private var documentService: DocumentService = mock()
+    private var downloadTokenService: DownloadTokenService = mock()
     private var fileStorageService: FileStorageService = mock()
     private var userService: UserService = mock()
-    private var documentFacade = DefaultDocumentFacade(documentService, fileStorageService, userService)
+    private var documentFacade =
+        DefaultDocumentFacade(documentService, downloadTokenService, fileStorageService, userService)
 
     @BeforeEach
     fun setUp() {
@@ -36,9 +39,9 @@ class DefaultDocumentFacadeTest : DokyUnitTest {
     @DisplayName("Should update Document when it exists")
     fun shouldUpdateDocument_whenItExists() {
         // given
-        val originId = "1"
+        val originId: Long = 1
         val originDocument = DocumentEntity().apply {
-            id = originId.toLong()
+            id = originId
             name = "Test"
             description = "Description"
         }
@@ -65,12 +68,11 @@ class DefaultDocumentFacadeTest : DokyUnitTest {
         )
     }
 
-
     @Test
     @DisplayName("Should throw exception when update non existing document")
     fun shouldThrowException_whenUpdateNonExistingDocument() {
         // given
-        val originId = "1"
+        val originId: Long = 1
         val updatedDocument = DocumentRequest().apply {
             name = "Another Name"
             description = "Description for Document"

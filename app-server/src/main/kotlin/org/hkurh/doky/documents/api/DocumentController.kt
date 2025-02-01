@@ -24,27 +24,26 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
 
     @PostMapping("/{id}/upload")
     @Trace(operationName = "document.upload")
-    override fun uploadFile(@RequestBody file: MultipartFile, @PathVariable id: String): ResponseEntity<*> {
-        documentFacade.saveFile(file, id)
+    override fun uploadFile(@RequestBody file: MultipartFile, @PathVariable id: Long): ResponseEntity<*> {
+        documentFacade.saveFile(id, file)
         return ResponseEntity.ok<Any>(null)
     }
 
     @GetMapping("/{id}/download/token")
-    override fun getDownloadToken(@PathVariable id: String): ResponseEntity<DownloadTokenResponse>? {
+    override fun getDownloadToken(@PathVariable id: Long): ResponseEntity<DownloadTokenResponse>? {
         val token = documentFacade.generateDownloadToken(id)
         return ResponseEntity.ok(DownloadTokenResponse(token))
     }
 
-    @GetMapping("/{id}/download")
+    @PostMapping("/{id}/download")
     @Trace(operationName = "document.download")
     @Throws(IOException::class)
-    override fun downloadFile(@PathVariable id: String): ResponseEntity<*> {
+    override fun downloadFile(
+        @PathVariable id: Long,
+        @RequestBody downloadFileRequest: DownloadFileRequest
+    ): ResponseEntity<*> {
         return try {
-            val file = documentFacade.getFile(id)
-            if (file == null) {
-                LOG.debug { "No attached file for document [$id]" }
-                return ResponseEntity.notFound().build<Any>()
-            }
+            val file = documentFacade.getFile(id, downloadFileRequest.token)
             val header = "attachment; filename=\"${file.filename}\""
             ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -66,14 +65,14 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
 
     @PutMapping("/{id}")
     @Trace(operationName = "document.update")
-    override fun update(@PathVariable id: String, @RequestBody @Valid document: DocumentRequest): ResponseEntity<*>? {
+    override fun update(@PathVariable id: Long, @RequestBody @Valid document: DocumentRequest): ResponseEntity<*>? {
         documentFacade.update(id, document)
         return ResponseEntity.ok<Any>(null)
     }
 
     @GetMapping("/{id}")
     @Trace(operationName = "document.get.single")
-    override fun get(@PathVariable id: String): ResponseEntity<*> {
+    override fun get(@PathVariable id: Long): ResponseEntity<*> {
         val document = documentFacade.findDocument(id)
         return if (document != null) {
             ResponseEntity.ok(document)
