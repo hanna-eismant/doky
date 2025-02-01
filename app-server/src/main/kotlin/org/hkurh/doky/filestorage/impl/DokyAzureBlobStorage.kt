@@ -29,7 +29,7 @@ class DokyAzureBlobStorage : FileStorage {
 
     @PostConstruct
     fun init() {
-        LOG.debug { "Azure Blob container name $containerName initialized" }
+        LOG.debug { "Azure Blob container name [$containerName] initialized" }
         blobContainerClient = BlobContainerClientBuilder()
                 .connectionString(connectionString)
                 .containerName(containerName)

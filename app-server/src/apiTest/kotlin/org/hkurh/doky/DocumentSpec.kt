@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.junit.rules.TemporaryFolder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
@@ -71,22 +72,23 @@ class DocumentSpec : RestSpec() {
     @Sql(scripts = ["classpath:sql/DocumentSpec/setup.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     fun shouldReturnDocumentWhenExists() {
         // given
-        val docId = getDocumentId(existedDocumentNameFirst)
+        val documentId = getDocumentId(existedDocumentNameFirst)
         val requestSpec = prepareRequestSpecWithLogin()
-            .addPathParam(documentIdProperty, docId)
+            .addPathParam(documentIdProperty, documentId)
             .build()
 
         // when
         val response = given(requestSpec).get(endpointSingle)
 
         // then
-        response.then().statusCode(HttpStatus.OK.value())
-        val name: String = response.path(documentNameProperty)
-        assertEquals(existedDocumentNameFirst, name)
-        val id: Long = response.path(documentIdProperty)
-        assertEquals(docId, id)
-        val fileName: String = response.path(documentFileNameProperty)
-        assertEquals(existedDocumentFileNameFirst, fileName)
+
+        assertAll(
+            "Response",
+            { assertEquals(existedDocumentNameFirst, response.path(documentNameProperty)) },
+            { assertEquals(existedDocumentNameFirst, response.path(documentNameProperty)) },
+            { assertEquals(documentId, response.path(documentIdProperty)) },
+            { assertEquals(existedDocumentFileNameFirst, response.path(documentFileNameProperty)) }
+        )
     }
 
     @Test
@@ -176,12 +178,15 @@ class DocumentSpec : RestSpec() {
         val response = given(requestSpec).get(endpointDownloadToken)
 
         // then
-        response.then().statusCode(HttpStatus.OK.value())
         val token: String = response.path(tokenProperty)
         val tokenRow = getDownloadToken(token)
-        val userId = getUserId(validUserUid)
-        assertEquals(tokenRow.app_user, userId)
-        assertEquals(tokenRow.document, documentId)
+
+        assertAll(
+            "Response",
+            { response.then().statusCode(HttpStatus.OK.value()) },
+            { assertEquals(tokenRow.app_user, getUserId(validUserUid)) },
+            { assertEquals(tokenRow.document, documentId) }
+        )
     }
 
     @Test

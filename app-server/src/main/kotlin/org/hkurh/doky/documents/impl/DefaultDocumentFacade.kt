@@ -1,9 +1,10 @@
 package org.hkurh.doky.documents.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.StringUtils.isBlank
 import org.hkurh.doky.documents.DocumentFacade
 import org.hkurh.doky.documents.DocumentService
+import org.hkurh.doky.documents.DownloadTokenService
 import org.hkurh.doky.documents.api.DocumentRequest
 import org.hkurh.doky.documents.api.DocumentResponse
 import org.hkurh.doky.errorhandling.DokyNotFoundException
@@ -21,6 +22,7 @@ import java.io.IOException
 @Component
 class DefaultDocumentFacade(
     private val documentService: DocumentService,
+    private val downloadTokenService: DownloadTokenService,
     private val fileStorageService: FileStorageService,
     private val userService: UserService
 ) : DocumentFacade {
@@ -30,7 +32,7 @@ class DefaultDocumentFacade(
         return documentEntity.toDto()
     }
 
-    override fun update(id: String, document: DocumentRequest) {
+    override fun update(id: Long, document: DocumentRequest) {
         val existedDocument =
             documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
         existedDocument.apply {
@@ -40,7 +42,7 @@ class DefaultDocumentFacade(
         }
     }
 
-    override fun findDocument(id: String): DocumentResponse? {
+    override fun findDocument(id: Long): DocumentResponse? {
         return documentService.find(id)?.toDto()
     }
 
@@ -49,7 +51,7 @@ class DefaultDocumentFacade(
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    override fun saveFile(file: MultipartFile, id: String) {
+    override fun saveFile(id: Long, file: MultipartFile) {
         val document = documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
         try {
             val path = fileStorageService.store(file, document.filePath)
@@ -62,30 +64,23 @@ class DefaultDocumentFacade(
     }
 
     @Throws(IOException::class)
-    override fun getFile(id: String): Resource? {
-        val document = documentService.find(id)
-        return if (StringUtils.isNotBlank(document?.filePath)) {
-            val filePath = document!!.filePath
-            val file = fileStorageService.getFile(filePath!!)
-            if (file != null) {
-                val fileUri = file.toUri()
-                LOG.debug { "Download file for Document [$id] with URI [$fileUri]" }
-                UrlResource(fileUri)
-            } else {
-                LOG.warn { "File [$filePath] attached to document [$id] does not exists in storage" }
-                null
-            }
-        } else {
-            LOG.debug { "No attached file for Document [$id]" }
-            null
-        }
+    override fun getFile(documentId: Long, token: String): Resource {
+        val document = downloadTokenService.validateDownloadTokenAndFetchDocument(documentId, token)
+        val filePath = document.filePath
+
+        if (isBlank(filePath)) throw DokyNotFoundException("No attached file for Document [$documentId]")
+        val file = fileStorageService.getFile(filePath!!)
+            ?: throw DokyNotFoundException("File [$filePath] attached to document [$documentId] does not exists in storage")
+
+        LOG.debug { "Download file for Document [$documentId] with URI [${file.toUri()}]" }
+        return UrlResource(file.toUri())
     }
 
-    override fun generateDownloadToken(id: String): String {
+    override fun generateDownloadToken(id: Long): String {
         val user = userService.getCurrentUser()
         val document = documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
         LOG.debug { "Generate token for user [${user.id}] and document [$id]" }
-        val token = documentService.generateDownloadToken(user, document)
+        val token = downloadTokenService.generateDownloadToken(user, document)
         return token
     }
 

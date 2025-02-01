@@ -31,7 +31,7 @@ class DokyControllerAdvice {
     }
 
     @ExceptionHandler(DokyInvalidTokenException::class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     fun badRequest(exception: Exception): ErrorResponse {
         return ErrorResponse(Error(exception.message!!))
     }

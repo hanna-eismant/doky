@@ -27,7 +27,7 @@ interface DocumentFacade {
      * @param id The ID of the document to update.
      * @param document The document request containing the updated information.
      */
-    fun update(id: String, document: DocumentRequest)
+    fun update(id: Long, document: DocumentRequest)
 
     /**
      * Finds a document with the specified ID.
@@ -35,7 +35,7 @@ interface DocumentFacade {
      * @param id The ID of the document to find.
      * @return The [DocumentResponse] object representing the found document, or null if the document is not found.
      */
-    fun findDocument(id: String): DocumentResponse?
+    fun findDocument(id: Long): DocumentResponse?
 
     /**
      * Retrieves a list of all documents.
@@ -51,17 +51,18 @@ interface DocumentFacade {
      * @param id The ID of the document to which the file should be attached.
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    fun saveFile(file: MultipartFile, id: String)
+    fun saveFile(id: Long, file: MultipartFile)
 
     /**
-     * Retrieves the resource representing the file attached to the document with the specified ID.
+     * Retrieves the file associated with the specified document ID and authorized by the given token.
      *
-     * @param id The ID of the document.
-     * @return The [Resource] object representing the attached file, or null if the file is not found.
-     * @throws IOException If an I/O error occurs while retrieving the file.
+     * @param documentId The ID of the document whose file is being retrieved.
+     * @param token The authorization token used to verify the download request.
+     * @return A [Resource] representing the file associated with the specified document ID.
+     * @throws IOException If an error occurs while accessing the file.
      */
     @Throws(IOException::class)
-    fun getFile(id: String): Resource?
+    fun getFile(documentId: Long, token: String): Resource
 
     /**
      * Generates a download token for the specified document ID and current user.
@@ -69,5 +70,5 @@ interface DocumentFacade {
      * @param id The ID of the document for which the download token is being generated.
      * @return A string representing the generated download token.
      */
-    fun generateDownloadToken(id: String): String
+    fun generateDownloadToken(id: Long): String
 }
