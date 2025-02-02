@@ -3,7 +3,6 @@ import com.github.gradle.node.npm.task.NpmTask
 plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.azurewebapp)
-    alias(libs.plugins.dokka)
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.node.gradle)
 }
