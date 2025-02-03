@@ -91,7 +91,10 @@ class SendgridEmailService(
             request.endpoint = "mail/send"
             request.body = mail.build()
             val response: Response = sendGridClient.api(request)
-            LOG.debug { "RESPONSE code ${response.statusCode}; body ${response.body}" }
+            LOG.debug { "Response code: ${response.statusCode}; body: ${response.body}" }
+            if (response.statusCode !in 200..299) {
+                LOG.error { "Error during sending email. Response code: ${response.statusCode}; body: ${response.body}" }
+            }
         } catch (e: IOException) {
             LOG.error { e.message }
         }
