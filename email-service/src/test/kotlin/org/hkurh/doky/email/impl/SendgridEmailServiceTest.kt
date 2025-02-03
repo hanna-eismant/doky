@@ -58,7 +58,7 @@ class SendgridEmailServiceTest : DokyUnitTest {
         // when
         sendgridEmailServiceSpy.sendRegistrationConfirmationEmail(user)
 
-        //then
+        // then
         argumentCaptor<Mail>().apply {
             verify(sendgridEmailServiceSpy).sendEmailToSendGrid(capture())
             val mail = firstValue
@@ -87,7 +87,7 @@ class SendgridEmailServiceTest : DokyUnitTest {
         // when
         sendgridEmailServiceSpy.sendRestorePasswordEmail(user, token)
 
-        //then
+        // then
         argumentCaptor<Mail>().apply {
             verify(sendgridEmailServiceSpy).sendEmailToSendGrid(capture())
             val mail = firstValue
@@ -102,4 +102,3 @@ class SendgridEmailServiceTest : DokyUnitTest {
         }
     }
 }
-
