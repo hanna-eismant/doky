@@ -34,12 +34,6 @@ dependencies {
     testRuntimeOnly(libs.junit.platform.launcher)
 }
 
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
-    }
-}
-
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {
