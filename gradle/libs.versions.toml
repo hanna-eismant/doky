@@ -1,5 +1,5 @@
 [versions]
-kotlin-jvm = "2.1.0"
+kotlin-jvm = "2.0.20"
 spring-boot = "3.3.4"
 azure-spring = "5.16.0"
 kotlin-logging = "6.0.9"
