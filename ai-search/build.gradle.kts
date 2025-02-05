@@ -6,6 +6,5 @@ dependencyManagement {
 
 dependencies {
     implementation(libs.azure.search)
-    implementation("org.springframework:spring-core")
-    implementation("org.springframework:spring-context")
+    implementation(libs.bundles.spring.basic)
 }

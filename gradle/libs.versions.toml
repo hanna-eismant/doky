@@ -46,6 +46,8 @@ spring-boot-starter-security = { group = "org.springframework.boot", name = "spr
 spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
 spring-boot-config-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor" }
+spring-core = { group = "org.springframework", name = "spring-core" }
+spring-context = { group = "org.springframework", name = "spring-context" }
 spring-kafka-production = { group = "org.springframework.kafka", name = "spring-kafka" }
 spring-kafka-test = { group = "org.springframework.kafka", name = "spring-kafka-test" }
 azure-appconfiguration-config-web = { group = "com.azure.spring", name = "spring-cloud-azure-appconfiguration-config-web" }
@@ -85,6 +87,7 @@ azure-functions-java = { group = "com.microsoft.azure.functions", name = "azure-
 spring-cloud-function-adapter-azure = { group = "org.springframework.cloud", name = "spring-cloud-function-adapter-azure", version.ref = "spring-cloud-function-adapter-azure" }
 
 [bundles]
+spring-basic = ["spring-core", "spring-context"]
 logging = ["kotlin-logging", "logback-classic", "logback-encoder"]
 flyway = ["flyway-core", "flyway-sqlserver", "flyway-mysql"]
 database-connectors = ["sqlserver-connector", "mysql-connector"]

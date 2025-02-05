@@ -5,6 +5,7 @@ plugins {
 dependencyManagement {
     imports {
         mavenBom(libs.spring.boot.bom.get().toString())
+        mavenBom(libs.azure.spring.bom.get().toString())
     }
 }
 
@@ -23,6 +24,7 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.bundles.kafka)
     implementation(libs.bundles.json)
+    implementation(libs.azure.search)
 
     annotationProcessor(libs.spring.boot.config.processor)
 
