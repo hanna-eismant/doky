@@ -48,6 +48,16 @@ export const put = async (url, data = {}) =>
 
 export const get = async url => {
   const response = await fetch(BASE_URL + apiPrefix + '/' + url, getDefaultOptions());
-
   return response.json();
 };
+
+export const download = async (url, token) => {
+  const { body } = await fetch(BASE_URL + apiPrefix + '/' + url, {
+    ...getDefaultOptions('application/json'),
+    method: 'POST',
+    body: JSON.stringify({ token })
+  });
+
+  return body;
+};
+
