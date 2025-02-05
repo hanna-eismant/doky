@@ -6,5 +6,6 @@ rootProject.name = "doky"
 include("app-server")
 include("cleanup-functions")
 include("email-service")
+include("indexer-service")
 include("persistence")
 include("ai-search")

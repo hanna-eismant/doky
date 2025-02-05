@@ -5,6 +5,7 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation(libs.spring.ai.bom)
-    implementation(libs.azure.ai.search)
+    implementation(libs.azure.search)
+    implementation("org.springframework:spring-core")
+    implementation("org.springframework:spring-context")
 }
