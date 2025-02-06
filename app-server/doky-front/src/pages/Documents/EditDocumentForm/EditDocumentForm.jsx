@@ -1,12 +1,13 @@
 import React from 'react';
 import {useAddToast} from '../../../components/Toasts';
 import {useMutation} from '../../../hooks/useMutation.js';
-import {updateDocument, uploadDocument} from '../../../api/documents.js';
+import {updateDocument, uploadDocument, downloadDocument} from '../../../api/documents.js';
 import {useForm} from '../../../hooks/useForm.js';
 import AlertError from '../../../components/AlertError.jsx';
 import HorizontalFormInput from '../../../components/formComponents/HorizontalFormInput.jsx';
 import HorizontalFormText from '../../../components/formComponents/HorizontalFormText.jsx';
 import FileUploader from '../../../components/formComponents/FileUploader.jsx';
+import { saveFile } from '../../../services/save-file.js';
 
 const EditDocumentForm = ({document}) => {
   const [editDocument, {isLoading}] = useMutation(updateDocument);
@@ -31,6 +32,11 @@ const EditDocumentForm = ({document}) => {
 
   };
 
+  const handleDownload = async () => {
+    const body = await downloadDocument(document.id);
+    saveFile(body, document.fileName);
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -45,7 +51,7 @@ const EditDocumentForm = ({document}) => {
               <div>File:</div>
               <div>{document.fileName}</div>
               <div>
-                <button type="button" className="btn btn-outline-primary me-2" disabled={!document.fileName}>
+                <button type="button" className="btn btn-outline-primary me-2" disabled={!document.fileName} onClick={handleDownload}>
                   <i className="bi bi-cloud-download me-1"></i><span>Download</span>
                 </button>
                 <FileUploader onUpload={onUpload}/>
