@@ -34,6 +34,64 @@ dependencies {
     testRuntimeOnly(libs.junit.platform.launcher)
 }
 
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter()
+            dependencies {
+                implementation(project(":persistence"))
+                implementation(project(":ai-search"))
+                implementation(libs.spring.boot.starter.data.jpa.get().toString())
+            }
+        }
+//        register<JvmTestSuite>("integrationTest") {
+//            testType = TestSuiteType.INTEGRATION_TEST
+//            dependencies {
+//                implementation(project())
+//                implementation(project(":persistence"))
+//
+//                implementation(libs.spring.boot.starter.test.get().toString())
+//                implementation(libs.awaitility.get().toString())
+//
+//                implementation(libs.httpclient.get().toString())
+//                implementation(libs.rest.assured.get().toString())
+//
+//                implementation(libs.spring.kafka.test.get().toString())
+//                implementation(libs.spring.kafka.production.get().toString())
+//                implementation(libs.kafka.clients.get().toString())
+//
+//                implementation(libs.greenmail.get().toString())
+//
+//                implementation(libs.spring.boot.starter.jdbc.get().toString())
+//                implementation(libs.spring.boot.starter.security.get().toString())
+//
+//                implementation(libs.kotlin.logging.get().toString())
+//
+//            }
+//        }
+//        register<JvmTestSuite>("apiTest") {
+//            testType = TestSuiteType.FUNCTIONAL_TEST
+//            dependencies {
+//                implementation(project())
+//                implementation(project(":persistence"))
+//
+//                implementation(libs.spring.boot.starter.test.get().toString())
+//                implementation(libs.junit4.get().toString())
+//
+//                implementation(libs.httpclient.get().toString())
+//                implementation(libs.rest.assured.get().toString())
+//
+//                implementation(libs.spring.kafka.test.get().toString())
+//                implementation(libs.spring.kafka.production.get().toString())
+//                implementation(libs.kafka.clients.get().toString())
+//
+//                implementation(libs.spring.boot.starter.data.jpa.get().toString())
+//                implementation(libs.spring.boot.starter.web.get().toString())
+//            }
+//        }
+    }
+}
+
 val deployVersion = rootProject.extra["deployVersion"] as String
 val buildDate = rootProject.extra["buildDate"] as String
 
