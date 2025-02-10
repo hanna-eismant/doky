@@ -159,7 +159,7 @@ tasks {
 
 node {
     download = true
-    version = "20.12.2"
+    version = "22.13.1"
     npmInstallCommand = "ci"
     nodeProjectDir = file("${project.projectDir}/doky-front")
 }
