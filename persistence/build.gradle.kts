@@ -9,9 +9,3 @@ dependencies {
     implementation(libs.bundles.flyway)
     implementation(libs.bundles.database.connectors)
 }
-
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
-    }
-}

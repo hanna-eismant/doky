@@ -30,6 +30,7 @@ dd-trace-api = "[1.44.0,2.0.0)"
 azurefunctions = "1.12.0"
 azure-functions-java = "3.1.0"
 spring-cloud-function-adapter-azure = "4.2.0"
+azure-ai-search = "11.7.4"
 
 [libraries]
 spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
@@ -45,10 +46,13 @@ spring-boot-starter-security = { group = "org.springframework.boot", name = "spr
 spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
 spring-boot-config-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor" }
+spring-core = { group = "org.springframework", name = "spring-core" }
+spring-context = { group = "org.springframework", name = "spring-context" }
 spring-kafka-production = { group = "org.springframework.kafka", name = "spring-kafka" }
 spring-kafka-test = { group = "org.springframework.kafka", name = "spring-kafka-test" }
 azure-appconfiguration-config-web = { group = "com.azure.spring", name = "spring-cloud-azure-appconfiguration-config-web" }
 azure-starter-keyvault = { group = "com.azure.spring", name = "spring-cloud-azure-starter-keyvault" }
+azure-search = { group = "com.azure", name = "azure-search-documents", version.ref = "azure-ai-search" }
 kotlin-logging = { group = "io.github.oshai", name = "kotlin-logging", version.ref = "kotlin-logging" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin-jvm" }
 flyway-core = { group = "org.flywaydb", name = "flyway-core", version.ref = "flyway" }
@@ -83,6 +87,7 @@ azure-functions-java = { group = "com.microsoft.azure.functions", name = "azure-
 spring-cloud-function-adapter-azure = { group = "org.springframework.cloud", name = "spring-cloud-function-adapter-azure", version.ref = "spring-cloud-function-adapter-azure" }
 
 [bundles]
+spring-basic = ["spring-core", "spring-context"]
 logging = ["kotlin-logging", "logback-classic", "logback-encoder"]
 flyway = ["flyway-core", "flyway-sqlserver", "flyway-mysql"]
 database-connectors = ["sqlserver-connector", "mysql-connector"]

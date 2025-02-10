@@ -17,6 +17,7 @@ dependencyManagement {
 
 dependencies {
     implementation(project(":persistence"))
+    implementation(project(":ai-search"))
 
     implementation(libs.bundles.spring.starter.web)
     implementation(libs.spring.boot.starter.data.jpa)
@@ -39,12 +40,6 @@ dependencies {
     testImplementation(libs.spring.kafka.test)
 
     testRuntimeOnly(libs.junit.platform.launcher)
-}
-
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
-    }
 }
 
 testing {
