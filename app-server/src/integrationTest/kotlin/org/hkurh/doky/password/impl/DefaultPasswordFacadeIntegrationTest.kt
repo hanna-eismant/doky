@@ -5,7 +5,6 @@ import org.hkurh.doky.errorhandling.DokyInvalidTokenException
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -27,7 +26,6 @@ class DefaultPasswordFacadeIntegrationTest : DokyIntegrationTest() {
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
 
-    @Disabled("Enable when configure mocking Azure AI Search ")
     @Test
     @DisplayName("Should update password and cleanup token when valid token")
     @Sql(
@@ -50,7 +48,6 @@ class DefaultPasswordFacadeIntegrationTest : DokyIntegrationTest() {
         assertNull(usedToken)
     }
 
-    @Disabled("Enable when configure mocking Azure AI Search ")
     @Test
     @DisplayName("Should throw error when invalid token")
     fun shouldThrowError_whenTokenNotExist() {
@@ -69,7 +66,6 @@ class DefaultPasswordFacadeIntegrationTest : DokyIntegrationTest() {
         assertTrue(exception.message!!.contains("invalid"))
     }
 
-    @Disabled("Enable when configure mocking Azure AI Search ")
     @Test
     @DisplayName("Should throw error when token expired")
     @Sql(

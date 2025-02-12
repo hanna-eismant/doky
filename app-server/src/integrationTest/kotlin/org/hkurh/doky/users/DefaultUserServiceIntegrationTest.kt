@@ -5,7 +5,6 @@ import org.awaitility.Awaitility.await
 import org.hkurh.doky.DokyIntegrationTest
 import org.hkurh.doky.users.impl.DefaultUserService
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,7 +28,6 @@ class DefaultUserServiceIntegrationTest : DokyIntegrationTest() {
 
     private val topic = "emails-test"
 
-    @Disabled("Enable when configure mocking Azure AI Search ")
     @Test
     @DisplayName("Should sent email notification when register new user")
     @Sql(
