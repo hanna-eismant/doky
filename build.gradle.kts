@@ -70,6 +70,24 @@ subprojects {
         implementation(libs.findBundle("logging").get())
         testImplementation(libs.findBundle("testing.unit").get())
     }
+
+    tasks.withType<Test>().configureEach {
+        if (name.contains("integrationTest", ignoreCase = true)) {
+            useJUnitPlatform()
+
+            // Configure JVM system properties for SSL truststore
+            systemProperty(
+                "javax.net.ssl.trustStore",
+                rootProject.rootDir.resolve("wiremock-cert/wiremock-truststore.jks").absolutePath
+            )
+            systemProperty("javax.net.ssl.trustStorePassword", "password")
+
+            // Optional Debug Information for TrustStore
+            doFirst {
+                println("Integration Test Truststore Path: ${rootProject.rootDir.resolve("wiremock-cert/wiremock-truststore.jks").absolutePath}")
+            }
+        }
+    }
 }
 
 val branchName = if (project.hasProperty("branchName")) {

@@ -26,10 +26,16 @@ dependencies {
     implementation(libs.bundles.json)
     implementation(libs.azure.search)
 
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2")
+
     annotationProcessor(libs.spring.boot.config.processor)
 
     testImplementation(libs.bundles.testing.integration)
+    testImplementation(libs.bundles.testcontainers)
     testImplementation(libs.spring.kafka.test)
+    testImplementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-14")
+    testImplementation("org.wiremock:wiremock-standalone:3.12.0")
+
 
     testRuntimeOnly(libs.junit.platform.launcher)
 }
@@ -44,31 +50,37 @@ testing {
                 implementation(libs.spring.boot.starter.data.jpa.get().toString())
             }
         }
-//        register<JvmTestSuite>("integrationTest") {
-//            testType = TestSuiteType.INTEGRATION_TEST
-//            dependencies {
-//                implementation(project())
-//                implementation(project(":persistence"))
-//
-//                implementation(libs.spring.boot.starter.test.get().toString())
-//                implementation(libs.awaitility.get().toString())
-//
-//                implementation(libs.httpclient.get().toString())
-//                implementation(libs.rest.assured.get().toString())
-//
-//                implementation(libs.spring.kafka.test.get().toString())
-//                implementation(libs.spring.kafka.production.get().toString())
-//                implementation(libs.kafka.clients.get().toString())
-//
-//                implementation(libs.greenmail.get().toString())
-//
-//                implementation(libs.spring.boot.starter.jdbc.get().toString())
-//                implementation(libs.spring.boot.starter.security.get().toString())
-//
-//                implementation(libs.kotlin.logging.get().toString())
-//
-//            }
-//        }
+        register<JvmTestSuite>("integrationTest") {
+            testType = TestSuiteType.INTEGRATION_TEST
+            dependencies {
+                implementation(project())
+                implementation(project(":persistence"))
+                implementation(project(":ai-search"))
+
+                implementation(libs.spring.boot.starter.test.get().toString())
+                implementation(libs.awaitility.get().toString())
+
+                implementation(libs.httpclient.get().toString())
+                implementation(libs.rest.assured.get().toString())
+
+                implementation(libs.spring.kafka.test.get().toString())
+                implementation(libs.spring.kafka.production.get().toString())
+                implementation(libs.kafka.clients.get().toString())
+
+                implementation(libs.greenmail.get().toString())
+
+                implementation(libs.spring.boot.starter.jdbc.get().toString())
+                implementation(libs.spring.boot.starter.security.get().toString())
+
+                implementation(libs.kotlin.logging.get().toString())
+
+                implementation(libs.testcontainers.core.get().toString())
+                implementation(libs.testcontainers.junit.get().toString())
+                implementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-14")
+                implementation("org.wiremock:wiremock-standalone:3.12.0")
+//                implementation(libs.testcontainers.wiremock.get().toString())
+            }
+        }
 //        register<JvmTestSuite>("apiTest") {
 //            testType = TestSuiteType.FUNCTIONAL_TEST
 //            dependencies {

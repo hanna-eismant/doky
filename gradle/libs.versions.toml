@@ -31,6 +31,7 @@ azurefunctions = "1.12.0"
 azure-functions-java = "3.1.0"
 spring-cloud-function-adapter-azure = "4.2.0"
 azure-ai-search = "11.7.4"
+testcontainers = "1.20.4"
 
 [libraries]
 spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
@@ -85,6 +86,9 @@ logback-encoder = { group = "net.logstash.logback", name = "logstash-logback-enc
 dd-trace-api = { group = "com.datadoghq", name = "dd-trace-api", version.ref = "dd-trace-api" }
 azure-functions-java = { group = "com.microsoft.azure.functions", name = "azure-functions-java-library", version.ref = "azure-functions-java" }
 spring-cloud-function-adapter-azure = { group = "org.springframework.cloud", name = "spring-cloud-function-adapter-azure", version.ref = "spring-cloud-function-adapter-azure" }
+testcontainers-core = { group = "org.testcontainers", name = "testcontainers", version.ref = "testcontainers" }
+testcontainers-junit = { group = "org.testcontainers", name = "junit-jupiter", version.ref = "testcontainers" }
+testcontainers-wiremock = { group = "org.testcontainers", name = "wiremock", version.ref = "testcontainers" }
 
 [bundles]
 spring-basic = ["spring-core", "spring-context"]
@@ -102,6 +106,7 @@ json = ["jackson-annotations", "jackson-datatype-joda"]
 validation = ["spring-boot-starter-validation", "jakarta-validation-api"]
 jwt = ["jjwt-api", "jjwt-impl", "jjwt-jackson"]
 azure-functions = ["azure-functions-java", "spring-cloud-function-adapter-azure"]
+testcontainers = ["testcontainers-core", "testcontainers-junit"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-jvm" }

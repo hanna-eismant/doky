@@ -57,3 +57,4 @@ cleanup-functions/out/
 /cleanup-functions/.kotlin/
 /persistence/.gradle/
 /local-deploy.sh
+/indexer-service/.gradle/
