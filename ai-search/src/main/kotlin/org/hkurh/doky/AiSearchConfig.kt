@@ -26,6 +26,7 @@ class AiSearchConfig {
             .endpoint(azureSearchEndpoint)
             .credential(AzureKeyCredential(azureSearchKey))
             .indexName(azureSearchIndexName)
+//            .addPolicy(LoggingPolicy())
             .buildClient()
     }
 }

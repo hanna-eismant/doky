@@ -24,11 +24,13 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.bundles.kafka)
     implementation(libs.bundles.json)
-    implementation(libs.azure.search)
+    implementation(libs.bundles.azure.search)
 
     annotationProcessor(libs.spring.boot.config.processor)
 
     testImplementation(libs.bundles.testing.integration)
+    testImplementation(libs.bundles.testing.web)
+    testImplementation(libs.bundles.testcontainers)
     testImplementation(libs.spring.kafka.test)
 
     testRuntimeOnly(libs.junit.platform.launcher)
@@ -44,31 +46,39 @@ testing {
                 implementation(libs.spring.boot.starter.data.jpa.get().toString())
             }
         }
-//        register<JvmTestSuite>("integrationTest") {
-//            testType = TestSuiteType.INTEGRATION_TEST
-//            dependencies {
-//                implementation(project())
-//                implementation(project(":persistence"))
-//
-//                implementation(libs.spring.boot.starter.test.get().toString())
-//                implementation(libs.awaitility.get().toString())
-//
-//                implementation(libs.httpclient.get().toString())
-//                implementation(libs.rest.assured.get().toString())
-//
-//                implementation(libs.spring.kafka.test.get().toString())
-//                implementation(libs.spring.kafka.production.get().toString())
-//                implementation(libs.kafka.clients.get().toString())
-//
-//                implementation(libs.greenmail.get().toString())
-//
-//                implementation(libs.spring.boot.starter.jdbc.get().toString())
-//                implementation(libs.spring.boot.starter.security.get().toString())
-//
-//                implementation(libs.kotlin.logging.get().toString())
-//
-//            }
-//        }
+        register<JvmTestSuite>("integrationTest") {
+            testType = TestSuiteType.INTEGRATION_TEST
+            dependencies {
+                implementation(project())
+                implementation(project(":persistence"))
+                implementation(project(":ai-search"))
+
+                implementation(libs.spring.boot.starter.test.get().toString())
+                implementation(libs.awaitility.get().toString())
+
+                implementation(libs.httpclient.get().toString())
+                implementation(libs.rest.assured.get().toString())
+
+                implementation(libs.spring.kafka.test.get().toString())
+                implementation(libs.spring.kafka.production.get().toString())
+                implementation(libs.kafka.clients.get().toString())
+
+                implementation(libs.greenmail.get().toString())
+
+                implementation(libs.spring.boot.starter.jdbc.get().toString())
+                implementation(libs.spring.boot.starter.security.get().toString())
+
+                implementation(libs.kotlin.logging.get().toString())
+
+                implementation(libs.testcontainers.core.get().toString())
+                implementation(libs.testcontainers.junit.get().toString())
+                implementation(libs.testcontainers.wiremock.get().toString())
+                implementation(libs.wiremock.standalone.get().toString())
+                implementation(libs.json.flattener.get().toString())
+                implementation(libs.json.schema.validator.get().toString())
+
+            }
+        }
 //        register<JvmTestSuite>("apiTest") {
 //            testType = TestSuiteType.FUNCTIONAL_TEST
 //            dependencies {

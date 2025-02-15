@@ -19,6 +19,7 @@ class DefaultIndexService(
         val documents = documentEntityRepository.findAll()
             .mapNotNull { documentEntity -> documentEntity?.toIndexData() }
         val indexingResult = searchClient.uploadDocuments(documents)
+        LOG.debug { "Upload [${indexingResult.results.size}] documents to index" }
         indexingResult.results.forEach {
             if (!it.isSucceeded) {
                 LOG.error { "Document [${it.key}] upload failed: [${it.errorMessage}]" }
@@ -30,7 +31,7 @@ class DefaultIndexService(
         val results = searchClient.search("*")
             .map { result -> result.getDocument(DocumentIndexData::class.java) }
         if (results.isNotEmpty()) {
-            LOG.info { "Deleting [${results.size}] documents from index" }
+            LOG.debug { "Deleting [${results.size}] documents from index" }
             searchClient.deleteDocuments(results)
         }
     }
