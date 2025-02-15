@@ -32,6 +32,10 @@ azure-functions-java = "3.1.0"
 spring-cloud-function-adapter-azure = "4.2.0"
 azure-ai-search = "11.7.4"
 testcontainers = "1.20.4"
+testcontainers-wiremock = "1.0-alpha-14"
+wiremock = "3.12.0"
+jackson-module-kotlin = "2.18.2"
+json-flattener = "0.17.1"
 
 [libraries]
 spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
@@ -80,6 +84,7 @@ commons-io = { group = "commons-io", name = "commons-io", version.ref = "commons
 azure-blob = { group = "com.azure", name = "azure-storage-blob", version.ref = "azure-blob" }
 httpclient = { group = "org.apache.httpcomponents", name = "httpclient", version.ref = "httpclient" }
 rest-assured = { group = "io.rest-assured", name = "rest-assured", version.ref = "rest-assured" }
+json-schema-validator = { group = "io.rest-assured", name = "json-schema-validator", version.ref = "rest-assured" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 logback-classic = { group = "ch.qos.logback", name = "logback-classic" }
 logback-encoder = { group = "net.logstash.logback", name = "logstash-logback-encoder", version.ref = "logback-encoder" }
@@ -88,7 +93,10 @@ azure-functions-java = { group = "com.microsoft.azure.functions", name = "azure-
 spring-cloud-function-adapter-azure = { group = "org.springframework.cloud", name = "spring-cloud-function-adapter-azure", version.ref = "spring-cloud-function-adapter-azure" }
 testcontainers-core = { group = "org.testcontainers", name = "testcontainers", version.ref = "testcontainers" }
 testcontainers-junit = { group = "org.testcontainers", name = "junit-jupiter", version.ref = "testcontainers" }
-testcontainers-wiremock = { group = "org.testcontainers", name = "wiremock", version.ref = "testcontainers" }
+testcontainers-wiremock = { group = "org.wiremock.integrations.testcontainers", name = "wiremock-testcontainers-module", version.ref = "testcontainers-wiremock" }
+wiremock-standalone = { group = "org.wiremock", name = "wiremock-standalone", version.ref = "wiremock" }
+jackson-module-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version.ref = "jackson-module-kotlin" }
+json-flattener = { group = "com.github.wnameless.json", name = "json-flattener", version.ref = "json-flattener" }
 
 [bundles]
 spring-basic = ["spring-core", "spring-context"]
@@ -97,7 +105,7 @@ flyway = ["flyway-core", "flyway-sqlserver", "flyway-mysql"]
 database-connectors = ["sqlserver-connector", "mysql-connector"]
 testing-unit = ["junit-jupiter", "mockito-jupiter", "mockito-kotlin"]
 testing-integration = ["spring-boot-starter-test", "awaitility"]
-testing-web = ["httpclient", "rest-assured"]
+testing-web = ["httpclient", "rest-assured", "json-schema-validator", "json-flattener"]
 spring-starter-web = ["spring-boot-starter", "spring-boot-starter-actuator", "spring-boot-starter-web"]
 mail = ["spring-boot-starter-mail", "spring-boot-starter-thymeleaf", "sendgrid"]
 azure-keyvault = ["azure-appconfiguration-config-web", "azure-starter-keyvault"]
@@ -106,7 +114,8 @@ json = ["jackson-annotations", "jackson-datatype-joda"]
 validation = ["spring-boot-starter-validation", "jakarta-validation-api"]
 jwt = ["jjwt-api", "jjwt-impl", "jjwt-jackson"]
 azure-functions = ["azure-functions-java", "spring-cloud-function-adapter-azure"]
-testcontainers = ["testcontainers-core", "testcontainers-junit"]
+azure-search = ["azure-search", "jackson-module-kotlin"]
+testcontainers = ["testcontainers-core", "testcontainers-junit", "testcontainers-wiremock", "wiremock-standalone"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-jvm" }

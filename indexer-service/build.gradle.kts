@@ -24,18 +24,14 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.bundles.kafka)
     implementation(libs.bundles.json)
-    implementation(libs.azure.search)
-
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2")
+    implementation(libs.bundles.azure.search)
 
     annotationProcessor(libs.spring.boot.config.processor)
 
     testImplementation(libs.bundles.testing.integration)
+    testImplementation(libs.bundles.testing.web)
     testImplementation(libs.bundles.testcontainers)
     testImplementation(libs.spring.kafka.test)
-    testImplementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-14")
-    testImplementation("org.wiremock:wiremock-standalone:3.12.0")
-
 
     testRuntimeOnly(libs.junit.platform.launcher)
 }
@@ -76,9 +72,11 @@ testing {
 
                 implementation(libs.testcontainers.core.get().toString())
                 implementation(libs.testcontainers.junit.get().toString())
-                implementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-14")
-                implementation("org.wiremock:wiremock-standalone:3.12.0")
-//                implementation(libs.testcontainers.wiremock.get().toString())
+                implementation(libs.testcontainers.wiremock.get().toString())
+                implementation(libs.wiremock.standalone.get().toString())
+                implementation(libs.json.flattener.get().toString())
+                implementation(libs.json.schema.validator.get().toString())
+
             }
         }
 //        register<JvmTestSuite>("apiTest") {
