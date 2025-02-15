@@ -12,14 +12,14 @@ class LoggingPolicy : HttpPipelinePolicy {
     override fun process(context: HttpPipelineCallContext, next: HttpPipelineNextPolicy): Mono<HttpResponse>? {
         val request = context.httpRequest
         LOG.debug {
-            "Request: Method=${request.httpMethod}, URL=${request.url}, Headers=${request.headers}, Body=${
+            "Request: Method=${request.httpMethod}, URL=${request.url}, Body=${
                 request.body
             }"
         }
 
         return next.process().doOnNext { response ->
             LOG.debug {
-                "Response: Status=${response.statusCode}, Headers=${response.headers}, Body=${
+                "Response: Status=${response.statusCode}, Body=${
                     response.bodyAsString.block()
                 }"
             }
