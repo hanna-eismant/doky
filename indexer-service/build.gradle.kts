@@ -19,7 +19,10 @@ dependencies {
     implementation(project(":persistence"))
     implementation(project(":ai-search"))
 
+    implementation(libs.bundles.spring.starter.web)
     implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.security)
+    implementation(libs.bundles.jwt)
     implementation(libs.bundles.azure.keyvault)
     implementation(libs.kotlin.reflect)
     implementation(libs.bundles.kafka)
