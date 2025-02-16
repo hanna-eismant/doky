@@ -11,14 +11,14 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.notNullValue
 import org.hkurh.doky.DokyIntegrationTest
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Description
 import org.springframework.test.context.jdbc.Sql
 
-@Description("DefaultIndexServiceIntegration integration tests")
+@DisplayName("DefaultIndexServiceIntegration integration tests")
 class DefaultIndexServiceIntegrationTest : DokyIntegrationTest() {
 
     val azureSearchApiVersion = "2024-07-01"
@@ -30,7 +30,7 @@ class DefaultIndexServiceIntegrationTest : DokyIntegrationTest() {
     @Autowired
     lateinit var indexService: DefaultIndexService
 
-    @Description("Should delete all documents and re-index all documents")
+    @DisplayName("Should delete all documents and re-index all documents")
     @Test
     @Sql(
         scripts = ["classpath:sql/DefaultIndexServiceIntegrationTest/setup.sql"],
