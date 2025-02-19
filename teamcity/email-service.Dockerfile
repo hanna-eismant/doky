@@ -27,7 +27,9 @@ ENV DD_TRACE_ENABLED=true
 ENV DD_LOGS_INJECTION=true
 ENV DD_TRACE_SAMPLE_RATE=1
 
+EXPOSE 8080
+
 ARG JAR_FILE=email-service/build/libs/email-service.jar
 COPY ${JAR_FILE} app.jar
 
-CMD ["/app/datadog-init", "java", "-jar", "-Dspring.profiles.active=$DD_ENV", "/app.jar"]
+CMD ["/app/datadog-init", "java", "-jar", "/app.jar"]
