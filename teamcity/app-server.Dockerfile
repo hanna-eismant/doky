@@ -32,4 +32,4 @@ EXPOSE 8080
 ARG JAR_FILE=app-server/build/libs/app-server.jar
 COPY ${JAR_FILE} app.jar
 
-CMD ["/app/datadog-init", "java", "-jar", "-Dspring.profiles.active=$DD_ENV", "/app.jar"]
+CMD ["/app/datadog-init", "java", "-jar", "/app.jar"]
