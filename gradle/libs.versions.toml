@@ -36,6 +36,7 @@ testcontainers-wiremock = "1.0-alpha-14"
 wiremock = "3.12.0"
 jackson-module-kotlin = "2.18.2"
 json-flattener = "0.17.1"
+spring-boot-admin = "3.1.2"
 
 [libraries]
 spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
@@ -51,6 +52,7 @@ spring-boot-starter-security = { group = "org.springframework.boot", name = "spr
 spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
 spring-boot-config-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor" }
+spring-boot-admin = { group = "de.codecentric", name = "spring-boot-admin-starter-client", version.ref = "spring-boot-admin" }
 spring-core = { group = "org.springframework", name = "spring-core" }
 spring-context = { group = "org.springframework", name = "spring-context" }
 spring-kafka-production = { group = "org.springframework.kafka", name = "spring-kafka" }

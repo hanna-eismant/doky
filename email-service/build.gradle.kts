@@ -24,6 +24,7 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.bundles.kafka)
     implementation(libs.bundles.json)
+    implementation(libs.spring.boot.admin)
 
     annotationProcessor(libs.spring.boot.config.processor)
 

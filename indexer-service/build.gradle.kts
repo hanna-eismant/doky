@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.bundles.kafka)
     implementation(libs.bundles.json)
     implementation(libs.bundles.azure.search)
+    implementation(libs.spring.boot.admin)
 
     annotationProcessor(libs.spring.boot.config.processor)
 
