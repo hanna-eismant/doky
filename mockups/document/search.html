@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script crossorigin="anonymous"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!--    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.js"></script>-->
+    <!--    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css" rel="stylesheet">-->
+
+    <link href="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.css"
+          rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Search</title>
+</head>
+<body>
+<header>
+
+</header>
+<main>
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="sixteen wide column">
+                <div class="ui segment" style="background-color: #07689F; color: white;">
+                    <div class="ui grid">
+                        <div class="three wide column">
+                            <a class="ui small image" href="/">
+                                <img alt="Logo" height="40px"
+                                     src="../../app-server/doky-front/static/logo-white-no-bg.svg">
+                            </a>
+                        </div>
+                        <div class="thirteen wide column">
+                            <div class="ui secondary menu">
+                                <a class="item" style="color: white;">
+                                    <i class="home icon"></i>
+                                    Dashboard
+                                </a>
+                                <a class="active item" style="color: white;">
+                                    <i class="file alternate icon"></i>
+                                    Documents
+                                </a>
+                                <div class="ui right item" style="color: white;">
+                                    <img alt="User Avatar"
+                                         class="ui avatar image"
+                                         src="https://semantic-ui.com/images/avatar/small/stevie.jpg">
+                                    <span>Hanna Kurhuzenkava</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sixteen wide column">
+                <div class="ui segment">
+                    <div class="ui grid">
+                        <!--                    to show loading set  ui active inverted dimmer-->
+                        <div class="ui inverted dimmer">
+                            <div class="ui text loader">Loading</div>
+                        </div>
+                        <div class="ui row">
+                            <div class="twelve wide column">
+                                <div class="ui row">
+                                    <div class="ui fluid action input">
+                                        <input placeholder="Search..." type="text">
+                                        <button class="ui button">Search</button>
+                                    </div>
+                                </div>
+                                <table class="ui selectable striped very basic table">
+                                    <tbody>
+                                    <tr>
+                                        <td class="collapsing">
+                                            <i class="paperclip icon"></i>
+                                        </td>
+                                        <td>Customer invoices</td>
+                                        <td>
+                                            <div class="ui tiny tag labels">
+                                                <div class="ui label">
+                                                    Upcoming
+                                                </div>
+                                                <div class="ui label">
+                                                    Featured
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Project ID-321</td>
+                                        <td>
+                                            <div class="ui tiny tag labels">
+                                                <div class="ui label">
+                                                    New
+                                                </div>
+                                                <div class="ui label">
+                                                    Upcoming
+                                                </div>
+                                                <div class="ui label">
+                                                    Featured
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="collapsing">
+                                            <i class="paperclip icon"></i>
+                                        </td>
+                                        <td>Customer invoices</td>
+                                        <td>
+                                            <div class="ui tiny tag labels">
+                                                <div class="ui label">
+                                                    Upcoming
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="collapsing">
+                                            <i class="paperclip icon"></i>
+                                        </td>
+                                        <td>Customer invoices</td>
+                                        <td>
+                                            <div class="ui tiny tag labels">
+                                                <div class="ui label">
+                                                    Upcoming
+                                                </div>
+                                                <div class="ui label">
+                                                    Featured
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Project ID-321</td>
+                                        <td>
+                                            <div class="ui tiny tag labels">
+                                                <div class="ui label">
+                                                    New
+                                                </div>
+                                                <div class="ui label">
+                                                    Upcoming
+                                                </div>
+                                                <div class="ui label">
+                                                    Featured
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="collapsing">
+                                            <i class="paperclip icon"></i>
+                                        </td>
+                                        <td>Customer invoices</td>
+                                        <td>
+                                            <div class="ui tiny tag labels">
+                                                <a class="ui label">
+                                                    Upcoming
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="collapsing">
+                                            <i class="paperclip icon"></i>
+                                        </td>
+                                        <td>Customer invoices</td>
+                                        <td>
+                                            <div class="ui tiny tag labels">
+                                                <div class="ui label">
+                                                    Upcoming
+                                                </div>
+                                                <div class="ui label">
+                                                    Featured
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Project ID-321</td>
+                                        <td>
+                                            <div class="ui tiny tag labels">
+                                                <div class="ui label">
+                                                    New
+                                                </div>
+                                                <div class="ui label">
+                                                    Upcoming
+                                                </div>
+                                                <div class="ui label">
+                                                    Featured
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="collapsing">
+                                            <i class="paperclip icon"></i>
+                                        </td>
+                                        <td>Customer invoices</td>
+                                        <td>
+                                            <div class="ui tiny tag labels">
+                                                <div class="ui label">
+                                                    Upcoming
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="four wide column">
+                                <h4>Filters</h4>
+                                <div class="ui form">
+                                    <div class="field">
+                                        <label>Creation date from</label>
+                                        <div class="ui calendar" id="rangestart">
+                                            <div class="ui input left icon">
+                                                <i class="calendar icon"></i>
+                                                <input placeholder="Start" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label>Creation date to</label>
+                                        <div class="ui calendar" id="rangeend">
+                                            <div class="ui input left icon">
+                                                <i class="calendar icon"></i>
+                                                <input placeholder="End" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="ui checkbox">
+                                            <input name="size" type="checkbox" value="small">
+                                            <label>With attachments</label>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="ui fluid multiple search selection dropdown" id="tag-select">
+                                            <input name="country" type="hidden">
+                                            <i class="dropdown icon"></i>
+                                            <div class="default text">Select tags</div>
+                                            <div class="menu">
+                                                <div class="item" data-value="af">Featured</div>
+                                                <div class="item" data-value="ax">Upcoming</div>
+                                                <div class="item" data-value="al">New</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui divider"></div>
+                                    <div class="ui row">
+                                        <button class="ui primary button">Search</button>
+                                        <button class="ui button">Clean</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer>
+
+</footer>
+<script>
+  $('#rangestart').calendar({
+    type: 'month',
+    endCalendar: $('#rangeend')
+  });
+  $('#rangeend').calendar({
+    type: 'month',
+    startCalendar: $('#rangestart')
+  });
+  $('#tag-select')
+    .dropdown({
+      clearable: true
+    });
+</script>
+</body>
+</html>
