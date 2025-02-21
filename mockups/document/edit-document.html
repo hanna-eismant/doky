@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+</head>
+<body>
+<header>
+
+</header>
+<main>
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="sixteen wide column">
+                <div class="ui segment" style="background-color: #07689F; color: white;">
+                    <div class="ui grid">
+                        <div class="three wide column">
+                            <a class="ui small image" href="/">
+                                <img alt="Logo" height="40px"
+                                     src="../../app-server/doky-front/static/logo-white-no-bg.svg">
+                            </a>
+                        </div>
+                        <div class="thirteen wide column">
+                            <div class="ui secondary menu">
+                                <a class="item" style="color: white;">
+                                    <i class="home icon"></i>
+                                    Dashboard
+                                </a>
+                                <a class="active item" style="color: white;">
+                                    <i class="file alternate icon"></i>
+                                    Documents
+                                </a>
+                                <div class="ui right item" style="color: white;">
+                                    <img alt="User Avatar"
+                                         class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/stevie.jpg">
+                                    <span>Hanna Kurhuzenkava</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sixteen wide column">
+                <div class="ui segment">
+                    <div class="ui grid">
+                        <!--                    to show loading set  ui active inverted dimmer-->
+                        <div class="ui inverted dimmer">
+                            <div class="ui text loader">Loading</div>
+                        </div>
+                        <div class="ui row">
+                            <div class="ten wide column">
+                                <div class="ui row">
+                                    <form class="ui form">
+                                        <div class="ui field">
+                                            <label>Name</label>
+                                            <input name="name" placeholder="Name" type="text">
+                                        </div>
+                                        <div class="ui field">
+                                            <label>Description</label>
+                                            <textarea></textarea>
+                                        </div>
+                                        <div class="ui field">
+                                            <a class="ui tag label">
+                                                New
+                                                <i class="delete icon"></i>
+                                            </a>
+                                            <a class="ui tag label">
+                                                Upcoming
+                                                <i class="delete icon"></i>
+                                            </a>
+                                            <a class="ui tag label">
+                                                Featured
+                                                <i class="delete icon"></i>
+                                            </a>
+                                        </div>
+                                        <div class="ui field">
+                                            <div class="ui right labeled left icon input">
+                                                <i class="tags icon"></i>
+                                                <input placeholder="Enter tags" type="text">
+                                                <a class="ui tag label">
+                                                    Add Tag
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="ui row">
+                                            <button class="ui primary button">Save</button>
+                                            <button class="ui button">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="six wide column">
+                                <h3>Files</h3>
+                                <div class="ui labeled icon primary basic button">
+                                    <i class="upload icon"></i>
+                                    Upload
+                                </div>
+                                <div class="ui middle aligned list">
+                                    <div class="item">
+                                        <div class="left floated content">
+                                            <button class="ui icon basic button">
+                                                <i class="download icon"></i>
+                                            </button>
+                                        </div>
+                                        <div class="middle aligned content">
+                                            receipt.pdf
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="left floated content">
+                                            <button class="ui icon basic disabled button">
+                                                <i class="download icon"></i>
+                                            </button>
+                                        </div>
+                                        <div class="middle aligned content">
+                                            receipt.pdf
+                                        </div>
+                                    </div>
+                                    <div class="ui indicating progress">
+                                        <div class="bar"></div>
+                                        <div class="label">Downloading</div>
+                                    </div>
+                                </div>
+                                <h4>Created</h4>
+                                <a class="ui image label">
+                                    <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                                    Anton Kurhuzenkau
+                                </a>
+                                <div class="ui label">
+                                    <i class="calendar alternate icon"></i>
+                                    23/03/2020 10:48
+                                </div>
+                                <h4>Updated</h4>
+                                <a class="ui image label">
+                                    <img src="https://semantic-ui.com/images/avatar/small/stevie.jpg">
+                                    Hanna Kurhuzenkava
+                                </a>
+                                <div class="ui label">
+                                    <i class="calendar alternate icon"></i>
+                                    23/03/2020 16:23
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer>
+
+</footer>
+</body>
+</html>
