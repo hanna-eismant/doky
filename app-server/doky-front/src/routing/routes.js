@@ -1,4 +1,3 @@
-import BasePage from '../components/BasePage.jsx';
 import MainPage from '../components/MainPage.jsx';
 import Documents from '../pages/Documents/Documents.jsx';
 import CreateDocumentPage from '../pages/Documents/CreateDocumentPage.jsx';
@@ -28,32 +27,26 @@ export const mainPageRoute = {
 };
 
 export const routes = [
+  mainPageRoute,
   {
-    path: '/',
-    element: <BasePage />,
-    children: [
-      mainPageRoute,
-      {
-        path: 'login',
-        element: <Login />,
-        loader: authPageLoader
-      },
-      {
-        path: 'register',
-        element: <Register />,
-        loader: authPageLoader
-      },
-      {
-        path: 'reset-password',
-        element: <ResetPassword/>,
-        loader: authPageLoader
-      },
-      {
-        path: 'password/update',
-        element: <UpdatePassword/>,
-        loader: authPageLoader
-      }
-    ]
+    path: 'login',
+    element: <Login />,
+    loader: authPageLoader
+  },
+  {
+    path: 'register',
+    element: <Register />,
+    loader: authPageLoader
+  },
+  {
+    path: 'reset-password',
+    element: <ResetPassword/>,
+    loader: authPageLoader
+  },
+  {
+    path: 'password/update',
+    element: <UpdatePassword/>,
+    loader: authPageLoader
   },
   { path: '*', element: NotFoundPage }
 ];
