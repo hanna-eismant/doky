@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import { Container } from '@mui/material';
 
 import {useRegister} from './useRegister.js';
 import {useForm} from '../../hooks/useForm.js';
@@ -26,7 +27,7 @@ const Register = () => {
   });
 
   return (
-    <>
+    <Container className='AuthContainer'>
       {globalError ? <AlertError message={globalError}/> : ''}
       <div className="d-flex align-items-center justify-content-center">
         <form onSubmit={handleSubmit} className="col-3">
@@ -41,7 +42,7 @@ const Register = () => {
           </div>
         </form>
       </div>
-    </>
+    </Container>
   );
 };
 
