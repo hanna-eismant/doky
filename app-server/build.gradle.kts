@@ -34,6 +34,12 @@ dependencies {
     implementation(libs.dd.trace.api)
     implementation(libs.spring.boot.admin)
 
+    implementation("com.giffing.bucket4j.spring.boot.starter:bucket4j-spring-boot-starter:0.12.8")
+    implementation("com.bucket4j:bucket4j-redis:8.10.1")
+    implementation("redis.clients:jedis:5.2.0")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
+
+
     annotationProcessor(libs.spring.boot.config.processor)
 
     testImplementation(libs.bundles.testing.integration)

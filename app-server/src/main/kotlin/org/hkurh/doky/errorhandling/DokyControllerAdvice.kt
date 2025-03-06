@@ -1,5 +1,6 @@
 package org.hkurh.doky.errorhandling
 
+import com.giffing.bucket4j.spring.boot.starter.context.RateLimitException
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -11,6 +12,12 @@ import java.io.IOException
 
 @RestControllerAdvice
 class DokyControllerAdvice {
+
+    @ExceptionHandler(RateLimitException::class)
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+    fun rateLimitException(exception: RateLimitException): ErrorResponse {
+        return ErrorResponse(Error("You have exceeded the rate limit. Please wait a moment before trying again."))
+    }
 
     @ExceptionHandler(value = [DokyAuthenticationException::class, AccessDeniedException::class])
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

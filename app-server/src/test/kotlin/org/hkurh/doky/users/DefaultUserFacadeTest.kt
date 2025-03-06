@@ -3,6 +3,7 @@ package org.hkurh.doky.users
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.errorhandling.DokyAuthenticationException
 import org.hkurh.doky.errorhandling.DokyRegistrationException
+import org.hkurh.doky.security.DokySecurityService
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.impl.DefaultUserFacade
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -24,8 +25,9 @@ class DefaultUserFacadeTest : DokyUnitTest {
     private val userEntity = UserEntity()
 
     private val userService: UserService = mock()
+    private var dokySecurityService: DokySecurityService = mock()
     private val passwordEncoder: PasswordEncoder = mock()
-    private var userFacade = DefaultUserFacade(userService, passwordEncoder)
+    private var userFacade = DefaultUserFacade(userService, dokySecurityService, passwordEncoder)
 
     @BeforeEach
     fun setUp() {

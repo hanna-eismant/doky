@@ -4,13 +4,11 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.kafka.EmailType
 import org.hkurh.doky.kafka.KafkaEmailNotificationProducerService
-import org.hkurh.doky.security.DokyUserDetails
 import org.hkurh.doky.security.UserAuthority
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.AuthorityEntityRepository
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.db.UserEntityRepository
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
@@ -35,12 +33,6 @@ class DefaultUserService(
         LOG.debug { "Created new user [${createdUser.id}]" }
         kafkaEmailNotificationProducerService.sendNotification(createdUser.id, EmailType.REGISTRATION)
         return createdUser
-    }
-
-    override fun getCurrentUser(): UserEntity {
-        val userEntity =
-            (SecurityContextHolder.getContext().authentication.principal as DokyUserDetails).getUserEntity()
-        return userEntity!!
     }
 
     override fun updateUser(user: UserEntity) {

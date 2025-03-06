@@ -24,13 +24,6 @@ interface UserService {
     fun create(userUid: String, encodedPassword: String): UserEntity
 
     /**
-     * Returns the currently logged-in user.
-     *
-     * @return The [UserEntity] object representing the currently logged-in user.
-     */
-    fun getCurrentUser(): UserEntity
-
-    /**
      * Updates the information of a user.
      *
      * @param user The [UserEntity] object representing the user to update.

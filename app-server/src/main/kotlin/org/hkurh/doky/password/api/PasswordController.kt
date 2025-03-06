@@ -1,5 +1,7 @@
 package org.hkurh.doky.password.api
 
+import com.giffing.bucket4j.spring.boot.starter.context.RateLimiting
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
 import org.hkurh.doky.password.PasswordFacade
 import org.springframework.http.ResponseEntity
@@ -19,8 +21,16 @@ class PasswordController(
     val passwordFacade: PasswordFacade
 ) : PasswordApi {
 
+    @RateLimiting(
+        name = "password-reset",
+        cacheKey = "#request.getRemoteAddr()",
+        ratePerMethod = true
+    )
     @PostMapping("/reset")
-    override fun reset(@RequestBody @Valid resetPasswordRequest: ResetPasswordRequest): ResponseEntity<Any> {
+    override fun reset(
+        @RequestBody @Valid resetPasswordRequest: ResetPasswordRequest,
+        request: HttpServletRequest
+    ): ResponseEntity<Any> {
         passwordFacade.reset(resetPasswordRequest.email)
         return ResponseEntity.noContent().build()
     }

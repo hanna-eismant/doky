@@ -9,8 +9,8 @@ import org.hkurh.doky.documents.api.DocumentRequest
 import org.hkurh.doky.documents.api.DocumentResponse
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.filestorage.FileStorageService
+import org.hkurh.doky.security.DokySecurityService
 import org.hkurh.doky.toDto
-import org.hkurh.doky.users.UserService
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
 import org.springframework.stereotype.Component
@@ -24,7 +24,7 @@ class DefaultDocumentFacade(
     private val documentService: DocumentService,
     private val downloadTokenService: DownloadTokenService,
     private val fileStorageService: FileStorageService,
-    private val userService: UserService
+    private val dokySecurityService: DokySecurityService
 ) : DocumentFacade {
     override fun createDocument(name: String, description: String?): DocumentResponse? {
         val documentEntity = documentService.create(name, description)
@@ -77,10 +77,10 @@ class DefaultDocumentFacade(
     }
 
     override fun generateDownloadToken(id: Long): String {
-        val user = userService.getCurrentUser()
         val document = documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
-        LOG.debug { "Generate token for user [${user.id}] and document [$id]" }
+        val user = dokySecurityService.getCurrentUser()
         val token = downloadTokenService.generateDownloadToken(user, document)
+        LOG.debug { "Generate token for user [${user.id}] and document [$id]" }
         return token
     }
 

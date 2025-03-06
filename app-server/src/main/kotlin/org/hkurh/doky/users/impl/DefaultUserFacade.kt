@@ -3,6 +3,7 @@ package org.hkurh.doky.users.impl
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.errorhandling.DokyAuthenticationException
 import org.hkurh.doky.errorhandling.DokyRegistrationException
+import org.hkurh.doky.security.DokySecurityService
 import org.hkurh.doky.toDto
 import org.hkurh.doky.users.UserFacade
 import org.hkurh.doky.users.UserService
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component
 @Component
 class DefaultUserFacade(
     private val userService: UserService,
+    private val dokySecurityService: DokySecurityService,
     private val passwordEncoder: PasswordEncoder
 ) : UserFacade {
     override fun checkCredentials(userUid: String, password: String): UserDto {
@@ -34,11 +36,11 @@ class DefaultUserFacade(
     }
 
     override fun getCurrentUser(): UserDto {
-        return userService.getCurrentUser().toDto()
+        return dokySecurityService.getCurrentUser().toDto()
     }
 
     override fun updateCurrentUser(updateUserRequest: UpdateUserRequest) {
-        val currentUser = userService.getCurrentUser()
+        val currentUser = dokySecurityService.getCurrentUser()
         currentUser.name = updateUserRequest.name?.ifEmpty { currentUser.name } ?: updateUserRequest.name
         userService.updateUser(currentUser)
     }

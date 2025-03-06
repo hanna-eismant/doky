@@ -27,7 +27,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @EnableWebSecurity
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
-internal class WebSecurityConfig(private val jwtAuthorizationFilter: JwtAuthorizationFilter) {
+internal class WebSecurityConfig(
+    private val jwtAuthorizationFilter: JwtAuthorizationFilter
+) {
     @Bean
     @Throws(Exception::class)
     protected fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -38,6 +40,7 @@ internal class WebSecurityConfig(private val jwtAuthorizationFilter: JwtAuthoriz
                 configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
+//            .addFilterAt()
             .cors(Customizer.withDefaults())
         return http.build()
     }
