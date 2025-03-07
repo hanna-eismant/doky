@@ -32,6 +32,17 @@ plugins {
     alias(libs.plugins.spring.boot) apply false
     alias(libs.plugins.spring.dependency.management)
     alias(libs.plugins.sonarqube)
+    alias(libs.plugins.dokka)
+}
+
+configurations.configureEach {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "com.fasterxml.jackson.core" && requested.name == "jackson-databind") {
+            useVersion("2.12.7.1")
+        } else if (requested.group.startsWith("com.fasterxml.jackson")) {
+            useVersion("2.12.7")
+        }
+    }
 }
 
 dependencyManagement {
@@ -52,6 +63,7 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
     apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "org.jetbrains.dokka")
 
     java {
         toolchain {
