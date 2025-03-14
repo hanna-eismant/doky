@@ -4,7 +4,7 @@ COPY --from=datadog/serverless-init:latest /datadog-init /app/datadog-init
 ADD 'https://dtdg.co/latest-java-tracer' /dd_tracer/java/dd-java-agent.jar
 
 ARG DD_VERSION=Aardvark-v0.1
-ARG DD_SERVICE=email-service
+ARG DD_SERVICE=doky
 ARG DD_ENV=prod
 
 ENV DD_SERVICE=$DD_SERVICE
@@ -29,7 +29,7 @@ ENV DD_TRACE_SAMPLE_RATE=1
 
 EXPOSE 8080
 
-ARG JAR_FILE=email-service/build/libs/email-service.jar
+ARG JAR_FILE=build/libs/doky.jar
 COPY ${JAR_FILE} app.jar
 
 CMD ["/app/datadog-init", "java", "-jar", "/app.jar"]
