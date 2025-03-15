@@ -1,8 +1,8 @@
 name: documentation
 
 on:
-    push:
-      branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 
 jobs:
 
@@ -20,13 +20,13 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
       - name: Generate documentation with Gradle Wrapper
-        working-directory: server
-        run: ./gradlew dokkaHtml
+        working-directory: .
+        run: ./gradlew :dokkaGenerate
       - name: Deploy JavaDoc 🚀
         uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: javadoc
           clean: true
-          folder: server/build/dokka/html
+          folder: build/dokka/html
           target-folder: javadoc

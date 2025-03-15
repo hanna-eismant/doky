@@ -39,6 +39,18 @@ kotlin {
     }
 }
 
+configurations.matching { it.name.startsWith("dokka") }.configureEach {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "com.fasterxml.jackson.core" && requested.name == "jackson-databind") {
+            // Force jackson-databind to use version 2.12.7.1
+            useVersion("2.12.7.1")
+        } else if (requested.group.startsWith("com.fasterxml.jackson")) {
+            // Force other Jackson dependencies to use version 2.12.7
+            useVersion("2.12.7")
+        }
+    }
+}
+
 dependencyManagement {
     imports {
         mavenBom(libs.spring.boot.bom.get().toString())
