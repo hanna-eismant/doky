@@ -1,15 +1,207 @@
+import com.github.gradle.node.npm.task.NpmTask
+import org.gradle.internal.classpath.Instrumented.systemProperty
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-allprojects {
-    repositories {
-        maven {
-            url = uri("https://repo.maven.apache.org/maven2")
+repositories {
+    maven {
+        url = uri("https://repo.maven.apache.org/maven2")
+    }
+    mavenLocal()
+    mavenCentral()
+    maven { url = uri("https://repo.spring.io/snapshot") }
+    maven { url = uri("https://repo.spring.io/milestone") }
+}
+
+
+plugins {
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.plugin.spring)
+    alias(libs.plugins.kotlin.plugin.jpa)
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.sonarqube)
+    alias(libs.plugins.azurewebapp)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.buildconfig)
+    alias(libs.plugins.node.gradle)
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom(libs.spring.boot.bom.get().toString())
+        mavenBom(libs.azure.spring.bom.get().toString())
+    }
+}
+
+dependencies {
+
+    implementation(libs.bundles.flyway)
+    implementation(libs.bundles.database.connectors)
+
+    implementation(libs.bundles.azure.search)
+
+    implementation(libs.bundles.mail)
+
+    implementation(libs.bundles.spring.starter.web)
+    implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.security)
+    implementation(libs.bundles.jwt)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.bundles.validation)
+    implementation(libs.bundles.azure.keyvault)
+    implementation(libs.openapi.starter)
+    implementation(libs.bundles.json)
+    implementation(libs.bundles.logging)
+    implementation(libs.commons.io)
+    implementation(libs.azure.blob)
+    implementation(libs.bundles.kafka)
+    implementation(libs.dd.trace.api)
+
+    annotationProcessor(libs.spring.boot.config.processor)
+
+    testImplementation(libs.bundles.testing.unit)
+    testImplementation(libs.bundles.testing.integration)
+    testImplementation(libs.bundles.testing.web)
+    testImplementation(libs.spring.kafka.test)
+    testImplementation(libs.greenmail)
+    testImplementation(libs.bundles.testcontainers)
+
+    testRuntimeOnly(libs.junit.platform.launcher)
+}
+
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter()
+            dependencies {
+                implementation(libs.spring.boot.starter.data.jpa.get().toString())
+            }
         }
-        mavenLocal()
-        mavenCentral()
-        maven { url = uri("https://repo.spring.io/snapshot") }
-        maven { url = uri("https://repo.spring.io/milestone") }
+        register<JvmTestSuite>("integrationTest") {
+            testType = TestSuiteType.INTEGRATION_TEST
+            systemProperty(
+                "javax.net.ssl.trustStore",
+                rootProject.rootDir.resolve("wiremock-cert/wiremock-truststore.jks").absolutePath
+            )
+            systemProperty("javax.net.ssl.trustStorePassword", "password")
+
+
+            dependencies {
+                implementation(project())
+
+                implementation(libs.spring.boot.starter.test.get().toString())
+                implementation(libs.awaitility.get().toString())
+
+                implementation(libs.httpclient.get().toString())
+                implementation(libs.rest.assured.get().toString())
+
+                implementation(libs.spring.kafka.test.get().toString())
+                implementation(libs.spring.kafka.production.get().toString())
+                implementation(libs.kafka.clients.get().toString())
+
+                implementation(libs.greenmail.get().toString())
+
+                implementation(libs.spring.boot.starter.jdbc.get().toString())
+                implementation(libs.spring.boot.starter.security.get().toString())
+
+                implementation(libs.kotlin.logging.get().toString())
+
+                implementation(libs.greenmail.get().toString())
+
+                implementation(libs.testcontainers.core.get().toString())
+                implementation(libs.testcontainers.junit.get().toString())
+                implementation(libs.testcontainers.wiremock.get().toString())
+                implementation(libs.wiremock.standalone.get().toString())
+                implementation(libs.json.flattener.get().toString())
+                implementation(libs.json.schema.validator.get().toString())
+            }
+        }
+        register<JvmTestSuite>("apiTest") {
+            testType = TestSuiteType.FUNCTIONAL_TEST
+            dependencies {
+                implementation(project())
+
+                implementation(libs.spring.boot.starter.test.get().toString())
+                implementation(libs.junit4.get().toString())
+
+                implementation(libs.httpclient.get().toString())
+                implementation(libs.rest.assured.get().toString())
+
+                implementation(libs.spring.kafka.test.get().toString())
+                implementation(libs.spring.kafka.production.get().toString())
+                implementation(libs.kafka.clients.get().toString())
+
+                implementation(libs.spring.boot.starter.data.jpa.get().toString())
+                implementation(libs.spring.boot.starter.web.get().toString())
+            }
+        }
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+        events("PASSED", "SKIPPED", "FAILED")
+    }
+}
+
+tasks.named<Test>("apiTest") {
+    testLogging {
+        showStandardStreams = true
+        events("PASSED", "SKIPPED", "FAILED")
+    }
+}
+
+tasks.named<Test>("integrationTest") {
+    testLogging {
+        showStandardStreams = true
+        events("PASSED", "SKIPPED", "FAILED")
+    }
+}
+
+node {
+    download = true
+    version = "22.13.1"
+    npmInstallCommand = "ci"
+    nodeProjectDir = file("${project.projectDir}/doky-front")
+}
+
+tasks.register<NpmTask>("npmBuild") {
+    description = "Runs npm build and creates dist folder"
+    group = "npm"
+    dependsOn("npmInstall")
+    args = listOf("run", "build")
+}
+
+tasks.register<Copy>("copyFrontDistSrc") {
+    description = "Copy build front files to static folder under resources"
+    group = "npm"
+    dependsOn("npmBuild")
+    from("$projectDir/doky-front/dist")
+    into("$projectDir/src/main/resources/static")
+}
+
+tasks.named("processResources") {
+    dependsOn("copyFrontDistSrc")
+}
+
+tasks.named("clean") {
+    doLast {
+        delete("server/src/main/resources/static")
     }
 }
 
@@ -25,68 +217,31 @@ val buildDate: String by extra {
     ZonedDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z"))
 }
 
-plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.plugin.spring)
-    alias(libs.plugins.kotlin.plugin.jpa) apply false
-    alias(libs.plugins.spring.boot) apply false
-    alias(libs.plugins.spring.dependency.management)
-    alias(libs.plugins.sonarqube)
+buildConfig {
+    packageName("org.hkurh.doky")
+    documentation.set("Generated by BuildConfig plugin")
+    buildConfigField("DEPLOY_VERSION", provider { deployVersion })
 }
 
-dependencyManagement {
-    imports {
-        mavenBom(libs.spring.boot.bom.get().toString())
-        mavenBom(libs.azure.spring.bom.get().toString())
-    }
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-
-subprojects {
-    apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
-    apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
-    apply(plugin = "io.spring.dependency-management")
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(17)
-        }
-    }
-
-    kotlin {
-        compilerOptions {
-            freeCompilerArgs.addAll("-Xjsr305=strict")
-        }
-    }
-
-    val libs = rootProject.extensions.getByType<VersionCatalogsExtension>().named("libs")
-    dependencies {
-        implementation(libs.findBundle("logging").get())
-        testImplementation(libs.findBundle("testing.unit").get())
-    }
-
-    tasks.withType<Test>().configureEach {
-        if (name.contains("integrationTest", ignoreCase = true)) {
-            useJUnitPlatform()
-
-            // Configure JVM system properties for SSL truststore
-            systemProperty(
-                "javax.net.ssl.trustStore",
-                rootProject.rootDir.resolve("wiremock-cert/wiremock-truststore.jks").absolutePath
+tasks {
+    jar {
+        manifest {
+            attributes(
+                "Manifest-Version" to "1.0",
+                "Main-Class" to "org.hkurh.doky.DokyApplication",
+                "Implementation-Title" to "Doky App Server",
+                "Implementation-Version" to deployVersion,
+                "Implementation-Vendor" to "hkurh-pets",
+                "Created-By" to "Kotlin Gradle",
+                "Built-By" to "Hanna Kurhuzenkava",
+                "Build-Jdk" to "17",
+                "Build-Date" to buildDate
             )
-            systemProperty("javax.net.ssl.trustStorePassword", "password")
-
-            // Optional Debug Information for TrustStore
-            doFirst {
-                println("Integration Test Truststore Path: ${rootProject.rootDir.resolve("wiremock-cert/wiremock-truststore.jks").absolutePath}")
-            }
         }
+    }
+
+    assemble {
+        dependsOn(jar)
     }
 }
 

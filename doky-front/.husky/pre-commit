@@ -1,0 +1,2 @@
+cd doky-front
+npm run lint

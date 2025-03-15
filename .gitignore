@@ -47,7 +47,7 @@ cleanup-functions/out/
 /doky
 /doky-*.env
 /.azure
-/app-server/src/main/resources/static/
+/src/main/resources/static/
 /filestorage/
 **/.DS_Store
 /app-server/doky-front/dist/
@@ -58,3 +58,7 @@ cleanup-functions/out/
 /persistence/.gradle/
 /local-deploy.sh
 /indexer-service/.gradle/
+/.kotlin/
+/doky-front/node_modules/
+/doky-front/dist/
+/local.env
