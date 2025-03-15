@@ -23,20 +23,16 @@ logback-encoder = "8.0"
 spring-dependency-management = "1.1.6"
 sonarqube = "5.1.0.4882"
 azurewebapp = "1.7.1"
-dokka = "1.9.20"
+dokka = "2.0.0"
 buildconfig = "5.3.5"
 node-gradle = "7.0.2"
 dd-trace-api = "[1.44.0,2.0.0)"
-azurefunctions = "1.12.0"
-azure-functions-java = "3.1.0"
-spring-cloud-function-adapter-azure = "4.2.0"
 azure-ai-search = "11.7.4"
 testcontainers = "1.20.4"
 testcontainers-wiremock = "1.0-alpha-14"
 wiremock = "3.12.0"
 jackson-module-kotlin = "2.18.2"
 json-flattener = "0.17.1"
-spring-boot-admin = "3.1.2"
 
 [libraries]
 spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
@@ -52,9 +48,6 @@ spring-boot-starter-security = { group = "org.springframework.boot", name = "spr
 spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
 spring-boot-config-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor" }
-spring-boot-admin = { group = "de.codecentric", name = "spring-boot-admin-starter-client", version.ref = "spring-boot-admin" }
-spring-core = { group = "org.springframework", name = "spring-core" }
-spring-context = { group = "org.springframework", name = "spring-context" }
 spring-kafka-production = { group = "org.springframework.kafka", name = "spring-kafka" }
 spring-kafka-test = { group = "org.springframework.kafka", name = "spring-kafka-test" }
 azure-appconfiguration-config-web = { group = "com.azure.spring", name = "spring-cloud-azure-appconfiguration-config-web" }
@@ -91,8 +84,6 @@ junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 logback-classic = { group = "ch.qos.logback", name = "logback-classic" }
 logback-encoder = { group = "net.logstash.logback", name = "logstash-logback-encoder", version.ref = "logback-encoder" }
 dd-trace-api = { group = "com.datadoghq", name = "dd-trace-api", version.ref = "dd-trace-api" }
-azure-functions-java = { group = "com.microsoft.azure.functions", name = "azure-functions-java-library", version.ref = "azure-functions-java" }
-spring-cloud-function-adapter-azure = { group = "org.springframework.cloud", name = "spring-cloud-function-adapter-azure", version.ref = "spring-cloud-function-adapter-azure" }
 testcontainers-core = { group = "org.testcontainers", name = "testcontainers", version.ref = "testcontainers" }
 testcontainers-junit = { group = "org.testcontainers", name = "junit-jupiter", version.ref = "testcontainers" }
 testcontainers-wiremock = { group = "org.wiremock.integrations.testcontainers", name = "wiremock-testcontainers-module", version.ref = "testcontainers-wiremock" }
@@ -101,7 +92,6 @@ jackson-module-kotlin = { group = "com.fasterxml.jackson.module", name = "jackso
 json-flattener = { group = "com.github.wnameless.json", name = "json-flattener", version.ref = "json-flattener" }
 
 [bundles]
-spring-basic = ["spring-core", "spring-context"]
 logging = ["kotlin-logging", "logback-classic", "logback-encoder"]
 flyway = ["flyway-core", "flyway-sqlserver", "flyway-mysql"]
 database-connectors = ["sqlserver-connector", "mysql-connector"]
@@ -115,7 +105,6 @@ kafka = ["spring-kafka-production", "kafka-clients"]
 json = ["jackson-annotations", "jackson-datatype-joda"]
 validation = ["spring-boot-starter-validation", "jakarta-validation-api"]
 jwt = ["jjwt-api", "jjwt-impl", "jjwt-jackson"]
-azure-functions = ["azure-functions-java", "spring-cloud-function-adapter-azure"]
 azure-search = ["azure-search", "jackson-module-kotlin"]
 testcontainers = ["testcontainers-core", "testcontainers-junit", "testcontainers-wiremock", "wiremock-standalone"]
 
@@ -130,4 +119,3 @@ azurewebapp = { id = "com.microsoft.azure.azurewebapp", version.ref = "azureweba
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
 node-gradle = { id = "com.github.node-gradle.node", version.ref = "node-gradle" }
-azurefunctions = { id = "com.microsoft.azure.azurefunctions", version.ref = "azurefunctions" }
