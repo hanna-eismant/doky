@@ -25,9 +25,6 @@ $dokka.location:org.hkurh.doky.config/AiSearchConfig/AiSearchConfig/#/PointingTo
 $dokka.location:org.hkurh.doky.config/AiSearchConfig/searchClient/#/PointingToDeclaration/doky/org.hkurh.doky.config/-ai-search-config/search-client.html
 $dokka.location:org.hkurh.doky.config/ApiDocumentationConfig///PointingToDeclaration/doky/org.hkurh.doky.config/-api-documentation-config/index.html
 $dokka.location:org.hkurh.doky.config/ApiDocumentationConfig/ApiDocumentationConfig/#/PointingToDeclaration/doky/org.hkurh.doky.config/-api-documentation-config/-api-documentation-config.html
-$dokka.location:org.hkurh.doky.config/DokyWebConfig///PointingToDeclaration/doky/org.hkurh.doky.config/-doky-web-config/index.html
-$dokka.location:org.hkurh.doky.config/DokyWebConfig/DokyWebConfig/#/PointingToDeclaration/doky/org.hkurh.doky.config/-doky-web-config/-doky-web-config.html
-$dokka.location:org.hkurh.doky.config/DokyWebConfig/addResourceHandlers/#org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry/PointingToDeclaration/doky/org.hkurh.doky.config/-doky-web-config/add-resource-handlers.html
 $dokka.location:org.hkurh.doky.config/JacksonConfig///PointingToDeclaration/doky/org.hkurh.doky.config/-jackson-config/index.html
 $dokka.location:org.hkurh.doky.config/JacksonConfig/JacksonConfig/#/PointingToDeclaration/doky/org.hkurh.doky.config/-jackson-config/-jackson-config.html
 $dokka.location:org.hkurh.doky.config/JacksonConfig/objectMapper/#/PointingToDeclaration/doky/org.hkurh.doky.config/-jackson-config/object-mapper.html
