@@ -25,7 +25,6 @@ sonarqube = "5.1.0.4882"
 azurewebapp = "1.7.1"
 dokka = "2.0.0"
 buildconfig = "5.3.5"
-node-gradle = "7.0.2"
 dd-trace-api = "[1.44.0,2.0.0)"
 azure-ai-search = "11.7.4"
 testcontainers = "1.20.4"
@@ -118,4 +117,3 @@ sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
 azurewebapp = { id = "com.microsoft.azure.azurewebapp", version.ref = "azurewebapp" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
-node-gradle = { id = "com.github.node-gradle.node", version.ref = "node-gradle" }

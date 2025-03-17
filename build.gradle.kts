@@ -1,4 +1,3 @@
-import com.github.gradle.node.npm.task.NpmTask
 import org.gradle.internal.classpath.Instrumented.systemProperty
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -24,7 +23,6 @@ plugins {
     alias(libs.plugins.azurewebapp)
     alias(libs.plugins.dokka)
     alias(libs.plugins.buildconfig)
-    alias(libs.plugins.node.gradle)
 }
 
 java {
@@ -182,38 +180,6 @@ tasks.named<Test>("integrationTest") {
     testLogging {
         showStandardStreams = true
         events("PASSED", "SKIPPED", "FAILED")
-    }
-}
-
-node {
-    download = true
-    version = "22.13.1"
-    npmInstallCommand = "ci"
-    nodeProjectDir = file("${project.projectDir}/doky-front")
-}
-
-tasks.register<NpmTask>("npmBuild") {
-    description = "Runs npm build and creates dist folder"
-    group = "npm"
-    dependsOn("npmInstall")
-    args = listOf("run", "build")
-}
-
-tasks.register<Copy>("copyFrontDistSrc") {
-    description = "Copy build front files to static folder under resources"
-    group = "npm"
-    dependsOn("npmBuild")
-    from("$projectDir/doky-front/dist")
-    into("$projectDir/src/main/resources/static")
-}
-
-tasks.named("processResources") {
-    dependsOn("copyFrontDistSrc")
-}
-
-tasks.named("clean") {
-    doLast {
-        delete("server/src/main/resources/static")
     }
 }
 
