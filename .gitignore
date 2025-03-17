@@ -62,3 +62,4 @@ cleanup-functions/out/
 /doky-front/node_modules/
 /doky-front/dist/
 /local.env
+/build_docker_image.bat

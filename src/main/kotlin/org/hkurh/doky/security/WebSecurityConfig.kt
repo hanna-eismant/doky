@@ -66,7 +66,11 @@ internal class WebSecurityConfig(private val jwtAuthorizationFilter: JwtAuthoriz
     protected fun corsConfigurationSource(): CorsConfigurationSource {
         val source = UrlBasedCorsConfigurationSource()
         val corsConfiguration = CorsConfiguration().applyPermitDefaultValues()
+        corsConfiguration.addAllowedMethod(HttpMethod.OPTIONS)
+        corsConfiguration.addAllowedMethod(HttpMethod.GET)
+        corsConfiguration.addAllowedMethod(HttpMethod.POST)
         corsConfiguration.addAllowedMethod(HttpMethod.PUT)
+        corsConfiguration.addAllowedMethod(HttpMethod.HEAD)
         source.registerCorsConfiguration("/**", corsConfiguration)
         return source
     }
