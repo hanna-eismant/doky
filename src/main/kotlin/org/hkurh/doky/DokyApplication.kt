@@ -22,8 +22,8 @@ package org.hkurh.doky
 
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.scheduling.annotation.EnableScheduling
@@ -65,10 +65,9 @@ class DokyApplication {
     companion object {
         private const val SECRET_KEY = "dokySecretKey-hanna.kurhuzenkava-project"
         val SECRET_KEY_SPEC = SecretKeySpec(SECRET_KEY.toByteArray(), SignatureAlgorithm.HS256.jcaName)
-
-        @JvmStatic
-        fun main(args: Array<String>) {
-            SpringApplication.run(DokyApplication::class.java, *args)
-        }
     }
+}
+
+fun main(args: Array<String>) {
+    runApplication<DokyApplication>(*args)
 }

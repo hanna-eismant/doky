@@ -23,10 +23,12 @@ package org.hkurh.doky
 import org.apache.commons.lang3.StringUtils
 import org.hkurh.doky.documents.api.DocumentResponse
 import org.hkurh.doky.documents.db.DocumentEntity
+import org.hkurh.doky.search.DocumentIndexData
 import org.hkurh.doky.users.api.UserDto
 import org.hkurh.doky.users.db.UserEntity
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
+import java.time.ZoneOffset
 import java.util.*
 
 fun UserEntity.toDto(): UserDto {
@@ -53,8 +55,22 @@ fun DocumentEntity.toDto(): DocumentResponse {
     }
 }
 
+fun DocumentEntity.toIndexData(): DocumentIndexData {
+    val entity = this
+    return DocumentIndexData(
+        id = entity.id.toString(),
+        name = entity.name,
+        description = entity.description,
+        fileName = entity.fileName,
+        createdDate = entity.createdDate?.toInstant()?.atOffset(ZoneOffset.UTC),
+        modifiedDate = entity.modifiedDate?.toInstant()?.atOffset(ZoneOffset.UTC),
+        createdBy = entity.createdBy?.id.toString(),
+        modifiedBy = entity.modifiedBy?.id.toString()
+    )
+}
+
 val formatter: DateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm:ss")
-fun dateToString(source: Date?): String {
+private fun dateToString(source: Date?): String {
     return if (source != null) {
         formatter.print(source.time)
     } else {
@@ -62,7 +78,7 @@ fun dateToString(source: Date?): String {
     }
 }
 
-fun userToString(source: UserEntity?): String {
+private fun userToString(source: UserEntity?): String {
     return if (source != null) {
         "${source.name} <${source.uid}>"
     } else {

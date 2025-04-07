@@ -1,109 +1,114 @@
 {
   "properties": [
     {
-      "name": "db.host",
-      "type": "java.lang.String",
-      "description": "Description for db.host."
-    },
-    {
-      "name": "db.port",
-      "type": "java.lang.Integer",
-      "description": "Description for db.port."
-    },
-    {
-      "name": "db.database",
-      "type": "java.lang.String",
-      "description": "Description for db.database."
-    },
-    {
-      "name": "db.user",
-      "type": "java.lang.String",
-      "description": "Description for db.database."
-    },
-    {
-      "name": "db.password",
-      "type": "java.lang.String",
-      "description": "Description for db.password."
-    },
-    {
-      "name": "flyway.url",
-      "type": "java.lang.String",
-      "description": "Description for flyway.url."
-    },
-    {
-      "name": "flyway.user",
-      "type": "java.lang.String",
-      "description": "Description for flyway.user."
-    },
-    {
-      "name": "flyway.password",
-      "type": "java.lang.String",
-      "description": "Description for flyway.password."
-    },
-    {
       "name": "doky.filestorage.type",
       "type": "java.lang.String",
-      "description": "Description for doky.filestorage.type."
+      "description": "Defines storage type for files in Documents."
     },
     {
-      "name": "doky.email.from",
+      "name": "doky.filestorage.path",
       "type": "java.lang.String",
-      "description": "Description for doky.email.from."
+      "description": "Path where files should be saved. It is used both for local filesystem storage and Azure Blob."
+    },
+    {
+      "name": "doky.filestorage.azure.connection",
+      "type": "java.lang.String",
+      "description": "Connection string for Azure Blob."
+    },
+    {
+      "name": "doky.filestorage.azure.container",
+      "type": "java.lang.String",
+      "description": "Name of container in Azure Blob to store files."
+    },
+    {
+      "name": "doky.password.reset.token.duration",
+      "type": "java.lang.Integer",
+      "description": "Defines in minutes how long token for reset password is valid."
+    },
+    {
+      "name": "doky.email.server.type",
+      "type": "java.lang.String",
+      "description": "Defines type of integration to send emails."
+    },
+    {
+      "name": "doky.app.host",
+      "type": "java.lang.String",
+      "description": "The host used for links in emails. Usually it points to frontend host."
+    },
+    {
+      "name": "doky.email.sender.email",
+      "type": "java.lang.String",
+      "description": "Define email used as sender."
+    },
+    {
+      "name": "doky.email.sender.name",
+      "type": "java.lang.String",
+      "description": "Defines name for sender."
     },
     {
       "name": "doky.email.templates.path",
       "type": "java.lang.String",
-      "description": "Description for doky.email.templates.path."
+      "description": "Path to velocity templates for emails."
     },
     {
-      "name": "doky.search.solr.host",
+      "name": "doky.email.sendgrid.api-key",
       "type": "java.lang.String",
-      "description": "Description for doky.search.solr.host."
+      "description": "API key for sendgrid integration."
     },
     {
-      "name": "doky.search.solr.core.documents",
+      "name": "doky.email.registration.sendgrid.template-id",
       "type": "java.lang.String",
-      "description": "Description for doky.search.solr.core.documents."
+      "description": "Sendgrid template for registration email (welcome email)."
     },
     {
-      "name": "doky.version.build",
+      "name": "doky.email.registration.subject",
       "type": "java.lang.String",
-      "description": "Description for doky.version.build."
+      "description": "Subject for registration email."
     },
     {
-      "name": "doky.version.commit",
+      "name": "doky.email.reset-password.sendgrid.template-id",
       "type": "java.lang.String",
-      "description": "Description for doky.version.commit."
+      "description": "Sendgrid template is for reset password email."
     },
     {
-      "name": "doky.password.reset.token.duration",
-      "type": "java.lang.Long",
-      "description": "Determine how long in minutes token for resetting password is valid."
-    },
-    {
-      "name": "spring.cloud.azure.appconfiguration.stores[0].connection-string",
+      "name": "doky.email.reset-password.subject",
       "type": "java.lang.String",
-      "description": "Description for spring.cloud.azure.appconfiguration.stores[0].connection-string."
+      "description": "Subject for reset password email."
     },
     {
-      "name": "spring.cloud.azure.appconfiguration.stores[0].selects[0].label-filter",
+      "name": "doky.kafka.username",
       "type": "java.lang.String",
-      "description": "Description for spring.cloud.azure.appconfiguration.stores[0].selects[0].label-filter."
+      "description": "Username for kafka server."
     },
     {
-      "name": "spring.cloud.azure.appconfiguration.stores[0].selects[0].key-filter",
+      "name": "doky.kafka.password",
       "type": "java.lang.String",
-      "description": "Description for spring.cloud.azure.appconfiguration.stores[0].selects[0].key-filter."
+      "description": "Password for kafka server."
     },
     {
-      "name": "spring.cloud.azure.appconfiguration.stores[0].monitoring.enabled",
+      "name": "doky.kafka.emails.topic",
+      "type": "java.lang.String",
+      "description": "Kafka topic name for emails."
+    },
+    {
+      "name": "doky.kafka.emails.group.id",
+      "type": "java.lang.String",
+      "description": "Kafka group id for emails topic."
+    },
+    {
+      "name": "doky.kafka.emails.consumer.id",
+      "type": "java.lang.String",
+      "description": "Kafka consumer is for emails topic."
+    },
+    {
+      "name": "doky.kafka.emails.consumer.autostart",
       "type": "java.lang.Boolean",
-      "description": "Description for spring.cloud.azure.appconfiguration.stores[0].monitoring.enabled."
+      "description": "Defines if kafka consumer for emails should be started automatically."
     },
     {
-      "name": "spring.cloud.azure.appconfiguration.stores[0].monitoring.triggers[0].key",
+      "name": "doky.kafka.emails.concurrency",
       "type": "java.lang.String",
-      "description": "Description for spring.cloud.azure.appconfiguration.stores[0].monitoring.triggers[0].key."
+      "description": "Defines kafka consumer concurrency for emails topic."
     }
   ],
   "hints": [
@@ -117,6 +122,19 @@
         {
           "value": "azure-blob",
           "description": "Use Azure Blob Storage to save files attached to Document."
+        }
+      ]
+    },
+    {
+      "name": "doky.email.server.type",
+      "values": [
+        {
+          "value": "smtp",
+          "description": "Use SMTP configuration to send emails. In this case SMTP properties should be defined, velocity templates from codebase are used."
+        },
+        {
+          "value": "sendgrid",
+          "description": "Use Sendgrid API integration to send emails. In this case sendgrid API configs should be defined, sendgrid templates are used."
         }
       ]
     }
