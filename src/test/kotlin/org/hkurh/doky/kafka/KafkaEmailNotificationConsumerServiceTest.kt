@@ -21,7 +21,7 @@
 package org.hkurh.doky.kafka
 
 import org.hkurh.doky.DokyUnitTest
-import org.hkurh.doky.email.EmailService
+import org.hkurh.doky.email.EmailSender
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.users.db.UserEntity
@@ -40,10 +40,10 @@ class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
 
     private val userEntityRepository: UserEntityRepository = mock()
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository = mock()
-    private val emailService: EmailService = mock()
+    private val emailSender: EmailSender = mock()
 
     private val service =
-        KafkaEmailNotificationConsumerService(userEntityRepository, resetPasswordTokenEntityRepository, emailService)
+        KafkaEmailNotificationConsumerService(userEntityRepository, resetPasswordTokenEntityRepository, emailSender)
 
 
     @Test
@@ -63,7 +63,7 @@ class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
         service.listen(message)
 
         // then
-        verify(emailService, times(1)).sendRegistrationConfirmationEmail(user)
+        verify(emailSender, times(1)).sendRegistrationConfirmationEmail(user)
     }
 
     @Test
@@ -86,7 +86,7 @@ class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
         service.listen(message)
 
         // then
-        verify(emailService, times(1)).sendRestorePasswordEmail(user, token)
+        verify(emailSender, times(1)).sendRestorePasswordEmail(user, token)
     }
 
     private fun createUser(id: Long): UserEntity {

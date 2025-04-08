@@ -22,7 +22,7 @@ package org.hkurh.doky.email.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.email.EmailProperties
-import org.hkurh.doky.email.EmailService
+import org.hkurh.doky.email.EmailSender
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -37,22 +37,24 @@ import java.nio.charset.StandardCharsets
 
 @Service
 @ConditionalOnProperty(name = ["doky.email.server.type"], havingValue = "smtp", matchIfMissing = true)
-class DefaultEmailService(
-    val emailProperties: EmailProperties,
-    @Value("\${doky.app.host}") val host: String,
-    @Value("classpath:/mail/img/logo-white-no-bg.svg") val logoFile: Resource,
-    val emailSender: JavaMailSender,
-    val templateEngine: SpringTemplateEngine
-) : EmailService {
+class SmtpEmailSender(
+    private val emailProperties: EmailProperties,
+    @Value("\${doky.app.host}") private val host: String,
+    @Value("classpath:/mail/img/logo-white-no-bg.svg") private val logoFile: Resource,
+    private val emailSender: JavaMailSender,
+    private val templateEngine: SpringTemplateEngine
+) : EmailSender {
+
+    private val log = KotlinLogging.logger {}
 
     override fun sendRegistrationConfirmationEmail(user: UserEntity) {
-        LOG.debug { "Send registration email for user [${user.id}]" }
+        log.debug { "Send registration email for user [${user.id}]" }
         val htmlBody = prepareRegistrationConfirmationEmail(user)
         sendEmail(htmlBody, user.uid, emailProperties.registration.subject)
     }
 
     override fun sendRestorePasswordEmail(user: UserEntity, token: String) {
-        LOG.debug { "Send reset password email for user [${user.id}]" }
+        log.debug { "Send reset password email for user [${user.id}]" }
         val htmlBody = prepareRestorePasswordEmail(user, token)
         sendEmail(htmlBody, user.uid, emailProperties.resetPassword.subject)
     }
@@ -95,9 +97,5 @@ class DefaultEmailService(
             setVariables(variables)
         }
         return templateEngine.process(template, context)
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

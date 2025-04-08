@@ -21,22 +21,22 @@
 
 package org.hkurh.doky.email.impl
 
+import org.hkurh.doky.email.EmailSender
 import org.hkurh.doky.email.EmailService
-import org.hkurh.doky.email.TransactionalEmailService
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class DefaultTransactionalEmailService(
+class TransactionalEmailService(
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
-    private val emailService: EmailService
-) : TransactionalEmailService {
+    private val emailSender: EmailSender
+) : EmailService {
 
     @Transactional
     override fun sendResetPasswordEmail(resetPasswordTokenEntity: ResetPasswordTokenEntity) {
-        emailService.sendRestorePasswordEmail(resetPasswordTokenEntity.user, resetPasswordTokenEntity.token)
+        emailSender.sendRestorePasswordEmail(resetPasswordTokenEntity.user, resetPasswordTokenEntity.token)
         resetPasswordTokenEntity.sentEmail = true
         resetPasswordTokenEntityRepository.save(resetPasswordTokenEntity)
     }

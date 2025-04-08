@@ -21,8 +21,8 @@
 package org.hkurh.doky.kafka
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.hkurh.doky.email.EmailSender
 import org.hkurh.doky.email.EmailService
-import org.hkurh.doky.email.TransactionalEmailService
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.users.db.UserEntityRepository
 import org.springframework.kafka.annotation.KafkaListener
@@ -32,9 +32,9 @@ import org.springframework.stereotype.Service
 @Service
 class KafkaEmailNotificationConsumerService(
     private val userEntityRepository: UserEntityRepository,
-    private val transactionalEmailService: TransactionalEmailService,
+    private val emailService: EmailService,
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
-    private val emailService: EmailService
+    private val emailSender: EmailSender
 ) {
 
     private val log = KotlinLogging.logger {}
@@ -64,7 +64,7 @@ class KafkaEmailNotificationConsumerService(
 
     private fun sendRegistrationEmail(userId: Long) {
         userEntityRepository.findById(userId).ifPresent { user ->
-            emailService.sendRegistrationConfirmationEmail(user)
+            emailSender.sendRegistrationConfirmationEmail(user)
         }
     }
 
@@ -72,7 +72,7 @@ class KafkaEmailNotificationConsumerService(
         resetPasswordTokenEntityRepository.findValidUnsentTokensByUserId(userId)
             .forEach {
                 try {
-                    transactionalEmailService.sendResetPasswordEmail(it)
+                    emailService.sendResetPasswordEmail(it)
                 } catch (e: Exception) {
                     log.error(e) { "Error sending reset password email for user [$userId]" }
                 }

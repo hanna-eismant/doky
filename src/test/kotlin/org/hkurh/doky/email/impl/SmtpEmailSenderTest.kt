@@ -37,8 +37,8 @@ import org.springframework.mail.javamail.JavaMailSender
 import org.thymeleaf.spring6.SpringTemplateEngine
 
 
-@DisplayName("DefaultEmailService unit test")
-class DefaultEmailServiceTest : DokyUnitTest {
+@DisplayName("DefaultEmailSender unit test")
+class SmtpEmailSenderTest : DokyUnitTest {
 
     private val emailProperties = EmailProperties().apply {
         sender = EmailProperties.Sender().apply {
@@ -66,7 +66,7 @@ class DefaultEmailServiceTest : DokyUnitTest {
     private val emailSender: JavaMailSender = mock()
     private val templateEngine: SpringTemplateEngine = mock()
     private val mimeMessage: MimeMessage = mock()
-    private val defaultEmailService = DefaultEmailService(emailProperties, host, logoFile, emailSender, templateEngine)
+    private val defaultEmailService = SmtpEmailSender(emailProperties, host, logoFile, emailSender, templateEngine)
     private val user = UserEntity().apply {
         name = "John"
         uid = "test@mail.com"

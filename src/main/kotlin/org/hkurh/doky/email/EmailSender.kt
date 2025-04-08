@@ -20,15 +20,24 @@
 
 package org.hkurh.doky.email
 
-import org.hkurh.doky.password.db.ResetPasswordTokenEntity
+import org.hkurh.doky.users.db.UserEntity
 
-interface EmailService {
+/**
+ * EmailService interface provides methods for sending emails.
+ */
+interface EmailSender {
+    /**
+     * Sends a registration confirmation email to the specified user.
+     *
+     * @param user The user entity for which the registration confirmation email will be sent.
+     */
+    fun sendRegistrationConfirmationEmail(user: UserEntity)
 
     /**
-     * Sends a reset password email to the user associated with the provided reset password token.
+     * Sends a restore password email to the specified user with the given token.
      *
-     * @param resetPasswordTokenEntity The entity containing the reset password token details,
-     * including the user information, token, and expiration date.
+     * @param user The user entity for which the restore password email will be sent.
+     * @param token The token used for restoring the user's password.
      */
-    fun sendResetPasswordEmail(resetPasswordTokenEntity: ResetPasswordTokenEntity)
+    fun sendRestorePasswordEmail(user: UserEntity, token: String)
 }

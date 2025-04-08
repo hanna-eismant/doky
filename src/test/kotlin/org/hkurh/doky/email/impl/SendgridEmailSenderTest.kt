@@ -36,8 +36,8 @@ import org.mockito.kotlin.spy
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
-@DisplayName("SendgridEmailService unit test")
-class SendgridEmailServiceTest : DokyUnitTest {
+@DisplayName("SendgridEmailSender unit test")
+class SendgridEmailSenderTest : DokyUnitTest {
 
     private val emailProperties = EmailProperties().apply {
         sender = EmailProperties.Sender().apply {
@@ -61,7 +61,7 @@ class SendgridEmailServiceTest : DokyUnitTest {
         }
     }
     private val host = "http://localhost:8080"
-    private val sendgridEmailService = SendgridEmailService(emailProperties, host)
+    private val sendgridEmailSender = SendgridEmailSender(emailProperties, host)
 
     @Test
     @DisplayName("Should send registration email")
@@ -72,15 +72,15 @@ class SendgridEmailServiceTest : DokyUnitTest {
             uid = "test@mail.com"
         }
 
-        val sendgridEmailServiceSpy = spy(sendgridEmailService)
-        doNothing().whenever(sendgridEmailServiceSpy).sendEmailToSendGrid(any())
+        val sendgridEmailSenderSpy = spy(sendgridEmailSender)
+        doNothing().whenever(sendgridEmailSenderSpy).sendEmailToSendGrid(any())
 
         // when
-        sendgridEmailServiceSpy.sendRegistrationConfirmationEmail(user)
+        sendgridEmailSenderSpy.sendRegistrationConfirmationEmail(user)
 
         // then
         argumentCaptor<Mail>().apply {
-            verify(sendgridEmailServiceSpy).sendEmailToSendGrid(capture())
+            verify(sendgridEmailSenderSpy).sendEmailToSendGrid(capture())
             val mail = firstValue
             assertAll(
                 { assertEquals(emailProperties.registration.subject, mail.subject) },
@@ -101,7 +101,7 @@ class SendgridEmailServiceTest : DokyUnitTest {
             uid = "test@mail.com"
         }
         val token = "token"
-        val sendgridEmailServiceSpy = spy(sendgridEmailService)
+        val sendgridEmailServiceSpy = spy(sendgridEmailSender)
         doNothing().whenever(sendgridEmailServiceSpy).sendEmailToSendGrid(any())
 
         // when

@@ -29,7 +29,7 @@ import com.sendgrid.helpers.mail.objects.Email
 import com.sendgrid.helpers.mail.objects.Personalization
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.email.EmailProperties
-import org.hkurh.doky.email.EmailService
+import org.hkurh.doky.email.EmailSender
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -39,15 +39,16 @@ import java.io.IOException
 
 @Service
 @ConditionalOnProperty(name = ["doky.email.server.type"], havingValue = "sendgrid", matchIfMissing = false)
-class SendgridEmailService(
-    val emailProperties: EmailProperties,
-    @Value("\${doky.app.host}") val host: String
-) : EmailService {
+class SendgridEmailSender(
+    private val emailProperties: EmailProperties,
+    @Value("\${doky.app.host}") private val host: String
+) : EmailSender {
 
-    val defaultUserName = "Customer"
+    private val log = KotlinLogging.logger {}
+    private val defaultUserName = "Customer"
 
     override fun sendRegistrationConfirmationEmail(user: UserEntity) {
-        LOG.debug { "Send registration email for user [${user.id}]" }
+        log.debug { "Send registration email for user [${user.id}]" }
         sendEmail(
             senderEmail = emailProperties.sender.email,
             senderName = emailProperties.sender.name,
@@ -59,7 +60,7 @@ class SendgridEmailService(
     }
 
     override fun sendRestorePasswordEmail(user: UserEntity, token: String) {
-        LOG.debug { "Send reset password email for user [${user.id}]" }
+        log.debug { "Send reset password email for user [${user.id}]" }
         sendEmail(
             senderEmail = emailProperties.sender.email,
             senderName = emailProperties.sender.name,
@@ -111,16 +112,12 @@ class SendgridEmailService(
             request.endpoint = "mail/send"
             request.body = mail.build()
             val response: Response = sendGridClient.api(request)
-            LOG.debug { "Response code: ${response.statusCode}; body: ${response.body}" }
+            log.debug { "Response code: ${response.statusCode}; body: ${response.body}" }
             if (response.statusCode !in 200..299) {
-                LOG.error { "Error during sending email. Response code: ${response.statusCode}; body: ${response.body}" }
+                log.error { "Error during sending email. Response code: ${response.statusCode}; body: ${response.body}" }
             }
         } catch (e: IOException) {
-            LOG.error { e.message }
+            log.error { e.message }
         }
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }
