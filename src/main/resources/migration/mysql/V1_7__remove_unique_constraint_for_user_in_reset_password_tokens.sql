@@ -1,1 +1,1 @@
-ALTER TABLE reset_password_tokens DROP CONSTRAINT uc_reset_password_tokens_app_user;
+DROP INDEX uc_reset_password_tokens_app_user ON reset_password_tokens;
