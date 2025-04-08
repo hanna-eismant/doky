@@ -18,23 +18,20 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.kafka
+package org.hkurh.doky
 
-import com.fasterxml.jackson.annotation.JsonProperty
+fun String.mask(
+    startLength: Int = 3,
+    endLength: Int = 3,
+    maskChar: Char = '*'
+): String {
 
-class SendEmailMessage {
-    @JsonProperty("userId")
-    var userId: Long? = null
-
-    @JsonProperty("emailType")
-    var emailType: EmailType? = null
-
-    override fun toString(): String {
-        return "SendEmailMessage(userId=$userId, emailType=$emailType)"
+    if (this.isEmpty() || this.length < startLength + endLength) {
+        return maskChar.toString().repeat(this.length)
     }
-}
-
-enum class EmailType {
-    REGISTRATION,
-    RESET_PASSWORD
+    val maskLength = this.length - (startLength + endLength)
+    return """
+        |${this.substring(0, startLength)}
+        |${maskChar.toString().repeat(maskLength)}
+        |${this.substring(this.length - endLength)}""".trimMargin()
 }

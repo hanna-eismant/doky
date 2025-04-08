@@ -22,6 +22,7 @@ package org.hkurh.doky.kafka
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.email.EmailService
+import org.hkurh.doky.email.TransactionalEmailService
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.users.db.UserEntityRepository
 import org.springframework.kafka.annotation.KafkaListener
@@ -31,9 +32,13 @@ import org.springframework.stereotype.Service
 @Service
 class KafkaEmailNotificationConsumerService(
     private val userEntityRepository: UserEntityRepository,
+    private val transactionalEmailService: TransactionalEmailService,
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
     private val emailService: EmailService
 ) {
+
+    private val log = KotlinLogging.logger {}
+
     @KafkaListener(
         id = "\${doky.kafka.emails.consumer.id}",
         topics = ["\${doky.kafka.emails.topic}"],
@@ -44,16 +49,16 @@ class KafkaEmailNotificationConsumerService(
     )
     fun listen(@Payload message: SendEmailMessage) {
         try {
-            LOG.debug { "Received message: [$message]" }
+            log.debug { "Received message: [$message]" }
             message.userId.let {
                 when (message.emailType) {
                     EmailType.REGISTRATION -> sendRegistrationEmail(message.userId!!)
                     EmailType.RESET_PASSWORD -> sendResetPasswordEmail(message.userId!!)
-                    null -> LOG.warn { "No email type specified" }
+                    null -> log.warn { "No email type specified" }
                 }
             }
         } catch (e: Exception) {
-            LOG.error(e) { "Error processing message: [$message]" }
+            log.error(e) { "Error processing message: [$message]" }
         }
     }
 
@@ -64,14 +69,13 @@ class KafkaEmailNotificationConsumerService(
     }
 
     private fun sendResetPasswordEmail(userId: Long) {
-        userEntityRepository.findById(userId).ifPresent { user ->
-            resetPasswordTokenEntityRepository.findByUser(user)?.apply {
-                this.token.let { emailService.sendRestorePasswordEmail(user, it) }
+        resetPasswordTokenEntityRepository.findValidUnsentTokensByUserId(userId)
+            .forEach {
+                try {
+                    transactionalEmailService.sendResetPasswordEmail(it)
+                } catch (e: Exception) {
+                    log.error(e) { "Error sending reset password email for user [$userId]" }
+                }
             }
-        }
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

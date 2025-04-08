@@ -55,4 +55,7 @@ class ResetPasswordTokenEntity {
 
     @Column(name = "expiration_date", nullable = false)
     lateinit var expirationDate: Date
+
+    @Column(name = "sent_email", nullable = false)
+    var sentEmail: Boolean = false
 }

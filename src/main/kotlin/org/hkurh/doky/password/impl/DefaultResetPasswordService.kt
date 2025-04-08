@@ -21,6 +21,7 @@
 package org.hkurh.doky.password.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.hkurh.doky.mask
 import org.hkurh.doky.password.ResetPasswordService
 import org.hkurh.doky.password.TokenService
 import org.hkurh.doky.password.TokenStatus
@@ -48,29 +49,28 @@ class DefaultResetPasswordService(
             this.expirationDate = expirationDate
         }
         val savedPasswordTokenEntity = resetPasswordTokenEntityRepository.save(resetPasswordTokenEntity)
-        log.info { "Generated reset token for user [${user.id}]" }
         return savedPasswordTokenEntity.token
     }
 
     override fun validateToken(token: String): TokenStatus {
         val resetToken = resetPasswordTokenEntityRepository.findByToken(token)
-        log.debug { "Validating token: $token" }
+        log.debug { "Validating token: [${token.mask()}]" }
         resetToken?.let {
             return when {
                 isTokenExpired(it) -> {
-                    log.warn { "Token expired: $token" }
+                    log.warn { "Token expired for user: [${it.user.id}]" }
                     TokenStatus.EXPIRED
                 }
 
                 !isTokenBelongsToCurrentUser(it) -> {
-                    log.warn { "Token does not belong to the current user: $token" }
+                    log.warn { "Token does not belong to the current user: [${it.user.id}]" }
                     TokenStatus.INVALID
                 }
 
                 else -> TokenStatus.VALID
             }
         }
-        log.warn { "Token invalid or not found: $token" }
+        log.warn { "Token invalid or not found: [${token.mask()}]" }
         return TokenStatus.INVALID
     }
 

@@ -123,7 +123,7 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
         val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
             this.user = user
         }
-        whenever(resetPasswordService.validateToken(token)).thenReturn(resetPasswordTokenEntity)
+        whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.VALID)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
 
         // when
@@ -167,13 +167,13 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
         val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
             this.user = user
         }
-        whenever(resetPasswordService.validateToken(token)).thenReturn(resetPasswordTokenEntity)
+        whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.VALID)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
 
         // when
         passwordFacade.update(newPassword, token)
 
         // then
-        verify(resetPasswordService, times(1)).delete(resetPasswordTokenEntity)
+        verify(resetPasswordService, times(1)).delete(token)
     }
 }

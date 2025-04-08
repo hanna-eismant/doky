@@ -25,7 +25,7 @@ import org.hkurh.doky.errorhandling.DokyInvalidTokenException
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.password.impl.DefaultResetPasswordService
-import org.hkurh.doky.password.impl.DefaultTokenService
+import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -44,10 +44,12 @@ import java.util.*
 @DisplayName("DefaultResetPasswordService unit test")
 class DefaultResetPasswordServiceTest : DokyUnitTest {
 
-    private var tokenUtil: DefaultTokenService = mock()
+    private var tokenService: TokenService = mock()
+    private var userService: UserService = mock()
     private var resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository = mock()
     private var resetPasswordService = DefaultResetPasswordService(
-        tokenService = tokenUtil,
+        tokenService = tokenService,
+        userService = userService,
         resetPasswordTokenEntityRepository = resetPasswordTokenEntityRepository
     )
 
@@ -60,8 +62,8 @@ class DefaultResetPasswordServiceTest : DokyUnitTest {
     @DisplayName("Should save token info in database")
     fun shouldSaveTokenInfoInDatabase() {
         // when
-        whenever(tokenUtil.generateToken()).thenReturn(tokenString)
-        whenever(tokenUtil.calculateExpirationDate()).thenReturn(tokenDate)
+        whenever(tokenService.generateToken()).thenReturn(tokenString)
+        whenever(tokenService.calculateExpirationDate()).thenReturn(tokenDate)
 
         whenever(resetPasswordTokenEntityRepository.save(any<ResetPasswordTokenEntity>())).thenAnswer { invocation ->
             val argument = invocation.getArgument<ResetPasswordTokenEntity>(0)
@@ -91,8 +93,8 @@ class DefaultResetPasswordServiceTest : DokyUnitTest {
         existingToken.id = tokenId
         existingToken.token = "existing-token"
 
-        whenever(tokenUtil.generateToken()).thenReturn(tokenString)
-        whenever(tokenUtil.calculateExpirationDate()).thenReturn(tokenDate)
+        whenever(tokenService.generateToken()).thenReturn(tokenString)
+        whenever(tokenService.calculateExpirationDate()).thenReturn(tokenDate)
         whenever(resetPasswordTokenEntityRepository.findByUser(mockUser)).thenReturn(existingToken)
 
         whenever(resetPasswordTokenEntityRepository.save(any<ResetPasswordTokenEntity>())).thenAnswer { invocation ->

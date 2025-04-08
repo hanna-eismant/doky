@@ -18,29 +18,26 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.maintenance.schedule.impl
 
-import io.github.oshai.kotlinlogging.KotlinLogging
-import org.hkurh.doky.maintenance.schedule.Scheduler
+package org.hkurh.doky.email.impl
+
+import org.hkurh.doky.email.EmailService
+import org.hkurh.doky.email.TransactionalEmailService
+import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
-import org.springframework.context.annotation.PropertySource
-import org.springframework.scheduling.annotation.Scheduled
-import org.springframework.stereotype.Component
-import java.util.*
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
-@Component("maintenance.DefaultScheduler")
-@PropertySource("classpath:scheduler.properties")
-class DefaultScheduler(
-    private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository
-) : Scheduler {
+@Service
+class DefaultTransactionalEmailService(
+    private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
+    private val emailService: EmailService
+) : TransactionalEmailService {
 
-    private val log = KotlinLogging.logger {}
-
-    @Scheduled(cron = "\${scheduler.cleanup.reset.password.tokens}")
-    override fun cleanupExpiredResetPasswordTokens() {
-        val now = Date()
-        val expiredTokens = resetPasswordTokenEntityRepository.findByExpirationDateLessThan(now)
-        resetPasswordTokenEntityRepository.deleteAll(expiredTokens)
-        log.info { "Deleted [${expiredTokens.size}] expired tokens" }
+    @Transactional
+    override fun sendResetPasswordEmail(resetPasswordTokenEntity: ResetPasswordTokenEntity) {
+        emailService.sendRestorePasswordEmail(resetPasswordTokenEntity.user, resetPasswordTokenEntity.token)
+        resetPasswordTokenEntity.sentEmail = true
+        resetPasswordTokenEntityRepository.save(resetPasswordTokenEntity)
     }
 }

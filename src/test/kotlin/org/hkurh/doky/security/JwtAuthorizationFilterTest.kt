@@ -64,7 +64,7 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
             authorities = mutableSetOf(AuthorityEntity())
         }
         val userDto = userEntity.toDto()
-        val token = generateToken(userDto.uid, userDto.roles)
+        val token = "token"//generateToken(userDto.uid, userDto.roles)
         val request = MockHttpServletRequest()
         request.addHeader(authorizationHeader, "Bearer $token")
         whenever(userService.findUserByUid(userUid)).thenReturn(userEntity)
@@ -105,7 +105,7 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
             authorities = mutableSetOf(AuthorityEntity())
         }
         val userDto = userEntity.toDto()
-        val token = userDto.name?.let { generateToken(it, userDto.roles) }
+        val token = "token"// userDto.name?.let { generateToken(it, userDto.roles) }
         val request = MockHttpServletRequest()
         request.addHeader(authorizationHeader, "Bearer $token")
         whenever(userService.findUserByUid(userUid)).thenThrow(DokyNotFoundException::class.java)

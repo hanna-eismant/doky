@@ -61,6 +61,7 @@ class DefaultPasswordFacade(
             userService.getCurrentUser().apply {
                 this.password = updatedPassword
                 userService.updateUser(this)
+                log.debug { "Password updated for user [${this.id}]" }
             }
             resetPasswordService.delete(token)
         } else {

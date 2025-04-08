@@ -22,6 +22,7 @@ package org.hkurh.doky.password.db
 
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import java.util.*
 
@@ -40,4 +41,12 @@ interface ResetPasswordTokenEntityRepository :
     fun findByExpirationDateLessThan(expirationDate: Date): List<ResetPasswordTokenEntity>
 
     fun deleteByToken(token: String)
+
+    @Query(
+        """
+        SELECT r FROM ResetPasswordTokenEntity r 
+        WHERE r.user.id = :userId AND r.expirationDate > CURRENT_TIMESTAMP AND r.sentEmail = false
+    """
+    )
+    fun findValidUnsentTokensByUserId(userId: Long): List<ResetPasswordTokenEntity>
 }
