@@ -21,26 +21,29 @@
 package org.hkurh.doky.filestorage.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.apache.commons.io.FilenameUtils
-import org.apache.commons.lang3.RandomStringUtils
 import org.hkurh.doky.filestorage.FileStorage
 import org.hkurh.doky.filestorage.FileStorageService
+import org.hkurh.doky.generateSecureRandomString
+import org.hkurh.doky.getExtension
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import org.springframework.core.env.Environment
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.File.separator
-import java.io.IOException
 import java.nio.file.Path
 
 @Service
 class DefaultFileStorageService(
-    private val environment: Environment,
     @Suppress("SpringJavaInjectionPointsAutowiringInspection") private val fileStorage: FileStorage
 ) : FileStorageService {
-    @Throws(IOException::class)
-    override fun store(file: MultipartFile, filePath: String?): String {
+
+    private val log = KotlinLogging.logger {}
+
+    @Value("\${doky.filestorage.path:./files}")
+    private lateinit var basePath: String
+
+    override fun storeFile(file: MultipartFile, filePath: String?): String {
         val isFileExists = fileStorage.checkExistence(filePath)
         return if (isFileExists) {
             val updatedFilePath = checkFileExtension(file, filePath!!)
@@ -48,7 +51,7 @@ class DefaultFileStorageService(
             fileStorage.saveFile(file, updatedFilePath)
             updatedFilePath
         } else {
-            val extension = FilenameUtils.getExtension(file.originalFilename)
+            val extension = file.originalFilename.getExtension()
             val storagePath = generateStoragePath()
             val fileName = generateFileName(extension)
             val generatedFilePath = storagePath + fileName
@@ -57,33 +60,29 @@ class DefaultFileStorageService(
         }
     }
 
-    @Throws(IOException::class)
     override fun getFile(filePath: String): Path? {
         return fileStorage.getFile(filePath)
     }
 
+    override fun deleteFile(filePath: String) {
+        fileStorage.deleteFile(filePath)
+    }
+
     private fun generateStoragePath(): String {
-        val basePath = environment.getProperty(STORAGE_PATH_PROPERTY, DEFAULT_STORAGE_PATH)
         val today = DateTime.now(DateTimeZone.getDefault())
         return "$basePath$separator${today.year}$separator${today.monthOfYear}$separator"
     }
 
     private fun generateFileName(extension: String): String {
-        val randomName = RandomStringUtils.random(10, true, true)
+        val randomName = generateSecureRandomString()
         return "$randomName.$extension"
     }
 
     private fun checkFileExtension(file: MultipartFile, filePath: String): String {
-        val uploadExt = FilenameUtils.getExtension(file.originalFilename)
-        val savedExt = FilenameUtils.getExtension(filePath)
-        LOG.debug { "Saved extension [$savedExt], upload extension [$uploadExt]" }
+        val uploadExt = file.originalFilename.getExtension()
+        val savedExt = filePath.getExtension()
+        log.debug { "Saved extension [$savedExt], upload extension [$uploadExt]" }
         return if (savedExt != uploadExt) filePath.replace(".$savedExt", ".$uploadExt")
         else filePath
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
-        const val STORAGE_PATH_PROPERTY = "doky.filestorage.path"
-        const val DEFAULT_STORAGE_PATH = "./mediadata"
     }
 }

@@ -52,7 +52,7 @@ class DefaultDocumentFacadeTest : DokyUnitTest {
 
     @BeforeEach
     fun setUp() {
-        whenever(fileStorageService.store(any(), any())).thenReturn("test/path")
+        whenever(fileStorageService.storeFile(any(), any())).thenReturn("test/path")
     }
 
     @Test

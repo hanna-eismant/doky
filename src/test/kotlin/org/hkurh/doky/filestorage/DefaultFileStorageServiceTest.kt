@@ -52,7 +52,7 @@ class DefaultFileStorageServiceTest : DokyUnitTest {
         whenever(fileStorage.checkExistence(any())).thenReturn(true)
 
         // when
-        val storedPath = fileStorageService.store(file, uploadedFilePath)
+        val storedPath = fileStorageService.storeFile(file, uploadedFilePath)
 
         // then
         assertEquals(uploadedFilePath, storedPath, "Path for existed document was changed")
@@ -68,7 +68,7 @@ class DefaultFileStorageServiceTest : DokyUnitTest {
         whenever(environment.getProperty(any(), any<String>())).thenReturn(basePath)
 
         // when
-        val storedPath = fileStorageService.store(file, uploadedFilePath)
+        val storedPath = fileStorageService.storeFile(file, uploadedFilePath)
 
         // then
         assertTrue(storedPath.startsWith(basePath), "Path to file should start from base path")

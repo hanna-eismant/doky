@@ -32,6 +32,8 @@ class KafkaEmailNotificationProducerService(
     private val kafkaTemplate: KafkaTemplate<String, Any>
 ) {
 
+    private val log = KotlinLogging.logger {}
+
     @Value("\${doky.kafka.emails.topic}")
     private var topic: String = ""
 
@@ -48,14 +50,10 @@ class KafkaEmailNotificationProducerService(
         val future: CompletableFuture<SendResult<String, Any>> = kafkaTemplate.send(topic, key, message)
         future.whenComplete { result, e ->
             if (e == null) {
-                LOG.debug { "Produced message to topic [${result.recordMetadata.topic()}] with key [$key]" }
+                log.debug { "Produced message to topic [${result.recordMetadata.topic()}] with key [$key]" }
             } else {
-                LOG.error(e) { "Error sending reset password email message with key [$key]" }
+                log.error(e) { "Error sending reset password email message with key [$key]" }
             }
         }
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

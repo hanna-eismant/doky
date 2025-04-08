@@ -20,7 +20,6 @@
 
 package org.hkurh.doky.documents.impl
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.documents.DocumentService
 import org.hkurh.doky.documents.DownloadTokenService
 import org.hkurh.doky.documents.db.DocumentEntity
@@ -69,9 +68,5 @@ class DefaultDownloadTokenService(
             throw DokyInvalidTokenException("Token [$token] is not valid for document [$documentId] and user [${user.id}]")
         }
         return document
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

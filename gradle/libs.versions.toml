@@ -14,7 +14,6 @@ greenmail = "2.0.1"
 jakarta-validation-api = "3.0.2"
 jjwt = "0.11.2"
 openapi-starter = "2.3.0"
-commons-io = "2.11.0"
 azure-blob = "12.25.3"
 httpclient = "4.5.13"
 rest-assured = "5.3.0"
@@ -74,7 +73,6 @@ jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jjwt" 
 jjwt-impl = { group = "io.jsonwebtoken", name = "jjwt-impl", version.ref = "jjwt" }
 jjwt-jackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version.ref = "jjwt" }
 openapi-starter = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "openapi-starter" }
-commons-io = { group = "commons-io", name = "commons-io", version.ref = "commons-io" }
 azure-blob = { group = "com.azure", name = "azure-storage-blob", version.ref = "azure-blob" }
 httpclient = { group = "org.apache.httpcomponents", name = "httpclient", version.ref = "httpclient" }
 rest-assured = { group = "io.rest-assured", name = "rest-assured", version.ref = "rest-assured" }

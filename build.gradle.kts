@@ -75,7 +75,6 @@ dependencies {
     implementation(libs.openapi.starter)
     implementation(libs.bundles.json)
     implementation(libs.bundles.logging)
-    implementation(libs.commons.io)
     implementation(libs.azure.blob)
     implementation(libs.bundles.kafka)
     implementation(libs.dd.trace.api)

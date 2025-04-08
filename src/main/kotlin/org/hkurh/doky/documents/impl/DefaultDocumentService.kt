@@ -33,14 +33,17 @@ class DefaultDocumentService(
     private val userService: UserService,
 ) : DocumentService {
 
+    private val log = KotlinLogging.logger {}
+
     override fun create(name: String, description: String?): DocumentEntity {
-        val document = DocumentEntity()
-        document.name = name
-        document.description = description
         val currentUser = userService.getCurrentUser()
-        document.creator = currentUser
+        val document = DocumentEntity().apply {
+            this.name = name
+            this.description = description
+            this.creator = currentUser
+        }
         val savedDocument = documentEntityRepository.save(document)
-        LOG.debug { "Created new Document [${savedDocument.id}] by User [${currentUser.id}]" }
+        log.debug { "Created new Document [${savedDocument.id}] by User [${currentUser.id}]" }
         return savedDocument
     }
 
@@ -56,9 +59,5 @@ class DefaultDocumentService(
 
     override fun save(document: DocumentEntity) {
         documentEntityRepository.save(document)
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

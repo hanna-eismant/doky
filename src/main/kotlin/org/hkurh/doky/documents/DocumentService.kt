@@ -57,6 +57,4 @@ interface DocumentService {
      * @param document The [DocumentEntity] object to be saved.
      */
     fun save(document: DocumentEntity)
-
-
 }

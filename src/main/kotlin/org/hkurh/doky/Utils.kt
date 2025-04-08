@@ -20,6 +20,8 @@
 
 package org.hkurh.doky
 
+import java.security.SecureRandom
+
 fun String.mask(
     startLength: Int = 3,
     endLength: Int = 3,
@@ -34,4 +36,17 @@ fun String.mask(
         |${this.substring(0, startLength)}
         |${maskChar.toString().repeat(maskLength)}
         |${this.substring(this.length - endLength)}""".trimMargin()
+}
+
+fun String?.getExtension(): String {
+    return this?.substringAfterLast('.', "") ?: ""
+
+}
+
+fun generateSecureRandomString(length: Int = 10): String {
+    val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+    val secureRandom = SecureRandom()
+    return (1..length)
+        .map { allowedChars[secureRandom.nextInt(allowedChars.size)] }
+        .joinToString("")
 }

@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class TransactionalEmailService(
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
-    private val emailSender: EmailSender
+    @Suppress("SpringJavaInjectionPointsAutowiringInspection") private val emailSender: EmailSender
 ) : EmailService {
 
     @Transactional

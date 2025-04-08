@@ -26,7 +26,6 @@ import org.springframework.core.io.Resource
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
-import java.io.IOException
 
 /**
  * Represents a facade for managing documents.
@@ -79,9 +78,7 @@ interface DocumentFacade {
      * @param documentId The ID of the document whose file is being retrieved.
      * @param token The authorization token used to verify the download request.
      * @return A [Resource] representing the file associated with the specified document ID.
-     * @throws IOException If an error occurs while accessing the file.
      */
-    @Throws(IOException::class)
     fun getFile(documentId: Long, token: String): Resource
 
     /**
