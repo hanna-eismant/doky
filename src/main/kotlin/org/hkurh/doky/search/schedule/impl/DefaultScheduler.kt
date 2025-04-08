@@ -33,14 +33,12 @@ class DefaultScheduler(
     private val indexService: DefaultIndexService
 ) : Scheduler {
 
+    private val log = KotlinLogging.logger {}
+
     @Scheduled(cron = "\${scheduler.documents.index.full}")
     override fun fullIndex() {
-        LOG.info { "Starting full index" }
+        log.info { "Starting full index" }
         indexService.fullIndex()
-        LOG.info { "Full index complete" }
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
+        log.info { "Full index complete" }
     }
 }

@@ -123,7 +123,7 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
         val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
             this.user = user
         }
-        whenever(resetPasswordService.checkToken(token)).thenReturn(resetPasswordTokenEntity)
+        whenever(resetPasswordService.validateToken(token)).thenReturn(resetPasswordTokenEntity)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
 
         // when
@@ -141,7 +141,7 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
         // given
         val newPassword = "New-Passw0rd"
         val token = "token"
-        whenever(resetPasswordService.checkToken(token)).thenThrow(DokyRegistrationException("Invalid token"))
+        whenever(resetPasswordService.validateToken(token)).thenThrow(DokyRegistrationException("Invalid token"))
 
         // when
         assertThrows<DokyRegistrationException> {
@@ -167,7 +167,7 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
         val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
             this.user = user
         }
-        whenever(resetPasswordService.checkToken(token)).thenReturn(resetPasswordTokenEntity)
+        whenever(resetPasswordService.validateToken(token)).thenReturn(resetPasswordTokenEntity)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
 
         // when

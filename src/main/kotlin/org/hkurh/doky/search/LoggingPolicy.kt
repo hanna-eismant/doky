@@ -29,24 +29,22 @@ import reactor.core.publisher.Mono
 
 class LoggingPolicy : HttpPipelinePolicy {
 
-    override fun process(context: HttpPipelineCallContext, next: HttpPipelineNextPolicy): Mono<HttpResponse>? {
+    private val log = KotlinLogging.logger {}
+
+    override fun process(context: HttpPipelineCallContext, next: HttpPipelineNextPolicy): Mono<HttpResponse> {
         val request = context.httpRequest
-        LOG.debug {
+        log.debug {
             "Request: Method=${request.httpMethod}, URL=${request.url}, Body=${
                 request.body
             }"
         }
 
         return next.process().doOnNext { response ->
-            LOG.debug {
+            log.debug {
                 "Response: Status=${response.statusCode}, Body=${
                     response.bodyAsString.block()
                 }"
             }
         }
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

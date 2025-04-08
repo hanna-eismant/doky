@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/password")
 class PasswordController(
-    val passwordFacade: PasswordFacade
+    private val passwordFacade: PasswordFacade
 ) : PasswordApi {
 
     @PostMapping("/reset")

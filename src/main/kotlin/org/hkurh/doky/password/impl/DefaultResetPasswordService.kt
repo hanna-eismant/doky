@@ -20,25 +20,26 @@
 
 package org.hkurh.doky.password.impl
 
-import org.hkurh.doky.errorhandling.DokyInvalidTokenException
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.password.ResetPasswordService
 import org.hkurh.doky.password.TokenService
+import org.hkurh.doky.password.TokenStatus
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
+import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class DefaultResetPasswordService(
     private val tokenService: TokenService,
+    private val userService: UserService,
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
 ) : ResetPasswordService {
 
+    private val log = KotlinLogging.logger {}
+
     override fun generateAndSaveResetToken(user: UserEntity): String {
-        resetPasswordTokenEntityRepository.findByUser(user)?.let {
-            resetPasswordTokenEntityRepository.delete(it)
-        }
         val token = tokenService.generateToken()
         val expirationDate = tokenService.calculateExpirationDate()
         val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
@@ -47,18 +48,41 @@ class DefaultResetPasswordService(
             this.expirationDate = expirationDate
         }
         val savedPasswordTokenEntity = resetPasswordTokenEntityRepository.save(resetPasswordTokenEntity)
+        log.info { "Generated reset token for user [${user.id}]" }
         return savedPasswordTokenEntity.token
     }
 
-    override fun checkToken(token: String): ResetPasswordTokenEntity {
-        val resetPasswordToken = resetPasswordTokenEntityRepository.findByToken(token)
-            ?: throw DokyInvalidTokenException("Token to reset password is invalid")
-        if (Date().after(resetPasswordToken.expirationDate))
-            throw DokyInvalidTokenException("Token to reset password expired")
-        return resetPasswordToken
+    override fun validateToken(token: String): TokenStatus {
+        val resetToken = resetPasswordTokenEntityRepository.findByToken(token)
+        log.debug { "Validating token: $token" }
+        resetToken?.let {
+            return when {
+                isTokenExpired(it) -> {
+                    log.warn { "Token expired: $token" }
+                    TokenStatus.EXPIRED
+                }
+
+                !isTokenBelongsToCurrentUser(it) -> {
+                    log.warn { "Token does not belong to the current user: $token" }
+                    TokenStatus.INVALID
+                }
+
+                else -> TokenStatus.VALID
+            }
+        }
+        log.warn { "Token invalid or not found: $token" }
+        return TokenStatus.INVALID
     }
 
-    override fun delete(resetPasswordToken: ResetPasswordTokenEntity) {
-        resetPasswordTokenEntityRepository.delete(resetPasswordToken)
+    override fun delete(token: String) {
+        resetPasswordTokenEntityRepository.deleteByToken(token)
     }
+
+    private fun isTokenBelongsToCurrentUser(token: ResetPasswordTokenEntity): Boolean {
+        val currentUser = userService.getCurrentUser()
+        return token.user.id == currentUser.id
+    }
+
+    private fun isTokenExpired(token: ResetPasswordTokenEntity) =
+        token.expirationDate.toInstant().isBefore(java.time.Instant.now())
 }

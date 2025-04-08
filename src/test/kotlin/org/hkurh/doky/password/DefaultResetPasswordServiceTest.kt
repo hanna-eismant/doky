@@ -125,7 +125,7 @@ class DefaultResetPasswordServiceTest : DokyUnitTest {
 
         // when
         assertThrows<DokyInvalidTokenException> {
-            resetPasswordService.checkToken(tokenString)
+            resetPasswordService.validateToken(tokenString)
         }
     }
 
@@ -142,7 +142,7 @@ class DefaultResetPasswordServiceTest : DokyUnitTest {
 
         // when
         assertThrows<DokyInvalidTokenException> {
-            resetPasswordService.checkToken(token)
+            resetPasswordService.validateToken(token)
         }
     }
 
@@ -158,7 +158,7 @@ class DefaultResetPasswordServiceTest : DokyUnitTest {
         whenever(resetPasswordTokenEntityRepository.findByToken(token)).thenReturn(resetPasswordTokenEntity)
 
         // when
-        val actualToken = resetPasswordService.checkToken(token)
+        val actualToken = resetPasswordService.validateToken(token)
 
         // then
         assertNotNull(actualToken)

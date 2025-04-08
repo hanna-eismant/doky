@@ -34,15 +34,17 @@ class DefaultIndexService(
     private val searchClient: SearchClient
 ) : IndexService {
 
+    private val log = KotlinLogging.logger {}
+
     override fun fullIndex() {
         cleanIndex()
         val documents = documentEntityRepository.findAll()
             .mapNotNull { documentEntity -> documentEntity?.toIndexData() }
         val indexingResult = searchClient.uploadDocuments(documents)
-        LOG.debug { "Upload [${indexingResult.results.size}] documents to index" }
+        log.debug { "Upload [${indexingResult.results.size}] documents to index" }
         indexingResult.results.forEach {
             if (!it.isSucceeded) {
-                LOG.error { "Document [${it.key}] upload failed: [${it.errorMessage}]" }
+                log.error { "Document [${it.key}] upload failed: [${it.errorMessage}]" }
             }
         }
     }
@@ -51,12 +53,8 @@ class DefaultIndexService(
         val results = searchClient.search("*")
             .map { result -> result.getDocument(DocumentIndexData::class.java) }
         if (results.isNotEmpty()) {
-            LOG.debug { "Deleting [${results.size}] documents from index" }
+            log.debug { "Deleting [${results.size}] documents from index" }
             searchClient.deleteDocuments(results)
         }
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

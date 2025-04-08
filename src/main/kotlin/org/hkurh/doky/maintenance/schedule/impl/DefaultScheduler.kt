@@ -18,32 +18,29 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.password.impl
+package org.hkurh.doky.maintenance.schedule.impl
 
-import org.hkurh.doky.password.TokenService
-import org.springframework.beans.factory.annotation.Value
+import io.github.oshai.kotlinlogging.KotlinLogging
+import org.hkurh.doky.maintenance.schedule.Scheduler
+import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
+import org.springframework.context.annotation.PropertySource
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
 import java.util.*
 
 @Component
-class DefaultTokenService : TokenService {
+@PropertySource("classpath:scheduler.properties")
+class DefaultScheduler(
+    private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository
+) : Scheduler {
 
-    private val zoneId = ZoneId.of("UTC")
+    private val log = KotlinLogging.logger {}
 
-    @Value("\${doky.password.reset.token.duration}")
-    private var resetTokenDuration: Long = 10
-
-    override fun calculateExpirationDate(): Date {
-        val currentDate = LocalDateTime.ofInstant(Instant.now(), zoneId)
-        val expiredDate = currentDate.plusMinutes(resetTokenDuration)
-        return Date.from(expiredDate.toInstant(ZoneOffset.UTC))
-    }
-
-    override fun generateToken(): String {
-        return UUID.randomUUID().toString()
+    @Scheduled(cron = "\${scheduler.cleanup.reset.password.tokens}")
+    override fun cleanupExpiredResetPasswordTokens() {
+        val now = Date()
+        val expiredTokens = resetPasswordTokenEntityRepository.findByExpirationDateLessThan(now)
+        resetPasswordTokenEntityRepository.deleteAll(expiredTokens)
+        log.info { "Deleted [${expiredTokens.size}] expired tokens" }
     }
 }

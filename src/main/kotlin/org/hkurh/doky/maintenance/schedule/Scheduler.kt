@@ -18,26 +18,24 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.password.db
-
-import org.hkurh.doky.users.db.UserEntity
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor
-import org.springframework.data.repository.CrudRepository
-import java.util.*
-
+package org.hkurh.doky.maintenance.schedule
 
 /**
- * Repository interface for managing reset password tokens.
- * This interface extends the CrudRepository and JpaSpecificationExecutor interfaces.
+ * Provides functionality for scheduled tasks in the application.
+ *
+ * This interface is intended to define methods for operations that should be executed periodically
+ * or according to a specified schedule. Implementing classes should provide the logic for these
+ * tasks, leveraging appropriate scheduling mechanisms.
  */
-interface ResetPasswordTokenEntityRepository :
-    CrudRepository<ResetPasswordTokenEntity, Long>, JpaSpecificationExecutor<ResetPasswordTokenEntity> {
+interface Scheduler {
 
-    fun findByUser(user: UserEntity): ResetPasswordTokenEntity?
-
-    fun findByToken(token: String): ResetPasswordTokenEntity?
-
-    fun findByExpirationDateLessThan(expirationDate: Date): List<ResetPasswordTokenEntity>
-
-    fun deleteByToken(token: String)
+    /**
+     * Removes expired reset password tokens from the system.
+     *
+     * This method is intended to periodically clean up reset password tokens
+     * that are no longer valid, ensuring the integrity and security of the
+     * password reset functionality. Implementations of this method should
+     * identify and delete tokens that have surpassed their expiration period.
+     */
+    fun cleanupExpiredResetPasswordTokens()
 }

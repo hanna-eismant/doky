@@ -37,9 +37,7 @@ import java.util.*
 @Table(
     name = "reset_password_tokens",
     indexes = [Index(name = "idx_reset_password_tokens_token", columnList = "token")],
-    uniqueConstraints = [
-        UniqueConstraint(name = "uc_reset_password_tokens_token", columnNames = ["token"]),
-        UniqueConstraint(name = "uc_reset_password_tokens_app_user", columnNames = ["app_user"])]
+    uniqueConstraints = [UniqueConstraint(name = "uc_reset_password_tokens_token", columnNames = ["token"])]
 )
 class ResetPasswordTokenEntity {
 
@@ -49,7 +47,7 @@ class ResetPasswordTokenEntity {
     var id: Long = -1
 
     @OneToOne
-    @JoinColumn(name = "app_user", nullable = false, unique = true)
+    @JoinColumn(name = "app_user", nullable = false)
     lateinit var user: UserEntity
 
     @Column(name = "token", nullable = false, unique = true)
