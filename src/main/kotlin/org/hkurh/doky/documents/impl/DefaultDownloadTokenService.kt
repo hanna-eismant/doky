@@ -27,7 +27,7 @@ import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.documents.db.DownloadDocumentTokenEntity
 import org.hkurh.doky.documents.db.DownloadDocumentTokenEntityRepository
 import org.hkurh.doky.errorhandling.DokyInvalidTokenException
-import org.hkurh.doky.security.JwtProvider
+import org.hkurh.doky.security.impl.DefaultJwtProvider
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.stereotype.Service
@@ -37,7 +37,7 @@ class DefaultDownloadTokenService(
     private val documentService: DocumentService,
     private val userService: UserService,
     private val downloadDocumentTokenEntityRepository: DownloadDocumentTokenEntityRepository,
-    private val jwtProvider: JwtProvider
+    private val jwtProvider: DefaultJwtProvider
 ) : DownloadTokenService {
 
     override fun generateDownloadToken(user: UserEntity, document: DocumentEntity): String {

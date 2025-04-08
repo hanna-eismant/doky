@@ -30,9 +30,9 @@ interface UserService {
      * Finds a user by their unique identifier.
      *
      * @param userUid The unique identifier of the user.
-     * @return The UserEntity object representing the user, or null if the user is not found.
+     * @return The UserEntity object representing the user.
      */
-    fun findUserByUid(userUid: String): UserEntity?
+    fun findUserByUid(userUid: String): UserEntity
 
     /**
      * Creates a new user entity with the given user UID and encoded password.

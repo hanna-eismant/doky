@@ -18,7 +18,7 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.security
+package org.hkurh.doky.security.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.jsonwebtoken.JwtException
@@ -27,7 +27,8 @@ import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.hkurh.doky.errorhandling.DokyNotFoundException
-import org.hkurh.doky.security.JwtProvider.getUsernameFromToken
+import org.hkurh.doky.security.DokyUserDetails
+import org.hkurh.doky.security.JwtProvider
 import org.hkurh.doky.users.UserService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -49,7 +50,12 @@ import java.io.IOException
  * Only requests that pass through the filter will be authenticated and have access to the authenticated user's information.
  */
 @Component
-class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequestFilter() {
+class JwtAuthorizationFilter(
+    private val userService: UserService,
+    private val jwtProvider: JwtProvider
+) : OncePerRequestFilter() {
+
+    private val log = KotlinLogging.logger {}
     private val authorizationHeader = "Authorization"
     private val anonymousEndpoints = setOf(
         "/api/register",
@@ -64,10 +70,10 @@ class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequ
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        LOG.debug { "Jwt Authorization Filter is invoked." }
+        log.debug { "Jwt Authorization Filter is invoked." }
 
         if (anonymousEndpoints.contains(request.requestURI)) {
-            LOG.debug { "No check token for request ${request.requestURI}" }
+            log.debug { "No check token for request ${request.requestURI}" }
             filterChain.doFilter(request, response)
             return
         }
@@ -91,15 +97,15 @@ class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequ
     ) {
         val token = getTokenFromRequest(request)
         if (token != null) {
-            val usernameFromToken = getUsernameFromToken(token)
-            userService.findUserByUid(usernameFromToken)?.let {
+            val usernameFromToken = jwtProvider.getUsernameFromToken(token)
+            userService.findUserByUid(usernameFromToken).let {
                 val dokyUserDetails = DokyUserDetails(it)
                 val authenticationToken =
                     UsernamePasswordAuthenticationToken(dokyUserDetails, null, dokyUserDetails.getAuthorities())
                 SecurityContextHolder.getContext().authentication = authenticationToken
             }
         } else {
-            LOG.warn { "Token is not presented. Clear authorization context." }
+            log.warn { "Token is not presented. Clear authorization context." }
             SecurityContextHolder.clearContext()
         }
         filterChain.doFilter(request, response)
@@ -110,9 +116,5 @@ class JwtAuthorizationFilter(private val userService: UserService) : OncePerRequ
         return if (!token.isNullOrBlank() && token.startsWith("Bearer ")) {
             token.substring(7)
         } else null
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

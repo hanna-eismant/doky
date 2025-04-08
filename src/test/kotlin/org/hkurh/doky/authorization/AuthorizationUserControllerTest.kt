@@ -21,6 +21,7 @@
 package org.hkurh.doky.authorization
 
 import org.hkurh.doky.DokyUnitTest
+import org.hkurh.doky.security.JwtProvider
 import org.hkurh.doky.users.UserFacade
 import org.hkurh.doky.users.api.UserDto
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -33,9 +34,9 @@ import org.mockito.kotlin.whenever
 @DisplayName("AuthorizationUserController unit test")
 class AuthorizationUserControllerTest : DokyUnitTest {
 
-
     private val userFacade: UserFacade = mock()
-    private var controller = AuthorizationUserController(userFacade)
+    private val jwtProvider: JwtProvider = mock()
+    private var controller = AuthorizationUserController(userFacade, jwtProvider)
 
     @Test
     @DisplayName("Should generate token when login")

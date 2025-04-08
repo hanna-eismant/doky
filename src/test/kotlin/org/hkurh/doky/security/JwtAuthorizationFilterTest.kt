@@ -23,7 +23,7 @@ package org.hkurh.doky.security
 import jakarta.servlet.http.HttpServletResponse
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.errorhandling.DokyNotFoundException
-import org.hkurh.doky.security.JwtProvider.generateToken
+import org.hkurh.doky.security.impl.JwtAuthorizationFilter
 import org.hkurh.doky.toDto
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.AuthorityEntity
@@ -52,7 +52,8 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
 
     private val userService: UserService = mock()
     private val filterChain: MockFilterChain = mock()
-    private var filter = JwtAuthorizationFilter(userService)
+    private val jwtProvider: JwtProvider = mock()
+    private var filter = JwtAuthorizationFilter(userService, jwtProvider)
 
     @Test
     @DisplayName("Should add user to security context when token is valid")

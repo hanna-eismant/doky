@@ -36,10 +36,12 @@ class DefaultUserFacade(
     private val userService: UserService,
     private val passwordEncoder: PasswordEncoder
 ) : UserFacade {
+
+    private val log = KotlinLogging.logger {}
+
     override fun checkCredentials(userUid: String, password: String): UserDto {
-        if (!userService.exists(userUid)) throw DokyAuthenticationException("User doesn't exist")
         val userEntity = userService.findUserByUid(userUid)
-        val encodedPassword = userEntity!!.password
+        val encodedPassword = userEntity.password
         if (!passwordEncoder.matches(password, encodedPassword))
             throw DokyAuthenticationException("Incorrect credentials")
         return userEntity.toDto()
@@ -49,7 +51,7 @@ class DefaultUserFacade(
         if (userService.exists(userUid)) throw DokyRegistrationException("User already exists")
         val encodedPassword = passwordEncoder.encode(password)
         val userEntity = userService.create(userUid, encodedPassword)
-        LOG.info { "Register new user [${userEntity.id}]" }
+        log.info { "Register new user [${userEntity.id}]" }
         return userEntity.toDto()
     }
 
@@ -61,9 +63,5 @@ class DefaultUserFacade(
         val currentUser = userService.getCurrentUser()
         currentUser.name = updateUserRequest.name?.ifEmpty { currentUser.name } ?: updateUserRequest.name
         userService.updateUser(currentUser)
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

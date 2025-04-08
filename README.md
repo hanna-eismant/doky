@@ -25,6 +25,7 @@ Here’s what you need to know:
 # Configuration
 
 The application uses configuration files for its setup. You'll find the default properties in `application.properties`.
+There is addition configuration `scheduler.properties` where are defined schedule for jobs.
 
 #### Azure App Configuration
 

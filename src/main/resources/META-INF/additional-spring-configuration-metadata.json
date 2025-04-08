@@ -109,6 +109,11 @@
       "name": "doky.kafka.emails.concurrency",
       "type": "java.lang.String",
       "description": "Defines kafka consumer concurrency for emails topic."
+    },
+    {
+      "name": "scheduler.documents.index.full",
+      "type": "java.lang.String",
+      "description": "Defines cron expression for schedule full index for Documents."
     }
   ],
   "hints": [

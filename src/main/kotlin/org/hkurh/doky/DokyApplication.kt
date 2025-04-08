@@ -40,6 +40,10 @@ import javax.crypto.spec.SecretKeySpec
 @EnableAsync
 @SpringBootApplication
 class DokyApplication {
+
+    @Value("\${doky.jwt.secret-key}")
+    private lateinit var jwtSecretKey: String
+
     @Bean
     fun encoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
@@ -62,9 +66,9 @@ class DokyApplication {
         }
     }
 
-    companion object {
-        private const val SECRET_KEY = "dokySecretKey-hanna.kurhuzenkava-project"
-        val SECRET_KEY_SPEC = SecretKeySpec(SECRET_KEY.toByteArray(), SignatureAlgorithm.HS256.jcaName)
+    @Bean
+    fun secretKeySpec(): SecretKeySpec {
+        return SecretKeySpec(jwtSecretKey.toByteArray(), SignatureAlgorithm.HS256.jcaName)
     }
 }
 

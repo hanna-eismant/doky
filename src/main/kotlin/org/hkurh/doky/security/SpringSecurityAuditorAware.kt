@@ -30,7 +30,7 @@ import java.util.*
  * Implementation of [AuditorAware] interface that retrieves the current auditor (user) from Spring Security.
  */
 @Component
-class SpringSecurityAuditorAware: AuditorAware<UserEntity> {
+class SpringSecurityAuditorAware : AuditorAware<UserEntity> {
 
     /**
      * Retrieves the current auditor (user) from Spring Security.

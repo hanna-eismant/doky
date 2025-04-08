@@ -33,8 +33,11 @@ import org.springframework.http.ResponseEntity
 @SecurityRequirement(name = "Bearer Token")
 interface UserApi {
     @ApiResponses(
-            ApiResponse(responseCode = "200", description = "User information is retrieved successfully",
-                    content = [Content(schema = Schema(implementation = UserDto::class))]))
+        ApiResponse(
+            responseCode = "200", description = "User information is retrieved successfully",
+            content = [Content(schema = Schema(implementation = UserDto::class))]
+        )
+    )
     @Operation(summary = "Get current user info")
     fun getUser(): UserDto
 
