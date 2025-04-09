@@ -20,20 +20,19 @@
 package org.hkurh.doky.password.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.mask
 import org.hkurh.doky.password.ResetPasswordService
 import org.hkurh.doky.password.TokenService
 import org.hkurh.doky.password.TokenStatus
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
-import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.stereotype.Service
 
 @Service
 class DefaultResetPasswordService(
     private val tokenService: TokenService,
-    private val userService: UserService,
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
 ) : ResetPasswordService {
 
@@ -61,11 +60,6 @@ class DefaultResetPasswordService(
                     TokenStatus.EXPIRED
                 }
 
-                !isTokenBelongsToCurrentUser(it) -> {
-                    log.warn { "Token does not belong to the current user: [${it.user.id}]" }
-                    TokenStatus.INVALID
-                }
-
                 else -> TokenStatus.VALID
             }
         }
@@ -77,9 +71,9 @@ class DefaultResetPasswordService(
         resetPasswordTokenEntityRepository.deleteByToken(token)
     }
 
-    private fun isTokenBelongsToCurrentUser(token: ResetPasswordTokenEntity): Boolean {
-        val currentUser = userService.getCurrentUser()
-        return token.user.id == currentUser.id
+    override fun getUserForToken(token: String): UserEntity {
+        return resetPasswordTokenEntityRepository.findByToken(token)?.user
+            ?: throw DokyNotFoundException("User not found for token [${token.mask()}]")
     }
 
     private fun isTokenExpired(token: ResetPasswordTokenEntity) =

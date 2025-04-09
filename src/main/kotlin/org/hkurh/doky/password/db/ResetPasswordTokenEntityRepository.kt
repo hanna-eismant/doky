@@ -19,7 +19,6 @@
 
 package org.hkurh.doky.password.db
 
-import org.hkurh.doky.users.db.UserEntity
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
@@ -32,8 +31,6 @@ import java.util.*
  */
 interface ResetPasswordTokenEntityRepository :
     CrudRepository<ResetPasswordTokenEntity, Long>, JpaSpecificationExecutor<ResetPasswordTokenEntity> {
-
-    fun findByUser(user: UserEntity): ResetPasswordTokenEntity?
 
     fun findByToken(token: String): ResetPasswordTokenEntity?
 

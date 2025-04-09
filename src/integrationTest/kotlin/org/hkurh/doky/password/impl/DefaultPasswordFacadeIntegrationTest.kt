@@ -21,10 +21,6 @@ package org.hkurh.doky.password.impl
 
 import org.hkurh.doky.DokyIntegrationTest
 import org.hkurh.doky.errorhandling.DokyInvalidTokenException
-import org.hkurh.doky.security.DokyUserDetails
-import org.hkurh.doky.security.UserAuthority
-import org.hkurh.doky.users.db.AuthorityEntity
-import org.hkurh.doky.users.db.UserEntity
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -33,8 +29,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.context.jdbc.Sql
 import java.sql.Types
@@ -62,7 +56,6 @@ class DefaultPasswordFacadeIntegrationTest : DokyIntegrationTest() {
         val newPassword = "New-PassW0rd"
         val token = "valid-token"
         val userEmail = "hanna_test_2@example.com"
-        setCurrentUser(userEmail)
 
         // when
         passwordFacade.update(newPassword, token)
@@ -122,35 +115,11 @@ class DefaultPasswordFacadeIntegrationTest : DokyIntegrationTest() {
         return jdbcTemplate.queryForObject(query, args, argTypes, String::class.java)
     }
 
-    fun getUserId(email: String): Long? {
-        val query = "select u.id from users u where u.uid = ?"
-        val args = arrayOf(email)
-        val argTypes = intArrayOf(Types.VARCHAR)
-        return jdbcTemplate.queryForObject(query, args, argTypes, Long::class.java)
-    }
-
     fun getTokenId(token: String): Long? {
         val query = "select t.id from reset_password_tokens t where t.id = ?"
         val args = arrayOf(token)
         val argTypes = intArrayOf(Types.VARCHAR)
         val result = jdbcTemplate.query(query, args, argTypes) { rs, _ -> rs.getLong("sent") }
         return if (result.isEmpty()) null else result[0]
-    }
-
-    fun setCurrentUser(email: String) {
-        val userId = getUserId(email)
-        val authority = AuthorityEntity().apply {
-            this.id = 1
-            this.authority = UserAuthority.ROLE_USER
-        }
-        val user = UserEntity().apply {
-            id = userId!!
-            uid = email
-            authorities = mutableSetOf(authority)
-        }
-        val dokyUserDetails = DokyUserDetails(user)
-        val authenticationToken =
-            UsernamePasswordAuthenticationToken(dokyUserDetails, null, dokyUserDetails.getAuthorities())
-        SecurityContextHolder.getContext().authentication = authenticationToken
     }
 }

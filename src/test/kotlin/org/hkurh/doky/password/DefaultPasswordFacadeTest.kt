@@ -120,7 +120,7 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
         val token = "token"
         whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.VALID)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
-        whenever(userService.getCurrentUser()).thenReturn(user)
+        whenever(resetPasswordService.getUserForToken(token)).thenReturn(user)
 
         // when
         passwordFacade.update(newPassword, token)
@@ -162,7 +162,7 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
         val token = "token"
         whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.VALID)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
-        whenever(userService.getCurrentUser()).thenReturn(user)
+        whenever(resetPasswordService.getUserForToken(token)).thenReturn(user)
 
         // when
         passwordFacade.update(newPassword, token)

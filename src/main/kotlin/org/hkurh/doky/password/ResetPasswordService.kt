@@ -47,4 +47,12 @@ interface ResetPasswordService {
      * @param token The reset password token that needs to be deleted.
      */
     fun delete(token: String)
+
+    /**
+     * Retrieves the user associated with the given reset password token.
+     *
+     * @param token The reset password token used to find the associated user.
+     * @return The user entity associated with the specified token.
+     */
+    fun getUserForToken(token: String): UserEntity
 }

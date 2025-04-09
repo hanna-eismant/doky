@@ -59,7 +59,7 @@ class DefaultPasswordFacade(
         val tokenStatus = resetPasswordService.validateToken(token)
         if (tokenStatus == TokenStatus.VALID) {
             val updatedPassword = passwordEncoder.encode(password)
-            userService.getCurrentUser().apply {
+            resetPasswordService.getUserForToken(token).apply {
                 this.password = updatedPassword
                 userService.updateUser(this)
                 log.debug { "Password updated for user [${this.id}]" }
