@@ -26,6 +26,7 @@ import org.hkurh.doky.users.api.UserDto
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
@@ -53,6 +54,7 @@ class AuthorizationUserControllerTest : DokyUnitTest {
                 roles = mutableSetOf("ROLE_USER")
             }
         )
+        whenever(jwtProvider.generateToken(any(), any())).thenReturn("token")
 
         // when
         val response = controller.login(authenticationRequest)

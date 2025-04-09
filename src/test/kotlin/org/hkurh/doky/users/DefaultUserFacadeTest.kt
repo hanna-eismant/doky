@@ -21,6 +21,7 @@ package org.hkurh.doky.users
 
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.errorhandling.DokyAuthenticationException
+import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.errorhandling.DokyRegistrationException
 import org.hkurh.doky.users.db.UserEntity
 import org.hkurh.doky.users.impl.DefaultUserFacade
@@ -56,7 +57,6 @@ class DefaultUserFacadeTest : DokyUnitTest {
     @DisplayName("Should done without errors when user is valid when login")
     fun shouldSetToken_whenUserIsValid() {
         // given
-        whenever(userService.exists(userUid)).thenReturn(true)
         whenever(userService.findUserByUid(userUid)).thenReturn(userEntity)
         whenever(passwordEncoder.matches(userPassword, userPasswordEncoded)).thenReturn(true)
 
@@ -68,7 +68,18 @@ class DefaultUserFacadeTest : DokyUnitTest {
     @DisplayName("Should throw exception when user login is incorrect when login")
     fun shouldThrowException_whenUserIsIncorrect() {
         // given
-        whenever(userService.exists(userUid)).thenReturn(false)
+        whenever(userService.findUserByUid(userUid)).thenThrow(DokyNotFoundException("not found"))
+
+        // when - then
+        assertThrows<DokyNotFoundException> { userFacade.checkCredentials(userUid, userPassword) }
+    }
+
+    @Test
+    @DisplayName("Should throw exception when password login is incorrect when login")
+    fun shouldThrowException_whenPasswordIsIncorrect() {
+        // given
+        whenever(userService.findUserByUid(userUid)).thenReturn(userEntity)
+        whenever(passwordEncoder.matches(userPassword, userPasswordEncoded)).thenReturn(false)
 
         // when - then
         assertThrows<DokyAuthenticationException> { userFacade.checkCredentials(userUid, userPassword) }

@@ -23,6 +23,7 @@ import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.filestorage.impl.DefaultFileStorageService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
@@ -31,6 +32,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.mock.web.MockMultipartFile
+import java.lang.reflect.Field
 
 @DisplayName("DefaultFileStorageService unit test")
 class DefaultFileStorageServiceTest : DokyUnitTest {
@@ -40,6 +42,13 @@ class DefaultFileStorageServiceTest : DokyUnitTest {
 
     private val fileStorage: FileStorage = mock()
     private var fileStorageService = DefaultFileStorageService(fileStorage)
+
+    @BeforeEach
+    fun setUp() {
+        val basePathField: Field = DefaultFileStorageService::class.java.getDeclaredField("basePath")
+        basePathField.isAccessible = true
+        basePathField.set(fileStorageService, basePath)
+    }
 
     @Test
     @DisplayName("Should override file when upload existed")

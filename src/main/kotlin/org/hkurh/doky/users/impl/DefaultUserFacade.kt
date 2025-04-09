@@ -60,7 +60,7 @@ class DefaultUserFacade(
 
     override fun updateCurrentUser(updateUserRequest: UpdateUserRequest) {
         val currentUser = userService.getCurrentUser()
-        currentUser.name = updateUserRequest.name?.ifEmpty { currentUser.name } ?: updateUserRequest.name
+        currentUser.name = updateUserRequest.name?.takeIf { it.isNotEmpty() } ?: currentUser.name
         userService.updateUser(currentUser)
     }
 }

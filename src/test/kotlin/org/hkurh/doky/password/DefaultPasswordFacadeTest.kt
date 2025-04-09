@@ -20,10 +20,9 @@
 package org.hkurh.doky.password
 
 import org.hkurh.doky.DokyUnitTest
-import org.hkurh.doky.errorhandling.DokyRegistrationException
+import org.hkurh.doky.errorhandling.DokyInvalidTokenException
 import org.hkurh.doky.kafka.EmailType
 import org.hkurh.doky.kafka.KafkaEmailNotificationProducerService
-import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.impl.DefaultPasswordFacade
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
@@ -119,11 +118,9 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
             password = initialPassword
         }
         val token = "token"
-        val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
-            this.user = user
-        }
         whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.VALID)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
+        whenever(userService.getCurrentUser()).thenReturn(user)
 
         // when
         passwordFacade.update(newPassword, token)
@@ -140,10 +137,10 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
         // given
         val newPassword = "New-Passw0rd"
         val token = "token"
-        whenever(resetPasswordService.validateToken(token)).thenThrow(DokyRegistrationException("Invalid token"))
+        whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.INVALID)
 
         // when
-        assertThrows<DokyRegistrationException> {
+        assertThrows<DokyInvalidTokenException> {
             passwordFacade.update(newPassword, token)
         }
 
@@ -163,11 +160,9 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
             password = initialPassword
         }
         val token = "token"
-        val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
-            this.user = user
-        }
         whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.VALID)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
+        whenever(userService.getCurrentUser()).thenReturn(user)
 
         // when
         passwordFacade.update(newPassword, token)
