@@ -74,7 +74,7 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
         verify(filterChain).doFilter(request, response)
         verify(userService).findUserByUid(userUid)
         val contextUser =
-            (SecurityContextHolder.getContext().authentication.principal as DokyUserDetails).getUserEntity()
+            (SecurityContextHolder.getContext().authentication.principal as DokyUserDetails).userEntity
         assertTrue(contextUser == userEntity)
     }
 

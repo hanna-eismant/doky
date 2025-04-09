@@ -25,31 +25,31 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 class DokyUserDetails() : UserDetails {
-    private var userEntity: UserEntity? = null
+    private var _userEntity: UserEntity? = null
     private var username: String = ""
     private var password: String = ""
-    private var grantedAuthorities: Collection<GrantedAuthority?>? = null
-
+    private var grantedAuthorities: Collection<GrantedAuthority> = emptyList()
 
     constructor(userEntity: UserEntity) : this() {
-        setUserEntity(userEntity)
-    }
-
-    private fun setUserEntity(userEntity: UserEntity?) {
         this.userEntity = userEntity
-        userEntity?.let { user ->
-            this.username = user.uid
-            this.password = user.password
-            this.grantedAuthorities = user.authorities.map { SimpleGrantedAuthority(it.authority.name) }
-        }
     }
 
-    override fun getAuthorities(): Collection<GrantedAuthority?> = grantedAuthorities!!
+    var userEntity: UserEntity?
+        get() = _userEntity
+        private set(value) {
+            _userEntity = value
+            value?.let { user ->
+                this.username = user.uid
+                this.password = user.password
+                this.grantedAuthorities = user.authorities.map { SimpleGrantedAuthority(it.authority.name) }
+            }
+        }
+
+    override fun getAuthorities(): Collection<GrantedAuthority> = grantedAuthorities
     override fun getPassword(): String = password
     override fun getUsername(): String = username
     override fun isAccountNonExpired(): Boolean = true
     override fun isAccountNonLocked(): Boolean = true
     override fun isCredentialsNonExpired(): Boolean = true
     override fun isEnabled(): Boolean = true
-    fun getUserEntity(): UserEntity? = userEntity
 }
