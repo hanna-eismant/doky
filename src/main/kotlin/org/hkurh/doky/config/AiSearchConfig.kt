@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -28,18 +27,28 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
-
+/**
+ * Configuration class for setting up the Azure Search client in the application.
+ *
+ * This class is annotated with `@Configuration` to mark it as a source of Spring-managed bean definitions.
+ * It leverages `@Value` annotations to inject configuration properties for Azure Search including the endpoint,
+ * API key, and index name from the application configuration files.
+ *
+ * The primary bean provided is the `searchClient`, which is built using the `SearchClientBuilder`.
+ * This client is configured with an endpoint, credentials, an index name, and a custom logging policy.
+ * The logging policy enables detailed logging of HTTP requests and responses for debugging and monitoring purposes.
+ */
 @Configuration
 class AiSearchConfig {
 
     @Value("\${azure.search.endpoint}")
-    private var azureSearchEndpoint: String = ""
+    private lateinit var azureSearchEndpoint: String
 
     @Value("\${azure.search.api-key}")
-    private var azureSearchKey: String = ""
+    private lateinit var azureSearchKey: String
 
     @Value("\${azure.search.index-name}")
-    private var azureSearchIndexName: String = ""
+    private lateinit var azureSearchIndexName: String
 
     @Bean
     fun searchClient(): SearchClient {

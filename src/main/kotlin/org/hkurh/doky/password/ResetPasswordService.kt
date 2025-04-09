@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -20,8 +19,6 @@
 
 package org.hkurh.doky.password
 
-import org.hkurh.doky.errorhandling.DokyInvalidTokenException
-import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.users.db.UserEntity
 
 /**
@@ -37,20 +34,25 @@ interface ResetPasswordService {
     fun generateAndSaveResetToken(user: UserEntity): String
 
     /**
-     * Checks the validity of the provided token and retrieves the corresponding
-     * reset password token entity.
+     * Validates the provided reset password token and determines its status.
      *
-     * @param token The reset password token to be checked.
-     * @return The [ResetPasswordTokenEntity] associated with the provided token.
-     *
-     * @throws [DokyInvalidTokenException] if provided token is not found or expired.
+     * @param token The reset password token to validate.
+     * @return The status of the token, which can be one of [TokenStatus.VALID], [TokenStatus.EXPIRED], or [TokenStatus.INVALID].
      */
-    fun checkToken(token: String): ResetPasswordTokenEntity
+    fun validateToken(token: String): TokenStatus
 
     /**
-     * Deletes the specified reset password token entity from the system.
+     * Deletes the reset password token associated with the specified token value.
      *
-     * @param resetPasswordToken The [ResetPasswordTokenEntity] to be deleted.
+     * @param token The reset password token that needs to be deleted.
      */
-    fun delete(resetPasswordToken: ResetPasswordTokenEntity)
+    fun delete(token: String)
+
+    /**
+     * Retrieves the user associated with the given reset password token.
+     *
+     * @param token The reset password token used to find the associated user.
+     * @return The user entity associated with the specified token.
+     */
+    fun getUserForToken(token: String): UserEntity
 }

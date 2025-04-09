@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -26,6 +25,17 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
+/**
+ * Configuration class for customizing the behavior of Jackson's `ObjectMapper` within the application.
+ *
+ * This class facilitates the configuration of the `ObjectMapper` by registering Kotlin module support,
+ * enabling seamless handling of Kotlin-specific features such as nullable types and data classes.
+ *
+ * It is annotated with `@Configuration` to indicate that it provides Spring-managed beans.
+ *
+ * A method marked with `@Bean` is provided to make the configured `ObjectMapper` available as a bean
+ * in the Spring application context.
+ */
 @Configuration
 class JacksonConfig {
 

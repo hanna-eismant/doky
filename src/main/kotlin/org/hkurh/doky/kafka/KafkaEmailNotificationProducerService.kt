@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -32,6 +31,8 @@ class KafkaEmailNotificationProducerService(
     private val kafkaTemplate: KafkaTemplate<String, Any>
 ) {
 
+    private val log = KotlinLogging.logger {}
+
     @Value("\${doky.kafka.emails.topic}")
     private var topic: String = ""
 
@@ -48,14 +49,10 @@ class KafkaEmailNotificationProducerService(
         val future: CompletableFuture<SendResult<String, Any>> = kafkaTemplate.send(topic, key, message)
         future.whenComplete { result, e ->
             if (e == null) {
-                LOG.debug { "Produced message to topic [${result.recordMetadata.topic()}] with key [$key]" }
+                log.debug { "Produced message to topic [${result.recordMetadata.topic()}] with key [$key]" }
             } else {
-                LOG.error(e) { "Error sending reset password email message with key [$key]" }
+                log.error(e) { "Error sending reset password email message with key [$key]" }
             }
         }
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

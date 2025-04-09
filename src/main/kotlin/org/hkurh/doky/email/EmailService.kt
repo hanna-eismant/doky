@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -20,24 +19,15 @@
 
 package org.hkurh.doky.email
 
-import org.hkurh.doky.users.db.UserEntity
+import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 
-/**
- * EmailService interface provides methods for sending emails.
- */
 interface EmailService {
-    /**
-     * Sends a registration confirmation email to the specified user.
-     *
-     * @param user The user entity for which the registration confirmation email will be sent.
-     */
-    fun sendRegistrationConfirmationEmail(user: UserEntity)
 
     /**
-     * Sends a restore password email to the specified user with the given token.
+     * Sends a reset password email to the user associated with the provided reset password token.
      *
-     * @param user The user entity for which the restore password email will be sent.
-     * @param token The token used for restoring the user's password.
+     * @param resetPasswordTokenEntity The entity containing the reset password token details,
+     * including the user information, token, and expiration date.
      */
-    fun sendRestorePasswordEmail(user: UserEntity, token: String)
+    fun sendResetPasswordEmail(resetPasswordTokenEntity: ResetPasswordTokenEntity)
 }

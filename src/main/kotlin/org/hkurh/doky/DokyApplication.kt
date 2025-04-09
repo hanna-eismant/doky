@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -22,8 +21,8 @@ package org.hkurh.doky
 
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.scheduling.annotation.EnableScheduling
@@ -40,6 +39,10 @@ import javax.crypto.spec.SecretKeySpec
 @EnableAsync
 @SpringBootApplication
 class DokyApplication {
+
+    @Value("\${doky.jwt.secret-key}")
+    private lateinit var jwtSecretKey: String
+
     @Bean
     fun encoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
@@ -62,13 +65,12 @@ class DokyApplication {
         }
     }
 
-    companion object {
-        private const val SECRET_KEY = "dokySecretKey-hanna.kurhuzenkava-project"
-        val SECRET_KEY_SPEC = SecretKeySpec(SECRET_KEY.toByteArray(), SignatureAlgorithm.HS256.jcaName)
-
-        @JvmStatic
-        fun main(args: Array<String>) {
-            SpringApplication.run(DokyApplication::class.java, *args)
-        }
+    @Bean
+    fun secretKeySpec(): SecretKeySpec {
+        return SecretKeySpec(jwtSecretKey.toByteArray(), SignatureAlgorithm.HS256.jcaName)
     }
+}
+
+fun main(args: Array<String>) {
+    runApplication<DokyApplication>(*args)
 }

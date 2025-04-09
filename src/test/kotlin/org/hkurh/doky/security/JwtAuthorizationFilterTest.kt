@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -20,11 +19,11 @@
 
 package org.hkurh.doky.security
 
+import io.jsonwebtoken.JwtException
 import jakarta.servlet.http.HttpServletResponse
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.errorhandling.DokyNotFoundException
-import org.hkurh.doky.security.JwtProvider.generateToken
-import org.hkurh.doky.toDto
+import org.hkurh.doky.security.impl.JwtAuthorizationFilter
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.AuthorityEntity
 import org.hkurh.doky.users.db.UserEntity
@@ -47,12 +46,13 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
     private val response = MockHttpServletResponse()
     private val authorizationHeader = "Authorization"
     private val userUid = "user@mail.com"
-    private val expiredToken =
-        "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkb2t5VG9rZW4iLCJzdWIiOiJoYW5uYV90ZXN0XzNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MDk3OTg1NjIsImV4cCI6MTcwOTg4NDk2Mn0.CJK6Utq0pAd-yWMKjJhLj8On1_6Dt9jHsqj0zQa6o0A"
+    private val validToken =
+        "eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl9pZCI6ImRva3lBdXRoVG9rZW4iLCJ1c2VybmFtZSI6ImhrdXJoNEBvdXRsb29rLmNvbSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3NDQyMDY1MzEsImV4cCI6MjA1OTczOTMzMX0.VLXtfO_dHTQfHoSdJ7Tg4HnU4zFlJnXonvuHoTFzluU"
 
     private val userService: UserService = mock()
     private val filterChain: MockFilterChain = mock()
-    private var filter = JwtAuthorizationFilter(userService)
+    private val jwtProvider: JwtProvider = mock()
+    private var filter = JwtAuthorizationFilter(userService, jwtProvider)
 
     @Test
     @DisplayName("Should add user to security context when token is valid")
@@ -62,10 +62,9 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
             uid = userUid
             authorities = mutableSetOf(AuthorityEntity())
         }
-        val userDto = userEntity.toDto()
-        val token = generateToken(userDto.uid, userDto.roles)
         val request = MockHttpServletRequest()
-        request.addHeader(authorizationHeader, "Bearer $token")
+        request.addHeader(authorizationHeader, "Bearer $validToken")
+        whenever(jwtProvider.getUsernameFromToken(any())).thenReturn(userUid)
         whenever(userService.findUserByUid(userUid)).thenReturn(userEntity)
 
         // when
@@ -75,7 +74,7 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
         verify(filterChain).doFilter(request, response)
         verify(userService).findUserByUid(userUid)
         val contextUser =
-            (SecurityContextHolder.getContext().authentication.principal as DokyUserDetails).getUserEntity()
+            (SecurityContextHolder.getContext().authentication.principal as DokyUserDetails).userEntity
         assertTrue(contextUser == userEntity)
     }
 
@@ -99,14 +98,9 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
     @DisplayName("Should set response error status when user is incorrect")
     fun shouldSetResponseError_whenIncorrectUser() {
         // given
-        val userEntity = UserEntity().apply {
-            uid = userUid
-            authorities = mutableSetOf(AuthorityEntity())
-        }
-        val userDto = userEntity.toDto()
-        val token = userDto.name?.let { generateToken(it, userDto.roles) }
         val request = MockHttpServletRequest()
-        request.addHeader(authorizationHeader, "Bearer $token")
+        request.addHeader(authorizationHeader, "Bearer $validToken")
+        whenever(jwtProvider.getUsernameFromToken(any())).thenReturn(userUid)
         whenever(userService.findUserByUid(userUid)).thenThrow(DokyNotFoundException::class.java)
 
         // when
@@ -122,21 +116,7 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
         // given
         val request = MockHttpServletRequest()
         request.addHeader(authorizationHeader, "Bearer token")
-
-        // when
-        filter.doFilter(request, response, filterChain)
-
-        // then
-        verify(userService, never()).findUserByUid(any())
-        assertTrue(response.status == HttpServletResponse.SC_FORBIDDEN)
-    }
-
-    @Test
-    @DisplayName("Should set response error status when token is expired")
-    fun shouldSetResponseError_whenExpiredToken() {
-        // given
-        val request = MockHttpServletRequest()
-        request.addHeader(authorizationHeader, "Bearer $expiredToken")
+        whenever(jwtProvider.getUsernameFromToken(any())).thenThrow(JwtException("Invalid"))
 
         // when
         filter.doFilter(request, response, filterChain)

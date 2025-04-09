@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -34,31 +33,46 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.listener.ContainerProperties
 import org.springframework.kafka.support.serializer.JsonDeserializer
 
-
+/**
+ * Configuration class for setting up Kafka consumer properties and listeners.
+ * This class is responsible for configuring the Kafka consumer factory and listener container factory
+ * to enable message consumption from Kafka topics.
+ *
+ * Annotations Used:
+ * - `@Configuration`: Indicates that this class declares one or more `@Bean` methods and is processed by Spring.
+ * - `@EnableKafka`: Enables Kafka-related features in the Spring context.
+ *
+ * Features:
+ * - Configures various Kafka consumer properties such as bootstrap servers, security protocol,
+ *   SASL mechanism, group id, poll interval, and offset reset strategy.
+ * - Defines a consumer factory bean for creating Kafka consumers with specified configurations.
+ * - Configures the `ConcurrentKafkaListenerContainerFactory` to manage Kafka message listeners.
+ * - Enables RECORD acknowledgment mode for message consumption.
+ */
 @Configuration
 @EnableKafka
 class KafkaConsumerConfig {
 
     @Value("\${spring.kafka.bootstrap-servers}")
-    private var bootstrapServer: String = ""
+    private lateinit var bootstrapServer: String
 
     @Value("\${spring.kafka.properties.security.protocol}")
-    private var securityProtocol: String = ""
+    private lateinit var securityProtocol: String
 
     @Value("\${spring.kafka.properties.sasl.mechanism}")
-    private var saslMechanism: String = ""
+    private lateinit var saslMechanism: String
 
     @Value("\${spring.kafka.properties.sasl.jaas.config}")
-    private var saslConfig: String = ""
+    private lateinit var saslConfig: String
 
     @Value("\${doky.kafka.emails.group.id}")
-    private var groupId: String = ""
+    private lateinit var groupId: String
 
     @Value("\${spring.kafka.properties.max.poll.interval.ms}")
     private var pullInterval: Int = 300000
 
     @Value("\${spring.kafka.properties.auto.offset.reset}")
-    private var autoOffsetReset: String = "earliest"
+    private lateinit var autoOffsetReset: String
 
     @Bean
     fun consumerFactory(): DefaultKafkaConsumerFactory<String, SendEmailMessage> {

@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -33,8 +32,11 @@ import org.springframework.http.ResponseEntity
 @SecurityRequirement(name = "Bearer Token")
 interface UserApi {
     @ApiResponses(
-            ApiResponse(responseCode = "200", description = "User information is retrieved successfully",
-                    content = [Content(schema = Schema(implementation = UserDto::class))]))
+        ApiResponse(
+            responseCode = "200", description = "User information is retrieved successfully",
+            content = [Content(schema = Schema(implementation = UserDto::class))]
+        )
+    )
     @Operation(summary = "Get current user info")
     fun getUser(): UserDto
 

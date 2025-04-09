@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -27,20 +26,18 @@ import org.springframework.context.annotation.PropertySource
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
-@Component
+@Component("search.DefaultScheduler")
 @PropertySource("classpath:scheduler.properties")
 class DefaultScheduler(
     private val indexService: DefaultIndexService
 ) : Scheduler {
 
+    private val log = KotlinLogging.logger {}
+
     @Scheduled(cron = "\${scheduler.documents.index.full}")
     override fun fullIndex() {
-        LOG.info { "Starting full index" }
+        log.info { "Starting full index" }
         indexService.fullIndex()
-        LOG.info { "Full index complete" }
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
+        log.info { "Full index complete" }
     }
 }

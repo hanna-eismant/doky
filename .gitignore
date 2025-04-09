@@ -61,5 +61,6 @@ cleanup-functions/out/
 /.kotlin/
 /doky-front/node_modules/
 /doky-front/dist/
-/local.env
 /build_docker_image.bat
+/notebooks/
+/envs/

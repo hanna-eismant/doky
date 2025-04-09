@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -21,10 +20,9 @@
 package org.hkurh.doky.password
 
 import org.hkurh.doky.DokyUnitTest
-import org.hkurh.doky.errorhandling.DokyRegistrationException
+import org.hkurh.doky.errorhandling.DokyInvalidTokenException
 import org.hkurh.doky.kafka.EmailType
 import org.hkurh.doky.kafka.KafkaEmailNotificationProducerService
-import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.impl.DefaultPasswordFacade
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
@@ -120,11 +118,9 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
             password = initialPassword
         }
         val token = "token"
-        val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
-            this.user = user
-        }
-        whenever(resetPasswordService.checkToken(token)).thenReturn(resetPasswordTokenEntity)
+        whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.VALID)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
+        whenever(resetPasswordService.getUserForToken(token)).thenReturn(user)
 
         // when
         passwordFacade.update(newPassword, token)
@@ -141,10 +137,10 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
         // given
         val newPassword = "New-Passw0rd"
         val token = "token"
-        whenever(resetPasswordService.checkToken(token)).thenThrow(DokyRegistrationException("Invalid token"))
+        whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.INVALID)
 
         // when
-        assertThrows<DokyRegistrationException> {
+        assertThrows<DokyInvalidTokenException> {
             passwordFacade.update(newPassword, token)
         }
 
@@ -164,16 +160,14 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
             password = initialPassword
         }
         val token = "token"
-        val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
-            this.user = user
-        }
-        whenever(resetPasswordService.checkToken(token)).thenReturn(resetPasswordTokenEntity)
+        whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.VALID)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
+        whenever(resetPasswordService.getUserForToken(token)).thenReturn(user)
 
         // when
         passwordFacade.update(newPassword, token)
 
         // then
-        verify(resetPasswordService, times(1)).delete(resetPasswordTokenEntity)
+        verify(resetPasswordService, times(1)).delete(token)
     }
 }

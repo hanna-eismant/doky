@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -21,11 +20,13 @@
 package org.hkurh.doky.authorization
 
 import org.hkurh.doky.DokyUnitTest
+import org.hkurh.doky.security.JwtProvider
 import org.hkurh.doky.users.UserFacade
 import org.hkurh.doky.users.api.UserDto
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
@@ -33,9 +34,9 @@ import org.mockito.kotlin.whenever
 @DisplayName("AuthorizationUserController unit test")
 class AuthorizationUserControllerTest : DokyUnitTest {
 
-
     private val userFacade: UserFacade = mock()
-    private var controller = AuthorizationUserController(userFacade)
+    private val jwtProvider: JwtProvider = mock()
+    private var controller = AuthorizationUserController(userFacade, jwtProvider)
 
     @Test
     @DisplayName("Should generate token when login")
@@ -53,6 +54,7 @@ class AuthorizationUserControllerTest : DokyUnitTest {
                 roles = mutableSetOf("ROLE_USER")
             }
         )
+        whenever(jwtProvider.generateToken(any(), any())).thenReturn("token")
 
         // when
         val response = controller.login(authenticationRequest)

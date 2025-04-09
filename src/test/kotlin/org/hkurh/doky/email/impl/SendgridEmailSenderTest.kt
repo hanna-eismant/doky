@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -36,8 +35,8 @@ import org.mockito.kotlin.spy
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
-@DisplayName("SendgridEmailService unit test")
-class SendgridEmailServiceTest : DokyUnitTest {
+@DisplayName("SendgridEmailSender unit test")
+class SendgridEmailSenderTest : DokyUnitTest {
 
     private val emailProperties = EmailProperties().apply {
         sender = EmailProperties.Sender().apply {
@@ -61,7 +60,7 @@ class SendgridEmailServiceTest : DokyUnitTest {
         }
     }
     private val host = "http://localhost:8080"
-    private val sendgridEmailService = SendgridEmailService(emailProperties, host)
+    private val sendgridEmailSender = SendgridEmailSender(emailProperties, host)
 
     @Test
     @DisplayName("Should send registration email")
@@ -72,15 +71,15 @@ class SendgridEmailServiceTest : DokyUnitTest {
             uid = "test@mail.com"
         }
 
-        val sendgridEmailServiceSpy = spy(sendgridEmailService)
-        doNothing().whenever(sendgridEmailServiceSpy).sendEmailToSendGrid(any())
+        val sendgridEmailSenderSpy = spy(sendgridEmailSender)
+        doNothing().whenever(sendgridEmailSenderSpy).sendEmailToSendGrid(any())
 
         // when
-        sendgridEmailServiceSpy.sendRegistrationConfirmationEmail(user)
+        sendgridEmailSenderSpy.sendRegistrationConfirmationEmail(user)
 
         // then
         argumentCaptor<Mail>().apply {
-            verify(sendgridEmailServiceSpy).sendEmailToSendGrid(capture())
+            verify(sendgridEmailSenderSpy).sendEmailToSendGrid(capture())
             val mail = firstValue
             assertAll(
                 { assertEquals(emailProperties.registration.subject, mail.subject) },
@@ -101,7 +100,7 @@ class SendgridEmailServiceTest : DokyUnitTest {
             uid = "test@mail.com"
         }
         val token = "token"
-        val sendgridEmailServiceSpy = spy(sendgridEmailService)
+        val sendgridEmailServiceSpy = spy(sendgridEmailSender)
         doNothing().whenever(sendgridEmailServiceSpy).sendEmailToSendGrid(any())
 
         // when

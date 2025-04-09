@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -36,10 +35,13 @@ class DefaultUserFacade(
     private val userService: UserService,
     private val passwordEncoder: PasswordEncoder
 ) : UserFacade {
+
+    private val log = KotlinLogging.logger {}
+
     override fun checkCredentials(userUid: String, password: String): UserDto {
-        if (!userService.exists(userUid)) throw DokyAuthenticationException("User doesn't exist")
+        if (!userService.exists(userUid)) throw DokyAuthenticationException("User not found")
         val userEntity = userService.findUserByUid(userUid)
-        val encodedPassword = userEntity!!.password
+        val encodedPassword = userEntity.password
         if (!passwordEncoder.matches(password, encodedPassword))
             throw DokyAuthenticationException("Incorrect credentials")
         return userEntity.toDto()
@@ -49,7 +51,7 @@ class DefaultUserFacade(
         if (userService.exists(userUid)) throw DokyRegistrationException("User already exists")
         val encodedPassword = passwordEncoder.encode(password)
         val userEntity = userService.create(userUid, encodedPassword)
-        LOG.info { "Register new user [${userEntity.id}]" }
+        log.info { "Register new user [${userEntity.id}]" }
         return userEntity.toDto()
     }
 
@@ -59,11 +61,7 @@ class DefaultUserFacade(
 
     override fun updateCurrentUser(updateUserRequest: UpdateUserRequest) {
         val currentUser = userService.getCurrentUser()
-        currentUser.name = updateUserRequest.name?.ifEmpty { currentUser.name } ?: updateUserRequest.name
+        currentUser.name = updateUserRequest.name?.takeIf { it.isNotEmpty() } ?: currentUser.name
         userService.updateUser(currentUser)
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

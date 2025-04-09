@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -37,9 +36,7 @@ import java.util.*
 @Table(
     name = "reset_password_tokens",
     indexes = [Index(name = "idx_reset_password_tokens_token", columnList = "token")],
-    uniqueConstraints = [
-        UniqueConstraint(name = "uc_reset_password_tokens_token", columnNames = ["token"]),
-        UniqueConstraint(name = "uc_reset_password_tokens_app_user", columnNames = ["app_user"])]
+    uniqueConstraints = [UniqueConstraint(name = "uc_reset_password_tokens_token", columnNames = ["token"])]
 )
 class ResetPasswordTokenEntity {
 
@@ -49,7 +46,7 @@ class ResetPasswordTokenEntity {
     var id: Long = -1
 
     @OneToOne
-    @JoinColumn(name = "app_user", nullable = false, unique = true)
+    @JoinColumn(name = "app_user", nullable = false)
     lateinit var user: UserEntity
 
     @Column(name = "token", nullable = false, unique = true)
@@ -57,4 +54,7 @@ class ResetPasswordTokenEntity {
 
     @Column(name = "expiration_date", nullable = false)
     lateinit var expirationDate: Date
+
+    @Column(name = "sent_email", nullable = false)
+    var sentEmail: Boolean = false
 }

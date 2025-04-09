@@ -11,15 +11,15 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.security
+package org.hkurh.doky.config
 
+import org.hkurh.doky.security.impl.JwtAuthorizationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -47,7 +47,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @EnableWebSecurity
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
-internal class WebSecurityConfig(private val jwtAuthorizationFilter: JwtAuthorizationFilter) {
+internal class WebSecurityConfig(
+    private val jwtAuthorizationFilter: JwtAuthorizationFilter
+) {
+
     @Bean
     @Throws(Exception::class)
     protected fun filterChain(http: HttpSecurity): SecurityFilterChain {

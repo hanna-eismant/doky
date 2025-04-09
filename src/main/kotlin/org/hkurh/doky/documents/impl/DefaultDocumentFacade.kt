@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -21,7 +20,6 @@
 package org.hkurh.doky.documents.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.apache.commons.lang3.StringUtils.isBlank
 import org.hkurh.doky.documents.DocumentFacade
 import org.hkurh.doky.documents.DocumentService
 import org.hkurh.doky.documents.DownloadTokenService
@@ -34,10 +32,10 @@ import org.hkurh.doky.users.UserService
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionSynchronization
+import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.web.multipart.MultipartFile
-import java.io.IOException
 
 @Component
 class DefaultDocumentFacade(
@@ -46,9 +44,12 @@ class DefaultDocumentFacade(
     private val fileStorageService: FileStorageService,
     private val userService: UserService
 ) : DocumentFacade {
+
+    private val log = KotlinLogging.logger {}
+
     override fun createDocument(name: String, description: String?): DocumentResponse? {
         val documentEntity = documentService.create(name, description)
-        LOG.debug { "Created new Document with id [${documentEntity.id}]" }
+        log.debug { "Created new Document with id [${documentEntity.id}]" }
         return documentEntity.toDto()
     }
 
@@ -70,41 +71,37 @@ class DefaultDocumentFacade(
         return documentService.find().map { it.toDto() }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     override fun saveFile(id: Long, file: MultipartFile) {
         val document = documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
-        try {
-            val path = fileStorageService.store(file, document.filePath)
-            document.filePath = path
-            document.fileName = file.originalFilename
-            documentService.save(document)
-        } catch (e: IOException) {
-            throw RuntimeException(e)
-        }
+        val path = fileStorageService.storeFile(file, document.filePath)
+        TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronization {
+            override fun afterCompletion(status: Int) {
+                if (status == TransactionSynchronization.STATUS_ROLLED_BACK) {
+                    fileStorageService.deleteFile(path)
+                }
+            }
+        })
+        document.filePath = path
+        document.fileName = file.originalFilename
+        documentService.save(document)
     }
 
-    @Throws(IOException::class)
     override fun getFile(documentId: Long, token: String): Resource {
         val document = downloadTokenService.validateDownloadTokenAndFetchDocument(documentId, token)
         val filePath = document.filePath
-
-        if (isBlank(filePath)) throw DokyNotFoundException("No attached file for Document [$documentId]")
-        val file = fileStorageService.getFile(filePath!!)
+        if (filePath.isNullOrBlank()) throw DokyNotFoundException("No attached file for Document [$documentId]")
+        val file = fileStorageService.getFile(filePath)
             ?: throw DokyNotFoundException("File [$filePath] attached to document [$documentId] does not exists in storage")
-
-        LOG.debug { "Download file for Document [$documentId] with URI [${file.toUri()}]" }
+        log.debug { "Download file for Document [$documentId] with URI [${file.toUri()}]" }
         return UrlResource(file.toUri())
     }
 
     override fun generateDownloadToken(id: Long): String {
         val user = userService.getCurrentUser()
         val document = documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
-        LOG.debug { "Generate token for user [${user.id}] and document [$id]" }
+        log.debug { "Generate token for user [${user.id}] and document [$id]" }
         val token = downloadTokenService.generateDownloadToken(user, document)
         return token
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

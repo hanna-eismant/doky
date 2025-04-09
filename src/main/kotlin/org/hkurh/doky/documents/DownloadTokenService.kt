@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -23,6 +22,10 @@ package org.hkurh.doky.documents
 import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.users.db.UserEntity
 
+/**
+ * Provides functionality for managing download tokens associated with documents.
+ * This includes generating and validating download tokens for secure access to documents.
+ */
 interface DownloadTokenService {
 
     /**
@@ -40,7 +43,6 @@ interface DownloadTokenService {
      * @param documentId The ID of the document to validate the token against.
      * @param token The download token to be validated.
      * @return The [DocumentEntity] associated with the validated token.
-     * @throws IllegalArgumentException If the token is invalid or does not match the document.
      */
     fun validateDownloadTokenAndFetchDocument(documentId: Long, token: String): DocumentEntity
 }

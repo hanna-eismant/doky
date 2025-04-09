@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -21,6 +20,7 @@
 package org.hkurh.doky.kafka
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.hkurh.doky.email.EmailSender
 import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.users.db.UserEntityRepository
@@ -31,9 +31,13 @@ import org.springframework.stereotype.Service
 @Service
 class KafkaEmailNotificationConsumerService(
     private val userEntityRepository: UserEntityRepository,
+    private val emailService: EmailService,
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
-    private val emailService: EmailService
+    private val emailSender: EmailSender
 ) {
+
+    private val log = KotlinLogging.logger {}
+
     @KafkaListener(
         id = "\${doky.kafka.emails.consumer.id}",
         topics = ["\${doky.kafka.emails.topic}"],
@@ -44,34 +48,33 @@ class KafkaEmailNotificationConsumerService(
     )
     fun listen(@Payload message: SendEmailMessage) {
         try {
-            LOG.debug { "Received message: [$message]" }
+            log.debug { "Received message: [$message]" }
             message.userId.let {
                 when (message.emailType) {
                     EmailType.REGISTRATION -> sendRegistrationEmail(message.userId!!)
                     EmailType.RESET_PASSWORD -> sendResetPasswordEmail(message.userId!!)
-                    null -> LOG.warn { "No email type specified" }
+                    null -> log.warn { "No email type specified" }
                 }
             }
         } catch (e: Exception) {
-            LOG.error(e) { "Error processing message: [$message]" }
+            log.error(e) { "Error processing message: [$message]" }
         }
     }
 
     private fun sendRegistrationEmail(userId: Long) {
         userEntityRepository.findById(userId).ifPresent { user ->
-            emailService.sendRegistrationConfirmationEmail(user)
+            emailSender.sendRegistrationConfirmationEmail(user)
         }
     }
 
     private fun sendResetPasswordEmail(userId: Long) {
-        userEntityRepository.findById(userId).ifPresent { user ->
-            resetPasswordTokenEntityRepository.findByUser(user)?.apply {
-                this.token.let { emailService.sendRestorePasswordEmail(user, it) }
+        resetPasswordTokenEntityRepository.findValidUnsentTokensByUserId(userId)
+            .forEach {
+                try {
+                    emailService.sendResetPasswordEmail(it)
+                } catch (e: Exception) {
+                    log.error(e) { "Error sending reset password email for user [$userId]" }
+                }
             }
-        }
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

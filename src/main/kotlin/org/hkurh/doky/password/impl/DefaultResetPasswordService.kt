@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -20,14 +19,16 @@
 
 package org.hkurh.doky.password.impl
 
-import org.hkurh.doky.errorhandling.DokyInvalidTokenException
+import io.github.oshai.kotlinlogging.KotlinLogging
+import org.hkurh.doky.errorhandling.DokyNotFoundException
+import org.hkurh.doky.mask
 import org.hkurh.doky.password.ResetPasswordService
 import org.hkurh.doky.password.TokenService
+import org.hkurh.doky.password.TokenStatus
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class DefaultResetPasswordService(
@@ -35,10 +36,9 @@ class DefaultResetPasswordService(
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
 ) : ResetPasswordService {
 
+    private val log = KotlinLogging.logger {}
+
     override fun generateAndSaveResetToken(user: UserEntity): String {
-        resetPasswordTokenEntityRepository.findByUser(user)?.let {
-            resetPasswordTokenEntityRepository.delete(it)
-        }
         val token = tokenService.generateToken()
         val expirationDate = tokenService.calculateExpirationDate()
         val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
@@ -50,15 +50,32 @@ class DefaultResetPasswordService(
         return savedPasswordTokenEntity.token
     }
 
-    override fun checkToken(token: String): ResetPasswordTokenEntity {
-        val resetPasswordToken = resetPasswordTokenEntityRepository.findByToken(token)
-            ?: throw DokyInvalidTokenException("Token to reset password is invalid")
-        if (Date().after(resetPasswordToken.expirationDate))
-            throw DokyInvalidTokenException("Token to reset password expired")
-        return resetPasswordToken
+    override fun validateToken(token: String): TokenStatus {
+        val resetToken = resetPasswordTokenEntityRepository.findByToken(token)
+        log.debug { "Validating token: [${token.mask()}]" }
+        resetToken?.let {
+            return when {
+                isTokenExpired(it) -> {
+                    log.warn { "Token expired for user: [${it.user.id}]" }
+                    TokenStatus.EXPIRED
+                }
+
+                else -> TokenStatus.VALID
+            }
+        }
+        log.warn { "Token invalid or not found: [${token.mask()}]" }
+        return TokenStatus.INVALID
     }
 
-    override fun delete(resetPasswordToken: ResetPasswordTokenEntity) {
-        resetPasswordTokenEntityRepository.delete(resetPasswordToken)
+    override fun delete(token: String) {
+        resetPasswordTokenEntityRepository.deleteByToken(token)
     }
+
+    override fun getUserForToken(token: String): UserEntity {
+        return resetPasswordTokenEntityRepository.findByToken(token)?.user
+            ?: throw DokyNotFoundException("User not found for token [${token.mask()}]")
+    }
+
+    private fun isTokenExpired(token: ResetPasswordTokenEntity) =
+        token.expirationDate.toInstant().isBefore(java.time.Instant.now())
 }

@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -33,14 +32,17 @@ class DefaultDocumentService(
     private val userService: UserService,
 ) : DocumentService {
 
+    private val log = KotlinLogging.logger {}
+
     override fun create(name: String, description: String?): DocumentEntity {
-        val document = DocumentEntity()
-        document.name = name
-        document.description = description
         val currentUser = userService.getCurrentUser()
-        document.creator = currentUser
+        val document = DocumentEntity().apply {
+            this.name = name
+            this.description = description
+            this.creator = currentUser
+        }
         val savedDocument = documentEntityRepository.save(document)
-        LOG.debug { "Created new Document [${savedDocument.id}] by User [${currentUser.id}]" }
+        log.debug { "Created new Document [${savedDocument.id}] by User [${currentUser.id}]" }
         return savedDocument
     }
 
@@ -56,9 +58,5 @@ class DefaultDocumentService(
 
     override fun save(document: DocumentEntity) {
         documentEntityRepository.save(document)
-    }
-
-    companion object {
-        private val LOG = KotlinLogging.logger {}
     }
 }

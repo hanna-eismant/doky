@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -22,7 +21,7 @@ package org.hkurh.doky.users.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.errorhandling.DokyNotFoundException
-import org.hkurh.doky.kafka.EmailType
+import org.hkurh.doky.kafka.EmailType.REGISTRATION
 import org.hkurh.doky.kafka.KafkaEmailNotificationProducerService
 import org.hkurh.doky.security.DokyUserDetails
 import org.hkurh.doky.security.UserAuthority
@@ -39,7 +38,10 @@ class DefaultUserService(
     private val authorityEntityRepository: AuthorityEntityRepository,
     private val kafkaEmailNotificationProducerService: KafkaEmailNotificationProducerService,
 ) : UserService {
-    override fun findUserByUid(userUid: String): UserEntity? {
+
+    private val log = KotlinLogging.logger {}
+
+    override fun findUserByUid(userUid: String): UserEntity {
         return userEntityRepository.findByUid(userUid) ?: throw DokyNotFoundException("User doesn't exist")
     }
 
@@ -52,24 +54,23 @@ class DefaultUserService(
                 ?.let { authorities.add(it) }
         }
         val createdUser = userEntityRepository.save(userEntity)
-        LOG.debug { "Created new user [${createdUser.id}]" }
-        kafkaEmailNotificationProducerService.sendNotification(createdUser.id, EmailType.REGISTRATION)
+        log.debug { "Created new user [${createdUser.id}]" }
+        kafkaEmailNotificationProducerService.sendNotification(
+            userId = createdUser.id,
+            emailType = REGISTRATION
+        )
         return createdUser
     }
 
     override fun getCurrentUser(): UserEntity {
         val userEntity =
-            (SecurityContextHolder.getContext().authentication.principal as DokyUserDetails).getUserEntity()
+            (SecurityContextHolder.getContext().authentication.principal as DokyUserDetails).userEntity
         return userEntity!!
     }
 
     override fun updateUser(user: UserEntity) {
         userEntityRepository.save(user)
-        LOG.debug { "User is updated [${user.id}]" }
-    }
-
-    private fun extractNameFromUid(userUid: String): String {
-        return userUid.split("@").first()
+        log.debug { "User is updated [${user.id}]" }
     }
 
     override fun exists(email: String): Boolean {
@@ -80,7 +81,7 @@ class DefaultUserService(
         return userEntityRepository.existsById(id)
     }
 
-    companion object {
-        private val LOG = KotlinLogging.logger {}
+    private fun extractNameFromUid(userUid: String): String {
+        return userUid.split("@").first()
     }
 }

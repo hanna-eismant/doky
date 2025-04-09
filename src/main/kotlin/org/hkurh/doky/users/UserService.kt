@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -30,9 +29,9 @@ interface UserService {
      * Finds a user by their unique identifier.
      *
      * @param userUid The unique identifier of the user.
-     * @return The UserEntity object representing the user, or null if the user is not found.
+     * @return The UserEntity object representing the user.
      */
-    fun findUserByUid(userUid: String): UserEntity?
+    fun findUserByUid(userUid: String): UserEntity
 
     /**
      * Creates a new user entity with the given user UID and encoded password.

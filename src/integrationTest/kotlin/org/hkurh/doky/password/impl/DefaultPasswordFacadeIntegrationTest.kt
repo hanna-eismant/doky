@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -47,7 +46,7 @@ class DefaultPasswordFacadeIntegrationTest : DokyIntegrationTest() {
     lateinit var passwordEncoder: PasswordEncoder
 
     @Test
-    @DisplayName("Should update password and cleanup token when valid token")
+    @DisplayName("Should update password and set as sent token when valid token")
     @Sql(
         scripts = ["classpath:sql/DefaultPasswordFacadeIntegrationTest/setup.sql"],
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
@@ -56,12 +55,13 @@ class DefaultPasswordFacadeIntegrationTest : DokyIntegrationTest() {
         // given
         val newPassword = "New-PassW0rd"
         val token = "valid-token"
+        val userEmail = "hanna_test_2@example.com"
 
         // when
         passwordFacade.update(newPassword, token)
 
         // then
-        val updatesPassword = getUserPassword("hanna_test_2@example.com")
+        val updatesPassword = getUserPassword(userEmail)
         assertTrue(passwordEncoder.matches(newPassword, updatesPassword))
 
         val usedToken = getTokenId(token)
@@ -119,7 +119,7 @@ class DefaultPasswordFacadeIntegrationTest : DokyIntegrationTest() {
         val query = "select t.id from reset_password_tokens t where t.id = ?"
         val args = arrayOf(token)
         val argTypes = intArrayOf(Types.VARCHAR)
-        val result = jdbcTemplate.query(query, args, argTypes) { rs, _ -> rs.getLong("id") }
+        val result = jdbcTemplate.query(query, args, argTypes) { rs, _ -> rs.getLong("sent") }
         return if (result.isEmpty()) null else result[0]
     }
 }

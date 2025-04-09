@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -70,6 +69,18 @@ class DefaultUserFacadeTest : DokyUnitTest {
     fun shouldThrowException_whenUserIsIncorrect() {
         // given
         whenever(userService.exists(userUid)).thenReturn(false)
+
+        // when - then
+        assertThrows<DokyAuthenticationException> { userFacade.checkCredentials(userUid, userPassword) }
+    }
+
+    @Test
+    @DisplayName("Should throw exception when password login is incorrect when login")
+    fun shouldThrowException_whenPasswordIsIncorrect() {
+        // given
+        whenever(userService.exists(userUid)).thenReturn(true)
+        whenever(userService.findUserByUid(userUid)).thenReturn(userEntity)
+        whenever(passwordEncoder.matches(userPassword, userPasswordEncoded)).thenReturn(false)
 
         // when - then
         assertThrows<DokyAuthenticationException> { userFacade.checkCredentials(userUid, userPassword) }

@@ -11,8 +11,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with this program. If not, see [Hyperlink removed
- * for security reasons]().
+ * You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.en.html.
  *
  * Contact Information:
  *  - Project Homepage: https://github.com/hanna-eismant/doky
@@ -24,6 +23,7 @@ import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.filestorage.impl.DefaultFileStorageService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
@@ -31,8 +31,8 @@ import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import org.springframework.core.env.Environment
 import org.springframework.mock.web.MockMultipartFile
+import java.lang.reflect.Field
 
 @DisplayName("DefaultFileStorageService unit test")
 class DefaultFileStorageServiceTest : DokyUnitTest {
@@ -40,9 +40,15 @@ class DefaultFileStorageServiceTest : DokyUnitTest {
     private val uploadedFileName = "test-file.txt"
     private val uploadedFilePath = "$basePath/test-file.txt"
 
-    private val environment: Environment = mock()
     private val fileStorage: FileStorage = mock()
-    private var fileStorageService = DefaultFileStorageService(environment, fileStorage)
+    private var fileStorageService = DefaultFileStorageService(fileStorage)
+
+    @BeforeEach
+    fun setUp() {
+        val basePathField: Field = DefaultFileStorageService::class.java.getDeclaredField("basePath")
+        basePathField.isAccessible = true
+        basePathField.set(fileStorageService, basePath)
+    }
 
     @Test
     @DisplayName("Should override file when upload existed")
@@ -52,7 +58,7 @@ class DefaultFileStorageServiceTest : DokyUnitTest {
         whenever(fileStorage.checkExistence(any())).thenReturn(true)
 
         // when
-        val storedPath = fileStorageService.store(file, uploadedFilePath)
+        val storedPath = fileStorageService.storeFile(file, uploadedFilePath)
 
         // then
         assertEquals(uploadedFilePath, storedPath, "Path for existed document was changed")
@@ -65,10 +71,9 @@ class DefaultFileStorageServiceTest : DokyUnitTest {
         // given
         val file = MockMultipartFile(uploadedFileName, uploadedFileName, null, "file content".byteInputStream())
         whenever(fileStorage.checkExistence(any())).thenReturn(false)
-        whenever(environment.getProperty(any(), any<String>())).thenReturn(basePath)
 
         // when
-        val storedPath = fileStorageService.store(file, uploadedFilePath)
+        val storedPath = fileStorageService.storeFile(file, uploadedFilePath)
 
         // then
         assertTrue(storedPath.startsWith(basePath), "Path to file should start from base path")
