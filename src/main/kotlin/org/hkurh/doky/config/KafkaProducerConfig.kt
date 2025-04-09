@@ -32,21 +32,33 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.core.ProducerFactory
 import org.springframework.kafka.support.serializer.JsonSerializer
 
+/**
+ * KafkaProducerConfig is a configuration class used to set up a Kafka producer in a Spring Boot application.
+ *
+ * This configuration class is annotated with `@EnableKafka` to enable Kafka-related functionality
+ * and `@Configuration` to indicate that it is a Spring configuration class.
+ *
+ * The class defines beans for creating a Kafka producer factory and a Kafka template.
+ * These are critical components for producing Kafka messages.
+ *
+ * It retrieves necessary Kafka connection and security properties from the application's configuration
+ * using Spring's `@Value` annotation.
+ */
 @EnableKafka
 @Configuration
 class KafkaProducerConfig {
 
     @Value("\${spring.kafka.bootstrap-servers}")
-    private var bootstrapServer: String = ""
+    private lateinit var bootstrapServer: String
 
     @Value("\${spring.kafka.properties.security.protocol}")
-    private var securityProtocol: String = ""
+    private lateinit var securityProtocol: String
 
     @Value("\${spring.kafka.properties.sasl.mechanism}")
-    private var saslMechanism: String = ""
+    private lateinit var saslMechanism: String
 
     @Value("\${spring.kafka.properties.sasl.jaas.config}")
-    private var saslConfig: String = ""
+    private lateinit var saslConfig: String
 
     @Bean
     fun producerFactory(): ProducerFactory<String, Any> {

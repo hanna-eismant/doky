@@ -25,6 +25,17 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
+/**
+ * Configuration class for customizing the behavior of Jackson's `ObjectMapper` within the application.
+ *
+ * This class facilitates the configuration of the `ObjectMapper` by registering Kotlin module support,
+ * enabling seamless handling of Kotlin-specific features such as nullable types and data classes.
+ *
+ * It is annotated with `@Configuration` to indicate that it provides Spring-managed beans.
+ *
+ * A method marked with `@Bean` is provided to make the configured `ObjectMapper` available as a bean
+ * in the Spring application context.
+ */
 @Configuration
 class JacksonConfig {
 
