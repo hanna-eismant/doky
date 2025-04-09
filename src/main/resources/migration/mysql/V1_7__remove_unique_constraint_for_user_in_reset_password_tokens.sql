@@ -1,1 +1,0 @@
-DROP INDEX uc_reset_password_tokens_app_user ON reset_password_tokens;

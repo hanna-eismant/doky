@@ -5,9 +5,6 @@ ALTER TABLE reset_password_tokens
     ADD app_user BIGINT NULL;
 
 ALTER TABLE reset_password_tokens
-    ADD CONSTRAINT uc_reset_password_tokens_app_user UNIQUE (app_user);
-
-ALTER TABLE reset_password_tokens
     ADD CONSTRAINT FK_RESET_PASSWORD_TOKENS_ON_APP_USER FOREIGN KEY (app_user) REFERENCES users (id);
 
 ALTER TABLE reset_password_tokens
