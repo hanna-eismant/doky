@@ -29,6 +29,7 @@ import org.hkurh.doky.password.TokenStatus
 import org.hkurh.doky.users.UserService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 
 @Component
@@ -53,6 +54,7 @@ class DefaultPasswordFacade(
         kafkaEmailNotificationProducerService.sendNotification(user.id, EmailType.RESET_PASSWORD)
     }
 
+    @Transactional
     override fun update(password: String, token: String) {
         val tokenStatus = resetPasswordService.validateToken(token)
         if (tokenStatus == TokenStatus.VALID) {
