@@ -1,7 +1,7 @@
 ![GitHub License](https://img.shields.io/github/license/hanna-eismant/doky)
 [![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://hanna-eismant.github.io/doky/javadoc/)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=hanna-eismant_doky&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=hanna-eismant_doky)
-[![TeamCity Build Status](https://hkurh-pets.teamcity.com/app/rest/builds/buildType:(id:Doky_UiE2eTests),branch:main/statusIcon)](https://hkurh-pets.teamcity.com/project/Doky?mode=builds#all-projects)
+[![TeamCity Build Status](https://hkurh-pets.teamcity.com/app/rest/builds/buildType:(id:Doky_BasicChecks_AggregateResult),branch:main/statusIcon)](https://hkurh-pets.teamcity.com/project/Doky?mode=builds#all-projects)
 [![Doky](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/n2cgvk/main&style=flat&logo=cypress)](https://cloud.cypress.io/projects/n2cgvk/runs)
 
 
