@@ -30,7 +30,6 @@ import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import org.springframework.core.env.Environment
 import org.springframework.mock.web.MockMultipartFile
 
 @DisplayName("DefaultFileStorageService unit test")
@@ -39,9 +38,13 @@ class DefaultFileStorageServiceTest : DokyUnitTest {
     private val uploadedFileName = "test-file.txt"
     private val uploadedFilePath = "$basePath/test-file.txt"
 
-    private val environment: Environment = mock()
     private val fileStorage: FileStorage = mock()
-    private var fileStorageService = DefaultFileStorageService(environment, fileStorage)
+    private var fileStorageService = DefaultFileStorageService(fileStorage).apply {
+        // Set basePath directly using reflection
+        val field = DefaultFileStorageService::class.java.getDeclaredField("basePath")
+        field.isAccessible = true
+        field.set(this, basePath)
+    }
 
     @Test
     @DisplayName("Should override file when upload existed")
@@ -64,7 +67,6 @@ class DefaultFileStorageServiceTest : DokyUnitTest {
         // given
         val file = MockMultipartFile(uploadedFileName, uploadedFileName, null, "file content".byteInputStream())
         whenever(fileStorage.checkExistence(any())).thenReturn(false)
-        whenever(environment.getProperty(any(), any<String>())).thenReturn(basePath)
 
         // when
         val storedPath = fileStorageService.storeFile(file, uploadedFilePath)

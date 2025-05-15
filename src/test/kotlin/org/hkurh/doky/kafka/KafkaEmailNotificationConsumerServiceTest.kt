@@ -21,6 +21,7 @@ package org.hkurh.doky.kafka
 
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.email.EmailSender
+import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.users.db.UserEntity
@@ -38,11 +39,17 @@ import java.util.*
 class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
 
     private val userEntityRepository: UserEntityRepository = mock()
+    private val emailService: EmailService = mock()
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository = mock()
     private val emailSender: EmailSender = mock()
 
     private val service =
-        KafkaEmailNotificationConsumerService(userEntityRepository, resetPasswordTokenEntityRepository, emailSender)
+        KafkaEmailNotificationConsumerService(
+            userEntityRepository,
+            emailService,
+            resetPasswordTokenEntityRepository,
+            emailSender
+        )
 
 
     @Test
@@ -74,7 +81,11 @@ class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
         val user = createUser(existingUserId)
         val resetToken = createResetToken(user, token)
         whenever(userEntityRepository.findById(existingUserId)).thenReturn(Optional.ofNullable(user))
-        whenever(resetPasswordTokenEntityRepository.findByUser(user)).thenReturn(resetToken)
+        whenever(resetPasswordTokenEntityRepository.findValidUnsentTokensByUserId(existingUserId)).thenReturn(
+            listOf(
+                resetToken
+            )
+        )
 
         val message = SendEmailMessage().apply {
             userId = existingUserId
@@ -85,7 +96,7 @@ class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
         service.listen(message)
 
         // then
-        verify(emailSender, times(1)).sendRestorePasswordEmail(user, token)
+        verify(emailService, times(1)).sendResetPasswordEmail(resetToken)
     }
 
     private fun createUser(id: Long): UserEntity {
