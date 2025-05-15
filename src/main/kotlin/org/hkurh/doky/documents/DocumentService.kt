@@ -29,11 +29,11 @@ interface DocumentService {
     /**
      * Creates a document with the specified name and description.
      *
-     * @param name The name of the document.
-     * @param description The description of the document.
+     * @param docName The name of the document.
+     * @param docDescription The description of the document.
      * @return A [DocumentEntity] object representing the created document.
      */
-    fun create(name: String, description: String?): DocumentEntity
+    fun create(docName: String, docDescription: String?): DocumentEntity
 
     /**
      * Finds a document by its ID.

@@ -76,7 +76,7 @@ class SmtpEmailSender(
 
     private fun prepareRegistrationConfirmationEmail(user: UserEntity): String {
         val template = "registration.html"
-        val variables = HashMap<String, Any>().apply {
+        val variables = buildMap<String, Any> {
             user.name?.let { put("username", it) }
         }
         val context = Context().apply {
@@ -87,7 +87,7 @@ class SmtpEmailSender(
 
     private fun prepareRestorePasswordEmail(user: UserEntity, token: String): String {
         val template = "restore-password.html"
-        val variables = HashMap<String, Any>().apply {
+        val variables = buildMap<String, Any> {
             user.name?.let { put("username", it) }
             put("restoreLink", "$host/password/update?token=$token")
             put("mailto", emailProperties.sender.email)

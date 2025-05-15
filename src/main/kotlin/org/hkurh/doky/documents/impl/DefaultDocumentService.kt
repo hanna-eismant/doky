@@ -34,16 +34,16 @@ class DefaultDocumentService(
 
     private val log = KotlinLogging.logger {}
 
-    override fun create(name: String, description: String?): DocumentEntity {
+    override fun create(docName: String, docDescription: String?): DocumentEntity {
         val currentUser = userService.getCurrentUser()
         val document = DocumentEntity().apply {
-            this.name = name
-            this.description = description
-            this.creator = currentUser
+            name = docName
+            description = docDescription
+            creator = currentUser
         }
-        val savedDocument = documentEntityRepository.save(document)
-        log.debug { "Created new Document [${savedDocument.id}] by User [${currentUser.id}]" }
-        return savedDocument
+        return documentEntityRepository.save(document).also { savedDocument ->
+            log.debug { "Created new Document [${savedDocument.id}] by User [${currentUser.id}]" }
+        }
     }
 
     override fun find(id: Long): DocumentEntity? {

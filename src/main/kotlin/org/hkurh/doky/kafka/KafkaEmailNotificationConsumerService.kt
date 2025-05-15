@@ -49,20 +49,20 @@ class KafkaEmailNotificationConsumerService(
     fun listen(@Payload message: SendEmailMessage) {
         try {
             log.debug { "Received message: [$message]" }
-            message.userId.let {
+            message.userId?.let { userId ->
                 when (message.emailType) {
-                    EmailType.REGISTRATION -> sendRegistrationEmail(message.userId!!)
-                    EmailType.RESET_PASSWORD -> sendResetPasswordEmail(message.userId!!)
+                    EmailType.REGISTRATION -> sendRegistrationEmail(userId)
+                    EmailType.RESET_PASSWORD -> sendResetPasswordEmail(userId)
                     null -> log.warn { "No email type specified" }
                 }
-            }
+            } ?: log.warn { "No user ID specified in message: [$message]" }
         } catch (e: Exception) {
             log.error(e) { "Error processing message: [$message]" }
         }
     }
 
     private fun sendRegistrationEmail(userId: Long) {
-        userEntityRepository.findById(userId).ifPresent { user ->
+        userEntityRepository.findById(userId).orElse(null)?.let { user ->
             emailSender.sendRegistrationConfirmationEmail(user)
         }
     }
