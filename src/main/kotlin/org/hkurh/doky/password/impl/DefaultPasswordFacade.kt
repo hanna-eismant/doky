@@ -56,8 +56,9 @@ class DefaultPasswordFacade(
     override fun update(password: String, token: String) {
         val tokenStatus = resetPasswordService.validateToken(token)
         if (tokenStatus == TokenStatus.VALID) {
+            val user = resetPasswordService.getUserByToken(token)
             val updatedPassword = passwordEncoder.encode(password)
-            userService.getCurrentUser().apply {
+            user.apply {
                 this.password = updatedPassword
                 userService.updateUser(this)
                 log.debug { "Password updated for user [${this.id}]" }

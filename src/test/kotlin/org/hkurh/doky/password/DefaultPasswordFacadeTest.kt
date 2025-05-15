@@ -123,6 +123,7 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
             this.user = user
         }
         whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.VALID)
+        whenever(resetPasswordService.getUserByToken(token)).thenReturn(user)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
 
         // when
@@ -167,6 +168,7 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
             this.user = user
         }
         whenever(resetPasswordService.validateToken(token)).thenReturn(TokenStatus.VALID)
+        whenever(resetPasswordService.getUserByToken(token)).thenReturn(user)
         whenever(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword)
 
         // when

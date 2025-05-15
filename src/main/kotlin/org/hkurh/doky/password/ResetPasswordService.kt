@@ -47,4 +47,13 @@ interface ResetPasswordService {
      * @param token The reset password token that needs to be deleted.
      */
     fun delete(token: String)
+
+    /**
+     * Gets the user associated with the specified token.
+     *
+     * @param token The reset password token.
+     * @return The user associated with the token.
+     * @throws DokyNotFoundException if the token is invalid or the user is not found.
+     */
+    fun getUserByToken(token: String): UserEntity
 }

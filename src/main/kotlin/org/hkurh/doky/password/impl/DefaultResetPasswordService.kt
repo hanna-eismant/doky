@@ -20,6 +20,7 @@
 package org.hkurh.doky.password.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.mask
 import org.hkurh.doky.password.ResetPasswordService
 import org.hkurh.doky.password.TokenService
@@ -75,6 +76,11 @@ class DefaultResetPasswordService(
 
     override fun delete(token: String) {
         resetPasswordTokenEntityRepository.deleteByToken(token)
+    }
+
+    override fun getUserByToken(token: String): UserEntity {
+        val resetToken = resetPasswordTokenEntityRepository.findByToken(token)
+        return resetToken?.user ?: throw DokyNotFoundException("User not found for token: ${token.mask()}")
     }
 
     private fun isTokenBelongsToCurrentUser(token: ResetPasswordTokenEntity): Boolean {
