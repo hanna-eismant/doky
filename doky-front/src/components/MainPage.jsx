@@ -18,20 +18,24 @@
  */
 
 import React from 'react';
-import {Outlet, useLocation} from 'react-router-dom';
-import {Container, Divider, Drawer, MenuItem} from "@mui/material";
+import {Outlet, useNavigate} from 'react-router-dom';
+import {Container, Divider, Drawer, MenuItem} from '@mui/material';
 
 import DocumentsIcon from '@mui/icons-material/ContentPaste';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoIcon from './LogoIcon';
 
 const MainPage = () => {
-  const location = useLocation();
+  const navigate = useNavigate();
   const drawerWidth = 61;
+
+  const handleMenuItemClick = (path) => {
+    navigate(path);
+  };
 
   return (
 
-    <Container>
+    <Container maxWidth="false" sx={{display: 'flex'}}>
       <Drawer
         sx={{
           width: drawerWidth,
@@ -48,10 +52,10 @@ const MainPage = () => {
       >
         <LogoIcon/>
         <Divider color={'#FAFAFA'}/>
-        <MenuItem name="Dashboard" path="/">
+        <MenuItem name="Dashboard" path="/" onClick={() => handleMenuItemClick('/')}>
           <DashboardIcon fontSize={'large'} sx={{color: '#FAFAFA'}}/>
         </MenuItem>
-        <MenuItem name="Documents" path="/documents">
+        <MenuItem name="Documents" path="/documents" onClick={() => handleMenuItemClick('/documents')}>
           <DocumentsIcon fontSize={'large'} sx={{color: '#FAFAFA'}}/>
         </MenuItem>
       </Drawer>
