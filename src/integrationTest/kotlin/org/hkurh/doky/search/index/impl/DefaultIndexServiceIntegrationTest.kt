@@ -30,6 +30,7 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.notNullValue
 import org.hkurh.doky.DokyIntegrationTest
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
@@ -49,7 +50,7 @@ class DefaultIndexServiceIntegrationTest : DokyIntegrationTest() {
     @Autowired
     lateinit var indexService: DefaultIndexService
 
-    //    @Disabled("Need to fix wiremock certificate issue")
+    @Disabled("Need to fix wiremock certificate issue")
     @DisplayName("Should delete all documents and re-index all documents")
     @Test
     @Sql(
