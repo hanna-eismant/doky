@@ -39,6 +39,7 @@ class DefaultUserFacade(
     private val log = KotlinLogging.logger {}
 
     override fun checkCredentials(userUid: String, password: String): UserDto {
+        if (!userService.exists(userUid)) throw DokyAuthenticationException("User does not exist")
         val userEntity = userService.findUserByUid(userUid)
         val encodedPassword = userEntity.password
         if (!passwordEncoder.matches(password, encodedPassword))

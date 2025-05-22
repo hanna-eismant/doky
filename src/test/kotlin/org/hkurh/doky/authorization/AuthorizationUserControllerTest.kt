@@ -23,7 +23,7 @@ import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.security.JwtProvider
 import org.hkurh.doky.users.UserFacade
 import org.hkurh.doky.users.api.UserDto
-import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
@@ -43,6 +43,7 @@ class AuthorizationUserControllerTest : DokyUnitTest {
         // given
         val userUid = "test@example.com"
         val userPassword = "password123"
+        val userRoles = mutableSetOf("ROLE_USER")
         val authenticationRequest = AuthenticationRequest().apply {
             uid = userUid
             password = userPassword
@@ -50,16 +51,18 @@ class AuthorizationUserControllerTest : DokyUnitTest {
         whenever(userFacade.checkCredentials(userUid, userPassword)).thenReturn(
             UserDto().apply {
                 uid = userUid
-                roles = mutableSetOf("ROLE_USER")
+                roles = userRoles
             }
         )
+        val generatedToken = "generated test token"
+        whenever(jwtProvider.generateToken(userUid, userRoles)).thenReturn(generatedToken)
 
         // when
         val response = controller.login(authenticationRequest)
 
         // then
         response.body!!.apply {
-            assertFalse(token.isBlank())
+            assertEquals(generatedToken, token)
         }
     }
 }

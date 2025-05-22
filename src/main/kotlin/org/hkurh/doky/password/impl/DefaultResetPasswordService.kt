@@ -27,14 +27,12 @@ import org.hkurh.doky.password.TokenService
 import org.hkurh.doky.password.TokenStatus
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
-import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.stereotype.Service
 
 @Service
 class DefaultResetPasswordService(
     private val tokenService: TokenService,
-    private val userService: UserService,
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
 ) : ResetPasswordService {
 
@@ -61,12 +59,6 @@ class DefaultResetPasswordService(
                     log.warn { "Token expired for user: [${it.user.id}]" }
                     TokenStatus.EXPIRED
                 }
-
-                !isTokenBelongsToCurrentUser(it) -> {
-                    log.warn { "Token does not belong to the current user: [${it.user.id}]" }
-                    TokenStatus.INVALID
-                }
-
                 else -> TokenStatus.VALID
             }
         }
@@ -81,11 +73,6 @@ class DefaultResetPasswordService(
     override fun getUserByToken(token: String): UserEntity {
         val resetToken = resetPasswordTokenEntityRepository.findByToken(token)
         return resetToken?.user ?: throw DokyNotFoundException("User not found for token: ${token.mask()}")
-    }
-
-    private fun isTokenBelongsToCurrentUser(token: ResetPasswordTokenEntity): Boolean {
-        val currentUser = userService.getCurrentUser()
-        return token.user.id == currentUser.id
     }
 
     private fun isTokenExpired(token: ResetPasswordTokenEntity) =

@@ -19,11 +19,12 @@
 
 package org.hkurh.doky.security
 
+import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.security.InvalidKeyException
 import jakarta.servlet.http.HttpServletResponse
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.security.impl.JwtAuthorizationFilter
-import org.hkurh.doky.toDto
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.AuthorityEntity
 import org.hkurh.doky.users.db.UserEntity
@@ -62,10 +63,10 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
             uid = userUid
             authorities = mutableSetOf(AuthorityEntity())
         }
-        val userDto = userEntity.toDto()
-        val token = "token"//generateToken(userDto.uid, userDto.roles)
+        val token = "token"
         val request = MockHttpServletRequest()
         request.addHeader(authorizationHeader, "Bearer $token")
+        whenever(jwtProvider.getUsernameFromToken(token)).thenReturn(userUid)
         whenever(userService.findUserByUid(userUid)).thenReturn(userEntity)
 
         // when
@@ -99,14 +100,10 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
     @DisplayName("Should set response error status when user is incorrect")
     fun shouldSetResponseError_whenIncorrectUser() {
         // given
-        val userEntity = UserEntity().apply {
-            uid = userUid
-            authorities = mutableSetOf(AuthorityEntity())
-        }
-        val userDto = userEntity.toDto()
-        val token = "token"// userDto.name?.let { generateToken(it, userDto.roles) }
+        val token = "token"
         val request = MockHttpServletRequest()
         request.addHeader(authorizationHeader, "Bearer $token")
+        whenever(jwtProvider.getUsernameFromToken(token)).thenReturn(userUid)
         whenever(userService.findUserByUid(userUid)).thenThrow(DokyNotFoundException::class.java)
 
         // when
@@ -120,8 +117,10 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
     @DisplayName("Should set response error status when token is incorrect")
     fun shouldSetResponseError_whenIncorrectToken() {
         // given
+        val token = "token"
         val request = MockHttpServletRequest()
-        request.addHeader(authorizationHeader, "Bearer token")
+        request.addHeader(authorizationHeader, "Bearer $token")
+        whenever(jwtProvider.getUsernameFromToken(token)).thenThrow(InvalidKeyException("Invalid key"))
 
         // when
         filter.doFilter(request, response, filterChain)
@@ -135,8 +134,12 @@ class JwtAuthorizationFilterTest : DokyUnitTest {
     @DisplayName("Should set response error status when token is expired")
     fun shouldSetResponseError_whenExpiredToken() {
         // given
+        val token = "token"
         val request = MockHttpServletRequest()
-        request.addHeader(authorizationHeader, "Bearer $expiredToken")
+        request.addHeader(authorizationHeader, "Bearer $token")
+        whenever(jwtProvider.getUsernameFromToken(token)).thenThrow(
+            ExpiredJwtException(null, null, "Expired token")
+        )
 
         // when
         filter.doFilter(request, response, filterChain)
