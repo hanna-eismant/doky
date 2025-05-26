@@ -18,7 +18,6 @@
  */
 
 import React from 'react';
-import {useAddToast} from '../../../components/Toasts';
 import {useMutation} from '../../../hooks/useMutation.js';
 import {downloadDocument, updateDocument, uploadDocument} from '../../../api/documents.js';
 import {useForm} from '../../../hooks/useForm.js';
@@ -31,9 +30,8 @@ import {saveFile} from '../../../services/save-file.js';
 const EditDocumentForm = ({document}) => {
   const [editDocument, {isLoading}] = useMutation(updateDocument);
 
-  const addToast = useAddToast();
   const {data, fields: {name, description}, handleSubmit, globalError} = useForm(document, editDocument, () => {
-    addToast('saved');
+
   });
 
   const onUpload = async (formData) => {
@@ -41,7 +39,7 @@ const EditDocumentForm = ({document}) => {
     try {
       const response = await uploadDocument(document.id, formData);
       if (response.ok) {
-        addToast('uploaded');
+
       } else {
         console.error(response);
       }
