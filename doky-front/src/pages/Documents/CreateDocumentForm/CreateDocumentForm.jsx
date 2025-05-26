@@ -21,7 +21,6 @@ import React from 'react';
 import {useForm} from '../../../hooks/useForm.js';
 import HorizontalFormInput from '../../../components/formComponents/HorizontalFormInput.jsx';
 import HorizontalFormText from '../../../components/formComponents/HorizontalFormText.jsx';
-import {useAddToast} from '../../../components/Toasts';
 import {useMutation} from '../../../hooks/useMutation.js';
 import {createDocument} from '../../../api/documents.js';
 import AlertError from '../../../components/AlertError.jsx';
@@ -33,13 +32,11 @@ const initialFormData = {
 
 const CreateDocumentForm = ({onCreated}) => {
   const [documentMutation] = useMutation(createDocument);
-  const addToast = useAddToast();
 
   const {data, fields: {name, description}, handleSubmit, globalError} = useForm(
     initialFormData,
     documentMutation,
     () => {
-      addToast('Created');
       onCreated();
     }
   );

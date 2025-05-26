@@ -17,72 +17,50 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React, {useMemo} from 'react';
-import {Link, Outlet, useLocation} from 'react-router-dom';
-import classNames from 'classnames';
-import {ToastContextProvider} from './Toasts/ToastsContext';
-import Logo from './Logo';
+import React from 'react';
+import {Outlet, useNavigate} from 'react-router-dom';
+import {Container, Divider, Drawer, MenuItem} from '@mui/material';
 
-const menuItems = [
-  {
-    name: 'Home',
-    path: '/'
-  },
-  {
-    name: 'Documents',
-    // TODO
-    path: '/documents',
-    hasSubRoutes: true
-  },
-  {
-    name: 'User Profile',
-    path: '/profile'
-  }
-];
-
-const MenuItem = ({name, path, isActive}) => {
-  const linkClassName = useMemo(() => classNames('nav-link', {
-    active: isActive
-  }), [isActive]);
-
-  return (
-    <li className="nav-item">
-      <Link to={path} className={linkClassName}>{name}</Link>
-    </li>
-  );
-};
+import DocumentsIcon from '@mui/icons-material/ContentPaste';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import LogoIcon from './LogoIcon';
 
 const MainPage = () => {
-  const location = useLocation();
+  const navigate = useNavigate();
+  const drawerWidth = 61;
+
+  const handleMenuItemClick = (path) => {
+    navigate(path);
+  };
 
   return (
-    <div className="container-fluid">
-      <ToastContextProvider>
-        <div className="row">
-          <nav className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <Logo />
-            <ul className="nav flex-column nav-pills">
-              {menuItems.map(({name, path, hasSubRoutes}) => {
-                const isActive = hasSubRoutes ? location.pathname.startsWith(path) : path === location.pathname;
-                return (
-                  <MenuItem
-                    name={name}
-                    path={path}
-                    key={name}
-                    isActive={isActive}
-                  />
-                );
-              })}
-            </ul>
-          </nav>
-          <main className="ms-sm-auto col-lg-10">
-            <div className="row">
-              <Outlet/>
-            </div>
-          </main>
-        </div>
-      </ToastContextProvider>
-    </div>
+
+    <Container maxWidth="false" sx={{display: 'flex'}}>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+            background: '#07689F',
+            color: '#FAFAFA',
+          },
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+        <LogoIcon/>
+        <Divider color={'#FAFAFA'}/>
+        <MenuItem name="Dashboard" path="/" onClick={() => handleMenuItemClick('/')}>
+          <DashboardIcon fontSize={'large'} sx={{color: '#FAFAFA'}}/>
+        </MenuItem>
+        <MenuItem name="Documents" path="/documents" onClick={() => handleMenuItemClick('/documents')}>
+          <DocumentsIcon fontSize={'large'} sx={{color: '#FAFAFA'}}/>
+        </MenuItem>
+      </Drawer>
+      <Outlet/>
+    </Container>
   );
 };
 
