@@ -17,7 +17,7 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import {useEffect, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 
 /*
  * Decorator function that ensures a request does not called multiple times concurrently.
@@ -57,12 +57,18 @@ export const useQuery = request => {
    */
   const dedupedRequest = useMemo(() => dedupeRequest(request), [request]);
 
-  useEffect(() => {
-    dedupedRequest().then(data => {
+  const fetchData = useCallback(() => {
+    setIsLoading(true);
+    return dedupedRequest().then(data => {
       setData(data); // still called twice but with reference equal data
       setIsLoading(false);
+      return data;
     });
   }, [dedupedRequest]);
 
-  return {data, isLoading};
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return {data, isLoading, refetch: fetchData};
 };

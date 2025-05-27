@@ -27,7 +27,10 @@ export const getDocument = id => get(`${RESOURCE_NAME}/${id}`);
 
 export const createDocument = payload => post(RESOURCE_NAME, payload);
 
-export const updateDocument = payload => put(`${RESOURCE_NAME}/${payload.id}`, payload);
+export const updateDocument = payload => {
+  const {name, description} = payload;
+  return put(`${RESOURCE_NAME}/${payload.id}`, {name, description});
+};
 
 export const uploadDocument = (documentId, formData) => postFormData(`${RESOURCE_NAME}/${documentId}/upload`, formData);
 
