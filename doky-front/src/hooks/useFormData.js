@@ -22,6 +22,7 @@ import {useCallback, useMemo, useState} from 'react';
 export const useFormData = initialData => {
   const [data, setData] = useState(initialData);
   const [globalError, setGlobalError] = useState(null);
+  const [fieldsErrors, setFieldsErrors] = useState([]);
 
   const setValue = useCallback((key, value) => {
     setData(data => ({...data, [key]: value}));
@@ -31,15 +32,10 @@ export const useFormData = initialData => {
     ...form,
     [key]: {
       value: data[key],
-      setValue: value => setValue(key, value)
+      setValue: value => setValue(key, value),
+      errors: fieldsErrors.find(fieldError => fieldError.field === key)?.messages || [],
     },
-  }), {}), [data, setValue]);
-
-  const setFieldsErrors = useCallback(errors => {
-    for (const error of errors) {
-      fields[error.field].errors = error.messages;
-    }
-  }, [fields]);
+  }), {}), [data, fieldsErrors, setValue]);
 
   return {fields, data, setFieldsErrors, globalError, setGlobalError};
 };
