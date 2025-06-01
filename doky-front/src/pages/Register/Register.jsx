@@ -19,11 +19,11 @@
 
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import { Typography, Card, Box, Button, Container, Alert } from '@mui/material';
 
 import {useRegister} from './useRegister.js';
 import {useForm} from '../../hooks/useForm.js';
 import {FormInput} from '../../components';
-import AlertError from '../../components/AlertError.jsx';
 import Logo from '../../components/Logo/Logo.jsx';
 
 const initialFormData = {
@@ -45,22 +45,32 @@ const Register = () => {
   });
 
   return (
-    <>
-      {globalError ? <AlertError message={globalError}/> : ''}
-      <div className="d-flex align-items-center justify-content-center">
-        <form onSubmit={handleSubmit} className="col-3">
-          <Logo/>
+    <Container className='AuthContainer'>
+      <Box sx={{ minHeight: '64px', marginBottom: 2 }}>
+        {globalError && <Alert severity="error">{globalError}</Alert>}
+      </Box>
+      <Card variant='outlined' className='AuthFormCard'>
+        <Logo/>
+        <Box component="form" onSubmit={handleSubmit} className='AuthForm'>
+          <Typography component="h4" variant="h4">Register</Typography>
           <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue}
             errors={uid.errors}/>
           <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}
             errors={password.errors}/>
-          <div className="mt-3 row">
-            <input type="submit" value="Register" className="btn btn-primary mb-3"/>
+
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+          >
+            Register
+          </Button>
+          <Typography className='CenterText'>
             <Link to="/login">Login</Link>
-          </div>
-        </form>
-      </div>
-    </>
+          </Typography>
+        </Box>
+      </Card>
+    </Container>
   );
 };
 

@@ -24,6 +24,33 @@ $primary: #07689f;
 @import "~bootstrap-icons/font/bootstrap-icons.scss";
 @import "~bootstrap/scss/bootstrap";
 
+#root {
+  height: 100vh;
+}
+
 .version-badge {
   padding-left: 20px;
+}
+
+.AuthContainer {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.AuthFormCard {
+  max-width: 450px;
+  margin: auto;
+  padding: 18px;
+}
+
+.AuthForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.CenterText {
+  text-align: center;
 }
