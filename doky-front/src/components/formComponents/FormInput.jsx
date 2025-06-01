@@ -20,7 +20,7 @@
 import React, {useCallback} from 'react';
 import {noop} from '../../utils';
 // import classNames from 'classnames';
-import { FormControl, FormLabel, TextField } from '@mui/material';
+import { FormControl, FormHelperText, TextField } from '@mui/material';
 
 const FormInput = ({label, id, type, value = '', onChange = noop, errors}) => {
 
@@ -37,17 +37,18 @@ const FormInput = ({label, id, type, value = '', onChange = noop, errors}) => {
 
   return (
     <FormControl>
-      <FormLabel htmlFor={id}>{label}:</FormLabel>
       <TextField
+        error={hasErrors}
+        label={label}
         id={id} type={type} value={value} onChange={handleOnChange}
         variant='outlined'
         fullWidth
         aria-describedby={'validation' + id + 'Feedback'}/>
-      {hasErrors ?
-        <div id={'validation' + id + 'Feedback'} className='invalid-feedback'>
-          {errors.map((message) => (<div key={message}>{message}</div>))}
-        </div>
-        : null}
+      {hasErrors && errors.map((error, index) => (
+        <FormHelperText key={index} error>
+          {error}
+        </FormHelperText>
+      ))}
     </FormControl>
   );
 };

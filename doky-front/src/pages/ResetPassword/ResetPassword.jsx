@@ -17,13 +17,13 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import AlertError from '../../components/AlertError.jsx';
 import {FormInput} from '../../components';
 import {Link} from 'react-router-dom';
 import React, {useState} from 'react';
 import {useForm} from '../../hooks/useForm.js';
 import {useRequestResetPassword} from './useRequestResetPassword.js';
 import Logo from '../../components/Logo/Logo.jsx';
+import { Typography, Card, Box, Button, Container, Alert } from '@mui/material';
 
 const initialFormData = {
   email: ''
@@ -46,37 +46,39 @@ const ResetPassword = () => {
   } = useForm(initialFormData, requestRestorePassword);
 
   return (
-    <>
-      {globalError ? <AlertError message={globalError}/> : ''}
-      <div className='d-flex align-items-center justify-content-center'>
-        <div className='col-3'>
-          <Logo/>
+    <Container className='AuthContainer'>
+      <Box sx={{ minHeight: '64px', marginBottom: 2 }}>
+        {globalError && <Alert severity="error">{globalError}</Alert>}
+      </Box>
+      <Card variant='outlined' className='AuthFormCard'>
+        <Logo/>
 
-          {isSent && !globalError ? (
-            <div className='mt-3 row text-center'>
-              <div>If user with email <strong>{data.email}</strong> exists, we send a password reset link to your email
-                  address.
-                  Please check your inbox and follow the instructions to reset your password.
-                  If you don’t see the email, be sure to check your spam or junk folder. Thank you!
-              </div>
-              <Link to='/login' className='mt-3'>Return to login</Link>
-            </div>
+        {isSent && !globalError ? (
+          <Typography className='CenterText'>
+            <Typography>
+              If user with email <strong>{data.email}</strong> exists, we send a password reset link to your email address.
+              Please check your inbox and follow the instructions to reset your password.
+              If you don’t see the email, be sure to check your spam or junk folder. Thank you!
+            </Typography>
+            <Link to='/login'>Return to login</Link>
+          </Typography>
+        )
+          : (
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              className='AuthForm'>
+              <FormInput id='email' label='Email' type='text' value={data.email} onChange={email.setValue}
+                errors={email.errors}/>
+              <Button type='submit' fullWidth variant="contained">Send</Button>
+              <Typography className='CenterText'>
+                <Link to='/login'>Return to login</Link>
+              </Typography>
+            </Box>
           )
-            : (
-              <form onSubmit={handleSubmit}>
-                <FormInput id='email' label='Email' type='text' value={data.email} onChange={email.setValue}
-                  errors={email.errors}/>
-                <div className='mt-3 row'>
-                  <input type='submit' value='Send' className='btn btn-primary mb-3'/>
-                  <Link to='/login' className='m-3'>Return to login</Link>
-                </div>
-              </form>
-            )
-          }
-
-        </div>
-      </div>
-    </>
+        }
+      </Card>
+    </Container>
   );
 };
 

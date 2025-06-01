@@ -19,10 +19,9 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
-import { Typography, Card, Box, Button, Container } from '@mui/material';
+import { Typography, Card, Box, Button, Container, Alert } from '@mui/material';
 
 import {FormInput} from '../../components';
-import AlertError from '../../components/AlertError.jsx';
 import {useLogin} from './useLogin.js';
 import {useForm} from '../../hooks/useForm.js';
 import Logo from '../../components/Logo/Logo.jsx';
@@ -45,7 +44,9 @@ const Login = () => {
 
   return (
     <Container className='AuthContainer'>
-      {globalError ? <AlertError message={globalError}/> : ''}
+      <Box sx={{ minHeight: '64px', marginBottom: 2 }}>
+        {globalError && <Alert severity="error">{globalError}</Alert>}
+      </Box>
       <Card variant='outlined' className='AuthFormCard'>
         <Logo/>
         <Box

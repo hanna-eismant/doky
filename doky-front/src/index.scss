@@ -33,7 +33,9 @@ $primary: #07689f;
 }
 
 .AuthContainer {
+  padding-top: 20px;
   display: flex;
+  flex-direction: column;
   height: 100vh;
 }
 
