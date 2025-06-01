@@ -57,11 +57,11 @@ const Documents = () => {
 
   return (
     <Stack spacing={2}
-           sx={{
-             width: '100%',
-             padding: 2,
-             alignItems: 'flex-start'
-           }}>
+      sx={{
+        width: '100%',
+        padding: 2,
+        alignItems: 'flex-start'
+      }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
         <Breadcrumbs aria-label="breadcrumb">
           <Link underline="hover" to={'/'} sx={{display: 'flex', alignItems: 'center'}}>

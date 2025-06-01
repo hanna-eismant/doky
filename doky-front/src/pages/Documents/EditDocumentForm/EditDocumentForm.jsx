@@ -137,7 +137,7 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
       {uploadStatus.error && <Alert severity="error">{uploadStatus.error}</Alert>}
       <Stack width="100%">
         <Stack direction="row" spacing={2} width="100%"
-               divider={<Divider orientation="vertical" flexItem/>}
+          divider={<Divider orientation="vertical" flexItem/>}
         >
           <Stack spacing={2} sx={{flexGrow: 1, width: 'calc(100% - 270px)'}}>
             <TextField
