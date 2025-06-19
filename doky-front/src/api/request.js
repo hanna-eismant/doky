@@ -70,12 +70,42 @@ export const get = async url => {
   return response.json();
 };
 
-export const download = async (url, token) => {
-  const { body } = await fetch(BASE_URL + apiPrefix + '/' + url, {
+export const download = async (url, token, onProgress) => {
+  const response = await fetch(BASE_URL + apiPrefix + '/' + url, {
     ...getDefaultOptions('application/json'),
     method: 'POST',
     body: JSON.stringify({ token })
   });
 
-  return body;
+  const contentLength = response.headers.get('content-length');
+  const totalBytes = contentLength ? parseInt(contentLength, 10) : 0;
+  const reader = response.body.getReader();
+  let receivedBytes = 0;
+  const chunks = [];
+
+  while (true) {
+    const {done, value} = await reader.read();
+
+    if (done) {
+      break;
+    }
+
+    chunks.push(value);
+    receivedBytes += value.length;
+
+    if (onProgress && totalBytes) {
+      const progress = Math.min(Math.round((receivedBytes / totalBytes) * 100), 100);
+      onProgress(progress);
+    }
+  }
+
+  // Concatenate chunks into a single Uint8Array
+  const chunksAll = new Uint8Array(receivedBytes);
+  let position = 0;
+  for (const chunk of chunks) {
+    chunksAll.set(chunk, position);
+    position += chunk.length;
+  }
+
+  return chunksAll;
 };

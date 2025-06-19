@@ -56,11 +56,12 @@ const Documents = () => {
   };
 
   return (
-    <Stack spacing={2} sx={{
-      width: '100%',
-      padding: 2,
-      alignItems: 'flex-start'
-    }}>
+    <Stack spacing={2}
+      sx={{
+        width: '100%',
+        padding: 2,
+        alignItems: 'flex-start'
+      }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
         <Breadcrumbs aria-label="breadcrumb">
           <Link underline="hover" to={'/'} sx={{display: 'flex', alignItems: 'center'}}>
@@ -72,17 +73,13 @@ const Documents = () => {
             Documents
           </Typography>
         </Breadcrumbs>
-        <Button variant="contained" color="primary" onClick={goToCreateDocument} size="medium">
+        <Button variant="contained" color="primary" onClick={goToCreateDocument} size="medium" disableElevation>
           <AddIcon sx={{mr: 0.5}} fontSize="inherit"/>
           Create
         </Button>
       </Stack>
 
-      <Divider/>
-
-      <Typography variant="h4">
-        Documents
-      </Typography>
+      <Divider flexItem sx={{borderColor: 'rgba(0, 0, 0, 0.3)', borderBottomWidth: 1}}/>
 
       <TextField
         fullWidth
@@ -98,9 +95,7 @@ const Documents = () => {
             ),
           },
         }}
-      >
-
-      </TextField>
+      />
 
       {isLoading ? (
         <Stack alignItems="center" width="100%" padding={4}>
