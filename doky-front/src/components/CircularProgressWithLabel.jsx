@@ -1,7 +1,7 @@
 /*
  * This file is part of the Doky Project.
  *
- * Copyright (C) 2022-2025
+ * Copyright (C) 2005
  *  - Hanna Kurhuzenkava (hanna.kuehuzenkava@outlook.com)
  *  - Anton Kurhuzenkau (kurguzenkov@gmail.com)
  *
@@ -17,25 +17,31 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import {useCallback, useMemo, useState} from 'react';
+import React from 'react';
+import {Box, CircularProgress, Typography} from '@mui/material';
 
-export const useFormData = initialData => {
-  const [data, setData] = useState(initialData || {});
-  const [globalError, setGlobalError] = useState(null);
-  const [fieldsErrors, setFieldsErrors] = useState([]);
-
-  const setValue = useCallback((key, value) => {
-    setData(data => ({...data, [key]: value}));
-  }, [setData]);
-
-  const fields = useMemo(() => Object.keys(data || {}).reduce((form, key) => ({
-    ...form,
-    [key]: {
-      value: data[key],
-      setValue: value => setValue(key, value),
-      errors: fieldsErrors.find(fieldError => fieldError.field === key)?.messages || [],
-    },
-  }), {}), [data, fieldsErrors, setValue]);
-
-  return {fields, data, setFieldsErrors, globalError, setGlobalError};
+const CircularProgressWithLabel = ({value, size = 40}) => {
+  return (
+    <Box position="relative" display="inline-flex">
+      <CircularProgress variant="determinate" value={value} size={size}/>
+      <Box
+        top={0}
+        left={0}
+        bottom={0}
+        right={0}
+        position="absolute"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Typography
+          variant="caption"
+          component="div"
+          color="text.secondary"
+        >{`${Math.round(value)}%`}</Typography>
+      </Box>
+    </Box>
+  );
 };
+
+export default CircularProgressWithLabel;

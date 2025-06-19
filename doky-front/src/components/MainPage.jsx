@@ -35,7 +35,7 @@ const MainPage = () => {
 
   return (
 
-    <Container maxWidth="false" sx={{display: 'flex'}}>
+    <Container maxWidth={false} sx={{display: 'flex', padding: 0}}>
       <Drawer
         sx={{
           width: drawerWidth,
@@ -59,7 +59,7 @@ const MainPage = () => {
           <DocumentsIcon fontSize={'large'} sx={{color: '#FAFAFA'}}/>
         </MenuItem>
       </Drawer>
-      <Outlet/>
+      <Outlet style={{width: '100%'}}/>
     </Container>
   );
 };
