@@ -29,6 +29,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {useNavigate} from 'react-router-dom';
 import CircularProgressWithLabel from '../../../components/CircularProgressWithLabel.jsx';
+import { FormInput } from '../../../components/index.js';
 
 const EditDocumentForm = ({document, onSaveSuccess}) => {
   const [editDocument] = useMutation(updateDocument);
@@ -140,19 +141,14 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
           divider={<Divider orientation="vertical" flexItem/>}
         >
           <Stack spacing={2} sx={{flexGrow: 1, width: 'calc(100% - 270px)'}}>
-            <TextField
-              fullWidth
+            <FormInput
               label="Name"
-              id="outlined-size-small"
-              size="small"
               value={name.value}
               onChange={name.setValue}
             />
 
-            <TextField
-              fullWidth
+            <FormInput
               label="Description"
-              id="outlined-size-small"
               size="small"
               value={description.value}
               onChange={description.setValue}

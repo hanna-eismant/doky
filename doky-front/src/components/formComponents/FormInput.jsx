@@ -22,7 +22,7 @@ import {noop} from '../../utils';
 // import classNames from 'classnames';
 import { FormControl, FormHelperText, TextField } from '@mui/material';
 
-const FormInput = ({label, id, type, value = '', onChange = noop, errors}) => {
+const FormInput = ({label, id, type, value = '', onChange = noop, errors, ...rest}) => {
 
   const handleOnChange = useCallback(event => {
     event.preventDefault();
@@ -43,7 +43,9 @@ const FormInput = ({label, id, type, value = '', onChange = noop, errors}) => {
         id={id} type={type} value={value} onChange={handleOnChange}
         variant='outlined'
         fullWidth
-        aria-describedby={'validation' + id + 'Feedback'}/>
+        aria-describedby={'validation' + id + 'Feedback'}
+        { ...rest}
+      />
       {hasErrors && errors.map((error, index) => (
         <FormHelperText key={index} error>
           {error}
