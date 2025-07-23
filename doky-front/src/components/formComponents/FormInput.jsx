@@ -43,6 +43,7 @@ const FormInput = ({label, id, type, value = '', onChange = noop, errors, ...res
         id={id} type={type} value={value} onChange={handleOnChange}
         variant='outlined'
         fullWidth
+        size='small'
         aria-describedby={'validation' + id + 'Feedback'}
         { ...rest}
       />
