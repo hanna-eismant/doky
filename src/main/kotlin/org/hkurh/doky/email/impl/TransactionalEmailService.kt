@@ -20,23 +20,66 @@
 
 package org.hkurh.doky.email.impl
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.email.EmailSender
 import org.hkurh.doky.email.EmailService
-import org.hkurh.doky.password.db.ResetPasswordTokenEntity
+import org.hkurh.doky.mask
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
+import org.hkurh.doky.users.db.UserEntityRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TransactionalEmailService(
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
+    private val userEntityRepository: UserEntityRepository,
     @Suppress("SpringJavaInjectionPointsAutowiringInspection") private val emailSender: EmailSender
 ) : EmailService {
 
+    private val log = KotlinLogging.logger {}
+
     @Transactional
-    override fun sendResetPasswordEmail(resetPasswordTokenEntity: ResetPasswordTokenEntity) {
-        emailSender.sendRestorePasswordEmail(resetPasswordTokenEntity.user, resetPasswordTokenEntity.token)
-        resetPasswordTokenEntity.sentEmail = true
-        resetPasswordTokenEntityRepository.save(resetPasswordTokenEntity)
+    override fun sendResetPasswordEmail(userId: Long) {
+        val tokens = resetPasswordTokenEntityRepository.findValidTokensByUserId(userId)
+
+        if (tokens.isEmpty()) {
+            log.warn { "No valid reset password tokens found for user [$userId]" }
+        }
+
+        tokens.forEach {
+            sendEmailIfNotAlreadySent(
+                sentFlag = it.sentEmail,
+                logMessage = "Reset Password email was already sent to user [${it.user.id}] for token [${it.token.mask()}]"
+            ) {
+                emailSender.sendRestorePasswordEmail(it.user, it.token)
+                it.sentEmail = true
+                resetPasswordTokenEntityRepository.save(it)
+            }
+        }
+    }
+
+    @Transactional
+    override fun sendRegistrationEmail(userId: Long) {
+        userEntityRepository.findById(userId).ifPresentOrElse(
+            { user ->
+                sendEmailIfNotAlreadySent(
+                    sentFlag = user.sentRegistrationEmail,
+                    logMessage = "Registration Confirmation email was already sent to user [$userId]"
+                ) {
+                    emailSender.sendRegistrationConfirmationEmail(user)
+                    user.sentRegistrationEmail = true
+                    userEntityRepository.save(user)
+                }
+            },
+            { log.warn { "User [$userId] not found" } }
+        )
+    }
+
+    fun sendEmailIfNotAlreadySent(sentFlag: Boolean, logMessage: String, action: () -> Unit) {
+        if (!sentFlag) {
+            action()
+        } else {
+            log.warn { logMessage }
+        }
     }
 }

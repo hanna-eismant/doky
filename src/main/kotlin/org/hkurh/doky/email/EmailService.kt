@@ -19,8 +19,6 @@
 
 package org.hkurh.doky.email
 
-import org.hkurh.doky.password.db.ResetPasswordTokenEntity
-
 interface EmailService {
 
     /**
@@ -29,5 +27,8 @@ interface EmailService {
      * @param resetPasswordTokenEntity The entity containing the reset password token details,
      * including the user information, token, and expiration date.
      */
-    fun sendResetPasswordEmail(resetPasswordTokenEntity: ResetPasswordTokenEntity)
+    fun sendResetPasswordEmail(userId: Long)
+
+
+    fun sendRegistrationEmail(userId: Long)
 }

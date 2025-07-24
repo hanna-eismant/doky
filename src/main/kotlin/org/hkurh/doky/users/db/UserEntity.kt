@@ -60,4 +60,7 @@ class UserEntity {
         inverseJoinColumns = [JoinColumn(name = "authority_id", referencedColumnName = "id")]
     )
     var authorities: MutableSet<AuthorityEntity> = HashSet()
+
+    @Column(name = "sent_registration_email", nullable = false)
+    var sentRegistrationEmail: Boolean = false
 }

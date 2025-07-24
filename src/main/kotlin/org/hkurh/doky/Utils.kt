@@ -31,10 +31,9 @@ fun String.mask(
         return maskChar.toString().repeat(this.length)
     }
     val maskLength = this.length - (startLength + endLength)
-    return """
-        |${this.substring(0, startLength)}
-        |${maskChar.toString().repeat(maskLength)}
-        |${this.substring(this.length - endLength)}""".trimMargin()
+    return "${this.substring(0, startLength)}${
+        maskChar.toString().repeat(maskLength)
+    }${this.substring(this.length - endLength)}"
 }
 
 fun String?.getExtension(): String {

@@ -20,7 +20,6 @@
 package org.hkurh.doky.kafka
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.hkurh.doky.email.EmailSender
 import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.users.db.UserEntityRepository
@@ -32,8 +31,7 @@ import org.springframework.stereotype.Service
 class KafkaEmailNotificationConsumerService(
     private val userEntityRepository: UserEntityRepository,
     private val emailService: EmailService,
-    private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
-    private val emailSender: EmailSender
+    private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository
 ) {
 
     private val log = KotlinLogging.logger {}
@@ -51,30 +49,13 @@ class KafkaEmailNotificationConsumerService(
             log.debug { "Received message: [$message]" }
             message.userId.let {
                 when (message.emailType) {
-                    EmailType.REGISTRATION -> sendRegistrationEmail(message.userId!!)
-                    EmailType.RESET_PASSWORD -> sendResetPasswordEmail(message.userId!!)
+                    EmailType.REGISTRATION -> emailService.sendRegistrationEmail(message.userId!!)
+                    EmailType.RESET_PASSWORD -> emailService.sendResetPasswordEmail(message.userId!!)
                     null -> log.warn { "No email type specified" }
                 }
             }
         } catch (e: Exception) {
             log.error(e) { "Error processing message: [$message]" }
         }
-    }
-
-    private fun sendRegistrationEmail(userId: Long) {
-        userEntityRepository.findById(userId).ifPresent { user ->
-            emailSender.sendRegistrationConfirmationEmail(user)
-        }
-    }
-
-    private fun sendResetPasswordEmail(userId: Long) {
-        resetPasswordTokenEntityRepository.findValidUnsentTokensByUserId(userId)
-            .forEach {
-                try {
-                    emailService.sendResetPasswordEmail(it)
-                } catch (e: Exception) {
-                    log.error(e) { "Error sending reset password email for user [$userId]" }
-                }
-            }
     }
 }
