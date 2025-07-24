@@ -31,7 +31,8 @@ $dokka.location:org.hkurh.doky.config/JacksonConfig/objectMapper/#/PointingToDec
 $dokka.location:org.hkurh.doky.config/KafkaConsumerConfig///PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/index.html
 $dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/KafkaConsumerConfig/#/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/-kafka-consumer-config.html
 $dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/consumerFactory/#/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/consumer-factory.html
-$dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/kafkaListenerContainerFactory/#/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/kafka-listener-container-factory.html
+$dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/kafkaErrorHandler/#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/kafka-error-handler.html
+$dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/kafkaListenerContainerFactory/#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/kafka-listener-container-factory.html
 $dokka.location:org.hkurh.doky.config/KafkaProducerConfig///PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-producer-config/index.html
 $dokka.location:org.hkurh.doky.config/KafkaProducerConfig/KafkaProducerConfig/#/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-producer-config/-kafka-producer-config.html
 $dokka.location:org.hkurh.doky.config/KafkaProducerConfig/kafkaTemplate/#/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-producer-config/kafka-template.html
