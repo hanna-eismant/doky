@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
+import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
@@ -47,7 +47,7 @@ class KafkaEmailNotificationProducerServiceTest : DokyUnitTest {
         whenever(
             kafkaTemplate.send(
                 any<String>(),
-                eq(userId.toString()),
+                any<String>(),
                 any<SendEmailMessage>()
             )
         ).thenAnswer { invocation ->
@@ -61,7 +61,11 @@ class KafkaEmailNotificationProducerServiceTest : DokyUnitTest {
         kafkaEmailNotificationProducerService.sendNotification(userId, EmailType.RESET_PASSWORD)
 
         // then
-        verify(kafkaTemplate, times(1)).send(any(), eq(userId.toString()), any())
-
+        argumentCaptor<SendEmailMessage> {
+            verify(kafkaTemplate, times(1)).send(any(), any(), capture())
+            val data = firstValue
+            assertEquals(userId, data.userId)
+            assertEquals(EmailType.RESET_PASSWORD, data.emailType)
+        }
     }
 }

@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.SendResult
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 import java.util.concurrent.CompletableFuture
 
 @Component
@@ -37,7 +38,7 @@ class KafkaEmailNotificationProducerService(
     private var topic: String = ""
 
     fun sendNotification(userId: Long, emailType: EmailType) {
-        val key = "$userId"
+        val key = "$userId|$emailType|${LocalDateTime.now()}"
         val message = SendEmailMessage().apply {
             this.userId = userId
             this.emailType = emailType
@@ -51,7 +52,7 @@ class KafkaEmailNotificationProducerService(
             if (e == null) {
                 log.debug { "Produced message to topic [${result.recordMetadata.topic()}] with key [$key]" }
             } else {
-                log.error(e) { "Error sending reset password email message with key [$key]" }
+                log.error(e) { "Error sending email message with key [$key]" }
             }
         }
     }

@@ -19,8 +19,10 @@
 
 package org.hkurh.doky.config
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.clients.consumer.ConsumerConfig
+import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.config.SaslConfigs
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.hkurh.doky.kafka.SendEmailMessage
@@ -30,8 +32,14 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafka
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
+import org.springframework.kafka.core.KafkaTemplate
+import org.springframework.kafka.listener.CommonErrorHandler
 import org.springframework.kafka.listener.ContainerProperties
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer
+import org.springframework.kafka.listener.DefaultErrorHandler
+import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.JsonDeserializer
+import org.springframework.util.backoff.FixedBackOff
 
 /**
  * Configuration class for setting up Kafka consumer properties and listeners.
@@ -52,6 +60,8 @@ import org.springframework.kafka.support.serializer.JsonDeserializer
 @Configuration
 @EnableKafka
 class KafkaConsumerConfig {
+
+    private val log = KotlinLogging.logger {}
 
     @Value("\${spring.kafka.bootstrap-servers}")
     private lateinit var bootstrapServer: String
@@ -84,8 +94,10 @@ class KafkaConsumerConfig {
             ConsumerConfig.GROUP_ID_CONFIG to groupId,
             ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG to pullInterval,
             ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to autoOffsetReset,
-            ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
-            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer::class.java,
+            ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.java.name,
+            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.java.name,
+            ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS to StringDeserializer::class.java,
+            ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS to JsonDeserializer::class.java,
             JsonDeserializer.TRUSTED_PACKAGES to "org.hkurh.doky.kafka",
             JsonDeserializer.VALUE_DEFAULT_TYPE to SendEmailMessage::class.java
         )
@@ -93,10 +105,21 @@ class KafkaConsumerConfig {
     }
 
     @Bean
-    fun kafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, SendEmailMessage> {
+    fun kafkaListenerContainerFactory(kafkaTemplate: KafkaTemplate<String, Any>): ConcurrentKafkaListenerContainerFactory<String, SendEmailMessage> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, SendEmailMessage>()
         factory.consumerFactory = consumerFactory()
         factory.containerProperties.ackMode = ContainerProperties.AckMode.RECORD
+        factory.setCommonErrorHandler(kafkaErrorHandler(kafkaTemplate))
         return factory
+    }
+
+    @Bean
+    fun kafkaErrorHandler(kafkaTemplate: KafkaTemplate<String, Any>): CommonErrorHandler {
+        val recoverer = DeadLetterPublishingRecoverer(kafkaTemplate) { consumerRecord, exception ->
+            log.error { "Sending message [${consumerRecord.key()}] to DLT [${consumerRecord.topic()}.DLT] due to exception: [${exception.message}]" }
+            TopicPartition("${consumerRecord.topic()}.DLT", consumerRecord.partition())
+        }
+
+        return DefaultErrorHandler(recoverer, FixedBackOff(1000L, 3))
     }
 }
