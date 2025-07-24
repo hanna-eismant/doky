@@ -78,7 +78,7 @@ class SendgridEmailSenderTest : DokyUnitTest {
         sendgridEmailSenderSpy.sendRegistrationConfirmationEmail(user)
 
         // then
-        argumentCaptor<Mail>().apply {
+        argumentCaptor<Mail> {
             verify(sendgridEmailSenderSpy).sendEmailToSendGrid(capture())
             val mail = firstValue
             assertAll(
@@ -107,7 +107,7 @@ class SendgridEmailSenderTest : DokyUnitTest {
         sendgridEmailServiceSpy.sendRestorePasswordEmail(user, token)
 
         // then
-        argumentCaptor<Mail>().apply {
+        argumentCaptor<Mail> {
             verify(sendgridEmailServiceSpy).sendEmailToSendGrid(capture())
             val mail = firstValue
             assertAll(
