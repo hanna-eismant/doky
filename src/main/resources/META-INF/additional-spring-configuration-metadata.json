@@ -98,7 +98,7 @@
     {
       "name": "doky.kafka.emails.consumer.id",
       "type": "java.lang.String",
-      "description": "Kafka consumer is for emails topic."
+      "description": "Kafka consumer id for emails topic."
     },
     {
       "name": "doky.kafka.emails.consumer.autostart",

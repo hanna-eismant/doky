@@ -41,8 +41,8 @@ interface ResetPasswordTokenEntityRepository :
     @Query(
         """
         SELECT r FROM ResetPasswordTokenEntity r 
-        WHERE r.user.id = :userId AND r.expirationDate > CURRENT_TIMESTAMP AND r.sentEmail = false
+        WHERE r.user.id = :userId AND r.expirationDate > CURRENT_TIMESTAMP
     """
     )
-    fun findValidUnsentTokensByUserId(userId: Long): List<ResetPasswordTokenEntity>
+    fun findValidTokensByUserId(userId: Long): List<ResetPasswordTokenEntity>
 }
