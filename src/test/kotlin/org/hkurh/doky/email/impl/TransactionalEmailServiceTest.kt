@@ -1,7 +1,7 @@
 /*
  * This file is part of the Doky Project.
  *
- * Copyright (C) 2025
+ * Copyright (C) 2022-2025
  *  - Hanna Kurhuzenkava (hanna.kuehuzenkava@outlook.com)
  *  - Anton Kurhuzenkau (kurguzenkov@gmail.com)
  *
