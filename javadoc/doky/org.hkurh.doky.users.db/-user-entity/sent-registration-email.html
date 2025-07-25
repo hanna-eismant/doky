@@ -2,7 +2,7 @@
 <html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>findValidUnsentTokensByUserId</title>
+    <title>sentRegistrationEmail</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js","js");</script>
@@ -104,15 +104,12 @@
                 </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="member" id="content" pageIds="doky::org.hkurh.doky.password.db/ResetPasswordTokenEntityRepository/findValidUnsentTokensByUserId/#kotlin.Long/PointingToDeclaration//-251573632">
-  <div class="breadcrumbs"><a href="../../../index.html">doky</a><span class="delimiter">/</span><a href="../index.html">org.hkurh.doky.password.db</a><span class="delimiter">/</span><a href="index.html">ResetPasswordTokenEntityRepository</a><span class="delimiter">/</span><span class="current">findValidUnsentTokensByUserId</span></div>
+<div class="main-content" data-page-type="member" id="content" pageIds="doky::org.hkurh.doky.users.db/UserEntity/sentRegistrationEmail/#/PointingToDeclaration//-251573632">
+  <div class="breadcrumbs"><a href="../../../index.html">doky</a><span class="delimiter">/</span><a href="../index.html">org.hkurh.doky.users.db</a><span class="delimiter">/</span><a href="index.html">UserEntity</a><span class="delimiter">/</span><span class="current">sentRegistrationEmail</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>find</span><wbr></wbr><span>Valid</span><wbr></wbr><span>Unsent</span><wbr></wbr><span>Tokens</span><wbr></wbr><span>By</span><wbr></wbr><span>User</span><wbr></wbr><span><span>Id</span></span></h1>
+    <h1 class="cover"><span>sent</span><wbr></wbr><span>Registration</span><wbr></wbr><span><span>Email</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.data.jpa.repository/Query///PointingToDeclaration/"><span class="token annotation builtin">Query</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;
-        SELECT r FROM ResetPasswordTokenEntity r 
-        WHERE r.user.id = :userId AND r.expirationDate &gt; CURRENT_TIMESTAMP AND r.sentEmail = false
-    &quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="find-valid-unsent-tokens-by-user-id.html"><span class="token function">findValidUnsentTokensByUserId</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">userId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-reset-password-token-entity/index.html">ResetPasswordTokenEntity</a><span class="token operator">&gt;</span></div></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="sent-registration-email.html">sentRegistrationEmail</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
 </div>
     <div class="footer">
         <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>

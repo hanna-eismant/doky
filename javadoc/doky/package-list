@@ -148,8 +148,10 @@ $dokka.location:org.hkurh.doky.email.impl/SmtpEmailSender/SmtpEmailSender/#org.h
 $dokka.location:org.hkurh.doky.email.impl/SmtpEmailSender/sendRegistrationConfirmationEmail/#org.hkurh.doky.users.db.UserEntity/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-smtp-email-sender/send-registration-confirmation-email.html
 $dokka.location:org.hkurh.doky.email.impl/SmtpEmailSender/sendRestorePasswordEmail/#org.hkurh.doky.users.db.UserEntity#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-smtp-email-sender/send-restore-password-email.html
 $dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService///PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/index.html
-$dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService/TransactionalEmailService/#org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository#org.hkurh.doky.email.EmailSender/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/-transactional-email-service.html
-$dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService/sendResetPasswordEmail/#org.hkurh.doky.password.db.ResetPasswordTokenEntity/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/send-reset-password-email.html
+$dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService/TransactionalEmailService/#org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository#org.hkurh.doky.users.db.UserEntityRepository#org.hkurh.doky.email.EmailSender/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/-transactional-email-service.html
+$dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService/sendEmailIfNotAlreadySent/#kotlin.Boolean#kotlin.String#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/send-email-if-not-already-sent.html
+$dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService/sendRegistrationEmail/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/send-registration-email.html
+$dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService/sendResetPasswordEmail/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/send-reset-password-email.html
 $dokka.location:org.hkurh.doky.email////PointingToDeclaration/doky/org.hkurh.doky.email/index.html
 $dokka.location:org.hkurh.doky.email/EmailProperties.Registration.Sendgrid///PointingToDeclaration/doky/org.hkurh.doky.email/-email-properties/-registration/-sendgrid/index.html
 $dokka.location:org.hkurh.doky.email/EmailProperties.Registration.Sendgrid/Sendgrid/#/PointingToDeclaration/doky/org.hkurh.doky.email/-email-properties/-registration/-sendgrid/-sendgrid.html
@@ -182,7 +184,8 @@ $dokka.location:org.hkurh.doky.email/EmailSender///PointingToDeclaration/doky/o
 $dokka.location:org.hkurh.doky.email/EmailSender/sendRegistrationConfirmationEmail/#org.hkurh.doky.users.db.UserEntity/PointingToDeclaration/doky/org.hkurh.doky.email/-email-sender/send-registration-confirmation-email.html
 $dokka.location:org.hkurh.doky.email/EmailSender/sendRestorePasswordEmail/#org.hkurh.doky.users.db.UserEntity#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.email/-email-sender/send-restore-password-email.html
 $dokka.location:org.hkurh.doky.email/EmailService///PointingToDeclaration/doky/org.hkurh.doky.email/-email-service/index.html
-$dokka.location:org.hkurh.doky.email/EmailService/sendResetPasswordEmail/#org.hkurh.doky.password.db.ResetPasswordTokenEntity/PointingToDeclaration/doky/org.hkurh.doky.email/-email-service/send-reset-password-email.html
+$dokka.location:org.hkurh.doky.email/EmailService/sendRegistrationEmail/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.email/-email-service/send-registration-email.html
+$dokka.location:org.hkurh.doky.email/EmailService/sendResetPasswordEmail/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.email/-email-service/send-reset-password-email.html
 $dokka.location:org.hkurh.doky.errorhandling////PointingToDeclaration/doky/org.hkurh.doky.errorhandling/index.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyAuthenticationException///PointingToDeclaration/doky/org.hkurh.doky.errorhandling/-doky-authentication-exception/index.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyAuthenticationException/DokyAuthenticationException/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.errorhandling/-doky-authentication-exception/-doky-authentication-exception.html
@@ -194,6 +197,8 @@ $dokka.location:org.hkurh.doky.errorhandling/DokyControllerAdvice/ioException/#j
 $dokka.location:org.hkurh.doky.errorhandling/DokyControllerAdvice/notFound/#org.hkurh.doky.errorhandling.DokyNotFoundException/PointingToDeclaration/doky/org.hkurh.doky.errorhandling/-doky-controller-advice/not-found.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyControllerAdvice/registrationException/#org.hkurh.doky.errorhandling.DokyRegistrationException/PointingToDeclaration/doky/org.hkurh.doky.errorhandling/-doky-controller-advice/registration-exception.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyControllerAdvice/validationException/#org.springframework.web.bind.MethodArgumentNotValidException/PointingToDeclaration/doky/org.hkurh.doky.errorhandling/-doky-controller-advice/validation-exception.html
+$dokka.location:org.hkurh.doky.errorhandling/DokyEmailException///PointingToDeclaration/doky/org.hkurh.doky.errorhandling/-doky-email-exception/index.html
+$dokka.location:org.hkurh.doky.errorhandling/DokyEmailException/DokyEmailException/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.errorhandling/-doky-email-exception/-doky-email-exception.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyInvalidTokenException///PointingToDeclaration/doky/org.hkurh.doky.errorhandling/-doky-invalid-token-exception/index.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyInvalidTokenException/DokyInvalidTokenException/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.errorhandling/-doky-invalid-token-exception/-doky-invalid-token-exception.html
 $dokka.location:org.hkurh.doky.errorhandling/DokyNotFoundException///PointingToDeclaration/doky/org.hkurh.doky.errorhandling/-doky-not-found-exception/index.html
@@ -254,7 +259,7 @@ $dokka.location:org.hkurh.doky.kafka/EmailType/entries/#/PointingToDeclaration/
 $dokka.location:org.hkurh.doky.kafka/EmailType/valueOf/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.kafka/-email-type/value-of.html
 $dokka.location:org.hkurh.doky.kafka/EmailType/values/#/PointingToDeclaration/doky/org.hkurh.doky.kafka/-email-type/values.html
 $dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationConsumerService///PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-consumer-service/index.html
-$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationConsumerService/KafkaEmailNotificationConsumerService/#org.hkurh.doky.users.db.UserEntityRepository#org.hkurh.doky.email.EmailService#org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository#org.hkurh.doky.email.EmailSender/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-consumer-service/-kafka-email-notification-consumer-service.html
+$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationConsumerService/KafkaEmailNotificationConsumerService/#org.hkurh.doky.email.EmailService/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-consumer-service/-kafka-email-notification-consumer-service.html
 $dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationConsumerService/listen/#org.hkurh.doky.kafka.SendEmailMessage/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-consumer-service/listen.html
 $dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationProducerService///PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-producer-service/index.html
 $dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationProducerService/KafkaEmailNotificationProducerService/#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-producer-service/-kafka-email-notification-producer-service.html
@@ -298,7 +303,7 @@ $dokka.location:org.hkurh.doky.password.db/ResetPasswordTokenEntityRepository///
 $dokka.location:org.hkurh.doky.password.db/ResetPasswordTokenEntityRepository/deleteByToken/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.password.db/-reset-password-token-entity-repository/delete-by-token.html
 $dokka.location:org.hkurh.doky.password.db/ResetPasswordTokenEntityRepository/findByExpirationDateLessThan/#java.util.Date/PointingToDeclaration/doky/org.hkurh.doky.password.db/-reset-password-token-entity-repository/find-by-expiration-date-less-than.html
 $dokka.location:org.hkurh.doky.password.db/ResetPasswordTokenEntityRepository/findByToken/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.password.db/-reset-password-token-entity-repository/find-by-token.html
-$dokka.location:org.hkurh.doky.password.db/ResetPasswordTokenEntityRepository/findValidUnsentTokensByUserId/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.password.db/-reset-password-token-entity-repository/find-valid-unsent-tokens-by-user-id.html
+$dokka.location:org.hkurh.doky.password.db/ResetPasswordTokenEntityRepository/findValidTokensByUserId/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.password.db/-reset-password-token-entity-repository/find-valid-tokens-by-user-id.html
 $dokka.location:org.hkurh.doky.password.impl////PointingToDeclaration/doky/org.hkurh.doky.password.impl/index.html
 $dokka.location:org.hkurh.doky.password.impl/DefaultPasswordFacade///PointingToDeclaration/doky/org.hkurh.doky.password.impl/-default-password-facade/index.html
 $dokka.location:org.hkurh.doky.password.impl/DefaultPasswordFacade/DefaultPasswordFacade/#org.hkurh.doky.users.UserService#org.hkurh.doky.password.ResetPasswordService#org.hkurh.doky.kafka.KafkaEmailNotificationProducerService#org.springframework.security.crypto.password.PasswordEncoder/PointingToDeclaration/doky/org.hkurh.doky.password.impl/-default-password-facade/-default-password-facade.html
@@ -429,6 +434,7 @@ $dokka.location:org.hkurh.doky.users.db/UserEntity/authorities/#/PointingToDecla
 $dokka.location:org.hkurh.doky.users.db/UserEntity/id/#/PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity/id.html
 $dokka.location:org.hkurh.doky.users.db/UserEntity/name/#/PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity/name.html
 $dokka.location:org.hkurh.doky.users.db/UserEntity/password/#/PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity/password.html
+$dokka.location:org.hkurh.doky.users.db/UserEntity/sentRegistrationEmail/#/PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity/sent-registration-email.html
 $dokka.location:org.hkurh.doky.users.db/UserEntity/uid/#/PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity/uid.html
 $dokka.location:org.hkurh.doky.users.db/UserEntityRepository///PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity-repository/index.html
 $dokka.location:org.hkurh.doky.users.db/UserEntityRepository/existsByUid/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity-repository/exists-by-uid.html
