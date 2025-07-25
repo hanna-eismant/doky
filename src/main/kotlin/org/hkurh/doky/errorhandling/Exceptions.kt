@@ -25,3 +25,4 @@ class DokyAuthenticationException(message: String) : AuthenticationException(mes
 class DokyNotFoundException(message: String) : RuntimeException(message)
 class DokyRegistrationException(message: String) : RuntimeException(message)
 class DokyInvalidTokenException(message: String) : RuntimeException(message)
+class DokyEmailException(message: String) : RuntimeException(message)

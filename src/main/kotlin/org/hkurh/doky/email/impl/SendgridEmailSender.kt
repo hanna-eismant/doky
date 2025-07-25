@@ -29,11 +29,11 @@ import com.sendgrid.helpers.mail.objects.Personalization
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.email.EmailProperties
 import org.hkurh.doky.email.EmailSender
+import org.hkurh.doky.errorhandling.DokyEmailException
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
-import java.io.IOException
 
 
 @Service
@@ -47,7 +47,7 @@ class SendgridEmailSender(
     private val defaultUserName = "Customer"
 
     override fun sendRegistrationConfirmationEmail(user: UserEntity) {
-        log.debug { "Send registration email for user [${user.id}]" }
+        log.debug { "Sending registration email for user [${user.id}]" }
         sendEmail(
             senderEmail = emailProperties.sender.email,
             senderName = emailProperties.sender.name,
@@ -59,7 +59,7 @@ class SendgridEmailSender(
     }
 
     override fun sendRestorePasswordEmail(user: UserEntity, token: String) {
-        log.debug { "Send reset password email for user [${user.id}]" }
+        log.debug { "Sending reset password email for user [${user.id}]" }
         sendEmail(
             senderEmail = emailProperties.sender.email,
             senderName = emailProperties.sender.name,
@@ -106,17 +106,13 @@ class SendgridEmailSender(
     fun sendEmailToSendGrid(mail: Mail) {
         val sendGridClient = SendGrid(emailProperties.sendgrid.apiKey)
         val request = Request()
-        try {
-            request.method = Method.POST
-            request.endpoint = "mail/send"
-            request.body = mail.build()
-            val response: Response = sendGridClient.api(request)
-            log.debug { "Response code: ${response.statusCode}; body: ${response.body}" }
-            if (response.statusCode !in 200..299) {
-                log.error { "Error during sending email. Response code: ${response.statusCode}; body: ${response.body}" }
-            }
-        } catch (e: IOException) {
-            log.error { e.message }
+        request.method = Method.POST
+        request.endpoint = "mail/send"
+        request.body = mail.build()
+        val response: Response = sendGridClient.api(request)
+        log.debug { "Response code: ${response.statusCode}; body: ${response.body}" }
+        if (response.statusCode !in 200..299) {
+            throw DokyEmailException("Error during sending email. Response code: ${response.statusCode}; body: ${response.body}")
         }
     }
 }
