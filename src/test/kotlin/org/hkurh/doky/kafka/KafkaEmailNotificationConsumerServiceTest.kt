@@ -60,15 +60,7 @@ class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
     fun shouldSendResetPasswordEmail() {
         // given
         val existingUserId = 14L
-//        val token = "<TOKEN>"
         val user = createUser(existingUserId)
-//        val resetToken = createResetToken(user, token)
-//        whenever(userEntityRepository.findById(existingUserId)).thenReturn(Optional.ofNullable(user))
-//        whenever(resetPasswordTokenEntityRepository.findValidTokensByUserId(existingUserId)).thenReturn(
-//            listOf(
-//                resetToken
-//            )
-//        )
 
         val message = SendEmailMessage().apply {
             userId = existingUserId
