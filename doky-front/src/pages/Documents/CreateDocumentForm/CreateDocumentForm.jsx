@@ -1,7 +1,7 @@
 /*
  * This file is part of the Doky Project.
  *
- * Copyright (C) 2005
+ * Copyright (C) 2022-2025
  *  - Hanna Kurhuzenkava (hanna.kuehuzenkava@outlook.com)
  *  - Anton Kurhuzenkau (kurguzenkov@gmail.com)
  *
@@ -21,10 +21,11 @@ import React from 'react';
 import {useForm} from '../../../hooks/useForm.js';
 import {useMutation} from '../../../hooks/useMutation.js';
 import {createDocument} from '../../../api/documents.js';
-import {Alert, Box, Button, Stack, TextField} from '@mui/material';
+import {Alert, Box, Button, Stack} from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {useNavigate} from 'react-router-dom';
+import {FormInput} from '../../../components/index.js';
 
 const initialFormData = {
   name: '',
@@ -47,22 +48,18 @@ const CreateDocumentForm = ({onCreated}) => {
     <form onSubmit={handleSubmit} style={{width: '100%'}}>
       {globalError && <Alert severity="error">{globalError}</Alert>}
       <Stack spacing={2} width="100%">
-        <TextField
-          fullWidth
+        <FormInput
           label="Name"
           id="name"
-          size="small"
           value={data.name}
           onChange={name.setValue}
           error={name.errors && name.errors.length > 0}
           helperText={name.errors && name.errors.length > 0 ? name.errors[0] : ''}
         />
 
-        <TextField
-          fullWidth
+        <FormInput
           label="Description"
           id="description"
-          size="small"
           value={data.description}
           onChange={description.setValue}
           multiline
