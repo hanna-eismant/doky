@@ -1,7 +1,7 @@
 /*
  * This file is part of the Doky Project.
  *
- * Copyright (C) 2005
+ * Copyright (C) 2022-2025
  *  - Hanna Kurhuzenkava (hanna.kuehuzenkava@outlook.com)
  *  - Anton Kurhuzenkau (kurguzenkov@gmail.com)
  *
@@ -29,7 +29,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {useNavigate} from 'react-router-dom';
 import CircularProgressWithLabel from '../../../components/CircularProgressWithLabel.jsx';
-import { FormInput } from '../../../components/index.js';
+import {FormInput} from '../../../components/index.js';
 
 const EditDocumentForm = ({document, onSaveSuccess}) => {
   const [editDocument] = useMutation(updateDocument);
@@ -149,7 +149,6 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
 
             <FormInput
               label="Description"
-              size="small"
               value={description.value}
               onChange={description.setValue}
               multiline
