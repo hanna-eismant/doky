@@ -1,7 +1,7 @@
 /*
  * This file is part of the Doky Project.
  *
- * Copyright (C) 2005
+ * Copyright (C) 2022-2025
  *  - Hanna Kurhuzenkava (hanna.kuehuzenkava@outlook.com)
  *  - Anton Kurhuzenkau (kurguzenkov@gmail.com)
  *
@@ -22,13 +22,14 @@ import {useMutation} from '../../../hooks/useMutation.js';
 import {downloadDocument, updateDocument, uploadDocument} from '../../../api/documents.js';
 import {useForm} from '../../../hooks/useForm.js';
 import {saveFile} from '../../../services/save-file.js';
-import {Alert, Box, Button, Divider, Stack, TextField, Typography} from '@mui/material';
+import {Alert, Box, Button, Divider, Stack, Typography} from '@mui/material';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {useNavigate} from 'react-router-dom';
 import CircularProgressWithLabel from '../../../components/CircularProgressWithLabel.jsx';
+import {FormInput} from '../../../components/index.js';
 
 const EditDocumentForm = ({document, onSaveSuccess}) => {
   const [editDocument] = useMutation(updateDocument);
@@ -140,20 +141,14 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
           divider={<Divider orientation="vertical" flexItem/>}
         >
           <Stack spacing={2} sx={{flexGrow: 1, width: 'calc(100% - 270px)'}}>
-            <TextField
-              fullWidth
+            <FormInput
               label="Name"
-              id="outlined-size-small"
-              size="small"
               value={name.value}
               onChange={name.setValue}
             />
 
-            <TextField
-              fullWidth
+            <FormInput
               label="Description"
-              id="outlined-size-small"
-              size="small"
               value={description.value}
               onChange={description.setValue}
               multiline
