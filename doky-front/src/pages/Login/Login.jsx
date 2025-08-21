@@ -19,7 +19,7 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
-import { Typography, Card, Box, Button, Container, Alert } from '@mui/material';
+import {Alert, Box, Button, Card, Container, Typography} from '@mui/material';
 
 import {FormInput} from '../../components';
 import {useLogin} from './useLogin.js';
@@ -66,7 +66,7 @@ const Login = () => {
             Sign in
           </Button>
           <Typography className='CenterText'>
-            <Link to='/reset-password'>Reset password</Link>
+            <Link to='/password/reset'>Reset password</Link>
           </Typography>
           <Typography className='CenterText'>
             Don&apos;t have an account?{' '}
