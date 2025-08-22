@@ -34,22 +34,33 @@ $primary: #07689f;
 
 .AuthContainer {
   display: flex;
-  margin-top: 10%;
+  align-items: center;
   justify-content: center;
+  min-height: 100vh;
   padding: 0;
+  /* Cool gradient background using brand colors */
+  /* Layered gradients for depth with subtle angle; works in modern browsers */
+  background: linear-gradient(135deg, rgba(10, 72, 116, 0.15), rgba(162, 213, 242, 0.15)),
+  radial-gradient(1200px 800px at 0% 0%, #a2d5f2 0%, rgba(162, 213, 242, 0.4) 40%, rgba(162, 213, 242, 0) 70%),
+  radial-gradient(1000px 700px at 100% 100%, #07689f 0%, rgba(7, 104, 159, 0.5) 35%, rgba(7, 104, 159, 0) 70%),
+  linear-gradient(180deg, #fafafa, #fafafa);
+  background-attachment: fixed;
 }
 
 .AuthFormCard {
   max-width: 400px;
   margin-top: 8px;
-}
-
-.AuthForm {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  background-color: rgba(250, 250, 250, 0.3) !important;
+  backdrop-filter: saturate(120%) blur(4px);
+  box-shadow: 0 10px 30px rgba(7, 104, 159, 0.15), 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .CenterText {
   text-align: center;
+}
+
+.AuthLogo {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
 }

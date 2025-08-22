@@ -17,31 +17,24 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React, {StrictMode} from 'react';
-import {createRoot} from 'react-dom/client';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {CssBaseline} from '@mui/material';
+import React from 'react';
+import {Card, CardContent, Container, Typography} from '@mui/material';
+import Logo from '../Logo/Logo.jsx';
 
-import './index.scss';
+const AuthLayout = ({title, children}) => {
+  return (
+    <Container className='AuthContainer' maxWidth={false}>
+      <Card variant='outlined' className='AuthFormCard'>
+        <CardContent><Logo/></CardContent>
+        {title && (
+          <Typography component="h5" variant="h5" className='CenterText'>
+            {title}
+          </Typography>
+        )}
+        {children}
+      </Card>
+    </Container>
+  );
+};
 
-import App from './App.jsx';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#07689f'
-    }
-  }
-});
-
-const container = document.getElementById('root');
-const root = createRoot(container);
-
-root.render(
-  <StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline/>
-      <App/>
-    </ThemeProvider>
-  </StrictMode>
-);
+export default AuthLayout;

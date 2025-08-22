@@ -19,12 +19,12 @@
 
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {Button, Card, CardContent, Container, Stack, Typography} from '@mui/material';
+import {Button, Stack, Typography} from '@mui/material';
+import AuthLayout from '../../components/AuthLayout/AuthLayout.jsx';
 
 import {useRegister} from './useRegister.js';
 import {useForm} from '../../hooks/useForm.js';
 import {FormInput} from '../../components';
-import Logo from '../../components/Logo/Logo.jsx';
 
 const initialFormData = {
   uid: '',
@@ -44,22 +44,18 @@ const Register = () => {
   });
 
   return (
-    <Container className='AuthContainer' maxWidth={false}>
-      <Card variant='outlined' className='AuthFormCard'>
-        <CardContent><Logo/></CardContent>
-        <Typography component="h5" variant="h5" className='CenterText'>Register</Typography>
-        <Stack sx={{m: 1}} spacing={2} onSubmit={handleSubmit} component="form">
-          <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue} errors={uid.errors}/>
-          <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}
-                     errors={password.errors}/>
-          <Button type="submit" disableElevation variant="contained">Register</Button>
-          <Typography variant="caption">
-            Already have an account?{' '}
-            <Link to="/login">Log In</Link>
-          </Typography>
-        </Stack>
-      </Card>
-    </Container>
+    <AuthLayout title="Register">
+      <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
+        <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue} errors={uid.errors}/>
+        <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}
+                   errors={password.errors}/>
+        <Button type="submit" disableElevation variant="contained">Register</Button>
+        <Typography variant="caption">
+          Already have an account?{' '}
+          <Link to="/login">Log In</Link>
+        </Typography>
+      </Stack>
+    </AuthLayout>
   );
 };
 

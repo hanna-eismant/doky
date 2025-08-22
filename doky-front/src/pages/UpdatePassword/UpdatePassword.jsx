@@ -22,8 +22,8 @@ import {Link, useNavigate, useSearchParams} from 'react-router-dom';
 import React from 'react';
 import {useForm} from '../../hooks/useForm.js';
 import {useUpdatePassword} from './useUpdatePassword.js';
-import Logo from '../../components/Logo/Logo.jsx';
-import {Button, Card, CardContent, Container, Stack, Typography} from '@mui/material';
+import {Button, Stack, Typography} from '@mui/material';
+import AuthLayout from '../../components/AuthLayout/AuthLayout.jsx';
 
 const initialFormData = {
   password: '',
@@ -51,23 +51,18 @@ const UpdatePassword = () => {
   } = useForm(initialFormData, updatePassword);
 
   return (
-    <Container className='AuthContainer' maxWidth={false}>
-      <Card variant='outlined' className='AuthFormCard'>
-        <CardContent><Logo/></CardContent>
-        <Typography component="h5" variant="h5" className='CenterText'>Update Password</Typography>
-        <Stack sx={{m: 1}} spacing={2} onSubmit={handleSubmit} component="form">
-          <FormInput id='password' label='Password' type='password' value={data.password} onChange={password.setValue}
-                     errors={password.errors}/>
-          <FormInput id='confirmPassword' label='Confirm password' type='password' value={data.confirmPassword}
-                     onChange={confirmPassword.setValue} errors={confirmPassword.errors}/>
-          <Button type="submit" disableElevation variant="contained">Confirm</Button>
-          <Typography variant="caption">
-            <Link to='/login'>Return to Log In</Link>
-          </Typography>
-        </Stack>
-      </Card>
-
-    </Container>
+    <AuthLayout title="Update Password">
+      <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
+        <FormInput id='password' label='Password' type='password' value={data.password} onChange={password.setValue}
+                   errors={password.errors}/>
+        <FormInput id='confirmPassword' label='Confirm password' type='password' value={data.confirmPassword}
+                   onChange={confirmPassword.setValue} errors={confirmPassword.errors}/>
+        <Button type="submit" disableElevation variant="contained">Confirm</Button>
+        <Typography variant="caption">
+          <Link to='/login'>Return to Log In</Link>
+        </Typography>
+      </Stack>
+    </AuthLayout>
   );
 };
 
