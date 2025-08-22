@@ -19,7 +19,7 @@
 
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import { Typography, Card, Box, Button, Container, Alert } from '@mui/material';
+import {Button, Card, CardContent, Container, Stack, Typography} from '@mui/material';
 
 import {useRegister} from './useRegister.js';
 import {useForm} from '../../hooks/useForm.js';
@@ -38,37 +38,26 @@ const Register = () => {
   const {
     data,
     fields: {uid, password},
-    globalError,
     handleSubmit
   } = useForm(initialFormData, register, () => {
     navigate('/');
   });
 
   return (
-    <Container className='AuthContainer'>
-      <Box sx={{ minHeight: '64px', marginBottom: 2 }}>
-        {globalError && <Alert severity="error">{globalError}</Alert>}
-      </Box>
+    <Container className='AuthContainer' maxWidth={false}>
       <Card variant='outlined' className='AuthFormCard'>
-        <Logo/>
-        <Box component="form" onSubmit={handleSubmit} className='AuthForm'>
-          <Typography component="h4" variant="h4">Register</Typography>
-          <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue}
-            errors={uid.errors}/>
+        <CardContent><Logo/></CardContent>
+        <Typography component="h5" variant="h5" className='CenterText'>Register</Typography>
+        <Stack sx={{m: 1}} spacing={2} onSubmit={handleSubmit} component="form">
+          <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue} errors={uid.errors}/>
           <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}
-            errors={password.errors}/>
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-          >
-            Register
-          </Button>
-          <Typography className='CenterText'>
-            <Link to="/login">Login</Link>
+                     errors={password.errors}/>
+          <Button type="submit" disableElevation variant="contained">Register</Button>
+          <Typography variant="caption">
+            Already have an account?{' '}
+            <Link to="/login">Log In</Link>
           </Typography>
-        </Box>
+        </Stack>
       </Card>
     </Container>
   );

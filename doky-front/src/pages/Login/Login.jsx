@@ -19,7 +19,7 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Alert, Box, Button, Card, Container, Typography} from '@mui/material';
+import {Button, Card, CardContent, Container, Stack, Typography} from '@mui/material';
 
 import {FormInput} from '../../components';
 import {useLogin} from './useLogin.js';
@@ -38,41 +38,28 @@ const Login = () => {
   const {
     data,
     fields: {uid, password},
-    globalError,
     handleSubmit
   } = useForm(initialFormData, login);
 
   return (
-    <Container className='AuthContainer'>
-      <Box sx={{ minHeight: '64px', marginBottom: 2 }}>
-        {globalError && <Alert severity="error">{globalError}</Alert>}
-      </Box>
+    <Container className='AuthContainer' maxWidth={false}>
       <Card variant='outlined' className='AuthFormCard'>
-        <Logo/>
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          className='AuthForm'>
-          <Typography component="h4" variant="h4">Sign in</Typography>
-          <FormInput id='uid' label='Email' type='text' value={data.uid} onChange={uid.setValue}
-            errors={uid.errors}/>
+        <CardContent><Logo/></CardContent>
+        <Typography component="h5" variant="h5" className='CenterText'>Sign In</Typography>
+        <Stack sx={{m: 1}} spacing={2} onSubmit={handleSubmit} component="form">
+          <FormInput id='uid' label='Email' type='text' value={data.uid} onChange={uid.setValue} errors={uid.errors}/>
           <FormInput id='password' label='Password' type='password' value={data.password} onChange={password.setValue}
-            errors={password.errors}/>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-          >
-            Sign in
-          </Button>
-          <Typography className='CenterText'>
-            <Link to='/password/reset'>Reset password</Link>
+                     errors={password.errors}/>
+          <Typography variant="caption">
+            Forget password?{' '}
+            <Link to='/password/reset'>Reset</Link>
           </Typography>
-          <Typography className='CenterText'>
+          <Button type="submit" disableElevation variant="contained">Sign in</Button>
+          <Typography variant="caption">
             Don&apos;t have an account?{' '}
-            <Link to="/register">Sign up</Link>
+            <Link to="/register">Sign Up</Link>
           </Typography>
-        </Box>
+        </Stack>
       </Card>
     </Container>
   );

@@ -33,16 +33,15 @@ $primary: #07689f;
 }
 
 .AuthContainer {
-  padding-top: 20px;
   display: flex;
-  flex-direction: column;
-  height: 100vh;
+  margin-top: 10%;
+  justify-content: center;
+  padding: 0;
 }
 
 .AuthFormCard {
-  max-width: 450px;
-  margin: auto;
-  padding: 18px;
+  max-width: 400px;
+  margin-top: 8px;
 }
 
 .AuthForm {
