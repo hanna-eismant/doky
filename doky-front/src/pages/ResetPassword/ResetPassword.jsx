@@ -17,13 +17,13 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import {FormInput} from '../../components';
-import {Link} from 'react-router-dom';
 import React, {useState} from 'react';
 import {useForm} from '../../hooks/useForm.js';
 import {useRequestResetPassword} from './useRequestResetPassword.js';
 import Logo from '../../components/Logo/Logo.jsx';
-import { Typography, Card, Box, Button, Container, Alert } from '@mui/material';
+import {Button, Card, CardContent, Container, Stack, Typography} from '@mui/material';
+import {Link} from 'react-router-dom';
+import FormInput from '../../components/formComponents/FormInput.jsx';
 
 const initialFormData = {
   email: ''
@@ -46,38 +46,43 @@ const ResetPassword = () => {
   } = useForm(initialFormData, requestRestorePassword);
 
   return (
-    <Container className='AuthContainer'>
-      <Box sx={{ minHeight: '64px', marginBottom: 2 }}>
-        {globalError && <Alert severity="error">{globalError}</Alert>}
-      </Box>
-      <Card variant='outlined' className='AuthFormCard'>
-        <Logo/>
+    <Container maxWidth={false}
+               sx={{
+                 display: 'flex',
+                 marginTop: '10%',
+                 justifyContent: 'center',
+                 padding: 0,
+               }}
+    >
 
+      <Card variant='outlined'
+            sx={{maxWidth: 400, mt: 1}}
+      >
+        <CardContent>
+          <Logo/>
+        </CardContent>
         {isSent && !globalError ? (
-          <Typography className='CenterText'>
+            <Stack sx={{m: 1}} spacing={2}>
             <Typography>
-              If user with email <strong>{data.email}</strong> exists, we send a password reset link to your email address.
+              If user with email <strong>{data.email}</strong> exists, we send a password reset link to your email
+              address.
               Please check your inbox and follow the instructions to reset your password.
               If you don’t see the email, be sure to check your spam or junk folder. Thank you!
             </Typography>
             <Link to='/login'>Return to login</Link>
-          </Typography>
+            </Stack>
         )
           : (
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              className='AuthForm'>
+            <Stack sx={{m: 1}} spacing={2}>
               <FormInput id='email' label='Email' type='text' value={data.email} onChange={email.setValue}
                 errors={email.errors}/>
-              <Button type='submit' fullWidth variant="contained">Send</Button>
-              <Typography className='CenterText'>
-                <Link to='/login'>Return to login</Link>
-              </Typography>
-            </Box>
+              <Button onClick={handleSubmit} disableElevation variant="contained">Send</Button>
+              <Link to='/login'>Return to login</Link>
+            </Stack>
           )
         }
       </Card>
+
     </Container>
   );
 };

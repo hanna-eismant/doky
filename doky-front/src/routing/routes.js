@@ -62,7 +62,7 @@ export const routes = [
         loader: authPageLoader
       },
       {
-        path: 'reset-password',
+        path: 'password/reset',
         element: <ResetPassword/>,
         loader: authPageLoader
       },
