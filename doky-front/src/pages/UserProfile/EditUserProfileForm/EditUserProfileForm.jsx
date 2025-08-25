@@ -18,34 +18,48 @@
  */
 
 import React from 'react';
-
-import HorizontalFormInput from '../../../components/formComponents/HorizontalFormInput.jsx';
-import {useAddToast} from '../../../components/Toasts';
+import {useRevalidator} from 'react-router-dom';
 import {useMutation} from '../../../hooks/useMutation.js';
 import {updateCurrentUser} from '../../../api/users.js';
 import {useForm} from '../../../hooks/useForm.js';
-import AlertError from '../../../components/AlertError.jsx';
+import {Box, Button, Stack} from '@mui/material';
+import {FormInput} from '../../../components';
+import SaveIcon from '@mui/icons-material/Save';
 
 const EditUserProfileForm = ({user}) => {
-  const [editUserProfile, {isLoading}, globalError] = useMutation(updateCurrentUser);
-  const addToast = useAddToast();
+  const [editUserProfile, {isLoading}] = useMutation(updateCurrentUser);
+  const revalidator = useRevalidator();
 
-  const {data, fields: {uid, name}, handleSubmit} = useForm(user, editUserProfile, () => {
-    addToast('Saved');
+  // Wrap the mutation to ensure only allowed fields are sent to the backend
+  const submitUpdate = (payload) => editUserProfile({name: payload.name});
+
+  const {data, fields: {uid, name}, handleSubmit} = useForm(user, submitUpdate, () => {
+    // After successful save, revalidate route loaders to fetch updated user data
+    revalidator.revalidate();
   });
 
   return (
-    <>
-      {globalError ? <AlertError message={globalError}/> : null}
-      <form onSubmit={handleSubmit} className="mt-3">
-        <HorizontalFormInput id="uid" label="Email" type="text" value={data.uid} disabled={true}
-          onChange={uid.setValue}/>
-        <HorizontalFormInput id="name" label="Name" type="text" value={data.name} onChange={name.setValue}/>
-        <div className="d-flex justify-content-between py-2">
-          <input type="submit" value="Save" disabled={isLoading} className="btn btn-primary mb-3 float-right"/>
-        </div>
-      </form>
-    </>
+    <form onSubmit={handleSubmit} style={{width: '50%'}}>
+      <Stack width="100%">
+        <Stack spacing={2} sx={{flexGrow: 1}}>
+          <FormInput id="uid" label="Email" type="text" value={data.uid} disabled={true}
+                     onChange={uid.setValue}/>
+          <FormInput id="name" label="Name" type="text" value={data.name} onChange={name.setValue}/>
+          <Box sx={{display: 'flex', gap: 2, mt: 2}}>
+            <Button
+              type="submit"
+              color="primary"
+              startIcon={<SaveIcon/>}
+              loading={isLoading}
+              loadingPosition="start"
+            >
+              Save Changes
+            </Button>
+          </Box>
+        </Stack>
+
+      </Stack>
+    </form>
   );
 };
 

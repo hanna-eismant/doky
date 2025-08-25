@@ -31,6 +31,15 @@ const theme = createTheme({
     primary: {
       main: '#07689f'
     }
+  },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        size: 'small',
+        variant: 'contained',
+        disableElevation: true
+      }
+    }
   }
 });
 

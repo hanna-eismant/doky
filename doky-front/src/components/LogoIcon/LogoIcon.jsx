@@ -1,7 +1,7 @@
 /*
  * This file is part of the Doky Project.
  *
- * Copyright (C) 2005
+ * Copyright (C) 2022-2025
  *  - Hanna Kurhuzenkava (hanna.kuehuzenkava@outlook.com)
  *  - Anton Kurhuzenkau (kurguzenkov@gmail.com)
  *
@@ -19,6 +19,15 @@
 
 import React, {memo} from 'react';
 
-const LogoIcon = () => <img alt="LogoIcon" src='/logo-color-bg-icon.svg'/>;
+const LogoIcon = ({size = 40, style, ...imgProps}) => (
+  <img
+    alt="LogoIcon"
+    src='/logo-color-bg-icon.svg'
+    width={size}
+    height={size}
+    style={{display: 'block', margin: '8px auto', ...style}}
+    {...imgProps}
+  />
+);
 
 export default memo(LogoIcon);

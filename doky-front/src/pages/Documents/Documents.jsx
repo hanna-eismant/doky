@@ -73,7 +73,7 @@ const Documents = () => {
             Documents
           </Typography>
         </Breadcrumbs>
-        <Button variant="contained" color="primary" onClick={goToCreateDocument} size="medium" disableElevation>
+        <Button variant="contained" color="primary" onClick={goToCreateDocument} size="small" disableElevation>
           <AddIcon sx={{mr: 0.5}} fontSize="inherit"/>
           Create
         </Button>
