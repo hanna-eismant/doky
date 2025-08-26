@@ -18,19 +18,46 @@
  */
 
 import React from 'react';
-import {Outlet, useNavigate} from 'react-router-dom';
-import {Container, Divider, Drawer, MenuItem} from '@mui/material';
+import {Outlet, useLocation, useNavigate} from 'react-router-dom';
+import {Avatar, Box, Container, Divider, Drawer, Menu, MenuItem} from '@mui/material';
 
 import DocumentsIcon from '@mui/icons-material/ContentPaste';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoIcon from './LogoIcon';
+import {deleteJWT} from '../services/storage';
 
 const MainPage = () => {
   const navigate = useNavigate();
   const drawerWidth = 61;
 
+  const location = useLocation();
+  const isDashboard = location.pathname === '/';
+  const isDocuments = location.pathname.startsWith('/documents');
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const menuOpen = Boolean(anchorEl);
+
   const handleMenuItemClick = (path) => {
     navigate(path);
+  };
+
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const gotoProfile = () => {
+    handleMenuClose();
+    navigate('/profile');
+  };
+
+  const handleLogout = () => {
+    handleMenuClose();
+    deleteJWT();
+    navigate('/login');
   };
 
   return (
@@ -50,14 +77,42 @@ const MainPage = () => {
         variant="permanent"
         anchor="left"
       >
-        <LogoIcon/>
-        <Divider color={'#FAFAFA'}/>
-        <MenuItem name="Dashboard" path="/" onClick={() => handleMenuItemClick('/')}>
-          <DashboardIcon fontSize={'large'} sx={{color: '#FAFAFA'}}/>
-        </MenuItem>
-        <MenuItem name="Documents" path="/documents" onClick={() => handleMenuItemClick('/documents')}>
-          <DocumentsIcon fontSize={'large'} sx={{color: '#FAFAFA'}}/>
-        </MenuItem>
+        <Box sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+          <Box>
+            <LogoIcon size={35}/>
+            <Divider color={'#FAFAFA'}/>
+            <MenuItem name="Dashboard" path="/" onClick={() => handleMenuItemClick('/')} selected={isDashboard} sx={{
+              '&.Mui-selected': {backgroundColor: 'rgba(0,0,0,0.2)'},
+              '&.Mui-selected:hover': {backgroundColor: 'rgba(0,0,0,0.25)'}
+            }}>
+              <DashboardIcon sx={{color: '#FAFAFA', width: 28, height: 28, cursor: 'pointer'}}/>
+            </MenuItem>
+            <MenuItem name="Documents" path="/documents" onClick={() => handleMenuItemClick('/documents')}
+                      selected={isDocuments} sx={{
+              '&.Mui-selected': {backgroundColor: 'rgba(0,0,0,0.2)'},
+              '&.Mui-selected:hover': {backgroundColor: 'rgba(0,0,0,0.25)'}
+            }}>
+              <DocumentsIcon sx={{color: '#FAFAFA', width: 28, height: 28, cursor: 'pointer'}}/>
+            </MenuItem>
+          </Box>
+          <Box sx={{mt: 'auto', mb: 1, display: 'flex', justifyContent: 'center'}}>
+            <Avatar
+              sx={{bgcolor: '#FAFAFA', color: '#07689F', width: 40, height: 40, cursor: 'pointer'}}
+              onClick={handleAvatarClick}
+              alt="User"
+            />
+            <Menu
+              anchorEl={anchorEl}
+              open={menuOpen}
+              onClose={handleMenuClose}
+              anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+              transformOrigin={{vertical: 'top', horizontal: 'left'}}
+            >
+              <MenuItem onClick={gotoProfile}>Profile</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </Box>
+        </Box>
       </Drawer>
       <Outlet style={{width: '100%'}}/>
     </Container>

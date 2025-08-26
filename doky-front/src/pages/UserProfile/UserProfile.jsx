@@ -20,22 +20,40 @@
 import React from 'react';
 import EditUserProfileForm from './EditUserProfileForm';
 import {useUser} from '../../hooks/useUser';
+import {Divider, Stack} from '@mui/material';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import {Link} from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
+import Typography from '@mui/material/Typography';
+import DocumentsIcon from '@mui/icons-material/PermIdentityOutlined';
 
 const UserProfile = () => {
   const user = useUser();
 
   return (
-    <>
-      <div
-        className="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 className="h3">
-          <span className="align-middle">Your Profile</span>
-        </h1>
-      </div>
-      <div>
-        <EditUserProfileForm user={user}/>
-      </div>
-    </>
+    <Stack spacing={2} sx={{
+      width: '100%',
+      padding: 2,
+      alignItems: 'flex-start'
+    }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link underline="hover" to={'/'} sx={{display: 'flex', alignItems: 'center'}}>
+            <HomeIcon sx={{mr: 0.5}} fontSize="inherit"/>
+            Home
+          </Link>
+          <Typography sx={{display: 'flex', alignItems: 'center'}}>
+            <DocumentsIcon sx={{mr: 0.5}} fontSize="inherit"/>
+            Profile
+          </Typography>
+        </Breadcrumbs>
+      </Stack>
+
+      <Divider flexItem sx={{borderColor: 'rgba(0, 0, 0, 0.3)', borderBottomWidth: 1}}/>
+
+      <EditUserProfileForm user={user}/>
+
+    </Stack>
   );
 };
 
