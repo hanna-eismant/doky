@@ -22,7 +22,7 @@ import {useMutation} from '../../../hooks/useMutation.js';
 import {downloadDocument, updateDocument, uploadDocument} from '../../../api/documents.js';
 import {useForm} from '../../../hooks/useForm.js';
 import {saveFile} from '../../../services/save-file.js';
-import {Alert, Box, Button, Divider, Stack, Typography} from '@mui/material';
+import {Box, Button, Divider, Stack, Typography} from '@mui/material';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SaveIcon from '@mui/icons-material/Save';
@@ -30,6 +30,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import {useNavigate} from 'react-router-dom';
 import CircularProgressWithLabel from '../../../components/CircularProgressWithLabel.jsx';
 import {FormInput} from '../../../components/index.js';
+import {emitGlobalSuccess} from '../../../components/GlobalSnackbar/snackbarBus.js';
 
 const EditDocumentForm = ({document, onSaveSuccess}) => {
   const [editDocument] = useMutation(updateDocument);
@@ -64,6 +65,7 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
     editDocument,
     () => {
       setSaveStatus({loading: false, success: true, error: null});
+      emitGlobalSuccess('Document updated successfully');
       if (onSaveSuccess) {
         onSaveSuccess();
       }
@@ -90,8 +92,9 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
 
     try {
       const response = await uploadDocument(document.id, formData);
-      if (response.ok) {
+      if (!response.error) {
         setUploadStatus({loading: false, success: true, error: null});
+        emitGlobalSuccess('File uploaded successfully');
         if (onSaveSuccess) {
           onSaveSuccess();
         }
@@ -134,8 +137,6 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
   return (
 
     <form onSubmit={handleSubmit} style={{width: '100%'}}>
-      {uploadStatus.success && <Alert severity="success">File uploaded successfully!</Alert>}
-      {uploadStatus.error && <Alert severity="error">{uploadStatus.error}</Alert>}
       <Stack width="100%">
         <Stack direction="row" spacing={2} width="100%"
           divider={<Divider orientation="vertical" flexItem/>}
@@ -145,6 +146,7 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
               label="Name"
               value={name.value}
               onChange={name.setValue}
+              errors={name.errors}
             />
 
             <FormInput

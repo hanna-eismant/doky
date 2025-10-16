@@ -24,6 +24,7 @@ import {useForm} from '../../hooks/useForm.js';
 import {useUpdatePassword} from './useUpdatePassword.js';
 import {Button, Stack, Typography} from '@mui/material';
 import AuthLayout from '../../components/AuthLayout/AuthLayout.jsx';
+import {useGlobalSnackbar} from '../../components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
 
 const initialFormData = {
   password: '',
@@ -36,8 +37,10 @@ const UpdatePassword = () => {
   const token = searchParams.get('token');
 
   const navigate = useNavigate();
+  const {showSuccess} = useGlobalSnackbar();
   const onSent = (data) => {
     if (!data || !data.error) {
+      showSuccess('Your password has been updated successfully');
       navigate('/login');
     }
   };

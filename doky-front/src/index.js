@@ -25,6 +25,7 @@ import {CssBaseline} from '@mui/material';
 import './index.scss';
 
 import App from './App.jsx';
+import GlobalSnackbarProvider from './components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
 
 const theme = createTheme({
   palette: {
@@ -50,7 +51,9 @@ root.render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <App/>
+      <GlobalSnackbarProvider>
+        <App/>
+      </GlobalSnackbarProvider>
     </ThemeProvider>
   </StrictMode>
 );

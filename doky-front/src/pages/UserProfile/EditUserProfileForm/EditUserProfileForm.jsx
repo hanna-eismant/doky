@@ -25,26 +25,39 @@ import {useForm} from '../../../hooks/useForm.js';
 import {Box, Button, Stack} from '@mui/material';
 import {FormInput} from '../../../components';
 import SaveIcon from '@mui/icons-material/Save';
+import {useGlobalSnackbar} from '../../../components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
 
 const EditUserProfileForm = ({user}) => {
   const [editUserProfile, {isLoading}] = useMutation(updateCurrentUser);
   const revalidator = useRevalidator();
 
-  // Wrap the mutation to ensure only allowed fields are sent to the backend
   const submitUpdate = (payload) => editUserProfile({name: payload.name});
 
+  const {showSuccess} = useGlobalSnackbar();
+
   const {data, fields: {uid, name}, handleSubmit} = useForm(user, submitUpdate, () => {
-    // After successful save, revalidate route loaders to fetch updated user data
     revalidator.revalidate();
+    showSuccess('Your name has been updated successfully');
   });
 
   return (
     <form onSubmit={handleSubmit} style={{width: '50%'}}>
       <Stack width="100%">
         <Stack spacing={2} sx={{flexGrow: 1}}>
-          <FormInput id="uid" label="Email" type="text" value={data.uid} disabled={true}
-                     onChange={uid.setValue}/>
-          <FormInput id="name" label="Name" type="text" value={data.name} onChange={name.setValue}/>
+          <FormInput id="uid"
+                     label="Email"
+                     type="text"
+                     value={data.uid}
+                     disabled={true}
+                     onChange={uid.setValue}
+          />
+          <FormInput id="name"
+                     label="Name"
+                     type="text"
+                     value={data.name}
+                     onChange={name.setValue}
+                     errors={name.errors}
+          />
           <Box sx={{display: 'flex', gap: 2, mt: 2}}>
             <Button
               type="submit"
