@@ -21,11 +21,12 @@ import React from 'react';
 import {useForm} from '../../../hooks/useForm.js';
 import {useMutation} from '../../../hooks/useMutation.js';
 import {createDocument} from '../../../api/documents.js';
-import {Alert, Box, Button, Stack} from '@mui/material';
+import {Box, Button, Stack} from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {useNavigate} from 'react-router-dom';
 import {FormInput} from '../../../components/index.js';
+import {emitGlobalSuccess} from '../../../components/GlobalSnackbar/snackbarBus.js';
 
 const initialFormData = {
   name: '',
@@ -36,29 +37,28 @@ const CreateDocumentForm = ({onCreated}) => {
   const [documentMutation] = useMutation(createDocument);
   const navigate = useNavigate();
 
-  const {data, fields: {name, description}, handleSubmit, globalError} = useForm(
+  const {data, fields: {name, description}, handleSubmit} = useForm(
     initialFormData,
     documentMutation,
     () => {
+      emitGlobalSuccess('Document created successfully');
       onCreated();
     }
   );
 
   return (
     <form onSubmit={handleSubmit} style={{width: '100%'}}>
-      {globalError && <Alert severity="error">{globalError}</Alert>}
       <Stack spacing={2} width="100%">
         <FormInput
           label="Name"
           id="name"
           value={data.name}
           onChange={name.setValue}
-          error={name.errors && name.errors.length > 0}
-          helperText={name.errors && name.errors.length > 0 ? name.errors[0] : ''}
+          errors={name.errors}
         />
 
         <FormInput
-          label="Description"
+          label="Description" x
           id="description"
           value={data.description}
           onChange={description.setValue}

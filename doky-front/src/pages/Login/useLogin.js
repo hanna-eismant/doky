@@ -29,10 +29,11 @@ export const useLogin = () => {
   const [loginMutation] = useMutation(
     creds => login(creds.uid, creds.password),
     data => {
-      if (data.token) {
+      if (data?.token) {
         setJWT(data.token);
         navigate('/');
       }
+      // Error case is handled globally in api/request.js
     }
   );
 
