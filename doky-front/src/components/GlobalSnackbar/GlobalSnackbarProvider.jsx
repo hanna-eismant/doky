@@ -118,6 +118,7 @@ const GlobalSnackbarProvider = ({
           onClose={handleClose}
           severity={severity}
           sx={{width: '100%'}}
+          data-cy="global-snackbar"
         >
           {message}
         </Alert>

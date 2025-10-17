@@ -55,15 +55,17 @@ const CreateDocumentForm = ({onCreated}) => {
           value={data.name}
           onChange={name.setValue}
           errors={name.errors}
+          inputProps={{'data-cy': 'doc-name-input'}}
         />
 
         <FormInput
-          label="Description" x
+          label="Description"
           id="description"
           value={data.description}
           onChange={description.setValue}
           multiline
           rows={5}
+          inputProps={{'data-cy': 'doc-description-input'}}
         />
 
         <Box sx={{display: 'flex', gap: 2, mt: 2}}>
@@ -73,6 +75,7 @@ const CreateDocumentForm = ({onCreated}) => {
             startIcon={<CancelIcon/>}
             onClick={() => navigate('/documents')}
             disableElevation
+            data-cy="create-doc-cancel"
           >
             Cancel
           </Button>
@@ -82,6 +85,7 @@ const CreateDocumentForm = ({onCreated}) => {
             color="primary"
             startIcon={<SaveIcon/>}
             disableElevation
+            data-cy="create-doc-submit"
           >
             Create
           </Button>

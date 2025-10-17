@@ -63,17 +63,18 @@ const Documents = () => {
         alignItems: 'flex-start'
       }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" to={'/'} sx={{display: 'flex', alignItems: 'center'}}>
+        <Breadcrumbs aria-label="breadcrumb" data-cy="breadcrumb">
+          <Link underline="hover" to={'/'} sx={{display: 'flex', alignItems: 'center'}} data-cy="breadcrumb-home">
             <HomeIcon sx={{mr: 0.5}} fontSize="inherit"/>
             Home
           </Link>
-          <Typography sx={{display: 'flex', alignItems: 'center'}}>
+          <Typography sx={{display: 'flex', alignItems: 'center'}} data-cy="breadcrumb-documents">
             <DocumentsIcon sx={{mr: 0.5}} fontSize="inherit"/>
             Documents
           </Typography>
         </Breadcrumbs>
-        <Button variant="contained" color="primary" onClick={goToCreateDocument} size="small" disableElevation>
+        <Button variant="contained" color="primary" onClick={goToCreateDocument} size="small" disableElevation
+                data-cy="documents-create-btn">
           <AddIcon sx={{mr: 0.5}} fontSize="inherit"/>
           Create
         </Button>
@@ -86,6 +87,8 @@ const Documents = () => {
         label="Search"
         id="outlined-size-small"
         size="small"
+        inputProps={{'data-cy': 'documents-search-input'}}
+        InputLabelProps={{'data-cy': 'documents-search-label'}}
         slotProps={{
           input: {
             endAdornment: (
@@ -103,17 +106,22 @@ const Documents = () => {
         </Stack>
       ) : (
         <TableContainer>
-          <Table stickyHeader>
-            <TableHead>
+          <Table stickyHeader data-cy="documents-table">
+            <TableHead data-cy="documents-table-head">
               <TableRow>
-                <TableCell><Typography variant="subtitle1" fontWeight="bold">Name</Typography></TableCell>
-                <TableCell><Typography variant="subtitle1" fontWeight="bold">File</Typography></TableCell>
-                <TableCell><Typography variant="subtitle1" fontWeight="bold">Tags</Typography></TableCell>
-                <TableCell><Typography variant="subtitle1" fontWeight="bold">Created</Typography></TableCell>
-                <TableCell><Typography variant="subtitle1" fontWeight="bold">Updated</Typography></TableCell>
+                <TableCell data-cy="documents-th-name"><Typography variant="subtitle1"
+                                                                   fontWeight="bold">Name</Typography></TableCell>
+                <TableCell data-cy="documents-th-file"><Typography variant="subtitle1"
+                                                                   fontWeight="bold">File</Typography></TableCell>
+                <TableCell data-cy="documents-th-tags"><Typography variant="subtitle1"
+                                                                   fontWeight="bold">Tags</Typography></TableCell>
+                <TableCell data-cy="documents-th-created"><Typography variant="subtitle1"
+                                                                      fontWeight="bold">Created</Typography></TableCell>
+                <TableCell data-cy="documents-th-updated"><Typography variant="subtitle1"
+                                                                      fontWeight="bold">Updated</Typography></TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody data-cy="documents-table-body">
               {Array.isArray(data) && data.map((document) => (
                 <TableRow
                   key={document.id}

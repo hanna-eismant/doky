@@ -14,6 +14,10 @@
     "build": "webpack --mode=production",
     "build:remote": "npm run build -- --env be-env=remote",
     "serve": "serve dist -s",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:open:dev": "CYPRESS_PROFILE=dev cypress open",
+    "cypress:run:dev": "CYPRESS_PROFILE=dev cypress run",
     "prepare": "cd ../.. && husky app-server/doky-front/.husky"
   },
   "author": "",
