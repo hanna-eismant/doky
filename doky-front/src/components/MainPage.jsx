@@ -84,14 +84,14 @@ const MainPage = () => {
             <MenuItem name="Dashboard" path="/" onClick={() => handleMenuItemClick('/')} selected={isDashboard} sx={{
               '&.Mui-selected': {backgroundColor: 'rgba(0,0,0,0.2)'},
               '&.Mui-selected:hover': {backgroundColor: 'rgba(0,0,0,0.25)'}
-            }}>
+            }} data-cy="nav-dashboard">
               <DashboardIcon sx={{color: '#FAFAFA', width: 28, height: 28, cursor: 'pointer'}}/>
             </MenuItem>
             <MenuItem name="Documents" path="/documents" onClick={() => handleMenuItemClick('/documents')}
                       selected={isDocuments} sx={{
               '&.Mui-selected': {backgroundColor: 'rgba(0,0,0,0.2)'},
               '&.Mui-selected:hover': {backgroundColor: 'rgba(0,0,0,0.25)'}
-            }}>
+            }} data-cy="nav-documents">
               <DocumentsIcon sx={{color: '#FAFAFA', width: 28, height: 28, cursor: 'pointer'}}/>
             </MenuItem>
           </Box>
@@ -100,6 +100,7 @@ const MainPage = () => {
               sx={{bgcolor: '#FAFAFA', color: '#07689F', width: 40, height: 40, cursor: 'pointer'}}
               onClick={handleAvatarClick}
               alt="User"
+              data-cy="user-avatar"
             />
             <Menu
               anchorEl={anchorEl}
@@ -108,8 +109,8 @@ const MainPage = () => {
               anchorOrigin={{vertical: 'top', horizontal: 'right'}}
               transformOrigin={{vertical: 'top', horizontal: 'left'}}
             >
-              <MenuItem onClick={gotoProfile}>Profile</MenuItem>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              <MenuItem onClick={gotoProfile} data-cy="menu-profile">Profile</MenuItem>
+              <MenuItem onClick={handleLogout} data-cy="menu-logout">Logout</MenuItem>
             </Menu>
           </Box>
         </Box>

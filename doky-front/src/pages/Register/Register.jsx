@@ -46,10 +46,11 @@ const Register = () => {
   return (
     <AuthLayout title="Register">
       <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
-        <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue} errors={uid.errors}/>
+        <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue} errors={uid.errors}
+                   data-cy="register-uid"/>
         <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}
-                   errors={password.errors}/>
-        <Button type="submit" disableElevation variant="contained">Register</Button>
+                   errors={password.errors} data-cy="register-password"/>
+        <Button type="submit" disableElevation variant="contained" data-cy="register-submit">Register</Button>
         <Typography variant="caption">
           Already have an account?{' '}
           <Link to="/login">Log In</Link>
