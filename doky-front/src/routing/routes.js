@@ -17,7 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import BasePage from '../components/BasePage.jsx';
 import MainPage from '../components/MainPage.jsx';
 import Documents from '../pages/Documents/Documents.jsx';
 import CreateDocumentPage from '../pages/Documents/CreateDocumentPage.jsx';
@@ -49,7 +48,6 @@ export const mainPageRoute = {
 export const routes = [
   {
     path: '/',
-    element: <BasePage />,
     children: [
       mainPageRoute,
       {
@@ -63,7 +61,7 @@ export const routes = [
         loader: authPageLoader
       },
       {
-        path: 'reset-password',
+        path: 'password/reset',
         element: <ResetPassword/>,
         loader: authPageLoader
       },

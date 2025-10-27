@@ -17,13 +17,13 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import AlertError from '../../components/AlertError.jsx';
-import {FormInput} from '../../components';
-import {Link} from 'react-router-dom';
 import React, {useState} from 'react';
 import {useForm} from '../../hooks/useForm.js';
 import {useRequestResetPassword} from './useRequestResetPassword.js';
-import Logo from '../../components/Logo/Logo.jsx';
+import {Button, Stack, Typography} from '@mui/material';
+import AuthLayout from '../../components/AuthLayout/AuthLayout.jsx';
+import {Link} from 'react-router-dom';
+import FormInput from '../../components/formComponents/FormInput.jsx';
 
 const initialFormData = {
   email: ''
@@ -46,37 +46,27 @@ const ResetPassword = () => {
   } = useForm(initialFormData, requestRestorePassword);
 
   return (
-    <>
-      {globalError ? <AlertError message={globalError}/> : ''}
-      <div className='d-flex align-items-center justify-content-center'>
-        <div className='col-3'>
-          <Logo/>
-
-          {isSent && !globalError ? (
-            <div className='mt-3 row text-center'>
-              <div>If user with email <strong>{data.email}</strong> exists, we send a password reset link to your email
-                  address.
-                  Please check your inbox and follow the instructions to reset your password.
-                  If you don’t see the email, be sure to check your spam or junk folder. Thank you!
-              </div>
-              <Link to='/login' className='mt-3'>Return to login</Link>
-            </div>
-          )
-            : (
-              <form onSubmit={handleSubmit}>
-                <FormInput id='email' label='Email' type='text' value={data.email} onChange={email.setValue}
-                  errors={email.errors}/>
-                <div className='mt-3 row'>
-                  <input type='submit' value='Send' className='btn btn-primary mb-3'/>
-                  <Link to='/login' className='m-3'>Return to login</Link>
-                </div>
-              </form>
-            )
-          }
-
-        </div>
-      </div>
-    </>
+    <AuthLayout title="Reset Password">
+      {isSent && !globalError ? (
+        <Stack sx={{m: 2}} spacing={2}>
+          <Typography>
+            If user with email <strong>{data.email}</strong> exists, we send a password reset link to your email
+            address.
+            Please check your inbox and follow the instructions to reset your password.
+            If you don’t see the email, be sure to check your spam or junk folder. Thank you!
+          </Typography>
+        </Stack>
+      ) : (
+        <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
+          <FormInput id='email' label='Email' type='text' value={data.email} onChange={email.setValue}
+            errors={email.errors}/>
+          <Button type="submit" disableElevation variant="contained">Send</Button>
+          <Typography variant="caption">
+            <Link to='/login'>Return to Log In</Link>
+          </Typography>
+        </Stack>
+      )}
+    </AuthLayout>
   );
 };
 

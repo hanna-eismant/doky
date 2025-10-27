@@ -20,13 +20,20 @@
 import {useMutation} from '../../hooks/useMutation';
 import {register} from '../../api/users';
 import {setJWT} from '../../services/storage';
+import {useGlobalSnackbar} from '../../components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
+
 
 export const useRegister = () => {
+  const {showError} = useGlobalSnackbar();
+
   const [registerMutation] = useMutation(
     creds => register(creds),
     data => {
       if (data.token) {
         setJWT(data.token);
+      } else {
+        const message = data?.error?.message || 'Incorrect email or password';
+        showError(message);
       }
     }
   );

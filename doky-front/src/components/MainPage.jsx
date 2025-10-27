@@ -17,72 +17,106 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React, {useMemo} from 'react';
-import {Link, Outlet, useLocation} from 'react-router-dom';
-import classNames from 'classnames';
-import {ToastContextProvider} from './Toasts/ToastsContext';
+import React from 'react';
+import {Outlet, useLocation, useNavigate} from 'react-router-dom';
+import {Avatar, Box, Container, Divider, Drawer, Menu, MenuItem} from '@mui/material';
 
-const menuItems = [
-  {
-    name: 'Home',
-    path: '/'
-  },
-  {
-    name: 'Documents',
-    // TODO
-    path: '/documents',
-    hasSubRoutes: true
-  },
-  {
-    name: 'User Profile',
-    path: '/profile'
-  }
-];
-
-const MenuItem = ({name, path, isActive}) => {
-  const linkClassName = useMemo(() => classNames('nav-link', {
-    active: isActive
-  }), [isActive]);
-
-  return (
-    <li className="nav-item">
-      <Link to={path} className={linkClassName}>{name}</Link>
-    </li>
-  );
-};
+import DocumentsIcon from '@mui/icons-material/ContentPaste';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import LogoIcon from './LogoIcon';
+import {deleteJWT} from '../services/storage';
 
 const MainPage = () => {
+  const navigate = useNavigate();
+  const drawerWidth = 61;
+
   const location = useLocation();
+  const isDashboard = location.pathname === '/';
+  const isDocuments = location.pathname.startsWith('/documents');
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const menuOpen = Boolean(anchorEl);
+
+  const handleMenuItemClick = (path) => {
+    navigate(path);
+  };
+
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const gotoProfile = () => {
+    handleMenuClose();
+    navigate('/profile');
+  };
+
+  const handleLogout = () => {
+    handleMenuClose();
+    deleteJWT();
+    navigate('/login');
+  };
 
   return (
-    <div className="container-fluid">
-      <ToastContextProvider>
-        <div className="row">
-          <nav className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div className="position-sticky pt-3">
-              <ul className="nav flex-column nav-pills">
-                {menuItems.map(({name, path, hasSubRoutes}) => {
-                  const isActive = hasSubRoutes ? location.pathname.startsWith(path) : path === location.pathname;
-                  return (
-                    <MenuItem
-                      name={name}
-                      path={path}
-                      key={name}
-                      isActive={isActive}
-                    />
-                  );
-                })}
-              </ul>
-            </div>
-          </nav>
-          <main className="ms-sm-auto col-lg-10">
-            <div className="row">
-              <Outlet/>
-            </div>
-          </main>
-        </div>
-      </ToastContextProvider>
-    </div>
+
+    <Container maxWidth={false} sx={{display: 'flex', padding: 0}}>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+            background: '#07689F',
+            color: '#FAFAFA',
+          },
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+        <Box sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+          <Box>
+            <LogoIcon size={35}/>
+            <Divider color={'#FAFAFA'}/>
+            <MenuItem name="Dashboard" path="/" onClick={() => handleMenuItemClick('/')} selected={isDashboard} sx={{
+              '&.Mui-selected': {backgroundColor: 'rgba(0,0,0,0.2)'},
+              '&.Mui-selected:hover': {backgroundColor: 'rgba(0,0,0,0.25)'}
+            }} data-cy="nav-dashboard">
+              <DashboardIcon sx={{color: '#FAFAFA', width: 28, height: 28, cursor: 'pointer'}}/>
+            </MenuItem>
+            <MenuItem name="Documents" path="/documents" onClick={() => handleMenuItemClick('/documents')}
+              selected={isDocuments} sx={{
+                '&.Mui-selected': {backgroundColor: 'rgba(0,0,0,0.2)'},
+                '&.Mui-selected:hover': {backgroundColor: 'rgba(0,0,0,0.25)'}
+              }} data-cy="nav-documents">
+              <DocumentsIcon sx={{color: '#FAFAFA', width: 28, height: 28, cursor: 'pointer'}}/>
+            </MenuItem>
+          </Box>
+          <Box sx={{mt: 'auto', mb: 1, display: 'flex', justifyContent: 'center'}}>
+            <Avatar
+              sx={{bgcolor: '#FAFAFA', color: '#07689F', width: 40, height: 40, cursor: 'pointer'}}
+              onClick={handleAvatarClick}
+              alt="User"
+              data-cy="user-avatar"
+            />
+            <Menu
+              anchorEl={anchorEl}
+              open={menuOpen}
+              onClose={handleMenuClose}
+              anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+              transformOrigin={{vertical: 'top', horizontal: 'left'}}
+            >
+              <MenuItem onClick={gotoProfile} data-cy="menu-profile">Profile</MenuItem>
+              <MenuItem onClick={handleLogout} data-cy="menu-logout">Logout</MenuItem>
+            </Menu>
+          </Box>
+        </Box>
+      </Drawer>
+      <Outlet style={{width: '100%'}}/>
+    </Container>
   );
 };
 

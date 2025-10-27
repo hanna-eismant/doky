@@ -29,13 +29,16 @@ export const useForm = (initialData, mutation, onSuccess = noop) => {
     event.preventDefault();
     setIsSubmitting(true);
     const response = await mutation(form.data);
+
     if (response?.error) {
       form.setGlobalError(response.error.message);
-      form.setFieldsErrors(response.fields);
+      form.setFieldsErrors(response.fields || []);
     } else {
       form.setGlobalError(null);
+      form.setFieldsErrors([]);
       onSuccess();
     }
+
     setIsSubmitting(false);
   }, [form, mutation, onSuccess]);
 

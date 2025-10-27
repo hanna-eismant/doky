@@ -17,82 +17,228 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React from 'react';
-import {useAddToast} from '../../../components/Toasts';
+import React, {useEffect, useRef, useState} from 'react';
 import {useMutation} from '../../../hooks/useMutation.js';
 import {downloadDocument, updateDocument, uploadDocument} from '../../../api/documents.js';
 import {useForm} from '../../../hooks/useForm.js';
-import AlertError from '../../../components/AlertError.jsx';
-import HorizontalFormInput from '../../../components/formComponents/HorizontalFormInput.jsx';
-import HorizontalFormText from '../../../components/formComponents/HorizontalFormText.jsx';
-import FileUploader from '../../../components/formComponents/FileUploader.jsx';
 import {saveFile} from '../../../services/save-file.js';
+import {Box, Button, Divider, Stack, Typography} from '@mui/material';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
+import {useNavigate} from 'react-router-dom';
+import CircularProgressWithLabel from '../../../components/CircularProgressWithLabel.jsx';
+import {FormInput} from '../../../components/index.js';
+import {emitGlobalSuccess} from '../../../components/GlobalSnackbar/snackbarBus.js';
 
-const EditDocumentForm = ({document}) => {
-  const [editDocument, {isLoading}] = useMutation(updateDocument);
+const EditDocumentForm = ({document, onSaveSuccess}) => {
+  const [editDocument] = useMutation(updateDocument);
+  const [uploadStatus, setUploadStatus] = useState({loading: false, success: false, error: null});
+  const [saveStatus, setSaveStatus] = useState({loading: false, success: false, error: null});
+  const [downloadStatus, setDownloadStatus] = useState({loading: false, progress: 0});
+  const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
-  const addToast = useAddToast();
-  const {data, fields: {name, description}, handleSubmit, globalError} = useForm(document, editDocument, () => {
-    addToast('saved');
-  });
+  useEffect(() => {
+    if (uploadStatus.success || uploadStatus.error) {
+      const timer = setTimeout(() => {
+        setUploadStatus({loading: false, success: false, error: null});
+      }, 5000);
 
-  const onUpload = async (formData) => {
+      return () => clearTimeout(timer);
+    }
+  }, [uploadStatus.success, uploadStatus.error]);
+
+  useEffect(() => {
+    if (saveStatus.success || saveStatus.error) {
+      const timer = setTimeout(() => {
+        setSaveStatus({loading: false, success: false, error: null});
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [saveStatus.success, saveStatus.error]);
+
+  const {fields: {name, description}, handleSubmit, isSubmitting} = useForm(
+    document,
+    editDocument,
+    () => {
+      setSaveStatus({loading: false, success: true, error: null});
+      emitGlobalSuccess('Document updated successfully');
+      if (onSaveSuccess) {
+        onSaveSuccess();
+      }
+    },
+    (error) => {
+      setSaveStatus({loading: false, success: false, error: error.message || 'Failed to save changes'});
+    }
+  );
+
+  useEffect(() => {
+    if (isSubmitting) {
+      setSaveStatus({loading: true, success: false, error: null});
+    }
+  }, [isSubmitting]);
+
+  const onUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    setUploadStatus({loading: true, success: false, error: null});
 
     try {
       const response = await uploadDocument(document.id, formData);
-      if (response.ok) {
-        addToast('uploaded');
+      if (!response.error) {
+        setUploadStatus({loading: false, success: true, error: null});
+        emitGlobalSuccess('File uploaded successfully');
+        if (onSaveSuccess) {
+          onSaveSuccess();
+        }
       } else {
+        const errorData = await response.json();
+        const errorMessage = errorData?.error?.message || 'Failed to upload file';
+        setUploadStatus({loading: false, success: false, error: errorMessage});
         console.error(response);
       }
     } catch (error) {
+      setUploadStatus({loading: false, success: false, error: error.message || 'An error occurred during upload'});
       console.error(error);
     }
-
   };
 
   const handleDownload = async () => {
-    const body = await downloadDocument(document.id);
-    saveFile(body, document.fileName);
+    try {
+      setDownloadStatus({loading: true, progress: 0});
+
+      const body = await downloadDocument(document.id, (progress) => {
+        setDownloadStatus({loading: true, progress});
+      });
+
+      saveFile(body, document.fileName);
+
+      // Reset download status after a short delay
+      setTimeout(() => {
+        setDownloadStatus({loading: false, progress: 0});
+      }, 1000);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      setDownloadStatus({loading: false, progress: 0});
+    }
+  };
+
+  const handleFileButtonClick = () => {
+    fileInputRef.current.click();
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row">
-        <div className="col">
-          {globalError ? <AlertError message={globalError}/> : null}
-          <form onSubmit={handleSubmit} className="mt-3">
-            <HorizontalFormInput id="name" label="Name" type="text" value={data.name} onChange={name.setValue}
-              errors={name.errors}/>
-            <HorizontalFormText id="description" label="Description" value={data.description}
-              onChange={description.setValue}/>
-            <div className="mt-4">
-              <div>File:</div>
-              <div>{document.fileName}</div>
-              <div>
-                <button type="button" className="btn btn-outline-primary me-2" disabled={!document.fileName} onClick={handleDownload}>
-                  <i className="bi bi-cloud-download me-1"></i><span>Download</span>
-                </button>
-                <FileUploader onUpload={onUpload}/>
-              </div>
-            </div>
-            <div className="d-flex justify-content-between py-2 mt-5 border-top">
-              <input type="submit" value="Save" disabled={isLoading} className="btn btn-primary mb-3 float-right"/>
-            </div>
-          </form>
-        </div>
-        <div className="col col-2">
-          <div className="mt-3">Created:
-            <div>{document.createdDate}</div>
-            <div>{document.createdBy}</div>
-          </div>
-          <div className="mt-3">Updated:
-            <div>{document.modifiedDate}</div>
-            <div>{document.modifiedBy}</div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+    <form onSubmit={handleSubmit} style={{width: '100%'}}>
+      <Stack width="100%">
+        <Stack direction="row" spacing={2} width="100%"
+          divider={<Divider orientation="vertical" flexItem/>}
+        >
+          <Stack spacing={2} sx={{flexGrow: 1, width: 'calc(100% - 270px)'}}>
+            <FormInput
+              label="Name"
+              value={name.value}
+              onChange={name.setValue}
+              errors={name.errors}
+            />
+
+            <FormInput
+              label="Description"
+              value={description.value}
+              onChange={description.setValue}
+              multiline
+              rows={5}
+            />
+
+            {document.createdBy && document.createdDate && (
+              <Typography variant="caption" color="text.secondary">
+                Created by: {document.createdBy} on {document.createdDate}
+              </Typography>
+            )}
+
+            {document.modifiedBy && document.modifiedDate && (
+              <Typography variant="caption" color="text.secondary">
+                Last modified by: {document.modifiedBy} on {document.modifiedDate}
+              </Typography>
+            )}
+
+          </Stack>
+          <Stack width="250px" flexShrink={0}>
+            <Typography variant="subtitle1" gutterBottom>
+              {document.fileName}
+            </Typography>
+            <Stack spacing={2}>
+              {document.fileName && (
+                downloadStatus.loading ? (
+                  <Box display="flex" alignItems="center" justifyContent="center" p={1}>
+                    <CircularProgressWithLabel value={downloadStatus.progress}/>
+                  </Box>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    startIcon={<CloudDownloadIcon/>}
+                    onClick={handleDownload}
+                    fullWidth
+                  >
+                    Download
+                  </Button>
+                )
+              )}
+
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<CloudUploadIcon/>}
+                onClick={handleFileButtonClick}
+                loading={uploadStatus.loading}
+                loadingPosition="start"
+                fullWidth
+                disableElevation
+              >
+                Upload New File
+              </Button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{display: 'none'}}
+                onChange={onUpload}
+              />
+            </Stack>
+          </Stack>
+        </Stack>
+
+        <Box sx={{display: 'flex', gap: 2, mt: 2}}>
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<CancelIcon/>}
+            onClick={() => navigate('/documents')}
+            disableElevation
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            startIcon={<SaveIcon/>}
+            loading={isSubmitting}
+            loadingPosition="start"
+            disableElevation
+          >
+            Save Changes
+          </Button>
+        </Box>
+      </Stack>
+    </form>
   );
 };
 

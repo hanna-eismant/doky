@@ -19,12 +19,12 @@
 
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import {Button, Stack, Typography} from '@mui/material';
+import AuthLayout from '../../components/AuthLayout/AuthLayout.jsx';
 
 import {useRegister} from './useRegister.js';
 import {useForm} from '../../hooks/useForm.js';
 import {FormInput} from '../../components';
-import AlertError from '../../components/AlertError.jsx';
-import Logo from '../../components/Logo/Logo.jsx';
 
 const initialFormData = {
   uid: '',
@@ -38,29 +38,25 @@ const Register = () => {
   const {
     data,
     fields: {uid, password},
-    globalError,
     handleSubmit
   } = useForm(initialFormData, register, () => {
     navigate('/');
   });
 
   return (
-    <>
-      {globalError ? <AlertError message={globalError}/> : ''}
-      <div className="d-flex align-items-center justify-content-center">
-        <form onSubmit={handleSubmit} className="col-3">
-          <Logo/>
-          <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue}
-            errors={uid.errors}/>
-          <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}
-            errors={password.errors}/>
-          <div className="mt-3 row">
-            <input type="submit" value="Register" className="btn btn-primary mb-3"/>
-            <Link to="/login">Login</Link>
-          </div>
-        </form>
-      </div>
-    </>
+    <AuthLayout title="Register">
+      <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
+        <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue} errors={uid.errors}
+          data-cy="register-uid"/>
+        <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}
+          errors={password.errors} data-cy="register-password"/>
+        <Button type="submit" disableElevation variant="contained" data-cy="register-submit">Register</Button>
+        <Typography variant="caption">
+          Already have an account?{' '}
+          <Link to="/login">Log In</Link>
+        </Typography>
+      </Stack>
+    </AuthLayout>
   );
 };
 

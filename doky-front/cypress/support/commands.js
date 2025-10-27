@@ -18,27 +18,62 @@
  */
 
 // ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
+// Custom Cypress commands for Doky
 // ***********************************************
+// This file defines reusable helpers to keep tests concise and robust.
 //
+// Usage examples:
+//   cy.registerNewUser({ logoutAfter: true }).then(({ email, password }) => {
+//     // use creds for login or other flows
+//   });
 //
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+// Options:
+//   - logoutAfter: when true, logs out after successful registration (default: false)
+//   - navigateToDocuments: when true, navigates to /documents after registration (default: false)
 //
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+// The helper generates email in format: test.cy.<6digits>@yopmail.com
+
+function generateTestEmail() {
+  const random6 = Math.floor(100000 + Math.random() * 900000);
+  return `test.cy.${random6}@yopmail.com`;
+}
+
+function defaultPassword() {
+  return 'TestPwd#1234';
+}
+
+Cypress.Commands.add('registerNewUser', (options = {}) => {
+  const {logoutAfter = false, navigateToDocuments = false} = options;
+  const email = generateTestEmail();
+  const password = defaultPassword();
+
+  // Chainable flow: visit register -> submit -> assert dashboard
+  cy.visit('/register');
+  cy.get('[data-cy=register-uid]', {timeout: 10000}).should('be.visible').type(email);
+  cy.get('[data-cy=register-password]').type(password);
+  cy.get('[data-cy=register-submit]').click();
+
+  // After successful registration, expect redirect to dashboard
+  cy.location('pathname', {timeout: 10000}).should('eq', '/');
+
+  if (navigateToDocuments) {
+    cy.then(() => {
+      // Use app navigation by clicking the Documents menu in side drawer via data-cy selector.
+      cy.get('[data-cy=nav-documents]', {timeout: 10000})
+        .should('be.visible')
+        .click({force: true});
+    });
+  }
+
+  if (logoutAfter) {
+    cy.get('[data-cy=user-avatar]', {timeout: 10000}).should('be.visible').click();
+    cy.get('[data-cy=menu-logout]', {timeout: 10000}).click();
+    cy.location('pathname', {timeout: 10000}).should('eq', '/login');
+  }
+
+  // Yield the credentials to the next command in the chain
+  cy.wrap({email, password});
+});
+
+// Export utility generators for direct import if needed
+export {generateTestEmail, defaultPassword};

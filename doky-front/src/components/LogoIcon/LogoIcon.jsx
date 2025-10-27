@@ -17,5 +17,17 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-export {useAddToast} from './Toasts.hooks.js';
-export {ToastContextProvider} from './ToastsContext.js';
+import React, {memo} from 'react';
+
+const LogoIcon = ({size = 40, style, ...imgProps}) => (
+  <img
+    alt="LogoIcon"
+    src='/logo-color-bg-icon.svg'
+    width={size}
+    height={size}
+    style={{display: 'block', margin: '8px auto', ...style}}
+    {...imgProps}
+  />
+);
+
+export default memo(LogoIcon);

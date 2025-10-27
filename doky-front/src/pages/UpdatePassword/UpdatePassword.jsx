@@ -17,13 +17,14 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import AlertError from '../../components/AlertError.jsx';
 import {FormInput} from '../../components';
 import {Link, useNavigate, useSearchParams} from 'react-router-dom';
 import React from 'react';
 import {useForm} from '../../hooks/useForm.js';
 import {useUpdatePassword} from './useUpdatePassword.js';
-import Logo from '../../components/Logo/Logo.jsx';
+import {Button, Stack, Typography} from '@mui/material';
+import AuthLayout from '../../components/AuthLayout/AuthLayout.jsx';
+import {useGlobalSnackbar} from '../../components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
 
 const initialFormData = {
   password: '',
@@ -36,8 +37,10 @@ const UpdatePassword = () => {
   const token = searchParams.get('token');
 
   const navigate = useNavigate();
+  const {showSuccess} = useGlobalSnackbar();
   const onSent = (data) => {
-    if (!data.error) {
+    if (!data || !data.error) {
+      showSuccess('Your password has been updated successfully');
       navigate('/login');
     }
   };
@@ -47,31 +50,22 @@ const UpdatePassword = () => {
   const {
     data,
     fields: {password, confirmPassword},
-    globalError,
     handleSubmit
   } = useForm(initialFormData, updatePassword);
 
   return (
-    <>
-      {globalError ? <AlertError message={globalError}/> : ''}
-      <div className='d-flex align-items-center justify-content-center'>
-        <div className='col-3'>
-          <Logo/>
-          <form onSubmit={handleSubmit}>
-            <FormInput id='password' label='Password' type='password' value={data.password}
-              onChange={password.setValue}
-              errors={password.errors}/>
-            <FormInput id='confirmPassword' label='Confirm password' type='password'
-              value={data.confirmPassword} onChange={confirmPassword.setValue}
-              errors={confirmPassword.errors}/>
-            <div className='mt-3 row'>
-              <input type='submit' value='Confirm' className='btn btn-primary mb-3'/>
-              <Link to='/login' className='m-3'>Return to login</Link>
-            </div>
-          </form>
-        </div>
-      </div>
-    </>
+    <AuthLayout title="Update Password">
+      <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
+        <FormInput id='password' label='Password' type='password' value={data.password} onChange={password.setValue}
+          errors={password.errors}/>
+        <FormInput id='confirmPassword' label='Confirm password' type='password' value={data.confirmPassword}
+          onChange={confirmPassword.setValue} errors={confirmPassword.errors}/>
+        <Button type="submit" disableElevation variant="contained">Confirm</Button>
+        <Typography variant="caption">
+          <Link to='/login'>Return to Log In</Link>
+        </Typography>
+      </Stack>
+    </AuthLayout>
   );
 };
 

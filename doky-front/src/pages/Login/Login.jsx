@@ -19,12 +19,12 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {Button, Stack, Typography} from '@mui/material';
+import AuthLayout from '../../components/AuthLayout/AuthLayout.jsx';
 
 import {FormInput} from '../../components';
-import AlertError from '../../components/AlertError.jsx';
 import {useLogin} from './useLogin.js';
 import {useForm} from '../../hooks/useForm.js';
-import Logo from '../../components/Logo/Logo.jsx';
 
 const initialFormData = {
   uid: '',
@@ -38,28 +38,27 @@ const Login = () => {
   const {
     data,
     fields: {uid, password},
-    globalError,
     handleSubmit
   } = useForm(initialFormData, login);
 
   return (
-    <>
-      {globalError ? <AlertError message={globalError}/> : ''}
-      <div className='d-flex align-items-center justify-content-center'>
-        <form onSubmit={handleSubmit} className='col-3'>
-          <Logo/>
-          <FormInput id='uid' label='Email' type='text' value={data.uid} onChange={uid.setValue}
-            errors={uid.errors}/>
-          <FormInput id='password' label='Password' type='password' value={data.password} onChange={password.setValue}
-            errors={password.errors}/>
-          <Link to='/reset-password'>Reset password</Link>
-          <div className='mt-3 row'>
-            <input type='submit' value='Login' className='btn btn-primary mb-3'/>
-            <Link to='/register'>Register</Link>
-          </div>
-        </form>
-      </div>
-    </>
+    <AuthLayout title="Sign In">
+      <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
+        <FormInput id='uid' label='Email' type='text' value={data.uid} onChange={uid.setValue} errors={uid.errors}
+          data-cy="login-uid"/>
+        <FormInput id='password' label='Password' type='password' value={data.password} onChange={password.setValue}
+          errors={password.errors} data-cy="login-password"/>
+        <Typography variant="caption">
+          Forget password?{' '}
+          <Link to='/password/reset'>Reset</Link>
+        </Typography>
+        <Button type="submit" disableElevation variant="contained" data-cy="login-submit">Sign in</Button>
+        <Typography variant="caption">
+          Don&apos;t have an account?{' '}
+          <Link to="/register">Sign Up</Link>
+        </Typography>
+      </Stack>
+    </AuthLayout>
   );
 };
 

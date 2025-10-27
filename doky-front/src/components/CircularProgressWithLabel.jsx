@@ -1,7 +1,7 @@
 /*
  * This file is part of the Doky Project.
  *
- * Copyright (C) 2022-2025
+ * Copyright (C) 2005
  *  - Hanna Kurhuzenkava (hanna.kuehuzenkava@outlook.com)
  *  - Anton Kurhuzenkau (kurguzenkov@gmail.com)
  *
@@ -18,18 +18,30 @@
  */
 
 import React from 'react';
-import {useToastsContext} from './Toasts.hooks.js';
+import {Box, CircularProgress, Typography} from '@mui/material';
 
-export const Toasts = () => {
-  const {toasts} = useToastsContext();
-
+const CircularProgressWithLabel = ({value, size = 40}) => {
   return (
-    <div className="position-absolute m-2 end-0">
-      {toasts.map((toast, index) =>
-        <div key={index} className="p-2 m-2 text-bg-success rounded">
-          <i className="bi bi-info-circle me-1"/>
-          {toast}
-        </div>)}
-    </div>
+    <Box position="relative" display="inline-flex">
+      <CircularProgress variant="determinate" value={value} size={size}/>
+      <Box
+        top={0}
+        left={0}
+        bottom={0}
+        right={0}
+        position="absolute"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Typography
+          variant="caption"
+          component="div"
+          color="text.secondary"
+        >{`${Math.round(value)}%`}</Typography>
+      </Box>
+    </Box>
   );
 };
+
+export default CircularProgressWithLabel;

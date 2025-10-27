@@ -19,7 +19,13 @@
 
 import React, {useCallback} from 'react';
 import CreateDocumentForm from './CreateDocumentForm/CreateDocumentForm.jsx';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import {Box, Divider, Stack} from '@mui/material';
+import DocumentsIcon from '@mui/icons-material/ContentPaste';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import HomeIcon from '@mui/icons-material/Home';
+import AddIcon from '@mui/icons-material/Add';
+import Typography from '@mui/material/Typography';
 
 const CreateDocumentPage = () => {
   const navigate = useNavigate();
@@ -29,20 +35,34 @@ const CreateDocumentPage = () => {
   }, [navigate]);
 
   return (
-    <>
-      <div
-        className="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 className="h3">
-          <button className="btn btn-outline-primary me-3" onClick={goBack}>
-            <i className="bi bi-arrow-left"></i>
-          </button>
-          <span className="align-middle">New Document</span>
-        </h1>
-      </div>
-      <div>
+    <Stack spacing={2} sx={{
+      width: '100%',
+      padding: 2,
+      alignItems: 'flex-start'
+    }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link underline="hover" to={'/'} sx={{display: 'flex', alignItems: 'center'}}>
+            <HomeIcon sx={{mr: 0.5}} fontSize="inherit"/>
+            Home
+          </Link>
+          <Link underline="hover" to={'/documents'} sx={{display: 'flex', alignItems: 'center'}}>
+            <DocumentsIcon sx={{mr: 0.5}} fontSize="inherit"/>
+            Documents
+          </Link>
+          <Typography sx={{display: 'flex', alignItems: 'center'}}>
+            <AddIcon sx={{mr: 0.5}} fontSize="inherit"/>
+            New Document
+          </Typography>
+        </Breadcrumbs>
+      </Stack>
+
+      <Divider flexItem sx={{borderColor: 'rgba(0, 0, 0, 0.3)', borderBottomWidth: 1}}/>
+
+      <Box width="100%">
         <CreateDocumentForm onCreated={goBack}/>
-      </div>
-    </>
+      </Box>
+    </Stack>
   );
 };
 

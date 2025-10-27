@@ -17,7 +17,7 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-describe('doky login', () => {
+describe('login', () => {
 
   beforeEach(() => {
     cy.visit('/login');
@@ -27,13 +27,12 @@ describe('doky login', () => {
     const userUid = 'hkurh4@outlook.com';
     const password = '6OiUl^BdDU';
 
-    cy.get('#uid', {timeout: 10000}).should('be.visible');
+    cy.get('[data-cy=login-uid]', {timeout: 10000}).should('be.visible');
 
-    cy.get('#uid').type(userUid);
-    cy.get('#password').type(password);
-    cy.get('.btn.btn-primary.mb-3').click();
+    cy.get('[data-cy=login-uid]').type(userUid);
+    cy.get('[data-cy=login-password]').type(password);
+    cy.get('[data-cy=login-submit]').click();
 
-    cy.wait(2000);
     cy.location().should((location) => {
       expect(location.pathname).to.eq('/');
     });
@@ -43,35 +42,33 @@ describe('doky login', () => {
     const userUid = 'hkurh4@outlook.com';
     const password = 'password';
 
-    cy.get('#uid', {timeout: 10000}).should('be.visible');
+    cy.get('[data-cy=login-uid]', {timeout: 10000}).should('be.visible');
 
-    cy.get('#uid').type(userUid);
-    cy.get('#password').type(password);
-    cy.get('.btn.btn-primary.mb-3').click();
+    cy.get('[data-cy=login-uid]').type(userUid);
+    cy.get('[data-cy=login-password]').type(password);
+    cy.get('[data-cy=login-submit]').click();
 
-    cy.wait(2000);
     cy.location().should((location) => {
       expect(location.pathname).to.eq('/login');
     });
-    cy.get('.alert.alert-danger')
+    cy.get('[data-cy=global-snackbar]')
       .should('be.visible')
       .and('have.text', 'Incorrect credentials');
   });
 
   it('should show error message when empty credentials', () => {
-    cy.get('#uid', {timeout: 10000}).should('be.visible');
+    cy.get('[data-cy=login-uid]', {timeout: 10000}).should('be.visible');
 
-    cy.get('.btn.btn-primary.mb-3').click();
+    cy.get('[data-cy=login-submit]').click();
 
-    cy.wait(2000);
     cy.location().should((location) => {
       expect(location.pathname).to.eq('/login');
     });
-    cy.get('.alert.alert-danger')
+    cy.get('[data-cy=global-snackbar]')
       .should('be.visible')
       .and('have.text', 'Validation failed');
 
-    cy.get('#validationuidFeedback')
+    cy.get('[data-cy=uid-errors]')
       .should('be.visible')
       .then((feedback) => {
         const messages = feedback.text();
@@ -80,7 +77,7 @@ describe('doky login', () => {
         expect(messages).to.include('Email is required');
       });
 
-    cy.get('#validationpasswordFeedback')
+    cy.get('[data-cy=password-errors]')
       .should('be.visible')
       .then((feedback) => {
         const messages = feedback.text();

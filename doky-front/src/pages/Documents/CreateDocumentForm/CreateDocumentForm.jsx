@@ -19,12 +19,14 @@
 
 import React from 'react';
 import {useForm} from '../../../hooks/useForm.js';
-import HorizontalFormInput from '../../../components/formComponents/HorizontalFormInput.jsx';
-import HorizontalFormText from '../../../components/formComponents/HorizontalFormText.jsx';
-import {useAddToast} from '../../../components/Toasts';
 import {useMutation} from '../../../hooks/useMutation.js';
 import {createDocument} from '../../../api/documents.js';
-import AlertError from '../../../components/AlertError.jsx';
+import {Box, Button, Stack} from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
+import {useNavigate} from 'react-router-dom';
+import {FormInput} from '../../../components/index.js';
+import {emitGlobalSuccess} from '../../../components/GlobalSnackbar/snackbarBus.js';
 
 const initialFormData = {
   name: '',
@@ -33,32 +35,63 @@ const initialFormData = {
 
 const CreateDocumentForm = ({onCreated}) => {
   const [documentMutation] = useMutation(createDocument);
-  const addToast = useAddToast();
+  const navigate = useNavigate();
 
-  const {data, fields: {name, description}, handleSubmit, globalError} = useForm(
+  const {data, fields: {name, description}, handleSubmit} = useForm(
     initialFormData,
     documentMutation,
     () => {
-      addToast('Created');
+      emitGlobalSuccess('Document created successfully');
       onCreated();
     }
   );
 
   return (
-    <>
-      {globalError ? <AlertError message={globalError}/> : null}
-      <form onSubmit={handleSubmit} className="mt-3">
-        <HorizontalFormInput
-          id="name" label="Name" type="text" value={data.name} onChange={name.setValue}
-          errors={name.errors}/>
-        <HorizontalFormText
-          id="description" label="Description" value={data.description}
-          onChange={description.setValue}/>
-        <div className="d-flex justify-content-between py-2">
-          <input type="submit" value="Create" className="btn btn-primary mb-3 float-right"/>
-        </div>
-      </form>
-    </>
+    <form onSubmit={handleSubmit} style={{width: '100%'}}>
+      <Stack spacing={2} width="100%">
+        <FormInput
+          label="Name"
+          id="name"
+          value={data.name}
+          onChange={name.setValue}
+          errors={name.errors}
+          inputProps={{'data-cy': 'doc-name-input'}}
+        />
+
+        <FormInput
+          label="Description"
+          id="description"
+          value={data.description}
+          onChange={description.setValue}
+          multiline
+          rows={5}
+          inputProps={{'data-cy': 'doc-description-input'}}
+        />
+
+        <Box sx={{display: 'flex', gap: 2, mt: 2}}>
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<CancelIcon/>}
+            onClick={() => navigate('/documents')}
+            disableElevation
+            data-cy="create-doc-cancel"
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            startIcon={<SaveIcon/>}
+            disableElevation
+            data-cy="create-doc-submit"
+          >
+            Create
+          </Button>
+        </Box>
+      </Stack>
+    </form>
   );
 };
 

@@ -18,6 +18,7 @@
  */
 
 import {BASE_URL} from 'config';
+import {emitGlobalError} from '../components/GlobalSnackbar/snackbarBus.js';
 
 const apiPrefix = '/api';
 
@@ -37,6 +38,38 @@ const getDefaultOptions = (contentType) => ({
   }
 });
 
+const safeParseJson = async (response) => {
+  try {
+    const contentType = response.headers.get('content-type');
+    if (contentType !== null && contentType.includes('application/json')) {
+      return await response.json();
+    }
+  } catch (e) {
+    // ignore
+  }
+  return undefined;
+};
+
+const extractErrorMessage = (data, response) => {
+  return (
+    data?.error?.message ||
+    data?.message ||
+    response?.statusText ||
+    'Request failed'
+  );
+};
+
+const emitIfNotOk = async (response) => {
+  if (!response.ok) {
+    const data = await safeParseJson(response);
+    const message = extractErrorMessage(data, response);
+    emitGlobalError(message);
+    // Return a normalized error shape
+    return data ?? {error: {message}};
+  }
+  return undefined;
+};
+
 const request = async (url, method, data = {}) => {
   const response = await fetch(BASE_URL + apiPrefix + '/' + url, {
     ...getDefaultOptions('application/json'),
@@ -44,22 +77,26 @@ const request = async (url, method, data = {}) => {
     body: JSON.stringify(data)
   });
 
-  // TODO ?
-  const contentType = response.headers.get('content-type');
-  if (contentType !== null && contentType.includes('application/json')) {
-    return response.json();
-  }
+  const errorData = await emitIfNotOk(response);
+  if (errorData) return errorData;
+
+  const parsed = await safeParseJson(response);
+  return parsed ?? {};
 };
 
 export const post = (url, data = {}) =>
   request(url, 'POST', data);
 
-export const postFormData = (url, formData = {}) => {
-  return fetch(BASE_URL + apiPrefix + '/' + url, {
+export const postFormData = async (url, formData = {}) => {
+  const response = await fetch(BASE_URL + apiPrefix + '/' + url, {
     ...getDefaultOptions(),
     method: 'POST',
     body: formData
   });
+  const errorData = await emitIfNotOk(response);
+  if (errorData) return errorData;
+  const parsed = await safeParseJson(response);
+  return parsed ?? {};
 };
 
 export const put = async (url, data = {}) =>
@@ -67,15 +104,56 @@ export const put = async (url, data = {}) =>
 
 export const get = async url => {
   const response = await fetch(BASE_URL + apiPrefix + '/' + url, getDefaultOptions());
-  return response.json();
+  const errorData = await emitIfNotOk(response);
+  if (errorData) return errorData;
+  const parsed = await safeParseJson(response);
+  return parsed ?? {};
 };
 
-export const download = async (url, token) => {
-  const { body } = await fetch(BASE_URL + apiPrefix + '/' + url, {
+export const download = async (url, token, onProgress) => {
+  const response = await fetch(BASE_URL + apiPrefix + '/' + url, {
     ...getDefaultOptions('application/json'),
     method: 'POST',
     body: JSON.stringify({ token })
   });
 
-  return body;
+  // If backend responded with an error, emit and return empty bytes
+  if (!response.ok) {
+    const data = await safeParseJson(response);
+    const message = extractErrorMessage(data, response);
+    emitGlobalError(message);
+    return new Uint8Array(0);
+  }
+
+  const contentLength = response.headers.get('content-length');
+  const totalBytes = contentLength ? parseInt(contentLength, 10) : 0;
+  const reader = response.body.getReader();
+  let receivedBytes = 0;
+  const chunks = [];
+
+  while (true) {
+    const {done, value} = await reader.read();
+
+    if (done) {
+      break;
+    }
+
+    chunks.push(value);
+    receivedBytes += value.length;
+
+    if (onProgress && totalBytes) {
+      const progress = Math.min(Math.round((receivedBytes / totalBytes) * 100), 100);
+      onProgress(progress);
+    }
+  }
+
+  // Concatenate chunks into a single Uint8Array
+  const chunksAll = new Uint8Array(receivedBytes);
+  let position = 0;
+  for (const chunk of chunks) {
+    chunksAll.set(chunk, position);
+    position += chunk.length;
+  }
+
+  return chunksAll;
 };
