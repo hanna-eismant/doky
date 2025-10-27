@@ -1,0 +1,28 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [Unreleased]
+- N/A
+
+## [0.2.0] - 27 Oct 2025
+### Changed
+- Migrated frontend framework from **Bootstrap** to **Material-UI (MUI)**.
+- Updated UI styling, spacing, and components for a more modern look.
+- Refactored some CSS into MUI theme overrides.
+
+> **Note**: No changes in business logic or API behavior. Functionality remains the same, but the **look & feel** differs.
+
+## [0.1.0] - 4 Jan 2022
+### Added
+- Initial project release.
+- Core functionality implemented.
+- Bootstrap-based responsive UI layout.
+
+---
+
+[0.1.0]: https://github.com/hanna-eismant/doky/releases/tag/build-Aardvark-v0.1.191
