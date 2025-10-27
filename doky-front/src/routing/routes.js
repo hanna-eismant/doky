@@ -48,7 +48,6 @@ export const mainPageRoute = {
 export const routes = [
   {
     path: '/',
-    // element: <MainPage />,
     children: [
       mainPageRoute,
       {
