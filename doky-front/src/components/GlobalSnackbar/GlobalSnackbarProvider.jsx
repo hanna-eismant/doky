@@ -47,10 +47,10 @@ const DEFAULT_AUTO_HIDE = 5000; // ms
 const DEFAULT_CLEAR_ON_ROUTE_CHANGE = {error: true, warning: false, info: false, success: false};
 
 const GlobalSnackbarProvider = ({
-                                  children,
-                                  autoHideDuration = DEFAULT_AUTO_HIDE,
-                                  clearOnRouteChange = DEFAULT_CLEAR_ON_ROUTE_CHANGE
-                                }) => {
+  children,
+  autoHideDuration = DEFAULT_AUTO_HIDE,
+  clearOnRouteChange = DEFAULT_CLEAR_ON_ROUTE_CHANGE
+}) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [severity, setSeverity] = useState('info'); // 'error' | 'warning' | 'info' | 'success'
@@ -92,8 +92,7 @@ const GlobalSnackbarProvider = ({
   // Close snackbar on route change depending on severity configuration
   useEffect(() => {
     if (!router || !router.subscribe) return;
-    const unsubscribe = router.subscribe((state) => {
-      // state has { location, navigation, ... }
+    const unsubscribe = router.subscribe(() => {
       if (open && clearOnRouteChange && clearOnRouteChange[severity]) {
         setOpen(false);
       }
