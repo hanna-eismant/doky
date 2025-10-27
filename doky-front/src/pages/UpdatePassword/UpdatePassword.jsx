@@ -57,9 +57,9 @@ const UpdatePassword = () => {
     <AuthLayout title="Update Password">
       <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
         <FormInput id='password' label='Password' type='password' value={data.password} onChange={password.setValue}
-                   errors={password.errors}/>
+          errors={password.errors}/>
         <FormInput id='confirmPassword' label='Confirm password' type='password' value={data.confirmPassword}
-                   onChange={confirmPassword.setValue} errors={confirmPassword.errors}/>
+          onChange={confirmPassword.setValue} errors={confirmPassword.errors}/>
         <Button type="submit" disableElevation variant="contained">Confirm</Button>
         <Typography variant="caption">
           <Link to='/login'>Return to Log In</Link>

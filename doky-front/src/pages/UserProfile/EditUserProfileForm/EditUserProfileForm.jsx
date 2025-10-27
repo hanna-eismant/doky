@@ -45,18 +45,18 @@ const EditUserProfileForm = ({user}) => {
       <Stack width="100%">
         <Stack spacing={2} sx={{flexGrow: 1}}>
           <FormInput id="uid"
-                     label="Email"
-                     type="text"
-                     value={data.uid}
-                     disabled={true}
-                     onChange={uid.setValue}
+            label="Email"
+            type="text"
+            value={data.uid}
+            disabled={true}
+            onChange={uid.setValue}
           />
           <FormInput id="name"
-                     label="Name"
-                     type="text"
-                     value={data.name}
-                     onChange={name.setValue}
-                     errors={name.errors}
+            label="Name"
+            type="text"
+            value={data.name}
+            onChange={name.setValue}
+            errors={name.errors}
           />
           <Box sx={{display: 'flex', gap: 2, mt: 2}}>
             <Button

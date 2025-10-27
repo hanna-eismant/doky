@@ -74,7 +74,7 @@ const Documents = () => {
           </Typography>
         </Breadcrumbs>
         <Button variant="contained" color="primary" onClick={goToCreateDocument} size="small" disableElevation
-                data-cy="documents-create-btn">
+          data-cy="documents-create-btn">
           <AddIcon sx={{mr: 0.5}} fontSize="inherit"/>
           Create
         </Button>
@@ -110,15 +110,15 @@ const Documents = () => {
             <TableHead data-cy="documents-table-head">
               <TableRow>
                 <TableCell data-cy="documents-th-name"><Typography variant="subtitle1"
-                                                                   fontWeight="bold">Name</Typography></TableCell>
+                  fontWeight="bold">Name</Typography></TableCell>
                 <TableCell data-cy="documents-th-file"><Typography variant="subtitle1"
-                                                                   fontWeight="bold">File</Typography></TableCell>
+                  fontWeight="bold">File</Typography></TableCell>
                 <TableCell data-cy="documents-th-tags"><Typography variant="subtitle1"
-                                                                   fontWeight="bold">Tags</Typography></TableCell>
+                  fontWeight="bold">Tags</Typography></TableCell>
                 <TableCell data-cy="documents-th-created"><Typography variant="subtitle1"
-                                                                      fontWeight="bold">Created</Typography></TableCell>
+                  fontWeight="bold">Created</Typography></TableCell>
                 <TableCell data-cy="documents-th-updated"><Typography variant="subtitle1"
-                                                                      fontWeight="bold">Updated</Typography></TableCell>
+                  fontWeight="bold">Updated</Typography></TableCell>
               </TableRow>
             </TableHead>
             <TableBody data-cy="documents-table-body">

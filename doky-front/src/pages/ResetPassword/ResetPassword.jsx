@@ -59,7 +59,7 @@ const ResetPassword = () => {
       ) : (
         <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
           <FormInput id='email' label='Email' type='text' value={data.email} onChange={email.setValue}
-                     errors={email.errors}/>
+            errors={email.errors}/>
           <Button type="submit" disableElevation variant="contained">Send</Button>
           <Typography variant="caption">
             <Link to='/login'>Return to Log In</Link>
