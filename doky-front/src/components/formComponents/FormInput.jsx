@@ -19,7 +19,6 @@
 
 import React, {useCallback} from 'react';
 import {noop} from '../../utils';
-// import classNames from 'classnames';
 import {FormControl, FormHelperText, TextField} from '@mui/material';
 
 const FormInput = ({label, id, type, value = '', onChange = noop, errors, ...rest}) => {
@@ -30,10 +29,6 @@ const FormInput = ({label, id, type, value = '', onChange = noop, errors, ...res
   }, [onChange]);
 
   const hasErrors = Boolean(errors && errors.length > 0);
-
-  // const inputClassesList = classNames('form-control', {
-  //   'is-invalid': hasErrors
-  // });
 
   return (
     <FormControl>
