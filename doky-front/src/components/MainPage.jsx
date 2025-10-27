@@ -88,10 +88,10 @@ const MainPage = () => {
               <DashboardIcon sx={{color: '#FAFAFA', width: 28, height: 28, cursor: 'pointer'}}/>
             </MenuItem>
             <MenuItem name="Documents" path="/documents" onClick={() => handleMenuItemClick('/documents')}
-                      selected={isDocuments} sx={{
-              '&.Mui-selected': {backgroundColor: 'rgba(0,0,0,0.2)'},
-              '&.Mui-selected:hover': {backgroundColor: 'rgba(0,0,0,0.25)'}
-            }} data-cy="nav-documents">
+              selected={isDocuments} sx={{
+                '&.Mui-selected': {backgroundColor: 'rgba(0,0,0,0.2)'},
+                '&.Mui-selected:hover': {backgroundColor: 'rgba(0,0,0,0.25)'}
+              }} data-cy="nav-documents">
               <DocumentsIcon sx={{color: '#FAFAFA', width: 28, height: 28, cursor: 'pointer'}}/>
             </MenuItem>
           </Box>

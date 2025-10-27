@@ -45,9 +45,9 @@ const Login = () => {
     <AuthLayout title="Sign In">
       <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
         <FormInput id='uid' label='Email' type='text' value={data.uid} onChange={uid.setValue} errors={uid.errors}
-                   data-cy="login-uid"/>
+          data-cy="login-uid"/>
         <FormInput id='password' label='Password' type='password' value={data.password} onChange={password.setValue}
-                   errors={password.errors} data-cy="login-password"/>
+          errors={password.errors} data-cy="login-password"/>
         <Typography variant="caption">
           Forget password?{' '}
           <Link to='/password/reset'>Reset</Link>
