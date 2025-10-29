@@ -6,6 +6,7 @@ ADD 'https://dtdg.co/latest-java-tracer' /dd_tracer/java/dd-java-agent.jar
 ARG DD_VERSION=Aardvark-v0.1
 ARG DD_SERVICE=doky
 ARG DD_ENV=prod
+ARG JAR_VERSION=0.2.0
 
 ENV DD_SERVICE=$DD_SERVICE
 ENV DD_ENV=$DD_ENV
@@ -29,7 +30,7 @@ ENV DD_TRACE_SAMPLE_RATE=1
 
 EXPOSE 8080
 
-ARG JAR_FILE=build/libs/doky.jar
+ARG JAR_FILE=build/libs/doky-${JAR_VERSION}.jar
 COPY ${JAR_FILE} app.jar
 
 CMD ["/app/datadog-init", "java", "-jar", "/app.jar"]
