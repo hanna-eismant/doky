@@ -201,12 +201,11 @@ tasks.named<Test>("integrationTest") {
     }
 }
 
-group = "org.hkurh.doky"
 val deployVersion: String by extra {
     if (project.hasProperty("deployVersion")) {
         project.property("deployVersion") as String
     } else {
-        "0.2.0"
+        project.version.toString()
     }
 }
 val buildDate: String by extra {
@@ -254,5 +253,11 @@ sonar {
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.token", System.getenv("SONAR_TOKEN") ?: "default_token_value")
         property("sonar.branch.name", branchName)
+    }
+}
+
+tasks.register("printVersion") {
+    doLast {
+        println(project.version)
     }
 }
