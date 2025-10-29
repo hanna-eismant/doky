@@ -64,3 +64,4 @@ cleanup-functions/out/
 /build_docker_image.bat
 /notebooks/
 /envs/
+/e2e.sh
