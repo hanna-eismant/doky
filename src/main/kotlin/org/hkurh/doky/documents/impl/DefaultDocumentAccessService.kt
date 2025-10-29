@@ -17,20 +17,24 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.search
+package org.hkurh.doky.documents.impl
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
-import java.time.OffsetDateTime
+import org.hkurh.doky.documents.DocumentAccessService
+import org.hkurh.doky.documents.db.DocumentEntityRepository
+import org.hkurh.doky.search.DocumentIndexData
+import org.springframework.stereotype.Service
 
-data class DocumentIndexData @JsonCreator constructor(
-    @JsonProperty("id") val id: String,
-    @JsonProperty("name") val name: String?,
-    @JsonProperty("description") val description: String?,
-    @JsonProperty("fileName") val fileName: String?,
-    @JsonProperty("createdDate") val createdDate: OffsetDateTime?,
-    @JsonProperty("modifiedDate") val modifiedDate: OffsetDateTime?,
-    @JsonProperty("createdBy") val createdBy: String?,
-    @JsonProperty("modifiedBy") val modifiedBy: String?,
-    @JsonProperty("allowedUsers") var allowedUsers: MutableList<String>?
-)
+@Service
+class DefaultDocumentAccessService(
+    private val documentEntityRepository: DocumentEntityRepository
+) : DocumentAccessService {
+
+    override fun populateAllowedUsers(documentIndexData: DocumentIndexData) : DocumentIndexData {
+        documentIndexData.allowedUsers = mutableListOf()
+        val allowedUserIds = documentEntityRepository.findAllowedUsers(documentIndexData.id.toLong())
+        allowedUserIds
+            .map { it.toString() }
+            .forEach { id -> documentIndexData.allowedUsers?.add(id) }
+        return documentIndexData
+    }
+}

@@ -17,20 +17,18 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.search
+package org.hkurh.doky.search.impl
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
-import java.time.OffsetDateTime
+import org.hkurh.doky.documents.api.Page
+import org.hkurh.doky.documents.api.Sort
+import org.hkurh.doky.search.DocumentResultData
+import org.hkurh.doky.search.DocumentSearchService
+import org.springframework.stereotype.Service
 
-data class DocumentIndexData @JsonCreator constructor(
-    @JsonProperty("id") val id: String,
-    @JsonProperty("name") val name: String?,
-    @JsonProperty("description") val description: String?,
-    @JsonProperty("fileName") val fileName: String?,
-    @JsonProperty("createdDate") val createdDate: OffsetDateTime?,
-    @JsonProperty("modifiedDate") val modifiedDate: OffsetDateTime?,
-    @JsonProperty("createdBy") val createdBy: String?,
-    @JsonProperty("modifiedBy") val modifiedBy: String?,
-    @JsonProperty("allowedUsers") var allowedUsers: MutableList<String>?
-)
+@Service
+class DefaultDocumentSearchService : DocumentSearchService {
+
+    override fun search(query: String, page: Page, sort: Sort): List<DocumentResultData> {
+        TODO("Not yet implemented")
+    }
+}

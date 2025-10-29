@@ -25,6 +25,8 @@ import org.hkurh.doky.documents.DocumentService
 import org.hkurh.doky.documents.DownloadTokenService
 import org.hkurh.doky.documents.api.DocumentRequest
 import org.hkurh.doky.documents.api.DocumentResponse
+import org.hkurh.doky.documents.api.Page
+import org.hkurh.doky.documents.api.Sort
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.filestorage.FileStorageService
 import org.hkurh.doky.toDto
@@ -67,8 +69,12 @@ class DefaultDocumentFacade(
         return documentService.find(id)?.toDto()
     }
 
-    override fun findAllDocuments(): List<DocumentResponse?> {
+    override fun findAllDocuments(): List<DocumentResponse> {
         return documentService.find().map { it.toDto() }
+    }
+
+    override fun search(query: String, page: Page, sort: Sort): List<DocumentResponse> {
+
     }
 
     @Transactional

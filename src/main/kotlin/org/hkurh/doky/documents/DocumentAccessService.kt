@@ -17,20 +17,20 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.search
+package org.hkurh.doky.documents
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
-import java.time.OffsetDateTime
+import org.hkurh.doky.search.DocumentIndexData
 
-data class DocumentIndexData @JsonCreator constructor(
-    @JsonProperty("id") val id: String,
-    @JsonProperty("name") val name: String?,
-    @JsonProperty("description") val description: String?,
-    @JsonProperty("fileName") val fileName: String?,
-    @JsonProperty("createdDate") val createdDate: OffsetDateTime?,
-    @JsonProperty("modifiedDate") val modifiedDate: OffsetDateTime?,
-    @JsonProperty("createdBy") val createdBy: String?,
-    @JsonProperty("modifiedBy") val modifiedBy: String?,
-    @JsonProperty("allowedUsers") var allowedUsers: MutableList<String>?
-)
+/**
+ * Provides functionality for managing document access.
+ */
+interface DocumentAccessService {
+
+    /**
+     * Populates the allowed users for document index data.
+     *
+     * @param documentIndexData The document index data to populate allowed users for.
+     * @return The updated document index data with allowed users populated.
+     */
+    fun populateAllowedUsers(documentIndexData: DocumentIndexData): DocumentIndexData
+}

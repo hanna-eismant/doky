@@ -21,6 +21,9 @@ package org.hkurh.doky.documents
 
 import org.hkurh.doky.documents.api.DocumentRequest
 import org.hkurh.doky.documents.api.DocumentResponse
+import org.hkurh.doky.documents.api.Page
+import org.hkurh.doky.documents.api.PageRequest
+import org.hkurh.doky.documents.api.Sort
 import org.springframework.core.io.Resource
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -60,7 +63,10 @@ interface DocumentFacade {
      *
      * @return A list of [DocumentResponse] objects representing the retrieved documents. The list may contain null values if the document retrieval failed.
      */
-    fun findAllDocuments(): List<DocumentResponse?>
+    fun findAllDocuments(): List<DocumentResponse>
+
+
+    fun search(query: String, page: Page, sort: Sort): List<DocumentResponse?>
 
     /**
      * Saves a file and attach it to document with the given ID.
