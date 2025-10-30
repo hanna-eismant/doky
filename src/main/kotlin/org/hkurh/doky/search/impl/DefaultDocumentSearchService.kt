@@ -24,6 +24,7 @@ import com.azure.search.documents.models.SearchOptions
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.documents.api.Page
 import org.hkurh.doky.documents.api.Sort
+import org.hkurh.doky.documents.api.SortDirection
 import org.hkurh.doky.search.DocumentResultData
 import org.hkurh.doky.search.DocumentSearchService
 import org.hkurh.doky.search.SearchResult
@@ -45,7 +46,7 @@ class DefaultDocumentSearchService(
             .setFilter(buildAllowedUsersFilter())
             .setSkip(calculateSkip(page))
             .setTop(page.size!!)
-//            .setOrderBy(generateOrderBy(sort))
+            .setOrderBy(generateOrderBy(sort))
 
         val results = searchClient.search(query, options, null)
         val totalCount = results.totalCount ?: 0L
@@ -65,6 +66,9 @@ class DefaultDocumentSearchService(
     }
 
     private fun generateOrderBy(sort: Sort): String {
-        return "${sort.property} ${sort.direction?.name?.lowercase(getDefault())}"
+        val property = sort.property ?: "search.score()"
+        val direction = sort.direction?.name?.lowercase() ?: SortDirection.DESC.name.lowercase()
+
+        return "$property $direction"
     }
 }

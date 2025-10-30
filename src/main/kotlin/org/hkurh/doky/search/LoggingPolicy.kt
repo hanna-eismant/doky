@@ -33,16 +33,12 @@ class LoggingPolicy : HttpPipelinePolicy {
     override fun process(context: HttpPipelineCallContext, next: HttpPipelineNextPolicy): Mono<HttpResponse> {
         val request = context.httpRequest
         log.debug {
-            "Request: Method=${request.httpMethod}, URL=${request.url}, Body=${
-                request.body
-            }"
+            "Request: Method=${request.httpMethod}, URL=${request.url}, Body=${request.bodyAsBinaryData}"
         }
 
         return next.process().doOnNext { response ->
             log.debug {
-                "Response: Status=${response.statusCode}, Body=${
-                    response.bodyAsString.block()
-                }"
+                "Response: Status=${response.statusCode}, Body=${response.bodyAsString.block()}"
             }
         }
     }
