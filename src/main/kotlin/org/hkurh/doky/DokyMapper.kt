@@ -64,7 +64,8 @@ fun DocumentEntity.toIndexData(): DocumentIndexData {
         createdDate = entity.createdDate?.toInstant()?.atOffset(ZoneOffset.UTC),
         modifiedDate = entity.modifiedDate?.toInstant()?.atOffset(ZoneOffset.UTC),
         createdBy = entity.createdBy?.id.toString(),
-        modifiedBy = entity.modifiedBy?.id.toString()
+        modifiedBy = entity.modifiedBy?.id.toString(),
+        allowedUsers = mutableListOf()
     )
 }
 

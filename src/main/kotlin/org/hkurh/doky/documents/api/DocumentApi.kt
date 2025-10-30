@@ -97,4 +97,12 @@ interface DocumentApi {
     )
     @Operation(summary = "Get all documents that was created by current customer")
     fun getAll(): ResponseEntity<*>?
+
+    @ApiResponses(
+        ApiResponse(
+            responseCode = "200", description = "List of documents is retrieved successfully",
+        )
+    )
+    @Operation(summary = "Search for documents")
+    fun search(@RequestBody documentSearchRequest: DocumentSearchRequest): ResponseEntity<*>?
 }

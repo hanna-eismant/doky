@@ -17,29 +17,22 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.search
+package org.hkurh.doky.documents.api
 
-import com.azure.core.http.HttpPipelineCallContext
-import com.azure.core.http.HttpPipelineNextPolicy
-import com.azure.core.http.HttpResponse
-import com.azure.core.http.policy.HttpPipelinePolicy
-import io.github.oshai.kotlinlogging.KotlinLogging
-import reactor.core.publisher.Mono
+data class DocumentSearchRequest(
+    val query: String? = null,
+    val page: Page? = null,
+    val sort: Sort? = null
+)
 
-class LoggingPolicy : HttpPipelinePolicy {
+data class Page(
+    val number: Int?,
+    val size: Int?,
+)
 
-    private val log = KotlinLogging.logger {}
+data class Sort(
+    val property: String?,
+    val direction: SortDirection?
+)
 
-    override fun process(context: HttpPipelineCallContext, next: HttpPipelineNextPolicy): Mono<HttpResponse> {
-        val request = context.httpRequest
-        log.debug {
-            "Request: Method=${request.httpMethod}, URL=${request.url}, Body=${request.bodyAsBinaryData}"
-        }
-
-        return next.process().doOnNext { response ->
-            log.debug {
-                "Response: Status=${response.statusCode}, Body=${response.bodyAsString.block()}"
-            }
-        }
-    }
-}
+enum class SortDirection { ASC, DESC }

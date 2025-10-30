@@ -47,6 +47,8 @@ import java.net.MalformedURLException
 @PreAuthorize("hasRole('ROLE_USER')")
 class DocumentController(private val documentFacade: DocumentFacade) : DocumentApi {
 
+    private final val log = KotlinLogging.logger {}
+
     @PostMapping("/{id}/upload")
     @Trace(operationName = "document.upload")
     override fun uploadFile(@RequestBody file: MultipartFile, @PathVariable id: Long): ResponseEntity<*> {
@@ -102,7 +104,7 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
         return if (document != null) {
             ResponseEntity.ok(document)
         } else {
-            LOG.debug { "No Document with id [$id]" }
+            log.debug { "No Document with id [$id]" }
             ResponseEntity.notFound().build<Any>()
         }
     }
@@ -114,7 +116,14 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
         return ResponseEntity.ok(documents)
     }
 
-    companion object {
-        private val LOG = KotlinLogging.logger {}
+    @PostMapping("/search")
+    @Trace(operationName = "document.search")
+    override fun search(@RequestBody documentSearchRequest: DocumentSearchRequest): ResponseEntity<*>? {
+        val query = documentSearchRequest.query?.trim().takeUnless { it.isNullOrEmpty() } ?: "*"
+        val page = documentSearchRequest.page ?: Page(number = 0, size = 10)
+        val sort = documentSearchRequest.sort ?: Sort(property = "id", direction = SortDirection.ASC)
+
+        val searchResponse = documentFacade.search(query, page, sort)
+        return ResponseEntity.ok(searchResponse)
     }
 }

@@ -17,29 +17,15 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.search
+package org.hkurh.doky.documents.api
 
-import com.azure.core.http.HttpPipelineCallContext
-import com.azure.core.http.HttpPipelineNextPolicy
-import com.azure.core.http.HttpResponse
-import com.azure.core.http.policy.HttpPipelinePolicy
-import io.github.oshai.kotlinlogging.KotlinLogging
-import reactor.core.publisher.Mono
-
-class LoggingPolicy : HttpPipelinePolicy {
-
-    private val log = KotlinLogging.logger {}
-
-    override fun process(context: HttpPipelineCallContext, next: HttpPipelineNextPolicy): Mono<HttpResponse> {
-        val request = context.httpRequest
-        log.debug {
-            "Request: Method=${request.httpMethod}, URL=${request.url}, Body=${request.bodyAsBinaryData}"
-        }
-
-        return next.process().doOnNext { response ->
-            log.debug {
-                "Response: Status=${response.statusCode}, Body=${response.bodyAsString.block()}"
-            }
-        }
-    }
-}
+/**
+ * Represents a search response containing documents and total count.
+ *
+ * @property documents The list of documents matching the search criteria.
+ * @property totalCount The total number of documents found.
+ */
+data class DocumentSearchResponse(
+    val documents: List<DocumentResponse>,
+    val totalCount: Long
+)

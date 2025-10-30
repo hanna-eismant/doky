@@ -25,8 +25,12 @@ import org.hkurh.doky.documents.DocumentService
 import org.hkurh.doky.documents.DownloadTokenService
 import org.hkurh.doky.documents.api.DocumentRequest
 import org.hkurh.doky.documents.api.DocumentResponse
+import org.hkurh.doky.documents.api.DocumentSearchResponse
+import org.hkurh.doky.documents.api.Page
+import org.hkurh.doky.documents.api.Sort
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.filestorage.FileStorageService
+import org.hkurh.doky.search.DocumentSearchService
 import org.hkurh.doky.toDto
 import org.hkurh.doky.users.UserService
 import org.springframework.core.io.Resource
@@ -42,7 +46,8 @@ class DefaultDocumentFacade(
     private val documentService: DocumentService,
     private val downloadTokenService: DownloadTokenService,
     private val fileStorageService: FileStorageService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val documentSearchService: DocumentSearchService
 ) : DocumentFacade {
 
     private val log = KotlinLogging.logger {}
@@ -67,8 +72,18 @@ class DefaultDocumentFacade(
         return documentService.find(id)?.toDto()
     }
 
-    override fun findAllDocuments(): List<DocumentResponse?> {
+    override fun findAllDocuments(): List<DocumentResponse> {
         return documentService.find().map { it.toDto() }
+    }
+
+    override fun search(query: String, page: Page, sort: Sort): DocumentSearchResponse {
+        val searchResult = documentSearchService.search(query, page, sort)
+        val documentIds = searchResult.documents.map { it.id.toLong() }
+        val documents = documentService.find(documentIds)
+        return DocumentSearchResponse(
+            documents = documents.map { it.toDto() },
+            totalCount = searchResult.totalCount
+        )
     }
 
     @Transactional

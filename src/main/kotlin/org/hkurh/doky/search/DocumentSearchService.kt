@@ -19,27 +19,22 @@
 
 package org.hkurh.doky.search
 
-import com.azure.core.http.HttpPipelineCallContext
-import com.azure.core.http.HttpPipelineNextPolicy
-import com.azure.core.http.HttpResponse
-import com.azure.core.http.policy.HttpPipelinePolicy
-import io.github.oshai.kotlinlogging.KotlinLogging
-import reactor.core.publisher.Mono
+import org.hkurh.doky.documents.api.Page
+import org.hkurh.doky.documents.api.Sort
 
-class LoggingPolicy : HttpPipelinePolicy {
+/**
+ * Provides functionality for searching documents.
+ */
+interface DocumentSearchService {
 
-    private val log = KotlinLogging.logger {}
-
-    override fun process(context: HttpPipelineCallContext, next: HttpPipelineNextPolicy): Mono<HttpResponse> {
-        val request = context.httpRequest
-        log.debug {
-            "Request: Method=${request.httpMethod}, URL=${request.url}, Body=${request.bodyAsBinaryData}"
-        }
-
-        return next.process().doOnNext { response ->
-            log.debug {
-                "Response: Status=${response.statusCode}, Body=${response.bodyAsString.block()}"
-            }
-        }
-    }
+    /**
+     * Searches for documents based on the provided query, pagination, and sorting parameters.
+     * Adds filter for allowed users.
+     *
+     * @param query the search query string used to find matching documents
+     * @param page the pagination information, including page number and size
+     * @param sort the sorting criteria, including property and direction
+     * @return a search result containing a list of document result data and the total count of documents found
+     */
+    fun search(query: String, page: Page, sort: Sort): SearchResult
 }

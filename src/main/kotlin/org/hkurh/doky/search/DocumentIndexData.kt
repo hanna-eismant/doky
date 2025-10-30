@@ -32,4 +32,5 @@ data class DocumentIndexData @JsonCreator constructor(
     @JsonProperty("modifiedDate") val modifiedDate: OffsetDateTime?,
     @JsonProperty("createdBy") val createdBy: String?,
     @JsonProperty("modifiedBy") val modifiedBy: String?,
+    @JsonProperty("allowedUsers") var allowedUsers: MutableList<String>?
 )
