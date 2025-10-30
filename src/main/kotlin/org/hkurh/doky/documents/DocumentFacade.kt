@@ -21,8 +21,8 @@ package org.hkurh.doky.documents
 
 import org.hkurh.doky.documents.api.DocumentRequest
 import org.hkurh.doky.documents.api.DocumentResponse
+import org.hkurh.doky.documents.api.DocumentSearchResponse
 import org.hkurh.doky.documents.api.Page
-import org.hkurh.doky.documents.api.PageRequest
 import org.hkurh.doky.documents.api.Sort
 import org.springframework.core.io.Resource
 import org.springframework.transaction.annotation.Propagation
@@ -65,8 +65,15 @@ interface DocumentFacade {
      */
     fun findAllDocuments(): List<DocumentResponse>
 
-
-    fun search(query: String, page: Page, sort: Sort): List<DocumentResponse?>
+    /**
+     * Performs a search for documents based on the provided query, pagination, and sorting options.
+     *
+     * @param query The search query string used to filter documents.
+     * @param page An object containing pagination details such as page number and size.
+     * @param sort An object specifying the sorting criteria, including property and direction.
+     * @return A [DocumentSearchResponse] object containing the list of documents and the total count of documents found.
+     */
+    fun search(query: String, page: Page, sort: Sort): DocumentSearchResponse
 
     /**
      * Saves a file and attach it to document with the given ID.

@@ -17,24 +17,15 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.search
-
-import org.hkurh.doky.documents.api.Page
-import org.hkurh.doky.documents.api.Sort
+package org.hkurh.doky.documents.api
 
 /**
- * Provides functionality for searching documents.
+ * Represents a search response containing documents and total count.
+ *
+ * @property documents The list of documents matching the search criteria.
+ * @property totalCount The total number of documents found.
  */
-interface DocumentSearchService {
-
-    /**
-     * Searches for documents based on the provided query, pagination, and sorting parameters.
-     * Adds filter for allowed users.
-     *
-     * @param query the search query string used to find matching documents
-     * @param page the pagination information, including page number and size
-     * @param sort the sorting criteria, including property and direction
-     * @return a search result containing a list of document result data and the total count of documents found
-     */
-    fun search(query: String, page: Page, sort: Sort): SearchResult
-}
+data class DocumentSearchResponse(
+    val documents: List<DocumentResponse>,
+    val totalCount: Long
+)

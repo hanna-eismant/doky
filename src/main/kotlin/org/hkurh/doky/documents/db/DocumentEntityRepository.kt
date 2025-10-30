@@ -38,4 +38,7 @@ interface DocumentEntityRepository : CrudRepository<DocumentEntity, Long>, JpaSp
 
     @Query("select d.creator.id from DocumentEntity d where d.id = :documentId")
     fun findAllowedUsers(@Param("documentId") documentId: Long): List<Long>
+
+    @Query("select d from DocumentEntity d where d.id in :ids and d.creator.id = :userId")
+    fun findAllById(ids: List<Long>, userId: Long): List<DocumentEntity>
 }

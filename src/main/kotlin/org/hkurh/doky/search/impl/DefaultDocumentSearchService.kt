@@ -19,16 +19,52 @@
 
 package org.hkurh.doky.search.impl
 
+import com.azure.search.documents.SearchClient
+import com.azure.search.documents.models.SearchOptions
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.documents.api.Page
 import org.hkurh.doky.documents.api.Sort
 import org.hkurh.doky.search.DocumentResultData
 import org.hkurh.doky.search.DocumentSearchService
+import org.hkurh.doky.search.SearchResult
+import org.hkurh.doky.users.UserService
 import org.springframework.stereotype.Service
+import java.util.Locale.getDefault
 
 @Service
-class DefaultDocumentSearchService : DocumentSearchService {
+class DefaultDocumentSearchService(
+    private val userService: UserService,
+    private val searchClient: SearchClient
+) : DocumentSearchService {
 
-    override fun search(query: String, page: Page, sort: Sort): List<DocumentResultData> {
-        TODO("Not yet implemented")
+    private val log = KotlinLogging.logger {}
+
+    override fun search(query: String, page: Page, sort: Sort): SearchResult {
+        val options = SearchOptions()
+            .setIncludeTotalCount(true)
+            .setFilter(buildAllowedUsersFilter())
+            .setSkip(calculateSkip(page))
+            .setTop(page.size!!)
+//            .setOrderBy(generateOrderBy(sort))
+
+        val results = searchClient.search(query, options, null)
+        val totalCount = results.totalCount ?: 0L
+        val documents = results.mapNotNull { result -> result.getDocument(DocumentResultData::class.java) }
+        log.debug { "Search query [$query] returned [$totalCount] results" }
+        return SearchResult(documents = documents, totalCount = totalCount)
+    }
+
+    fun buildAllowedUsersFilter(): String {
+        val allowedUserIds = listOf(userService.getCurrentUser().id)
+        val conditions = allowedUserIds.joinToString(" or ") { "u eq '$it'" }
+        return "allowedUsers/any(u: $conditions)"
+    }
+
+    private fun calculateSkip(page: Page): Int {
+        return page.number!! * page.size!!
+    }
+
+    private fun generateOrderBy(sort: Sort): String {
+        return "${sort.property} ${sort.direction?.name?.lowercase(getDefault())}"
     }
 }

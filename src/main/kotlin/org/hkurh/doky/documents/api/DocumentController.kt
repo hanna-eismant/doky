@@ -114,15 +114,15 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
         return ResponseEntity.ok(documents)
     }
 
-    @PostMapping
+    @PostMapping("/search")
     @Trace(operationName = "document.search")
     override fun search(@RequestBody documentSearchRequest: DocumentSearchRequest): ResponseEntity<*>? {
-        val query = documentSearchRequest.query ?: "*"
-        val page = documentSearchRequest.page ?: Page(pageNumber = 0, pageSize = 10)
+        val query = documentSearchRequest.query?.trim().takeUnless { it.isNullOrEmpty() } ?: "*"
+        val page = documentSearchRequest.page ?: Page(number = 0, size = 10)
         val sort = documentSearchRequest.sort ?: Sort(property = "id", direction = SortDirection.ASC)
 
-        val documents = documentFacade.search(query, page, sort)
-        return ResponseEntity.ok(documents)
+        val searchResponse = documentFacade.search(query, page, sort)
+        return ResponseEntity.ok(searchResponse)
     }
 
     companion object {

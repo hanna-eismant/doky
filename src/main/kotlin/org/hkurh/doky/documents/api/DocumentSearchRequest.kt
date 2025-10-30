@@ -26,8 +26,8 @@ data class DocumentSearchRequest(
 )
 
 data class Page(
-    val pageNumber: Int?,
-    val pageSize: Int?,
+    val number: Int?,
+    val size: Int?,
 )
 
 data class Sort(
