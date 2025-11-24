@@ -53,7 +53,7 @@ class DefaultIndexService(
     }
 
     private fun cleanIndex() {
-        val pageSize = 5
+        val pageSize = 1_000
         var totalDeleted = 0
         val options = SearchOptions().setTop(pageSize)
 

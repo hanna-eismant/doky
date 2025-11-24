@@ -24,6 +24,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.aResponse
 import com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo
+import com.github.tomakehurst.wiremock.stubbing.Scenario
 import io.restassured.path.json.JsonPath
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.allOf
@@ -50,7 +51,6 @@ class DefaultIndexServiceIntegrationTest : DokyIntegrationTest() {
     @Autowired
     lateinit var indexService: DefaultIndexService
 
-    @Disabled("Need to fix wiremock certificate issue")
     @DisplayName("Should delete all documents and re-index all documents")
     @Test
     @Sql(
@@ -59,10 +59,7 @@ class DefaultIndexServiceIntegrationTest : DokyIntegrationTest() {
     )
     fun shouldDeleteAllDocumentsAndReIndexAllDocuments() {
         // given
-        createStub(
-            path = "/indexes('$indexName')/docs/search.post.search",
-            responseFile = "$jsonResponses/search-all.json"
-        )
+        createSearchStubWithScenario()
         createStub(path = "/indexes('$indexName')/docs/search.index", responseFile = "$jsonResponses/delete-all.json")
 
         // when
@@ -82,8 +79,8 @@ class DefaultIndexServiceIntegrationTest : DokyIntegrationTest() {
             },
             {
                 assertThat(
-                    JsonPath.from(requests[0]).getString("value[0]['name']"),
-                    allOf(notNullValue(), `is`("Test_To_Delete"))
+                    JsonPath.from(requests[0]).getString("value[0]['id']"),
+                    allOf(notNullValue(), `is`("1"))
                 )
             },
             {
@@ -116,5 +113,39 @@ class DefaultIndexServiceIntegrationTest : DokyIntegrationTest() {
 
     private fun loadJsonResponse(filePath: String): String {
         return this::class.java.classLoader.getResource(filePath).readText()
+    }
+
+    private fun createSearchStubWithScenario() {
+        val searchPath = "/indexes('$indexName')/docs/search.post.search"
+        val scenarioName = "Search Pagination"
+
+        // First call: return documents to delete
+        WireMock.stubFor(
+            post(urlPathEqualTo(searchPath))
+                .inScenario(scenarioName)
+                .whenScenarioStateIs(Scenario.STARTED)
+                .withQueryParam("api-version", equalTo(azureSearchApiVersion))
+                .willReturn(
+                    aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(loadJsonResponse("$jsonResponses/search-all.json"))
+                )
+                .willSetStateTo("Documents Deleted")
+        )
+
+        // Second call: return empty results (pagination complete)
+        WireMock.stubFor(
+            post(urlPathEqualTo(searchPath))
+                .inScenario(scenarioName)
+                .whenScenarioStateIs("Documents Deleted")
+                .withQueryParam("api-version", equalTo(azureSearchApiVersion))
+                .willReturn(
+                    aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(loadJsonResponse("$jsonResponses/search-empty.json"))
+                )
+        )
     }
 }

@@ -22,7 +22,9 @@ package org.hkurh.doky
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
 import org.springframework.boot.test.context.SpringBootTest
@@ -31,7 +33,6 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.jdbc.SqlMergeMode
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
-import org.testcontainers.junit.jupiter.Testcontainers
 import java.nio.file.Paths
 
 @ActiveProfiles("test")
@@ -39,11 +40,11 @@ import java.nio.file.Paths
 @SpringJUnitConfig
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EmbeddedKafka(topics = ["emails-test"])
-@Testcontainers
 @SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 @Sql(scripts = ["classpath:sql/create_base_test_data.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = ["classpath:sql/cleanup_base_test_data.sql"], executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class DokyIntegrationTest {
+    private final val log = KotlinLogging.logger {}
     private final val wiremockPort = 8443
     private final val keyStorePath = Paths.get("wiremock-cert/wiremock-keystore.jks").toAbsolutePath().toString()
     private final val wireMockConfig: WireMockConfiguration = WireMockConfiguration()
@@ -52,11 +53,25 @@ class DokyIntegrationTest {
         .keystorePassword("password")
     val wireMock = WireMockServer(wireMockConfig)
 
+    companion object {
+        @JvmStatic
+        @BeforeAll
+        fun setupSSL() {
+            val trustStorePath = Paths.get("wiremock-cert/wiremock-truststore.jks").toAbsolutePath().toString()
+            val trustStorePassword = "password"
+
+            // Set system properties for SSL truststore
+            System.setProperty("javax.net.ssl.trustStore", trustStorePath)
+            System.setProperty("javax.net.ssl.trustStorePassword", trustStorePassword)
+            System.setProperty("javax.net.ssl.trustStoreType", "JKS")
+        }
+    }
+
     @BeforeEach
     fun setupWireMockServer() {
         wireMock.start()
-        println("WireMock HTTPS running at: https://localhost:$wiremockPort")
-        println("Using keystore: $keyStorePath")
+        log.info { "WireMock HTTPS running at: https://localhost:$wiremockPort" }
+        log.info { "Using keystore: $keyStorePath" }
         WireMock.configureFor("https", "localhost", wiremockPort)
     }
 

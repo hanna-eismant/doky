@@ -30,7 +30,6 @@ import org.hkurh.doky.search.DocumentSearchService
 import org.hkurh.doky.search.SearchResult
 import org.hkurh.doky.users.UserService
 import org.springframework.stereotype.Service
-import java.util.Locale.getDefault
 
 @Service
 class DefaultDocumentSearchService(

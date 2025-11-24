@@ -1,10 +1,5 @@
 {
   "@odata.context": "https://doky.search.windows.net/indexes('$indexName')/${'$'}metadata#docs(*)",
-  "@odata.count": 1,
-  "value": [
-    {
-      "@search.score": 1,
-      "id": "1"
-    }
-  ]
+  "@odata.count": 0,
+  "value": []
 }
