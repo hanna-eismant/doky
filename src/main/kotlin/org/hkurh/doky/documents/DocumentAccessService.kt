@@ -17,29 +17,20 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.search
+package org.hkurh.doky.documents
 
-import com.azure.core.http.HttpPipelineCallContext
-import com.azure.core.http.HttpPipelineNextPolicy
-import com.azure.core.http.HttpResponse
-import com.azure.core.http.policy.HttpPipelinePolicy
-import io.github.oshai.kotlinlogging.KotlinLogging
-import reactor.core.publisher.Mono
+import org.hkurh.doky.search.DocumentIndexData
 
-class LoggingPolicy : HttpPipelinePolicy {
+/**
+ * Provides functionality for managing document access.
+ */
+interface DocumentAccessService {
 
-    private val log = KotlinLogging.logger {}
-
-    override fun process(context: HttpPipelineCallContext, next: HttpPipelineNextPolicy): Mono<HttpResponse> {
-        val request = context.httpRequest
-        log.debug {
-            "Request: Method=${request.httpMethod}, URL=${request.url}, Body=${request.bodyAsBinaryData}"
-        }
-
-        return next.process().doOnNext { response ->
-            log.debug {
-                "Response: Status=${response.statusCode}, Body=${response.bodyAsString.block()}"
-            }
-        }
-    }
+    /**
+     * Populates the allowed users for document index data.
+     *
+     * @param documentIndexData The document index data to populate allowed users for.
+     * @return The updated document index data with allowed users populated.
+     */
+    fun populateAllowedUsers(documentIndexData: DocumentIndexData): DocumentIndexData
 }

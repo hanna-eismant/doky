@@ -20,16 +20,20 @@
 package org.hkurh.doky.search.index.impl
 
 import com.azure.search.documents.SearchClient
+import com.azure.search.documents.models.SearchOptions
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.hkurh.doky.documents.DocumentAccessService
 import org.hkurh.doky.documents.db.DocumentEntityRepository
-import org.hkurh.doky.search.DocumentIndexData
+import org.hkurh.doky.search.DocumentResultData
 import org.hkurh.doky.search.index.IndexService
 import org.hkurh.doky.toIndexData
 import org.springframework.stereotype.Service
 
+
 @Service
 class DefaultIndexService(
     private val documentEntityRepository: DocumentEntityRepository,
+    private val documentAccessService: DocumentAccessService,
     private val searchClient: SearchClient
 ) : IndexService {
 
@@ -39,21 +43,34 @@ class DefaultIndexService(
         cleanIndex()
         val documents = documentEntityRepository.findAll()
             .mapNotNull { documentEntity -> documentEntity?.toIndexData() }
+            .map { documentAccessService.populateAllowedUsers(it) }
         val indexingResult = searchClient.uploadDocuments(documents)
+
         log.debug { "Upload [${indexingResult.results.size}] documents to index" }
-        indexingResult.results.forEach {
-            if (!it.isSucceeded) {
-                log.error { "Document [${it.key}] upload failed: [${it.errorMessage}]" }
-            }
-        }
+        indexingResult.results
+            .filter { !it.isSucceeded }
+            .forEach { log.error { "Document [${it.key}] upload failed: [${it.errorMessage}]" } }
     }
 
     private fun cleanIndex() {
-        val results = searchClient.search("*")
-            .map { result -> result.getDocument(DocumentIndexData::class.java) }
-        if (results.isNotEmpty()) {
-            log.debug { "Deleting [${results.size}] documents from index" }
-            searchClient.deleteDocuments(results)
+        val pageSize = 1_000
+        var totalDeleted = 0
+        val options = SearchOptions().setTop(pageSize)
+
+        while (true) {
+            val page = searchClient.search("*", options, null)
+            val deleteBatch = page.mapNotNull { result -> result.getDocument(DocumentResultData::class.java) }
+                .map { it.id.trim() }
+                .filter { it.isNotEmpty() }
+                .map { DocumentResultData(id = it) }
+
+            if (deleteBatch.isEmpty()) {
+                break
+            }
+
+            searchClient.deleteDocuments(deleteBatch)
+            totalDeleted += deleteBatch.size
+            log.debug { "Deleted [${deleteBatch.size}] documents from index. Total deleted: [${totalDeleted}]" }
         }
     }
 }

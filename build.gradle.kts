@@ -149,9 +149,6 @@ testing {
 
                 implementation(libs.greenmail.get().toString())
 
-                implementation(libs.testcontainers.core.get().toString())
-                implementation(libs.testcontainers.junit.get().toString())
-                implementation(libs.testcontainers.wiremock.get().toString())
                 implementation(libs.wiremock.standalone.get().toString())
                 implementation(libs.json.flattener.get().toString())
                 implementation(libs.json.schema.validator.get().toString())

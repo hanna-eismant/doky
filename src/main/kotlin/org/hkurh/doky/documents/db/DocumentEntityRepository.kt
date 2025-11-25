@@ -22,6 +22,7 @@ package org.hkurh.doky.documents.db
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.query.Param
 
 /**
  * Repository interface for managing DocumentEntity objects.
@@ -34,4 +35,10 @@ interface DocumentEntityRepository : CrudRepository<DocumentEntity, Long>, JpaSp
 
     @Query("select d from DocumentEntity d where d.id = ?1 and d.creator.id = ?2")
     fun findByIdAndCreatorId(documentId: Long, creatorId: Long): DocumentEntity?
+
+    @Query("select d.creator.id from DocumentEntity d where d.id = :documentId")
+    fun findAllowedUsers(@Param("documentId") documentId: Long): List<Long>
+
+    @Query("select d from DocumentEntity d where d.id in :ids and d.creator.id = :userId")
+    fun findAllById(ids: List<Long>, userId: Long): List<DocumentEntity>
 }
