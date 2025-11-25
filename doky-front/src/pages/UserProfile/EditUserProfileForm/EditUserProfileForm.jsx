@@ -64,7 +64,6 @@ const EditUserProfileForm = ({user}) => {
               color="primary"
               startIcon={<SaveIcon/>}
               loading={isLoading}
-              loadingPosition="start"
             >
               Save Changes
             </Button>

@@ -50,7 +50,8 @@ const UpdatePassword = () => {
   const {
     data,
     fields: {password, confirmPassword},
-    handleSubmit
+    handleSubmit,
+    isSubmitting
   } = useForm(initialFormData, updatePassword);
 
   return (
@@ -60,7 +61,7 @@ const UpdatePassword = () => {
           errors={password.errors}/>
         <FormInput id='confirmPassword' label='Confirm password' type='password' value={data.confirmPassword}
           onChange={confirmPassword.setValue} errors={confirmPassword.errors}/>
-        <Button type="submit" disableElevation variant="contained">Confirm</Button>
+        <Button type="submit" loading={isSubmitting}>Confirm</Button>
         <Typography variant="caption">
           <Link to='/login'>Return to Log In</Link>
         </Typography>

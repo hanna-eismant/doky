@@ -38,7 +38,8 @@ const theme = createTheme({
       defaultProps: {
         size: 'small',
         variant: 'contained',
-        disableElevation: true
+        disableElevation: true,
+        loadingPosition: 'center'
       }
     }
   }

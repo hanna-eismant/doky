@@ -38,7 +38,8 @@ const Login = () => {
   const {
     data,
     fields: {uid, password},
-    handleSubmit
+    handleSubmit,
+    isSubmitting
   } = useForm(initialFormData, login);
 
   return (
@@ -52,7 +53,7 @@ const Login = () => {
           Forget password?{' '}
           <Link to='/password/reset'>Reset</Link>
         </Typography>
-        <Button type="submit" disableElevation variant="contained" data-cy="login-submit">Sign in</Button>
+        <Button type="submit" data-cy="login-submit" loading={isSubmitting}>Sign in</Button>
         <Typography variant="caption">
           Don&apos;t have an account?{' '}
           <Link to="/register">Sign Up</Link>
