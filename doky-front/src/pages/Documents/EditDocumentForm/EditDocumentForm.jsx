@@ -194,14 +194,12 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
               )}
 
               <Button
-                variant="contained"
                 color="primary"
                 startIcon={<CloudUploadIcon/>}
                 onClick={handleFileButtonClick}
                 loading={uploadStatus.loading}
                 loadingPosition="start"
                 fullWidth
-                disableElevation
               >
                 Upload New File
               </Button>
@@ -217,22 +215,17 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
 
         <Box sx={{display: 'flex', gap: 2, mt: 2}}>
           <Button
-            variant="contained"
             color="secondary"
             startIcon={<CancelIcon/>}
             onClick={() => navigate('/documents')}
-            disableElevation
           >
             Cancel
           </Button>
           <Button
             type="submit"
-            variant="contained"
             color="primary"
             startIcon={<SaveIcon/>}
             loading={isSubmitting}
-            loadingPosition="start"
-            disableElevation
           >
             Save Changes
           </Button>

@@ -37,7 +37,7 @@ const CreateDocumentForm = ({onCreated}) => {
   const [documentMutation] = useMutation(createDocument);
   const navigate = useNavigate();
 
-  const {data, fields: {name, description}, handleSubmit} = useForm(
+  const {data, fields: {name, description}, handleSubmit, isSubmitting} = useForm(
     initialFormData,
     documentMutation,
     () => {
@@ -70,22 +70,19 @@ const CreateDocumentForm = ({onCreated}) => {
 
         <Box sx={{display: 'flex', gap: 2, mt: 2}}>
           <Button
-            variant="contained"
             color="secondary"
             startIcon={<CancelIcon/>}
             onClick={() => navigate('/documents')}
-            disableElevation
             data-cy="create-doc-cancel"
           >
             Cancel
           </Button>
           <Button
             type="submit"
-            variant="contained"
             color="primary"
             startIcon={<SaveIcon/>}
-            disableElevation
             data-cy="create-doc-submit"
+            loading={isSubmitting}
           >
             Create
           </Button>

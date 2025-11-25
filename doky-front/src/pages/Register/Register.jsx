@@ -38,7 +38,8 @@ const Register = () => {
   const {
     data,
     fields: {uid, password},
-    handleSubmit
+    handleSubmit,
+    isSubmitting
   } = useForm(initialFormData, register, () => {
     navigate('/');
   });
@@ -50,7 +51,7 @@ const Register = () => {
           data-cy="register-uid"/>
         <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}
           errors={password.errors} data-cy="register-password"/>
-        <Button type="submit" disableElevation variant="contained" data-cy="register-submit">Register</Button>
+        <Button type="submit" data-cy="register-submit" loading={isSubmitting}>Register</Button>
         <Typography variant="caption">
           Already have an account?{' '}
           <Link to="/login">Log In</Link>

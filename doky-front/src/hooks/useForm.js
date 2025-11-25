@@ -21,7 +21,7 @@ import {useCallback, useState} from 'react';
 import {useFormData} from './useFormData';
 import {noop} from '../utils';
 
-export const useForm = (initialData, mutation, onSuccess = noop) => {
+export const useForm = (initialData, mutation, onSuccess = noop, onError = noop) => {
   const form = useFormData(initialData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -33,6 +33,7 @@ export const useForm = (initialData, mutation, onSuccess = noop) => {
     if (response?.error) {
       form.setGlobalError(response.error.message);
       form.setFieldsErrors(response.fields || []);
+      onError(response.error);
     } else {
       form.setGlobalError(null);
       form.setFieldsErrors([]);
@@ -40,7 +41,7 @@ export const useForm = (initialData, mutation, onSuccess = noop) => {
     }
 
     setIsSubmitting(false);
-  }, [form, mutation, onSuccess]);
+  }, [form, mutation, onSuccess, onError]);
 
   return {
     ...form,
