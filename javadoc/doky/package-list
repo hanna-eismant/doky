@@ -44,9 +44,9 @@ $dokka.location:org.hkurh.doky.documents.api/DocumentApi/downloadFile/#kotlin.Lo
 $dokka.location:org.hkurh.doky.documents.api/DocumentApi/get/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-api/get.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentApi/getAll/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-api/get-all.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentApi/getDownloadToken/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-api/get-download-token.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentApi/search/#org.hkurh.doky.documents.api.DocumentSearchRequest/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-api/search.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentApi/update/#kotlin.Long#org.hkurh.doky.documents.api.DocumentRequest/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-api/update.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentApi/uploadFile/#org.springframework.web.multipart.MultipartFile#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-api/upload-file.html
-$dokka.location:org.hkurh.doky.documents.api/DocumentController.Companion///PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-controller/-companion/index.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentController///PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-controller/index.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentController/DocumentController/#org.hkurh.doky.documents.DocumentFacade/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-controller/-document-controller.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentController/create/#org.hkurh.doky.documents.api.DocumentRequest/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-controller/create.html
@@ -54,6 +54,7 @@ $dokka.location:org.hkurh.doky.documents.api/DocumentController/downloadFile/#ko
 $dokka.location:org.hkurh.doky.documents.api/DocumentController/get/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-controller/get.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentController/getAll/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-controller/get-all.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentController/getDownloadToken/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-controller/get-download-token.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentController/search/#org.hkurh.doky.documents.api.DocumentSearchRequest/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-controller/search.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentController/update/#kotlin.Long#org.hkurh.doky.documents.api.DocumentRequest/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-controller/update.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentController/uploadFile/#org.springframework.web.multipart.MultipartFile#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-controller/upload-file.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentRequest///PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-request/index.html
@@ -70,12 +71,35 @@ $dokka.location:org.hkurh.doky.documents.api/DocumentResponse/id/#/PointingToDec
 $dokka.location:org.hkurh.doky.documents.api/DocumentResponse/modifiedBy/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-response/modified-by.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentResponse/modifiedDate/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-response/modified-date.html
 $dokka.location:org.hkurh.doky.documents.api/DocumentResponse/name/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-response/name.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentSearchRequest///PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-search-request/index.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentSearchRequest/DocumentSearchRequest/#kotlin.String?#org.hkurh.doky.documents.api.Page?#org.hkurh.doky.documents.api.Sort?/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-search-request/-document-search-request.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentSearchRequest/page/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-search-request/page.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentSearchRequest/query/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-search-request/query.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentSearchRequest/sort/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-search-request/sort.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentSearchResponse///PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-search-response/index.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentSearchResponse/DocumentSearchResponse/#kotlin.collections.List[org.hkurh.doky.documents.api.DocumentResponse]#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-search-response/-document-search-response.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentSearchResponse/documents/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-search-response/documents.html
+$dokka.location:org.hkurh.doky.documents.api/DocumentSearchResponse/totalCount/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-document-search-response/total-count.html
 $dokka.location:org.hkurh.doky.documents.api/DownloadFileRequest///PointingToDeclaration/doky/org.hkurh.doky.documents.api/-download-file-request/index.html
 $dokka.location:org.hkurh.doky.documents.api/DownloadFileRequest/DownloadFileRequest/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-download-file-request/-download-file-request.html
 $dokka.location:org.hkurh.doky.documents.api/DownloadFileRequest/token/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-download-file-request/token.html
 $dokka.location:org.hkurh.doky.documents.api/DownloadTokenResponse///PointingToDeclaration/doky/org.hkurh.doky.documents.api/-download-token-response/index.html
 $dokka.location:org.hkurh.doky.documents.api/DownloadTokenResponse/DownloadTokenResponse/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-download-token-response/-download-token-response.html
 $dokka.location:org.hkurh.doky.documents.api/DownloadTokenResponse/token/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-download-token-response/token.html
+$dokka.location:org.hkurh.doky.documents.api/Page///PointingToDeclaration/doky/org.hkurh.doky.documents.api/-page/index.html
+$dokka.location:org.hkurh.doky.documents.api/Page/Page/#kotlin.Int?#kotlin.Int?/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-page/-page.html
+$dokka.location:org.hkurh.doky.documents.api/Page/number/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-page/number.html
+$dokka.location:org.hkurh.doky.documents.api/Page/size/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-page/size.html
+$dokka.location:org.hkurh.doky.documents.api/Sort///PointingToDeclaration/doky/org.hkurh.doky.documents.api/-sort/index.html
+$dokka.location:org.hkurh.doky.documents.api/Sort/Sort/#kotlin.String?#org.hkurh.doky.documents.api.SortDirection?/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-sort/-sort.html
+$dokka.location:org.hkurh.doky.documents.api/Sort/direction/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-sort/direction.html
+$dokka.location:org.hkurh.doky.documents.api/Sort/property/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-sort/property.html
+$dokka.location:org.hkurh.doky.documents.api/SortDirection.ASC///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}doky/org.hkurh.doky.documents.api/-sort-direction/-a-s-c/index.html
+$dokka.location:org.hkurh.doky.documents.api/SortDirection.DESC///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}doky/org.hkurh.doky.documents.api/-sort-direction/-d-e-s-c/index.html
+$dokka.location:org.hkurh.doky.documents.api/SortDirection///PointingToDeclaration/doky/org.hkurh.doky.documents.api/-sort-direction/index.html
+$dokka.location:org.hkurh.doky.documents.api/SortDirection/entries/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-sort-direction/entries.html
+$dokka.location:org.hkurh.doky.documents.api/SortDirection/valueOf/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-sort-direction/value-of.html
+$dokka.location:org.hkurh.doky.documents.api/SortDirection/values/#/PointingToDeclaration/doky/org.hkurh.doky.documents.api/-sort-direction/values.html
 $dokka.location:org.hkurh.doky.documents.db////PointingToDeclaration/doky/org.hkurh.doky.documents.db/index.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntity///PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity/index.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntity/DocumentEntity/#/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity/-document-entity.html
@@ -90,6 +114,8 @@ $dokka.location:org.hkurh.doky.documents.db/DocumentEntity/modifiedBy/#/Pointing
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntity/modifiedDate/#/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity/modified-date.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntity/name/#/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity/name.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository///PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/index.html
+$dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findAllById/#kotlin.collections.List[kotlin.Long]#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-all-by-id.html
+$dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findAllowedUsers/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-allowed-users.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findByCreatorId/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-by-creator-id.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findByIdAndCreatorId/#kotlin.Long#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-by-id-and-creator-id.html
 $dokka.location:org.hkurh.doky.documents.db/DownloadDocumentTokenEntity///PointingToDeclaration/doky/org.hkurh.doky.documents.db/-download-document-token-entity/index.html
@@ -101,26 +127,33 @@ $dokka.location:org.hkurh.doky.documents.db/DownloadDocumentTokenEntity/user/#/P
 $dokka.location:org.hkurh.doky.documents.db/DownloadDocumentTokenEntityRepository///PointingToDeclaration/doky/org.hkurh.doky.documents.db/-download-document-token-entity-repository/index.html
 $dokka.location:org.hkurh.doky.documents.db/DownloadDocumentTokenEntityRepository/findByUserAndDocument/#org.hkurh.doky.users.db.UserEntity#org.hkurh.doky.documents.db.DocumentEntity/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-download-document-token-entity-repository/find-by-user-and-document.html
 $dokka.location:org.hkurh.doky.documents.impl////PointingToDeclaration/doky/org.hkurh.doky.documents.impl/index.html
+$dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentAccessService///PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-access-service/index.html
+$dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentAccessService/DefaultDocumentAccessService/#org.hkurh.doky.documents.db.DocumentEntityRepository/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-access-service/-default-document-access-service.html
+$dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentAccessService/populateAllowedUsers/#org.hkurh.doky.search.DocumentIndexData/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-access-service/populate-allowed-users.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade///PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/index.html
-$dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/DefaultDocumentFacade/#org.hkurh.doky.documents.DocumentService#org.hkurh.doky.documents.DownloadTokenService#org.hkurh.doky.filestorage.FileStorageService#org.hkurh.doky.users.UserService/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/-default-document-facade.html
+$dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/DefaultDocumentFacade/#org.hkurh.doky.documents.DocumentService#org.hkurh.doky.documents.DownloadTokenService#org.hkurh.doky.filestorage.FileStorageService#org.hkurh.doky.users.UserService#org.hkurh.doky.search.DocumentSearchService/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/-default-document-facade.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/createDocument/#kotlin.String#kotlin.String?/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/create-document.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/findAllDocuments/#/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/find-all-documents.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/findDocument/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/find-document.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/generateDownloadToken/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/generate-download-token.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/getFile/#kotlin.Long#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/get-file.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/saveFile/#kotlin.Long#org.springframework.web.multipart.MultipartFile/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/save-file.html
+$dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/search/#kotlin.String#org.hkurh.doky.documents.api.Page#org.hkurh.doky.documents.api.Sort/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/search.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/update/#kotlin.Long#org.hkurh.doky.documents.api.DocumentRequest/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/update.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService///PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/index.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService/DefaultDocumentService/#org.hkurh.doky.documents.db.DocumentEntityRepository#org.hkurh.doky.users.UserService/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/-default-document-service.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService/create/#kotlin.String#kotlin.String?/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/create.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService/find/#/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/find.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService/find/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/find.html
+$dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService/find/#kotlin.collections.List[kotlin.Long]/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/find.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService/save/#org.hkurh.doky.documents.db.DocumentEntity/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/save.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDownloadTokenService///PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-download-token-service/index.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDownloadTokenService/DefaultDownloadTokenService/#org.hkurh.doky.documents.DocumentService#org.hkurh.doky.users.UserService#org.hkurh.doky.documents.db.DownloadDocumentTokenEntityRepository#org.hkurh.doky.security.impl.DefaultJwtProvider/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-download-token-service/-default-download-token-service.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDownloadTokenService/generateDownloadToken/#org.hkurh.doky.users.db.UserEntity#org.hkurh.doky.documents.db.DocumentEntity/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-download-token-service/generate-download-token.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDownloadTokenService/validateDownloadTokenAndFetchDocument/#kotlin.Long#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-download-token-service/validate-download-token-and-fetch-document.html
 $dokka.location:org.hkurh.doky.documents////PointingToDeclaration/doky/org.hkurh.doky.documents/index.html
+$dokka.location:org.hkurh.doky.documents/DocumentAccessService///PointingToDeclaration/doky/org.hkurh.doky.documents/-document-access-service/index.html
+$dokka.location:org.hkurh.doky.documents/DocumentAccessService/populateAllowedUsers/#org.hkurh.doky.search.DocumentIndexData/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-access-service/populate-allowed-users.html
 $dokka.location:org.hkurh.doky.documents/DocumentFacade///PointingToDeclaration/doky/org.hkurh.doky.documents/-document-facade/index.html
 $dokka.location:org.hkurh.doky.documents/DocumentFacade/createDocument/#kotlin.String#kotlin.String?/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-facade/create-document.html
 $dokka.location:org.hkurh.doky.documents/DocumentFacade/findAllDocuments/#/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-facade/find-all-documents.html
@@ -128,11 +161,13 @@ $dokka.location:org.hkurh.doky.documents/DocumentFacade/findDocument/#kotlin.Lon
 $dokka.location:org.hkurh.doky.documents/DocumentFacade/generateDownloadToken/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-facade/generate-download-token.html
 $dokka.location:org.hkurh.doky.documents/DocumentFacade/getFile/#kotlin.Long#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-facade/get-file.html
 $dokka.location:org.hkurh.doky.documents/DocumentFacade/saveFile/#kotlin.Long#org.springframework.web.multipart.MultipartFile/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-facade/save-file.html
+$dokka.location:org.hkurh.doky.documents/DocumentFacade/search/#kotlin.String#org.hkurh.doky.documents.api.Page#org.hkurh.doky.documents.api.Sort/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-facade/search.html
 $dokka.location:org.hkurh.doky.documents/DocumentFacade/update/#kotlin.Long#org.hkurh.doky.documents.api.DocumentRequest/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-facade/update.html
 $dokka.location:org.hkurh.doky.documents/DocumentService///PointingToDeclaration/doky/org.hkurh.doky.documents/-document-service/index.html
 $dokka.location:org.hkurh.doky.documents/DocumentService/create/#kotlin.String#kotlin.String?/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-service/create.html
 $dokka.location:org.hkurh.doky.documents/DocumentService/find/#/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-service/find.html
 $dokka.location:org.hkurh.doky.documents/DocumentService/find/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-service/find.html
+$dokka.location:org.hkurh.doky.documents/DocumentService/find/#kotlin.collections.List[kotlin.Long]/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-service/find.html
 $dokka.location:org.hkurh.doky.documents/DocumentService/save/#org.hkurh.doky.documents.db.DocumentEntity/PointingToDeclaration/doky/org.hkurh.doky.documents/-document-service/save.html
 $dokka.location:org.hkurh.doky.documents/DownloadTokenService///PointingToDeclaration/doky/org.hkurh.doky.documents/-download-token-service/index.html
 $dokka.location:org.hkurh.doky.documents/DownloadTokenService/generateDownloadToken/#org.hkurh.doky.users.db.UserEntity#org.hkurh.doky.documents.db.DocumentEntity/PointingToDeclaration/doky/org.hkurh.doky.documents/-download-token-service/generate-download-token.html
@@ -340,9 +375,14 @@ $dokka.location:org.hkurh.doky.password/TokenStatus/message/#/PointingToDeclarat
 $dokka.location:org.hkurh.doky.password/TokenStatus/toString/#/PointingToDeclaration/doky/org.hkurh.doky.password/-token-status/to-string.html
 $dokka.location:org.hkurh.doky.password/TokenStatus/valueOf/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.password/-token-status/value-of.html
 $dokka.location:org.hkurh.doky.password/TokenStatus/values/#/PointingToDeclaration/doky/org.hkurh.doky.password/-token-status/values.html
+$dokka.location:org.hkurh.doky.search.impl////PointingToDeclaration/doky/org.hkurh.doky.search.impl/index.html
+$dokka.location:org.hkurh.doky.search.impl/DefaultDocumentSearchService///PointingToDeclaration/doky/org.hkurh.doky.search.impl/-default-document-search-service/index.html
+$dokka.location:org.hkurh.doky.search.impl/DefaultDocumentSearchService/DefaultDocumentSearchService/#org.hkurh.doky.users.UserService#com.azure.search.documents.SearchClient/PointingToDeclaration/doky/org.hkurh.doky.search.impl/-default-document-search-service/-default-document-search-service.html
+$dokka.location:org.hkurh.doky.search.impl/DefaultDocumentSearchService/buildAllowedUsersFilter/#/PointingToDeclaration/doky/org.hkurh.doky.search.impl/-default-document-search-service/build-allowed-users-filter.html
+$dokka.location:org.hkurh.doky.search.impl/DefaultDocumentSearchService/search/#kotlin.String#org.hkurh.doky.documents.api.Page#org.hkurh.doky.documents.api.Sort/PointingToDeclaration/doky/org.hkurh.doky.search.impl/-default-document-search-service/search.html
 $dokka.location:org.hkurh.doky.search.index.impl////PointingToDeclaration/doky/org.hkurh.doky.search.index.impl/index.html
 $dokka.location:org.hkurh.doky.search.index.impl/DefaultIndexService///PointingToDeclaration/doky/org.hkurh.doky.search.index.impl/-default-index-service/index.html
-$dokka.location:org.hkurh.doky.search.index.impl/DefaultIndexService/DefaultIndexService/#org.hkurh.doky.documents.db.DocumentEntityRepository#com.azure.search.documents.SearchClient/PointingToDeclaration/doky/org.hkurh.doky.search.index.impl/-default-index-service/-default-index-service.html
+$dokka.location:org.hkurh.doky.search.index.impl/DefaultIndexService/DefaultIndexService/#org.hkurh.doky.documents.db.DocumentEntityRepository#org.hkurh.doky.documents.DocumentAccessService#com.azure.search.documents.SearchClient/PointingToDeclaration/doky/org.hkurh.doky.search.index.impl/-default-index-service/-default-index-service.html
 $dokka.location:org.hkurh.doky.search.index.impl/DefaultIndexService/fullIndex/#/PointingToDeclaration/doky/org.hkurh.doky.search.index.impl/-default-index-service/full-index.html
 $dokka.location:org.hkurh.doky.search.index////PointingToDeclaration/doky/org.hkurh.doky.search.index/index.html
 $dokka.location:org.hkurh.doky.search.index/IndexService///PointingToDeclaration/doky/org.hkurh.doky.search.index/-index-service/index.html
@@ -356,7 +396,8 @@ $dokka.location:org.hkurh.doky.search.schedule/Scheduler///PointingToDeclaration
 $dokka.location:org.hkurh.doky.search.schedule/Scheduler/fullIndex/#/PointingToDeclaration/doky/org.hkurh.doky.search.schedule/-scheduler/full-index.html
 $dokka.location:org.hkurh.doky.search////PointingToDeclaration/doky/org.hkurh.doky.search/index.html
 $dokka.location:org.hkurh.doky.search/DocumentIndexData///PointingToDeclaration/doky/org.hkurh.doky.search/-document-index-data/index.html
-$dokka.location:org.hkurh.doky.search/DocumentIndexData/DocumentIndexData/#kotlin.String#kotlin.String?#kotlin.String?#kotlin.String?#java.time.OffsetDateTime?#java.time.OffsetDateTime?#kotlin.String?#kotlin.String?/PointingToDeclaration/doky/org.hkurh.doky.search/-document-index-data/-document-index-data.html
+$dokka.location:org.hkurh.doky.search/DocumentIndexData/DocumentIndexData/#kotlin.String#kotlin.String?#kotlin.String?#kotlin.String?#java.time.OffsetDateTime?#java.time.OffsetDateTime?#kotlin.String?#kotlin.String?#kotlin.collections.MutableList[kotlin.String]?/PointingToDeclaration/doky/org.hkurh.doky.search/-document-index-data/-document-index-data.html
+$dokka.location:org.hkurh.doky.search/DocumentIndexData/allowedUsers/#/PointingToDeclaration/doky/org.hkurh.doky.search/-document-index-data/allowed-users.html
 $dokka.location:org.hkurh.doky.search/DocumentIndexData/createdBy/#/PointingToDeclaration/doky/org.hkurh.doky.search/-document-index-data/created-by.html
 $dokka.location:org.hkurh.doky.search/DocumentIndexData/createdDate/#/PointingToDeclaration/doky/org.hkurh.doky.search/-document-index-data/created-date.html
 $dokka.location:org.hkurh.doky.search/DocumentIndexData/description/#/PointingToDeclaration/doky/org.hkurh.doky.search/-document-index-data/description.html
@@ -365,9 +406,18 @@ $dokka.location:org.hkurh.doky.search/DocumentIndexData/id/#/PointingToDeclarati
 $dokka.location:org.hkurh.doky.search/DocumentIndexData/modifiedBy/#/PointingToDeclaration/doky/org.hkurh.doky.search/-document-index-data/modified-by.html
 $dokka.location:org.hkurh.doky.search/DocumentIndexData/modifiedDate/#/PointingToDeclaration/doky/org.hkurh.doky.search/-document-index-data/modified-date.html
 $dokka.location:org.hkurh.doky.search/DocumentIndexData/name/#/PointingToDeclaration/doky/org.hkurh.doky.search/-document-index-data/name.html
+$dokka.location:org.hkurh.doky.search/DocumentResultData///PointingToDeclaration/doky/org.hkurh.doky.search/-document-result-data/index.html
+$dokka.location:org.hkurh.doky.search/DocumentResultData/DocumentResultData/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.search/-document-result-data/-document-result-data.html
+$dokka.location:org.hkurh.doky.search/DocumentResultData/id/#/PointingToDeclaration/doky/org.hkurh.doky.search/-document-result-data/id.html
+$dokka.location:org.hkurh.doky.search/DocumentSearchService///PointingToDeclaration/doky/org.hkurh.doky.search/-document-search-service/index.html
+$dokka.location:org.hkurh.doky.search/DocumentSearchService/search/#kotlin.String#org.hkurh.doky.documents.api.Page#org.hkurh.doky.documents.api.Sort/PointingToDeclaration/doky/org.hkurh.doky.search/-document-search-service/search.html
 $dokka.location:org.hkurh.doky.search/LoggingPolicy///PointingToDeclaration/doky/org.hkurh.doky.search/-logging-policy/index.html
 $dokka.location:org.hkurh.doky.search/LoggingPolicy/LoggingPolicy/#/PointingToDeclaration/doky/org.hkurh.doky.search/-logging-policy/-logging-policy.html
 $dokka.location:org.hkurh.doky.search/LoggingPolicy/process/#com.azure.core.http.HttpPipelineCallContext#com.azure.core.http.HttpPipelineNextPolicy/PointingToDeclaration/doky/org.hkurh.doky.search/-logging-policy/process.html
+$dokka.location:org.hkurh.doky.search/SearchResult///PointingToDeclaration/doky/org.hkurh.doky.search/-search-result/index.html
+$dokka.location:org.hkurh.doky.search/SearchResult/SearchResult/#kotlin.collections.List[org.hkurh.doky.search.DocumentResultData]#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.search/-search-result/-search-result.html
+$dokka.location:org.hkurh.doky.search/SearchResult/documents/#/PointingToDeclaration/doky/org.hkurh.doky.search/-search-result/documents.html
+$dokka.location:org.hkurh.doky.search/SearchResult/totalCount/#/PointingToDeclaration/doky/org.hkurh.doky.search/-search-result/total-count.html
 $dokka.location:org.hkurh.doky.security.impl////PointingToDeclaration/doky/org.hkurh.doky.security.impl/index.html
 $dokka.location:org.hkurh.doky.security.impl/DefaultJwtProvider///PointingToDeclaration/doky/org.hkurh.doky.security.impl/-default-jwt-provider/index.html
 $dokka.location:org.hkurh.doky.security.impl/DefaultJwtProvider/DefaultJwtProvider/#javax.crypto.spec.SecretKeySpec/PointingToDeclaration/doky/org.hkurh.doky.security.impl/-default-jwt-provider/-default-jwt-provider.html
@@ -514,6 +564,7 @@ org.hkurh.doky.password.api
 org.hkurh.doky.password.db
 org.hkurh.doky.password.impl
 org.hkurh.doky.search
+org.hkurh.doky.search.impl
 org.hkurh.doky.search.index
 org.hkurh.doky.search.index.impl
 org.hkurh.doky.search.schedule
