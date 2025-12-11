@@ -19,12 +19,25 @@
 
 import {replace} from 'react-router-dom';
 import {getCurrentUser} from '../api/users';
-import {getJWT} from '../services/storage';
+import {getJWT, deleteJWT} from '../services/storage';
 
-export const mainPageLoader = async () =>
-  getJWT()
-    ? { user: await getCurrentUser() }
-    : replace('login');
+export const mainPageLoader = async () => {
+  if (!getJWT()) {
+    return replace('login');
+  }
+
+  try {
+    const user = await getCurrentUser();
+    if (user?.error) {
+      deleteJWT();
+      return replace('login');
+    }
+    return { user };
+  } catch (error) {
+    deleteJWT();
+    return replace('login');
+  }
+};
 
 export const authPageLoader = async () =>
   getJWT() ? replace('/') : null;
