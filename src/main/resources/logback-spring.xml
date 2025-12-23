@@ -33,7 +33,8 @@
                     <level>status</level>
                     <exclude>version</exclude>
                 </fieldNames>
-                <includeMdcKeyName>true</includeMdcKeyName>
+                <includeMdcKeyName>dd.trace_id</includeMdcKeyName>
+                <includeMdcKeyName>dd.span_id</includeMdcKeyName>
                 <timeZone>UTC</timeZone>
                 <timeStampFormat>yyyy-MM-dd'T'HH:mm:ss.SSS'Z'</timeStampFormat>
             </encoder>

@@ -61,6 +61,7 @@ class DefaultDocumentFacade(
     override fun update(id: Long, document: DocumentRequest) {
         val existedDocument =
             documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
+        log.debug { "Update Document [$id]" }
         existedDocument.apply {
             name = document.name
             description = document.description
@@ -90,9 +91,11 @@ class DefaultDocumentFacade(
     override fun saveFile(id: Long, file: MultipartFile) {
         val document = documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")
         val path = fileStorageService.storeFile(file, document.filePath)
+        log.debug { "Save file [$path] for Document [$id]" }
         TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronization {
             override fun afterCompletion(status: Int) {
                 if (status == TransactionSynchronization.STATUS_ROLLED_BACK) {
+                    log.warn { "Delete file [$path] for Document [$id] because transaction was rolled back" }
                     fileStorageService.deleteFile(path)
                 }
             }

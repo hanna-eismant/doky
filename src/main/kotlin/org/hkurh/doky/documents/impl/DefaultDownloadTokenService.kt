@@ -19,12 +19,14 @@
 
 package org.hkurh.doky.documents.impl
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.documents.DocumentService
 import org.hkurh.doky.documents.DownloadTokenService
 import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.documents.db.DownloadDocumentTokenEntity
 import org.hkurh.doky.documents.db.DownloadDocumentTokenEntityRepository
 import org.hkurh.doky.errorhandling.DokyInvalidTokenException
+import org.hkurh.doky.mask
 import org.hkurh.doky.security.impl.DefaultJwtProvider
 import org.hkurh.doky.users.UserService
 import org.hkurh.doky.users.db.UserEntity
@@ -38,7 +40,10 @@ class DefaultDownloadTokenService(
     private val jwtProvider: DefaultJwtProvider
 ) : DownloadTokenService {
 
+    private val log = KotlinLogging.logger {}
+
     override fun generateDownloadToken(user: UserEntity, document: DocumentEntity): String {
+        log.debug { "Generating download token for user [${user.id}] and document [$document]" }
         val token = jwtProvider.generateDownloadToken(user)
         val tokenEntity =
             downloadDocumentTokenEntityRepository.findByUserAndDocument(user, document) ?: DownloadDocumentTokenEntity()
@@ -48,13 +53,16 @@ class DefaultDownloadTokenService(
             this.token = token
         }
         downloadDocumentTokenEntityRepository.save(tokenEntity)
+        log.debug { "Generated download token [${token.mask()}]" }
         return token
     }
 
     override fun validateDownloadTokenAndFetchDocument(documentId: Long, token: String): DocumentEntity {
+        log.debug { "Validate token [${token.mask()}] for document [$documentId]" }
         try {
             if (!jwtProvider.isDownloadTokenValid(token)) throw DokyInvalidTokenException("Token is expired or invalid")
         } catch (e: Exception) {
+            log.error(e) { "Error occurred during token validation [${token.mask()}]" }
             throw DokyInvalidTokenException("Error occurred during token validation: ${e.message}")
         }
 
@@ -64,7 +72,8 @@ class DefaultDownloadTokenService(
                 ?: throw DokyInvalidTokenException("Document with id [$documentId] not found")
         val documentToken = downloadDocumentTokenEntityRepository.findByUserAndDocument(user, document)
         if (documentToken == null || documentToken.token != token) {
-            throw DokyInvalidTokenException("Token [$token] is not valid for document [$documentId] and user [${user.id}]")
+            log.warn { "Token [${token.mask()}] is not valid for document [$documentId] and user [${user.id}]" }
+            throw DokyInvalidTokenException("Token [${token.mask()}] is not valid for document [$documentId] and user [${user.id}]")
         }
         return document
     }
