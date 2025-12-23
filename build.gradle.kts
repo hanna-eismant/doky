@@ -22,11 +22,11 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 repositories {
+    mavenLocal()
+    mavenCentral()
     maven {
         url = uri("https://repo.maven.apache.org/maven2")
     }
-    mavenLocal()
-    mavenCentral()
     maven { url = uri("https://repo.spring.io/snapshot") }
     maven { url = uri("https://repo.spring.io/milestone") }
 }

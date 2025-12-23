@@ -48,11 +48,13 @@ class DefaultDocumentService(
 
     override fun find(id: Long): DocumentEntity? {
         val currentUser = userService.getCurrentUser()
+        log.debug { "Find Document [$id] for User [${currentUser.id}]" }
         return documentEntityRepository.findByIdAndCreatorId(id, currentUser.id)
     }
 
     override fun find(): List<DocumentEntity> {
         val currentUser = userService.getCurrentUser()
+        log.debug { "Find all Documents for User [${currentUser.id}]" }
         return documentEntityRepository.findByCreatorId(currentUser.id)
     }
 
@@ -62,6 +64,7 @@ class DefaultDocumentService(
     }
 
     override fun save(document: DocumentEntity) {
+        log.debug { "Save Document [${document.id}]" }
         documentEntityRepository.save(document)
     }
 }

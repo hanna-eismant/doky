@@ -19,9 +19,9 @@
 
 package org.hkurh.doky.authorization
 
+import datadog.trace.api.Trace
 import jakarta.validation.Valid
 import org.hkurh.doky.security.JwtProvider
-
 import org.hkurh.doky.users.UserFacade
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -43,6 +43,7 @@ class AuthorizationUserController(
 ) : AuthorizationUserApi {
 
     @PostMapping("/login")
+    @Trace(operationName = "doky.users.login")
     override fun login(@Valid @RequestBody authenticationRequest: AuthenticationRequest): ResponseEntity<AuthenticationResponse> {
         val username = authenticationRequest.uid
         val password = authenticationRequest.password
@@ -52,6 +53,7 @@ class AuthorizationUserController(
     }
 
     @PostMapping(value = ["/register"], consumes = ["application/json"])
+    @Trace(operationName = "doky.users.register")
     override fun register(@Valid @RequestBody registrationRequest: AuthenticationRequest): ResponseEntity<AuthenticationResponse>? {
         val registeredUser = userFacade.register(registrationRequest.uid, registrationRequest.password)
         val resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()

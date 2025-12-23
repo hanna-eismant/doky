@@ -50,7 +50,7 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
     private final val log = KotlinLogging.logger {}
 
     @PostMapping("/{id}/upload")
-    @Trace(operationName = "document.upload")
+    @Trace(operationName = "doky.documents.upload")
     override fun uploadFile(@RequestBody file: MultipartFile, @PathVariable id: Long): ResponseEntity<*> {
         documentFacade.saveFile(id, file)
         return ResponseEntity.ok<Any>(null)
@@ -63,7 +63,7 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
     }
 
     @PostMapping("/{id}/download")
-    @Trace(operationName = "document.download")
+    @Trace(operationName = "doky.documents.download")
     @Throws(IOException::class)
     override fun downloadFile(
         @PathVariable id: Long,
@@ -82,7 +82,7 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
     }
 
     @PostMapping
-    @Trace(operationName = "document.create")
+    @Trace(operationName = "doky.documents.create")
     override fun create(@RequestBody @Valid document: DocumentRequest): ResponseEntity<*> {
         val createdDocument = documentFacade.createDocument(document.name, document.description)
         val resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -91,14 +91,14 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
     }
 
     @PutMapping("/{id}")
-    @Trace(operationName = "document.update")
+    @Trace(operationName = "doky.documents.update")
     override fun update(@PathVariable id: Long, @RequestBody @Valid document: DocumentRequest): ResponseEntity<*>? {
         documentFacade.update(id, document)
         return ResponseEntity.ok<Any>(null)
     }
 
     @GetMapping("/{id}")
-    @Trace(operationName = "document.get.single")
+    @Trace(operationName = "doky.documents.get.single")
     override fun get(@PathVariable id: Long): ResponseEntity<*> {
         val document = documentFacade.findDocument(id)
         return if (document != null) {
@@ -110,14 +110,15 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
     }
 
     @GetMapping
-    @Trace(operationName = "document.get.all")
+    @Trace(operationName = "doky.documents.get.all")
     override fun getAll(): ResponseEntity<*> {
         val documents = documentFacade.findAllDocuments()
+        log.debug { "Get [${documents.size}] documents" }
         return ResponseEntity.ok(documents)
     }
 
     @PostMapping("/search")
-    @Trace(operationName = "document.search")
+    @Trace(operationName = "doky.documents.search")
     override fun search(@RequestBody documentSearchRequest: DocumentSearchRequest): ResponseEntity<*>? {
         val query = documentSearchRequest.query?.trim().takeUnless { it.isNullOrEmpty() } ?: "*"
         val page = documentSearchRequest.page ?: Page(number = 0, size = 10)
