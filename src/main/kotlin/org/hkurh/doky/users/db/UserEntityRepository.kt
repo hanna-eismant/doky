@@ -19,6 +19,7 @@
 
 package org.hkurh.doky.users.db
 
+import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.repository.CrudRepository
 
@@ -28,6 +29,7 @@ import org.springframework.data.repository.CrudRepository
  */
 interface UserEntityRepository : CrudRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
 
+    @EntityGraph(attributePaths = ["authorities"])
     fun findByUid(uid: String): UserEntity?
 
     fun existsByUid(uid: String): Boolean
