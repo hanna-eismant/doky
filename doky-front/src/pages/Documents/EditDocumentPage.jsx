@@ -17,24 +17,21 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React, {useCallback} from 'react';
 import EditDocumentForm from './EditDocumentForm/EditDocumentForm.jsx';
-import {Link, useParams} from 'react-router-dom';
-import {useQuery} from '../../hooks/useQuery.js';
-import {getDocument} from '../../api/documents.js';
+import {Await, Link, useRouteLoaderData} from 'react-router-dom';
 import {Box, CircularProgress, Divider, Stack} from '@mui/material';
 import DocumentsIcon from '@mui/icons-material/ContentPaste';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import HomeIcon from '@mui/icons-material/Home';
 import CreateIcon from '@mui/icons-material/Create';
 import Typography from '@mui/material/Typography';
+import { noop } from '../../utils.js';
+import { Suspense } from 'react';
 
 const EditDocumentPage = () => {
-  const params = useParams();
+  const { document } = useRouteLoaderData('edit-document');
 
-  const getCurrentDocument = useCallback(() => getDocument(params.id), [params.id]);
-
-  const {data, isLoading, refetch} = useQuery(getCurrentDocument);
+  console.log(document);
 
   return (
     <Stack spacing={2} sx={{
@@ -61,15 +58,17 @@ const EditDocumentPage = () => {
 
       <Divider flexItem sx={{borderColor: 'rgba(0, 0, 0, 0.3)', borderBottomWidth: 1}}/>
 
-      {isLoading ? (
-        <Stack alignItems="center" width="100%" padding={4}>
-          <CircularProgress/>
-        </Stack>
-      ) : (
-        <Box width="100%">
-          <EditDocumentForm document={data} onSaveSuccess={refetch}/>
-        </Box>
-      )}
+      <Suspense fallback={(<Stack alignItems="center" width="100%" padding={4}>
+        <CircularProgress/>
+      </Stack>)}>
+        <Await resolve={document}>
+          {document => (
+            <Box width="100%">
+              <EditDocumentForm document={document} onSaveSuccess={noop}/>
+            </Box>
+          )}
+        </Await>
+      </Suspense>
 
     </Stack>
   );

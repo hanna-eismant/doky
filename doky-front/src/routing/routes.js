@@ -30,6 +30,15 @@ import Home from '../pages/Home';
 import {authPageLoader, mainPageLoader} from './loaders';
 import ResetPassword from '../pages/ResetPassword';
 import UpdatePassword from '../pages/UpdatePassword';
+import { getDocument } from '../api/documents.js';
+
+const documentLoader = ({ params: { id } }) => ({
+  document: new Promise(resolve => {
+    setTimeout(() => {
+      getDocument(id).then(resolve);
+    }, 3500);
+  })
+});
 
 export const mainPageRoute = {
   id: 'main', // used for accessing data fetched by this route loader
@@ -40,7 +49,7 @@ export const mainPageRoute = {
     { index: true, element: <Home /> },
     { path: 'documents', element: <Documents /> },
     { path: 'documents/new', element: <CreateDocumentPage/> },
-    { path: 'documents/edit/:id', element: <EditDocumentPage/> },
+    { path: 'documents/edit/:id', loader: documentLoader, id: 'edit-document', element: <EditDocumentPage/> },
     { path: 'profile', element: <UserProfile  /> }
   ]
 };
