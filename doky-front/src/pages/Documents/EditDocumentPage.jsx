@@ -27,11 +27,10 @@ import CreateIcon from '@mui/icons-material/Create';
 import Typography from '@mui/material/Typography';
 import { noop } from '../../utils.js';
 import { Suspense } from 'react';
+import { NotFoundPage } from '../NotFoundPage.jsx';
 
 const EditDocumentPage = () => {
   const { document } = useRouteLoaderData('edit-document');
-
-  console.log(document);
 
   return (
     <Stack spacing={2} sx={{
@@ -61,7 +60,7 @@ const EditDocumentPage = () => {
       <Suspense fallback={(<Stack alignItems="center" width="100%" padding={4}>
         <CircularProgress/>
       </Stack>)}>
-        <Await resolve={document}>
+        <Await resolve={document} errorElement={NotFoundPage}>
           {document => (
             <Box width="100%">
               <EditDocumentForm document={document} onSaveSuccess={noop}/>

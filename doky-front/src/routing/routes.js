@@ -33,11 +33,7 @@ import UpdatePassword from '../pages/UpdatePassword';
 import { getDocument } from '../api/documents.js';
 
 const documentLoader = ({ params: { id } }) => ({
-  document: new Promise(resolve => {
-    setTimeout(() => {
-      getDocument(id).then(resolve);
-    }, 3500);
-  })
+  document: getDocument(id)
 });
 
 export const mainPageRoute = {
