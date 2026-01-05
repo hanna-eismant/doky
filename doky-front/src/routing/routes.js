@@ -25,7 +25,6 @@ import UserProfile from '../pages/UserProfile';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import {NotFoundPage} from '../pages/NotFoundPage.jsx';
-
 import Home from '../pages/Home';
 import {authPageLoader, mainPageLoader} from './loaders';
 import ResetPassword from '../pages/ResetPassword';

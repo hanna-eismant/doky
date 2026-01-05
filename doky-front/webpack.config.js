@@ -18,14 +18,16 @@
  */
 
 const path = require('path');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
 
 module.exports = (env, argv) => {
   const beEnv = env['be-env'] || 'auto';
+  const appVersion = process.env.APP_VERSION || '0.2.0';
+
   return {
     mode: argv.mode,
     devtool: argv.mode === 'development'
@@ -36,6 +38,9 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({template: 'src/index.html'}),
       new CopyWebpackPlugin({
         patterns: [{from: 'static'}]
+      }),
+      new webpack.DefinePlugin({
+        '__APP_VERSION__': JSON.stringify(appVersion)
       })
     ],
     entry: './src/index.js',
@@ -50,7 +55,7 @@ module.exports = (env, argv) => {
     },
     resolve: {
       alias: {
-        config: `./config.${beEnv}.js`
+        config: path.resolve(__dirname, `src/config/config.${beEnv}.js`)
       }
     },
     module: {

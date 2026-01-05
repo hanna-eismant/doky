@@ -17,4 +17,9 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-export const BASE_URL = 'http://localhost:8080';
+export const BASE_URL = 'https://doky.azure-api.net/v1';
+
+export const DATADOG_CONFIG = {
+  env: 'dev',
+  version: __APP_VERSION__
+};

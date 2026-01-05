@@ -3,8 +3,8 @@ FROM openjdk:17
 COPY --from=datadog/serverless-init:latest /datadog-init /app/datadog-init
 ADD 'https://dtdg.co/latest-java-tracer' /dd_tracer/java/dd-java-agent.jar
 
-ARG DD_VERSION=Aardvark-v0.1
-ARG DD_SERVICE=doky
+ARG DD_VERSION=0.2.0
+ARG DD_SERVICE=doky.back
 ARG DD_ENV=prod
 ARG JAR_VERSION=0.2.0
 

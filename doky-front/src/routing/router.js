@@ -17,7 +17,7 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import {createBrowserRouter} from 'react-router-dom';
+import {createBrowserRouter} from '@datadog/browser-rum-react/react-router-v6';
 import {routes} from './routes';
 
 export const router = createBrowserRouter(routes);
