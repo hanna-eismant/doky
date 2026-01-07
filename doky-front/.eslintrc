@@ -16,6 +16,10 @@
       "version": "detect"
     }
   },
+  "globals": {
+    "__DEV__": "readonly",
+    "__APP_VERSION__": "readonly"
+  },
   "rules": {
     "no-debugger": 2,
     "indent": [

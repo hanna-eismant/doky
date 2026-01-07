@@ -54,7 +54,7 @@ const ErrorPage = () => {
             Go Home
           </Button>
         </Box>
-        {process.env.NODE_ENV === 'development' && error?.stack && (
+        {__DEV__ && error?.stack && (
           <Box sx={{mt: 3, textAlign: 'left', width: '100%'}}>
             <Typography variant="h6" gutterBottom>
               Error Details:

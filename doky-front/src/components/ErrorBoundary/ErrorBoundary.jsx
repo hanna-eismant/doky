@@ -20,7 +20,7 @@
 import React, {Component} from 'react';
 import {Box, Button, Container, Typography} from '@mui/material';
 import {datadogRum} from '@datadog/browser-rum';
-import {datadogLogs} from "@datadog/browser-logs";
+import {datadogLogs} from '@datadog/browser-logs';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class ErrorBoundary extends Component {
     this.state = {hasError: false, error: null, errorInfo: null};
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return {hasError: true};
   }
 
@@ -38,7 +38,7 @@ class ErrorBoundary extends Component {
 
     if (datadogRum) {
       const renderingError = new Error(error.message);
-      renderingError.name = `ReactRenderingError`;
+      renderingError.name = 'ReactRenderingError';
       renderingError.stack = errorInfo?.componentStack;
       renderingError.cause = error;
 
@@ -51,7 +51,7 @@ class ErrorBoundary extends Component {
     });
   }
 
-  handleReload = () => {
+  handleReload() {
     window.location.reload();
   };
 
@@ -79,7 +79,7 @@ class ErrorBoundary extends Component {
             <Button variant="contained" onClick={this.handleReload}>
               Reload Page
             </Button>
-            {process.env.NODE_ENV === 'development' && this.state.error && (
+            {__DEV__ && this.state.error && (
               <Box sx={{mt: 3, textAlign: 'left', width: '100%'}}>
                 <Typography variant="h6" gutterBottom>
                   Error Details:
