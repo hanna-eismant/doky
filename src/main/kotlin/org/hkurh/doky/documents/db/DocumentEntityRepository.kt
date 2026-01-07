@@ -19,6 +19,7 @@
 
 package org.hkurh.doky.documents.db
 
+import org.hkurh.doky.users.db.UserEntity
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
@@ -31,17 +32,17 @@ import org.springframework.data.repository.query.Param
  */
 interface DocumentEntityRepository : CrudRepository<DocumentEntity, Long>, JpaSpecificationExecutor<DocumentEntity> {
 
-    @EntityGraph(attributePaths = ["users"])
-    @Query("select d from DocumentEntity d where d.creator.id = ?1")
-    fun findByCreatorId(documentId: Long): List<DocumentEntity>
+    @EntityGraph(attributePaths = ["createdBy", "modifiedBy", "creator"])
+    @Query("select d from DocumentEntity d where d.creator = :creator")
+    fun findByCreatorId(creator: UserEntity): List<DocumentEntity>
 
-    @EntityGraph(attributePaths = ["users"])
-    @Query("select d from DocumentEntity d where d.id = ?1 and d.creator.id = ?2")
-    fun findByIdAndCreatorId(documentId: Long, creatorId: Long): DocumentEntity?
+    @EntityGraph(attributePaths = ["createdBy", "modifiedBy", "creator"])
+    @Query("select d from DocumentEntity d where d.id = :documentId and d.creator= :creator")
+    fun findByIdAndCreatorId(documentId: Long, creator: UserEntity): DocumentEntity?
 
     @Query("select d.creator.id from DocumentEntity d where d.id = :documentId")
     fun findAllowedUsers(@Param("documentId") documentId: Long): List<Long>
 
-    @Query("select d from DocumentEntity d where d.id in :ids and d.creator.id = :userId")
-    fun findAllById(ids: List<Long>, userId: Long): List<DocumentEntity>
+    @Query("select d from DocumentEntity d where d.id in :ids and d.creator = :creator")
+    fun findAllById(ids: List<Long>, creator: UserEntity): List<DocumentEntity>
 }
