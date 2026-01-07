@@ -21,12 +21,12 @@ import React, {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {CssBaseline} from '@mui/material';
+import { ErrorBoundary } from '@datadog/browser-rum-react'
 
 import './index.scss';
 
 import App from './App.jsx';
 import GlobalSnackbarProvider from './components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
-import ErrorBoundary from './components/ErrorBoundary';
 import {initializeDatadog} from './services/datadog.js';
 import {DATADOG_CONFIG} from 'config';
 
@@ -59,12 +59,20 @@ const theme = createTheme({
   }
 });
 
+function ErrorFallback({ resetError, error }) {
+  return (
+    <p>
+      Oops, something went wrong! <strong>{String(error)}</strong> <button onClick={resetError}>Retry</button>
+    </p>
+  );
+}
+
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
   <StrictMode>
-    <ErrorBoundary>
+    <ErrorBoundary fallback={ErrorFallback}>
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <GlobalSnackbarProvider>

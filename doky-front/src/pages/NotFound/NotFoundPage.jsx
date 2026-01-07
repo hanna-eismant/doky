@@ -19,13 +19,13 @@
 
 import React from 'react';
 import {Box, Button, Container, Typography} from '@mui/material';
-import {useNavigate, useRouteError} from 'react-router-dom';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import BackIcon from '@mui/icons-material/ArrowBack';
+import HomeIcon from '@mui/icons-material/Home';
+import {useNavigate} from 'react-router-dom';
 
-const ErrorPage = () => {
-  const error = useRouteError();
+const NotFoundPage = () => {
   const navigate = useNavigate();
-
   return (
     <Container maxWidth="sm">
       <Box
@@ -41,42 +41,29 @@ const ErrorPage = () => {
       >
         <ErrorOutlineIcon sx={{fontSize: 80, color: 'error.main'}}/>
         <Typography variant="h4" component="h1" gutterBottom>
-          Oops! Something went wrong
+          404 NOT FOUND
         </Typography>
         <Typography variant="body1" color="text.secondary" gutterBottom>
-          {error?.statusText || error?.message || 'An unexpected error occurred'}
+          Looks like you&apos;ve ventured into uncharted territory. This page doesn&apos;t exist, but we can help you find your
+          way back.
         </Typography>
         <Box sx={{display: 'flex', gap: 2}}>
-          <Button variant="outlined" onClick={() => navigate(-1)}>
+          <Button
+            startIcon={<BackIcon/>}
+            variant="outlined"
+            onClick={() => navigate(-1)}>
             Go Back
           </Button>
-          <Button variant="contained" onClick={() => navigate('/')}>
+          <Button
+            startIcon={<HomeIcon/>}
+            onClick={() => navigate('/')}>
             Go Home
           </Button>
         </Box>
-        {__DEV__ && error?.stack && (
-          <Box sx={{mt: 3, textAlign: 'left', width: '100%'}}>
-            <Typography variant="h6" gutterBottom>
-              Error Details:
-            </Typography>
-            <Typography
-              variant="body2"
-              component="pre"
-              sx={{
-                backgroundColor: '#f5f5f5',
-                padding: 2,
-                borderRadius: 1,
-                overflow: 'auto',
-                fontSize: '0.875rem'
-              }}
-            >
-              {error.stack}
-            </Typography>
-          </Box>
-        )}
       </Box>
     </Container>
   );
 };
 
-export default ErrorPage;
+export default NotFoundPage;
+
