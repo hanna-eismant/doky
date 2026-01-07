@@ -29,12 +29,14 @@ import Home from '../pages/Home';
 import {authPageLoader, mainPageLoader} from './loaders';
 import ResetPassword from '../pages/ResetPassword';
 import UpdatePassword from '../pages/UpdatePassword';
+import ErrorPage from '../components/ErrorPage';
 
 export const mainPageRoute = {
   id: 'main', // used for accessing data fetched by this route loader
   element: <MainPage />,
   path: '/',
   loader: mainPageLoader,
+  errorElement: <ErrorPage />,
   children: [
     { index: true, element: <Home /> },
     { path: 'documents', element: <Documents /> },

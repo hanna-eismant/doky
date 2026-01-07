@@ -20,6 +20,8 @@
 import {replace} from 'react-router-dom';
 import {getCurrentUser} from '../api/users';
 import {getJWT, deleteJWT} from '../services/storage';
+import {datadogLogs} from '@datadog/browser-logs';
+import {datadogRum} from '@datadog/browser-rum';
 
 export const mainPageLoader = async () => {
   if (!getJWT()) {
@@ -32,8 +34,12 @@ export const mainPageLoader = async () => {
       deleteJWT();
       return replace('login');
     }
+    datadogRum.setUser(user);
+    datadogLogs.setUser(user);
+    datadogLogs.logger.debug('User loaded');
     return { user };
   } catch (error) {
+    datadogLogs.logger.error('Error occurred', {}, error);
     deleteJWT();
     return replace('login');
   }

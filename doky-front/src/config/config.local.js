@@ -20,6 +20,5 @@
 export const BASE_URL = 'http://localhost:8080';
 
 export const DATADOG_CONFIG = {
-  env: 'local',
-  version: __APP_VERSION__
+  env: 'local'
 };

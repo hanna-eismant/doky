@@ -26,17 +26,20 @@ import './index.scss';
 
 import App from './App.jsx';
 import GlobalSnackbarProvider from './components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
+import ErrorBoundary from './components/ErrorBoundary';
 import {initializeDatadog} from './services/datadog.js';
 import {DATADOG_CONFIG} from 'config';
 
-initializeDatadog({
-  ...DATADOG_CONFIG,
-  applicationId: '0ba4cfc8-b927-4961-9eef-a02bd07595ea',
-  clientToken: 'pub4ba59a23137eb19900270e4f1b686acf',
-  site: 'us3.datadoghq.com',
-  service: 'doky.front',
-  version: process.env.APP_VERSION || '0.2.0'
-});
+if (!__DEV__) {
+  initializeDatadog({
+    ...DATADOG_CONFIG,
+    applicationId: '0ba4cfc8-b927-4961-9eef-a02bd07595ea',
+    clientToken: 'pub4ba59a23137eb19900270e4f1b686acf',
+    site: 'us3.datadoghq.com',
+    service: 'doky.front',
+    version: __APP_VERSION__
+  });
+}
 
 const theme = createTheme({
   palette: {
@@ -61,11 +64,13 @@ const root = createRoot(container);
 
 root.render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline/>
-      <GlobalSnackbarProvider>
-        <App/>
-      </GlobalSnackbarProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <CssBaseline/>
+        <GlobalSnackbarProvider>
+          <App/>
+        </GlobalSnackbarProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   </StrictMode>
 );

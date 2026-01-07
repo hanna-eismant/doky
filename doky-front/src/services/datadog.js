@@ -18,12 +18,13 @@
  */
 
 import { datadogRum } from '@datadog/browser-rum';
+import { datadogLogs } from '@datadog/browser-logs';
 import { reactPlugin } from '@datadog/browser-rum-react';
 import {BASE_URL} from 'config';
 
 export const initializeDatadog = (config) => {
   if (!config?.applicationId || !config?.clientToken) {
-    console.warn('Datadog configuration missing. Monitoring will not be initialized.');
+    datadogLogs.logger.warn('Datadog configuration missing. Monitoring will not be initialized.');
     return;
   }
 
@@ -48,5 +49,16 @@ export const initializeDatadog = (config) => {
     allowUntrustedEvents: true
   });
 
+  datadogLogs.init({
+    clientToken: config.clientToken,
+    site: config.site,
+    service: config.service,
+    env: config.env,
+    version: config.version,
+    forwardErrorsToLogs: true
+  });
+  datadogLogs.logger.setLevel('debug');
+
+  datadogLogs.logger.info('Datadog monitoring initialized');
   console.log('Datadog monitoring initialized');
 };

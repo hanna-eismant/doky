@@ -20,6 +20,5 @@
 export const BASE_URL = 'https://doky.azure-api.net/v1';
 
 export const DATADOG_CONFIG = {
-  env: 'prod',
-  version: __APP_VERSION__
+  env: 'prod'
 };

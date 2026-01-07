@@ -26,13 +26,14 @@ const webpack = require('webpack');
 
 module.exports = (env, argv) => {
   const beEnv = env['be-env'] || 'auto';
-  const appVersion = process.env.APP_VERSION || '0.2.0';
+  const appVersion = process.env.APP_VERSION || '0.2.0-local-1234567890abcdef';
+  const isDev = argv.mode === 'development';
 
   return {
     mode: argv.mode,
-    devtool: argv.mode === 'development'
-      ? 'source-map'
-      : false,
+    devtool: isDev
+      ? 'eval-cheap-module-source-map'
+      : (env && env.sourcemap ? 'hidden-source-map' : false),
     plugins: [
       new MiniCssExtractPlugin(),
       new HtmlWebpackPlugin({template: 'src/index.html'}),
@@ -40,7 +41,8 @@ module.exports = (env, argv) => {
         patterns: [{from: 'static'}]
       }),
       new webpack.DefinePlugin({
-        '__APP_VERSION__': JSON.stringify(appVersion)
+        '__APP_VERSION__': JSON.stringify(appVersion),
+        '__DEV__': JSON.stringify(isDev)
       })
     ],
     entry: './src/index.js',
@@ -72,7 +74,7 @@ module.exports = (env, argv) => {
           test: /\.(scss|css)$/,
           use: [
             {
-              loader: argv.mode === 'development'
+              loader: isDev
                 ? 'style-loader'
                 : MiniCssExtractPlugin.loader
             },

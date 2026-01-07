@@ -13,6 +13,7 @@
     "lint:fix": "npm run lint -- --fix",
     "build": "webpack --mode=production",
     "build:remote": "npm run build -- --env be-env=remote",
+    "build:sourcemap": "webpack --mode=production --env sourcemap=true",
     "serve": "serve dist -s",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",

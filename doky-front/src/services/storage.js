@@ -17,6 +17,9 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
+import {datadogLogs} from '@datadog/browser-logs';
+import {datadogRum} from '@datadog/browser-rum';
+
 const JWT_KEY = 'jwt';
 
 export const getJWT = () => localStorage.getItem(JWT_KEY);
@@ -27,4 +30,7 @@ export const setJWT = jwt => {
 
 export const deleteJWT = () => {
   localStorage.removeItem(JWT_KEY);
+  datadogRum.clearUser();
+  datadogLogs.clearUser();
+  datadogLogs.logger.debug('User cleared');
 };
