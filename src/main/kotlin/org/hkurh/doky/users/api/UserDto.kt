@@ -34,7 +34,7 @@ import jakarta.validation.constraints.Size
  */
 class UserDto {
     var id: Long = 0
-    var email: String = ""
+    var uid: String = ""
     var name: String? = null
 
     @Size(min = 8, max = 32, message = "Length should be from 8 to 32 characters")
