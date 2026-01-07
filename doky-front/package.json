@@ -1,6 +1,6 @@
 {
-  "name": "doky-client",
-  "version": "1.0.0",
+  "name": "doky.front",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,7 @@
     "lint:fix": "npm run lint -- --fix",
     "build": "webpack --mode=production",
     "build:remote": "npm run build -- --env be-env=remote",
+    "build:sourcemap": "webpack --mode=production --env sourcemap=true",
     "serve": "serve dist -s",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
@@ -23,6 +24,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@datadog/browser-logs": "^6.25.1",
+    "@datadog/browser-rum": "^6.25.1",
+    "@datadog/browser-rum-react": "^6.25.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.5",

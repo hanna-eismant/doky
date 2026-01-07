@@ -21,11 +21,25 @@ import React, {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {CssBaseline} from '@mui/material';
+import { ErrorBoundary } from '@datadog/browser-rum-react';
 
 import './index.scss';
 
 import App from './App.jsx';
 import GlobalSnackbarProvider from './components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
+import {initializeDatadog} from './services/datadog.js';
+import {DATADOG_CONFIG} from 'config';
+
+if (!__DEV__) {
+  initializeDatadog({
+    ...DATADOG_CONFIG,
+    applicationId: '0ba4cfc8-b927-4961-9eef-a02bd07595ea',
+    clientToken: 'pub4ba59a23137eb19900270e4f1b686acf',
+    site: 'us3.datadoghq.com',
+    service: 'doky.front',
+    version: __APP_VERSION__
+  });
+}
 
 const theme = createTheme({
   palette: {
@@ -45,16 +59,26 @@ const theme = createTheme({
   }
 });
 
+function ErrorFallback({ resetError, error }) {
+  return (
+    <p>
+      Oops, something went wrong! <strong>{String(error)}</strong> <button onClick={resetError}>Retry</button>
+    </p>
+  );
+}
+
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline/>
-      <GlobalSnackbarProvider>
-        <App/>
-      </GlobalSnackbarProvider>
-    </ThemeProvider>
+    <ErrorBoundary fallback={ErrorFallback}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline/>
+        <GlobalSnackbarProvider>
+          <App/>
+        </GlobalSnackbarProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   </StrictMode>
 );

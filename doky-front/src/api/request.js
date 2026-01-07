@@ -19,6 +19,7 @@
 
 import {BASE_URL} from 'config';
 import {emitGlobalError} from '../components/GlobalSnackbar/snackbarBus.js';
+import {datadogLogs} from '@datadog/browser-logs';
 
 const apiPrefix = '/api';
 
@@ -45,7 +46,7 @@ const safeParseJson = async (response) => {
       return await response.json();
     }
   } catch (e) {
-    // ignore
+    datadogLogs.logger.error('Error occurred', {}, e);
   }
   return undefined;
 };

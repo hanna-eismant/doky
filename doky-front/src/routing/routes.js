@@ -24,24 +24,25 @@ import EditDocumentPage from '../pages/Documents/EditDocumentPage.jsx';
 import UserProfile from '../pages/UserProfile';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-import {NotFoundPage} from '../pages/NotFoundPage.jsx';
-
 import Home from '../pages/Home';
 import {authPageLoader, mainPageLoader} from './loaders';
 import ResetPassword from '../pages/ResetPassword';
 import UpdatePassword from '../pages/UpdatePassword';
+import ErrorPage from '../pages/Error';
+import NotFoundPage from '../pages/NotFound';
 
 export const mainPageRoute = {
   id: 'main', // used for accessing data fetched by this route loader
-  element: <MainPage />,
+  element: <MainPage/>,
   path: '/',
   loader: mainPageLoader,
+  errorElement: <ErrorPage/>,
   children: [
-    { index: true, element: <Home /> },
-    { path: 'documents', element: <Documents /> },
-    { path: 'documents/new', element: <CreateDocumentPage/> },
-    { path: 'documents/edit/:id', element: <EditDocumentPage/> },
-    { path: 'profile', element: <UserProfile  /> }
+    {index: true, element: <Home/>},
+    {path: 'documents', element: <Documents/>},
+    {path: 'documents/new', element: <CreateDocumentPage/>},
+    {path: 'documents/edit/:id', element: <EditDocumentPage/>},
+    {path: 'profile', element: <UserProfile/>}
   ]
 };
 
@@ -52,12 +53,12 @@ export const routes = [
       mainPageRoute,
       {
         path: 'login',
-        element: <Login />,
+        element: <Login/>,
         loader: authPageLoader
       },
       {
         path: 'register',
-        element: <Register />,
+        element: <Register/>,
         loader: authPageLoader
       },
       {
@@ -72,5 +73,5 @@ export const routes = [
       }
     ]
   },
-  { path: '*', element: NotFoundPage }
+  {path: '*', element: <NotFoundPage/>}
 ];
