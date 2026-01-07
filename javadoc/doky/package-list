@@ -114,10 +114,10 @@ $dokka.location:org.hkurh.doky.documents.db/DocumentEntity/modifiedBy/#/Pointing
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntity/modifiedDate/#/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity/modified-date.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntity/name/#/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity/name.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository///PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/index.html
-$dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findAllById/#kotlin.collections.List[kotlin.Long]#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-all-by-id.html
+$dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findAllById/#kotlin.collections.List[kotlin.Long]#org.hkurh.doky.users.db.UserEntity/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-all-by-id.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findAllowedUsers/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-allowed-users.html
-$dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findByCreatorId/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-by-creator-id.html
-$dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findByIdAndCreatorId/#kotlin.Long#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-by-id-and-creator-id.html
+$dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findByCreatorId/#org.hkurh.doky.users.db.UserEntity/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-by-creator-id.html
+$dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findByIdAndCreatorId/#kotlin.Long#org.hkurh.doky.users.db.UserEntity/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-by-id-and-creator-id.html
 $dokka.location:org.hkurh.doky.documents.db/DownloadDocumentTokenEntity///PointingToDeclaration/doky/org.hkurh.doky.documents.db/-download-document-token-entity/index.html
 $dokka.location:org.hkurh.doky.documents.db/DownloadDocumentTokenEntity/DownloadDocumentTokenEntity/#/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-download-document-token-entity/-download-document-token-entity.html
 $dokka.location:org.hkurh.doky.documents.db/DownloadDocumentTokenEntity/document/#/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-download-document-token-entity/document.html
