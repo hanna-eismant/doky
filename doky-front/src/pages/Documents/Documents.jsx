@@ -20,7 +20,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useQuery} from '../../hooks/useQuery';
-import {getDocuments, searchDocuments} from '../../api/documents';
+import {searchDocuments} from '../../api/documents';
 import {
   Button,
   CircularProgress,
