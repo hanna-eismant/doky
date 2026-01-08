@@ -7,8 +7,8 @@ $dokka.location:org.hkurh.doky.admin/SearchController/startFullIndex/#/PointingT
 $dokka.location:org.hkurh.doky.authorization////PointingToDeclaration/doky/org.hkurh.doky.authorization/index.html
 $dokka.location:org.hkurh.doky.authorization/AuthenticationRequest///PointingToDeclaration/doky/org.hkurh.doky.authorization/-authentication-request/index.html
 $dokka.location:org.hkurh.doky.authorization/AuthenticationRequest/AuthenticationRequest/#/PointingToDeclaration/doky/org.hkurh.doky.authorization/-authentication-request/-authentication-request.html
+$dokka.location:org.hkurh.doky.authorization/AuthenticationRequest/email/#/PointingToDeclaration/doky/org.hkurh.doky.authorization/-authentication-request/email.html
 $dokka.location:org.hkurh.doky.authorization/AuthenticationRequest/password/#/PointingToDeclaration/doky/org.hkurh.doky.authorization/-authentication-request/password.html
-$dokka.location:org.hkurh.doky.authorization/AuthenticationRequest/uid/#/PointingToDeclaration/doky/org.hkurh.doky.authorization/-authentication-request/uid.html
 $dokka.location:org.hkurh.doky.authorization/AuthenticationResponse///PointingToDeclaration/doky/org.hkurh.doky.authorization/-authentication-response/index.html
 $dokka.location:org.hkurh.doky.authorization/AuthenticationResponse/AuthenticationResponse/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.authorization/-authentication-response/-authentication-response.html
 $dokka.location:org.hkurh.doky.authorization/AuthenticationResponse/token/#/PointingToDeclaration/doky/org.hkurh.doky.authorization/-authentication-response/token.html
@@ -466,11 +466,11 @@ $dokka.location:org.hkurh.doky.users.api/UserController/getUser/#/PointingToDecl
 $dokka.location:org.hkurh.doky.users.api/UserController/updateUser/#org.hkurh.doky.users.api.UpdateUserRequest/PointingToDeclaration/doky/org.hkurh.doky.users.api/-user-controller/update-user.html
 $dokka.location:org.hkurh.doky.users.api/UserDto///PointingToDeclaration/doky/org.hkurh.doky.users.api/-user-dto/index.html
 $dokka.location:org.hkurh.doky.users.api/UserDto/UserDto/#/PointingToDeclaration/doky/org.hkurh.doky.users.api/-user-dto/-user-dto.html
+$dokka.location:org.hkurh.doky.users.api/UserDto/email/#/PointingToDeclaration/doky/org.hkurh.doky.users.api/-user-dto/email.html
 $dokka.location:org.hkurh.doky.users.api/UserDto/id/#/PointingToDeclaration/doky/org.hkurh.doky.users.api/-user-dto/id.html
 $dokka.location:org.hkurh.doky.users.api/UserDto/name/#/PointingToDeclaration/doky/org.hkurh.doky.users.api/-user-dto/name.html
 $dokka.location:org.hkurh.doky.users.api/UserDto/password/#/PointingToDeclaration/doky/org.hkurh.doky.users.api/-user-dto/password.html
 $dokka.location:org.hkurh.doky.users.api/UserDto/roles/#/PointingToDeclaration/doky/org.hkurh.doky.users.api/-user-dto/roles.html
-$dokka.location:org.hkurh.doky.users.api/UserDto/uid/#/PointingToDeclaration/doky/org.hkurh.doky.users.api/-user-dto/uid.html
 $dokka.location:org.hkurh.doky.users.db////PointingToDeclaration/doky/org.hkurh.doky.users.db/index.html
 $dokka.location:org.hkurh.doky.users.db/AuthorityEntity///PointingToDeclaration/doky/org.hkurh.doky.users.db/-authority-entity/index.html
 $dokka.location:org.hkurh.doky.users.db/AuthorityEntity/AuthorityEntity/#/PointingToDeclaration/doky/org.hkurh.doky.users.db/-authority-entity/-authority-entity.html
