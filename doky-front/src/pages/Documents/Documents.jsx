@@ -17,10 +17,10 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useQuery} from '../../hooks/useQuery';
-import {getDocuments} from '../../api/documents';
+import {getDocuments, searchDocuments} from '../../api/documents';
 import {
   Button,
   CircularProgress,
@@ -35,15 +35,45 @@ import {
   TableRow,
   TextField
 } from '@mui/material';
+import {debounce} from '@mui/material/utils';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import HomeIcon from '@mui/icons-material/Home';
 import Typography from '@mui/material/Typography';
 import DocumentsIcon from '@mui/icons-material/ContentPaste';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
+import {useFormData} from '../../hooks/useFormData';
 
 const Documents = () => {
-  const {isLoading, data} = useQuery(getDocuments);
+
+  const searchPayload = {
+    query: '',
+    page: {
+      number: 0,
+      size: 10
+    },
+    sort: {
+      property: 'name',
+      direction: 'ASC'
+    }
+  };
+
+  const {fields: {query}} = useFormData(searchPayload);
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+
+  const debouncedSetQuery = useCallback(
+    debounce((value) => {
+      setDebouncedQuery(value);
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    debouncedSetQuery(query.value);
+  }, [query.value, debouncedSetQuery]);
+
+  const search = useCallback(() => searchDocuments({...searchPayload, query: debouncedQuery}), [debouncedQuery]);
+  const {isLoading, data} = useQuery(search);
 
   const navigate = useNavigate();
 
@@ -86,6 +116,8 @@ const Documents = () => {
         fullWidth
         label="Search"
         id="outlined-size-small"
+        value={query.value}
+        onChange={(e) => query.setValue(e.target.value)}
         size="small"
         inputProps={{'data-cy': 'documents-search-input'}}
         InputLabelProps={{'data-cy': 'documents-search-label'}}
@@ -122,7 +154,7 @@ const Documents = () => {
               </TableRow>
             </TableHead>
             <TableBody data-cy="documents-table-body">
-              {Array.isArray(data) && data.map((document) => (
+              {Array.isArray(data.documents) && data.documents.map((document) => (
                 <TableRow
                   key={document.id}
                   sx={{
