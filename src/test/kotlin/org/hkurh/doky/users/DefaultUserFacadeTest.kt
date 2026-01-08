@@ -108,6 +108,6 @@ class DefaultUserFacadeTest : DokyUnitTest {
 
         // then
         assertNotNull(registeredUserDto, "Registered user cannot be null")
-        assertEquals(userUid, registeredUserDto.uid, "User should be registered with provided uid")
+        assertEquals(userUid, registeredUserDto.email, "User should be registered with provided uid")
     }
 }

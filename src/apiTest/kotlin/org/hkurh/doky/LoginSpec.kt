@@ -40,7 +40,7 @@ class LoginSpec : RestSpec() {
     fun shouldReceiveTokenWhenLoginValidUser() {
         // given
         val requestBody = AuthenticationRequest().apply {
-            uid = validUserUid
+            email = validUserUid
             password = validUserPassword
         }
         val requestSpec = prepareRequestSpec().setBody(requestBody).build()
@@ -58,7 +58,7 @@ class LoginSpec : RestSpec() {
     fun shouldReturnErrorWhenLoginNonExistingUser() {
         // given
         val requestBody = AuthenticationRequest().apply {
-            uid = incorrectUserUid
+            email = incorrectUserUid
             password = incorrectUserPassword
         }
         val requestSpec = prepareRequestSpec().setBody(requestBody).build()
@@ -77,7 +77,7 @@ class LoginSpec : RestSpec() {
     fun shouldReturnErrorWhenLoginEmptyCredentials() {
         // given
         val requestBody = AuthenticationRequest().apply {
-            uid = StringUtils.EMPTY
+            email = StringUtils.EMPTY
             password = StringUtils.EMPTY
         }
         val requestSpec = prepareRequestSpec().setBody(requestBody).build()
@@ -89,6 +89,6 @@ class LoginSpec : RestSpec() {
         response.then().statusCode(HttpStatus.BAD_REQUEST.value())
             .body("error", notNullValue())
             .body("error.message", notNullValue())
-            .body("fields", hasItems(hasEntry("field", "uid"), hasEntry("field", "password")))
+            .body("fields", hasItems(hasEntry("field", "email"), hasEntry("field", "password")))
     }
 }

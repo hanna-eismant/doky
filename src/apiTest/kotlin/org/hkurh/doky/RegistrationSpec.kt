@@ -44,7 +44,7 @@ class RegistrationSpec : RestSpec() {
     fun shouldRegisterUserWhenItDoesNotExist() {
         // given
         val requestBody = AuthenticationRequest().apply {
-            uid = newUserUid
+            email = newUserUid
             password = newUserPassword
         }
         val requestSpec = prepareRequestSpec().setBody(requestBody).build()
@@ -62,7 +62,7 @@ class RegistrationSpec : RestSpec() {
     fun shouldReturnErrorWhenRegisterExistingUser() {
         // given
         val requestBody = AuthenticationRequest().apply {
-            uid = validUserUid
+            email = validUserUid
             password = newUserPassword
         }
         val requestSpec = prepareRequestSpec().setBody(requestBody).build()
@@ -81,7 +81,7 @@ class RegistrationSpec : RestSpec() {
     fun shouldReturnErrorWhenRegisterWithEmptyCredentials() {
         // given
         val requestBody = AuthenticationRequest().apply {
-            uid = StringUtils.EMPTY
+            email = StringUtils.EMPTY
             password = StringUtils.EMPTY
         }
         val requestSpec = prepareRequestSpec().setBody(requestBody).build()

@@ -34,7 +34,7 @@ fun UserEntity.toDto(): UserDto {
     val entity = this
     return UserDto().apply {
         id = entity.id
-        uid = entity.uid
+        email = entity.uid
         name = entity.name
         roles = entity.authorities.map { it.authority.name }.toMutableSet()
     }

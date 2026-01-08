@@ -35,7 +35,7 @@ const EditUserProfileForm = ({user}) => {
 
   const {showSuccess} = useGlobalSnackbar();
 
-  const {data, fields: {uid, name}, handleSubmit} = useForm(user, submitUpdate, () => {
+  const {data, fields: {email, name}, handleSubmit} = useForm(user, submitUpdate, () => {
     revalidator.revalidate();
     showSuccess('Your name has been updated successfully');
   });
@@ -44,12 +44,12 @@ const EditUserProfileForm = ({user}) => {
     <form onSubmit={handleSubmit} style={{width: '50%'}}>
       <Stack width="100%">
         <Stack spacing={2} sx={{flexGrow: 1}}>
-          <FormInput id="uid"
+          <FormInput id="email"
             label="Email"
             type="text"
-            value={data.uid}
+            value={data.email}
             disabled={true}
-            onChange={uid.setValue}
+            onChange={email.setValue}
           />
           <FormInput id="name"
             label="Name"

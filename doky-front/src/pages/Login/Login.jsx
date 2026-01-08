@@ -27,7 +27,7 @@ import {useLogin} from './useLogin.js';
 import {useForm} from '../../hooks/useForm.js';
 
 const initialFormData = {
-  uid: '',
+  email: '',
   password: ''
 };
 
@@ -37,7 +37,7 @@ const Login = () => {
 
   const {
     data,
-    fields: {uid, password},
+    fields: {email, password},
     handleSubmit,
     isSubmitting
   } = useForm(initialFormData, login);
@@ -45,8 +45,8 @@ const Login = () => {
   return (
     <AuthLayout title="Sign In">
       <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
-        <FormInput id='uid' label='Email' type='text' value={data.uid} onChange={uid.setValue} errors={uid.errors}
-          data-cy="login-uid"/>
+        <FormInput id='email' label='Email' type='text' value={data.email} onChange={email.setValue} errors={email.errors}
+          data-cy="login-email"/>
         <FormInput id='password' label='Password' type='password' value={data.password} onChange={password.setValue}
           errors={password.errors} data-cy="login-password"/>
         <Typography variant="caption">

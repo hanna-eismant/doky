@@ -67,7 +67,7 @@ class RestSpec {
 
     fun prepareRequestSpecWithLogin(): RequestSpecBuilder {
         val requestBody = AuthenticationRequest().apply {
-            uid = validUserUid
+            email = validUserUid
             password = validUserPassword
         }
         val request = prepareRequestSpec().setBody(requestBody).build()
