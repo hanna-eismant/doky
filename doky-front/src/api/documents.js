@@ -23,6 +23,11 @@ const RESOURCE_NAME = 'documents';
 
 export const getDocuments = () => get(RESOURCE_NAME);
 
+export const searchDocuments = payload => {
+  console.log('Searching documents with payload:', payload);
+  return post(`${RESOURCE_NAME}/search`, payload);
+};
+
 export const getDocument = id => get(`${RESOURCE_NAME}/${id}`);
 
 export const createDocument = payload => post(RESOURCE_NAME, payload);
@@ -40,6 +45,6 @@ export const downloadDocument = async documentId => {
 };
 
 export const getDownloadToken = async documentId => {
-  const { token } = await get(`${RESOURCE_NAME}/${documentId}/download/token`);
+  const {token} = await get(`${RESOURCE_NAME}/${documentId}/download/token`);
   return token;
 };
