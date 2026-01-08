@@ -27,7 +27,7 @@ export const useLogin = () => {
   const navigate = useNavigate();
 
   const [loginMutation] = useMutation(
-    creds => login(creds.uid, creds.password),
+    creds => login(creds.email, creds.password),
     data => {
       if (data?.token) {
         setJWT(data.token);

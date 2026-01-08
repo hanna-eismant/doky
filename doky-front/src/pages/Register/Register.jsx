@@ -27,7 +27,7 @@ import {useForm} from '../../hooks/useForm.js';
 import {FormInput} from '../../components';
 
 const initialFormData = {
-  uid: '',
+  email: '',
   password: ''
 };
 
@@ -37,7 +37,7 @@ const Register = () => {
 
   const {
     data,
-    fields: {uid, password},
+    fields: {email, password},
     handleSubmit,
     isSubmitting
   } = useForm(initialFormData, register, () => {
@@ -47,8 +47,8 @@ const Register = () => {
   return (
     <AuthLayout title="Register">
       <Stack sx={{m: 2}} spacing={2} onSubmit={handleSubmit} component="form">
-        <FormInput id="uid" label="Email" type="text" value={data.uid} onChange={uid.setValue} errors={uid.errors}
-          data-cy="register-uid"/>
+        <FormInput id="email" label="Email" type="text" value={data.email} onChange={email.setValue} errors={email.errors}
+          data-cy="register-email"/>
         <FormInput id="password" label="Password" type="password" value={data.password} onChange={password.setValue}
           errors={password.errors} data-cy="register-password"/>
         <Button type="submit" data-cy="register-submit" loading={isSubmitting}>Register</Button>

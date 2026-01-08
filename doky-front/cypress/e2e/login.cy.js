@@ -27,9 +27,9 @@ describe('login', () => {
     const userUid = 'hkurh4@outlook.com';
     const password = '6OiUl^BdDU';
 
-    cy.get('[data-cy=login-uid]', {timeout: 10000}).should('be.visible');
+    cy.get('[data-cy=login-email]', {timeout: 10000}).should('be.visible');
 
-    cy.get('[data-cy=login-uid]').type(userUid);
+    cy.get('[data-cy=login-email]').type(userUid);
     cy.get('[data-cy=login-password]').type(password);
     cy.get('[data-cy=login-submit]').click();
 
@@ -42,9 +42,9 @@ describe('login', () => {
     const userUid = 'hkurh4@outlook.com';
     const password = 'password';
 
-    cy.get('[data-cy=login-uid]', {timeout: 10000}).should('be.visible');
+    cy.get('[data-cy=login-email]', {timeout: 10000}).should('be.visible');
 
-    cy.get('[data-cy=login-uid]').type(userUid);
+    cy.get('[data-cy=login-email]').type(userUid);
     cy.get('[data-cy=login-password]').type(password);
     cy.get('[data-cy=login-submit]').click();
 
@@ -57,7 +57,7 @@ describe('login', () => {
   });
 
   it('should show error message when empty credentials', () => {
-    cy.get('[data-cy=login-uid]', {timeout: 10000}).should('be.visible');
+    cy.get('[data-cy=login-email]', {timeout: 10000}).should('be.visible');
 
     cy.get('[data-cy=login-submit]').click();
 
@@ -68,7 +68,7 @@ describe('login', () => {
       .should('be.visible')
       .and('have.text', 'Validation failed');
 
-    cy.get('[data-cy=uid-errors]')
+    cy.get('[data-cy=email-errors]')
       .should('be.visible')
       .then((feedback) => {
         const messages = feedback.text();

@@ -45,20 +45,20 @@ class AuthorizationUserController(
     @PostMapping("/login")
     @Trace(operationName = "doky.users.login")
     override fun login(@Valid @RequestBody authenticationRequest: AuthenticationRequest): ResponseEntity<AuthenticationResponse> {
-        val username = authenticationRequest.uid
+        val username = authenticationRequest.email
         val password = authenticationRequest.password
         val user = userFacade.checkCredentials(username, password)
-        val token = jwtProvider.generateToken(user.uid, user.roles)
+        val token = jwtProvider.generateToken(user.email, user.roles)
         return ResponseEntity.ok(AuthenticationResponse(token))
     }
 
     @PostMapping(value = ["/register"], consumes = ["application/json"])
     @Trace(operationName = "doky.users.register")
     override fun register(@Valid @RequestBody registrationRequest: AuthenticationRequest): ResponseEntity<AuthenticationResponse>? {
-        val registeredUser = userFacade.register(registrationRequest.uid, registrationRequest.password)
+        val registeredUser = userFacade.register(registrationRequest.email, registrationRequest.password)
         val resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}").build(registeredUser.id)
-        val token = jwtProvider.generateToken(registeredUser.uid, registeredUser.roles)
+        val token = jwtProvider.generateToken(registeredUser.email, registeredUser.roles)
         return ResponseEntity.created(resourceLocation).body(AuthenticationResponse(token))
     }
 }

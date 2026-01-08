@@ -45,12 +45,12 @@ class AuthorizationUserControllerTest : DokyUnitTest {
         val userUid = "test@example.com"
         val userPassword = "password123"
         val authenticationRequest = AuthenticationRequest().apply {
-            uid = userUid
+            email = userUid
             password = userPassword
         }
         whenever(userFacade.checkCredentials(userUid, userPassword)).thenReturn(
             UserDto().apply {
-                uid = userUid
+                email = userUid
                 roles = mutableSetOf("ROLE_USER")
             }
         )

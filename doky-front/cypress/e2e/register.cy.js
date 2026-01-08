@@ -21,7 +21,7 @@ describe('register', () => {
   it('should register a new user and then login successfully', () => {
     cy.registerNewUser({logoutAfter: true}).then(({email, password}) => {
       // Login with the same credentials
-      cy.get('[data-cy=login-uid]', {timeout: 10000}).should('be.visible').type(email);
+      cy.get('[data-cy=login-email]', {timeout: 10000}).should('be.visible').type(email);
       cy.get('[data-cy=login-password]').type(password);
       cy.get('[data-cy=login-submit]').click();
 
@@ -36,7 +36,7 @@ describe('register', () => {
 
     cy.visit('/register');
 
-    cy.get('[data-cy=register-uid]', {timeout: 10000}).should('be.visible').type(existingEmail);
+    cy.get('[data-cy=register-email]', {timeout: 10000}).should('be.visible').type(existingEmail);
     cy.get('[data-cy=register-password]').type(password);
     cy.get('[data-cy=register-submit]').click();
 

@@ -49,7 +49,7 @@ Cypress.Commands.add('registerNewUser', (options = {}) => {
 
   // Chainable flow: visit register -> submit -> assert dashboard
   cy.visit('/register');
-  cy.get('[data-cy=register-uid]', {timeout: 10000}).should('be.visible').type(email);
+  cy.get('[data-cy=register-email]', {timeout: 10000}).should('be.visible').type(email);
   cy.get('[data-cy=register-password]').type(password);
   cy.get('[data-cy=register-submit]').click();
 
