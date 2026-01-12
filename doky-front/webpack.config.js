@@ -26,7 +26,7 @@ const webpack = require('webpack');
 
 module.exports = (env, argv) => {
   const beEnv = env['be-env'] || 'auto';
-  const appVersion = process.env.APP_VERSION || '0.2.0-local-1234567890abcdef';
+  const appVersion = process.env.APP_VERSION || '0.3.0';
   const isDev = argv.mode === 'development';
 
   return {
