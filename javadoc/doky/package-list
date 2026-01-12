@@ -1,9 +1,10 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:org.hkurh.doky.admin////PointingToDeclaration/doky/org.hkurh.doky.admin/index.html
-$dokka.location:org.hkurh.doky.admin/SearchController///PointingToDeclaration/doky/org.hkurh.doky.admin/-search-controller/index.html
-$dokka.location:org.hkurh.doky.admin/SearchController/SearchController/#org.hkurh.doky.search.index.IndexService/PointingToDeclaration/doky/org.hkurh.doky.admin/-search-controller/-search-controller.html
-$dokka.location:org.hkurh.doky.admin/SearchController/startFullIndex/#/PointingToDeclaration/doky/org.hkurh.doky.admin/-search-controller/start-full-index.html
+$dokka.location:org.hkurh.doky.admin/AdminController///PointingToDeclaration/doky/org.hkurh.doky.admin/-admin-controller/index.html
+$dokka.location:org.hkurh.doky.admin/AdminController/AdminController/#org.hkurh.doky.search.index.IndexService#org.hkurh.doky.maintenance.TestUserService/PointingToDeclaration/doky/org.hkurh.doky.admin/-admin-controller/-admin-controller.html
+$dokka.location:org.hkurh.doky.admin/AdminController/cleanupTestUsers/#/PointingToDeclaration/doky/org.hkurh.doky.admin/-admin-controller/cleanup-test-users.html
+$dokka.location:org.hkurh.doky.admin/AdminController/startFullIndex/#/PointingToDeclaration/doky/org.hkurh.doky.admin/-admin-controller/start-full-index.html
 $dokka.location:org.hkurh.doky.authorization////PointingToDeclaration/doky/org.hkurh.doky.authorization/index.html
 $dokka.location:org.hkurh.doky.authorization/AuthenticationRequest///PointingToDeclaration/doky/org.hkurh.doky.authorization/-authentication-request/index.html
 $dokka.location:org.hkurh.doky.authorization/AuthenticationRequest/AuthenticationRequest/#/PointingToDeclaration/doky/org.hkurh.doky.authorization/-authentication-request/-authentication-request.html
@@ -114,6 +115,7 @@ $dokka.location:org.hkurh.doky.documents.db/DocumentEntity/modifiedBy/#/Pointing
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntity/modifiedDate/#/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity/modified-date.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntity/name/#/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity/name.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository///PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/index.html
+$dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/deleteAllByUserPrefix/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/delete-all-by-user-prefix.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findAllById/#kotlin.collections.List[kotlin.Long]#org.hkurh.doky.users.db.UserEntity/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-all-by-id.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findAllowedUsers/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-allowed-users.html
 $dokka.location:org.hkurh.doky.documents.db/DocumentEntityRepository/findByCreatorId/#org.hkurh.doky.users.db.UserEntity/PointingToDeclaration/doky/org.hkurh.doky.documents.db/-document-entity-repository/find-by-creator-id.html
@@ -183,8 +185,7 @@ $dokka.location:org.hkurh.doky.email.impl/SmtpEmailSender/SmtpEmailSender/#org.h
 $dokka.location:org.hkurh.doky.email.impl/SmtpEmailSender/sendRegistrationConfirmationEmail/#org.hkurh.doky.users.db.UserEntity/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-smtp-email-sender/send-registration-confirmation-email.html
 $dokka.location:org.hkurh.doky.email.impl/SmtpEmailSender/sendRestorePasswordEmail/#org.hkurh.doky.users.db.UserEntity#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-smtp-email-sender/send-restore-password-email.html
 $dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService///PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/index.html
-$dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService/TransactionalEmailService/#org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository#org.hkurh.doky.users.db.UserEntityRepository#org.hkurh.doky.email.EmailSender/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/-transactional-email-service.html
-$dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService/sendEmailIfNotAlreadySent/#kotlin.Boolean#kotlin.String#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/send-email-if-not-already-sent.html
+$dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService/TransactionalEmailService/#kotlin.Boolean#kotlin.String#org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository#org.hkurh.doky.users.db.UserEntityRepository#org.hkurh.doky.email.EmailSender/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/-transactional-email-service.html
 $dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService/sendRegistrationEmail/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/send-registration-email.html
 $dokka.location:org.hkurh.doky.email.impl/TransactionalEmailService/sendResetPasswordEmail/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.email.impl/-transactional-email-service/send-reset-password-email.html
 $dokka.location:org.hkurh.doky.email////PointingToDeclaration/doky/org.hkurh.doky.email/index.html
@@ -304,13 +305,22 @@ $dokka.location:org.hkurh.doky.kafka/SendEmailMessage/SendEmailMessage/#/Pointin
 $dokka.location:org.hkurh.doky.kafka/SendEmailMessage/emailType/#/PointingToDeclaration/doky/org.hkurh.doky.kafka/-send-email-message/email-type.html
 $dokka.location:org.hkurh.doky.kafka/SendEmailMessage/toString/#/PointingToDeclaration/doky/org.hkurh.doky.kafka/-send-email-message/to-string.html
 $dokka.location:org.hkurh.doky.kafka/SendEmailMessage/userId/#/PointingToDeclaration/doky/org.hkurh.doky.kafka/-send-email-message/user-id.html
+$dokka.location:org.hkurh.doky.maintenance.impl////PointingToDeclaration/doky/org.hkurh.doky.maintenance.impl/index.html
+$dokka.location:org.hkurh.doky.maintenance.impl/DefaultTestUserService///PointingToDeclaration/doky/org.hkurh.doky.maintenance.impl/-default-test-user-service/index.html
+$dokka.location:org.hkurh.doky.maintenance.impl/DefaultTestUserService/DefaultTestUserService/#kotlin.String#org.hkurh.doky.documents.db.DocumentEntityRepository#org.hkurh.doky.users.db.UserEntityRepository/PointingToDeclaration/doky/org.hkurh.doky.maintenance.impl/-default-test-user-service/-default-test-user-service.html
+$dokka.location:org.hkurh.doky.maintenance.impl/DefaultTestUserService/cleanupTestUsers/#/PointingToDeclaration/doky/org.hkurh.doky.maintenance.impl/-default-test-user-service/cleanup-test-users.html
 $dokka.location:org.hkurh.doky.maintenance.schedule.impl////PointingToDeclaration/doky/org.hkurh.doky.maintenance.schedule.impl/index.html
 $dokka.location:org.hkurh.doky.maintenance.schedule.impl/DefaultScheduler///PointingToDeclaration/doky/org.hkurh.doky.maintenance.schedule.impl/-default-scheduler/index.html
-$dokka.location:org.hkurh.doky.maintenance.schedule.impl/DefaultScheduler/DefaultScheduler/#org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository/PointingToDeclaration/doky/org.hkurh.doky.maintenance.schedule.impl/-default-scheduler/-default-scheduler.html
+$dokka.location:org.hkurh.doky.maintenance.schedule.impl/DefaultScheduler/DefaultScheduler/#org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository#org.hkurh.doky.maintenance.TestUserService/PointingToDeclaration/doky/org.hkurh.doky.maintenance.schedule.impl/-default-scheduler/-default-scheduler.html
 $dokka.location:org.hkurh.doky.maintenance.schedule.impl/DefaultScheduler/cleanupExpiredResetPasswordTokens/#/PointingToDeclaration/doky/org.hkurh.doky.maintenance.schedule.impl/-default-scheduler/cleanup-expired-reset-password-tokens.html
+$dokka.location:org.hkurh.doky.maintenance.schedule.impl/DefaultScheduler/cleanupTestUsers/#/PointingToDeclaration/doky/org.hkurh.doky.maintenance.schedule.impl/-default-scheduler/cleanup-test-users.html
 $dokka.location:org.hkurh.doky.maintenance.schedule////PointingToDeclaration/doky/org.hkurh.doky.maintenance.schedule/index.html
 $dokka.location:org.hkurh.doky.maintenance.schedule/Scheduler///PointingToDeclaration/doky/org.hkurh.doky.maintenance.schedule/-scheduler/index.html
 $dokka.location:org.hkurh.doky.maintenance.schedule/Scheduler/cleanupExpiredResetPasswordTokens/#/PointingToDeclaration/doky/org.hkurh.doky.maintenance.schedule/-scheduler/cleanup-expired-reset-password-tokens.html
+$dokka.location:org.hkurh.doky.maintenance.schedule/Scheduler/cleanupTestUsers/#/PointingToDeclaration/doky/org.hkurh.doky.maintenance.schedule/-scheduler/cleanup-test-users.html
+$dokka.location:org.hkurh.doky.maintenance////PointingToDeclaration/doky/org.hkurh.doky.maintenance/index.html
+$dokka.location:org.hkurh.doky.maintenance/TestUserService///PointingToDeclaration/doky/org.hkurh.doky.maintenance/-test-user-service/index.html
+$dokka.location:org.hkurh.doky.maintenance/TestUserService/cleanupTestUsers/#/PointingToDeclaration/doky/org.hkurh.doky.maintenance/-test-user-service/cleanup-test-users.html
 $dokka.location:org.hkurh.doky.password.api////PointingToDeclaration/doky/org.hkurh.doky.password.api/index.html
 $dokka.location:org.hkurh.doky.password.api/PasswordApi///PointingToDeclaration/doky/org.hkurh.doky.password.api/-password-api/index.html
 $dokka.location:org.hkurh.doky.password.api/PasswordApi/reset/#org.hkurh.doky.password.api.ResetPasswordRequest/PointingToDeclaration/doky/org.hkurh.doky.password.api/-password-api/reset.html
@@ -487,6 +497,7 @@ $dokka.location:org.hkurh.doky.users.db/UserEntity/password/#/PointingToDeclarat
 $dokka.location:org.hkurh.doky.users.db/UserEntity/sentRegistrationEmail/#/PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity/sent-registration-email.html
 $dokka.location:org.hkurh.doky.users.db/UserEntity/uid/#/PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity/uid.html
 $dokka.location:org.hkurh.doky.users.db/UserEntityRepository///PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity-repository/index.html
+$dokka.location:org.hkurh.doky.users.db/UserEntityRepository/deleteByUidPrefix/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity-repository/delete-by-uid-prefix.html
 $dokka.location:org.hkurh.doky.users.db/UserEntityRepository/existsByUid/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity-repository/exists-by-uid.html
 $dokka.location:org.hkurh.doky.users.db/UserEntityRepository/findByUid/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.users.db/-user-entity-repository/find-by-uid.html
 $dokka.location:org.hkurh.doky.users.impl////PointingToDeclaration/doky/org.hkurh.doky.users.impl/index.html
@@ -557,6 +568,8 @@ org.hkurh.doky.errorhandling
 org.hkurh.doky.filestorage
 org.hkurh.doky.filestorage.impl
 org.hkurh.doky.kafka
+org.hkurh.doky.maintenance
+org.hkurh.doky.maintenance.impl
 org.hkurh.doky.maintenance.schedule
 org.hkurh.doky.maintenance.schedule.impl
 org.hkurh.doky.password

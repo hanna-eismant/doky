@@ -2,7 +2,7 @@
 <html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>DefaultScheduler</title>
+    <title>AdminController</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js","js");</script>
@@ -104,28 +104,28 @@
                 </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="classlike" id="content" pageIds="doky::org.hkurh.doky.maintenance.schedule.impl/DefaultScheduler///PointingToDeclaration//-251573632">
-  <div class="breadcrumbs"><a href="../../../index.html">doky</a><span class="delimiter">/</span><a href="../index.html">org.hkurh.doky.maintenance.schedule.impl</a><span class="delimiter">/</span><span class="current">DefaultScheduler</span></div>
+<div class="main-content" data-page-type="classlike" id="content" pageIds="doky::org.hkurh.doky.admin/AdminController///PointingToDeclaration//-251573632">
+  <div class="breadcrumbs"><a href="../../../index.html">doky</a><span class="delimiter">/</span><a href="../index.html">org.hkurh.doky.admin</a><span class="delimiter">/</span><span class="current">AdminController</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>Default</span><wbr></wbr><span><span>Scheduler</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.stereotype/Component///PointingToDeclaration/"><span class="token annotation builtin">Component</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;maintenance.DefaultScheduler&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.context.annotation/PropertySource///PointingToDeclaration/"><span class="token annotation builtin">PropertySource</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="token punctuation">[</span><span><span class="breakable-word"><span class="token string">&quot;classpath:scheduler.properties&quot;</span></span></span><wbr></wbr><span class="token punctuation">]</span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">class </span><a href="index.html">DefaultScheduler</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">resetPasswordTokenEntityRepository<span class="token operator">: </span><a href="../../org.hkurh.doky.password.db/-reset-password-token-entity-repository/index.html">ResetPasswordTokenEntityRepository</a><span class="token punctuation">, </span></span><span class="parameter ">testUserService<span class="token operator">: </span><a href="../../org.hkurh.doky.maintenance/-test-user-service/index.html">TestUserService</a></span></span><span class="token punctuation">)</span> : <a href="../../org.hkurh.doky.maintenance.schedule/-scheduler/index.html">Scheduler</a></div></div></div>
+    <h1 class="cover"><span>Admin</span><wbr></wbr><span><span>Controller</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.web.bind.annotation/RestController///PointingToDeclaration/"><span class="token annotation builtin">RestController</span></span></div><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.web.bind.annotation/RequestMapping///PointingToDeclaration/"><span class="token annotation builtin">RequestMapping</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="token punctuation">[</span><span><span class="breakable-word"><span class="token string">&quot;/api/admin&quot;</span></span></span><wbr></wbr><span class="token punctuation">]</span></span><wbr></wbr><span class="token punctuation">)</span></div><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.security.access.prepost/PreAuthorize///PointingToDeclaration/"><span class="token annotation builtin">PreAuthorize</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;hasRole('ROLE_ADMIN')&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">class </span><a href="index.html">AdminController</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">indexService<span class="token operator">: </span><a href="../../org.hkurh.doky.search.index/-index-service/index.html">IndexService</a><span class="token punctuation">, </span></span><span class="parameter ">testUserService<span class="token operator">: </span><a href="../../org.hkurh.doky.maintenance/-test-user-service/index.html">TestUserService</a></span></span><span class="token punctuation">)</span></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
         <h2 class="">Constructors</h2>
-        <div class="table"><a data-name="-50998679%2FConstructors%2F-251573632" anchor-label="DefaultScheduler" id="-50998679%2FConstructors%2F-251573632" data-filterable-set=":/main"></a>
+        <div class="table"><a data-name="-930191316%2FConstructors%2F-251573632" anchor-label="AdminController" id="-930191316%2FConstructors%2F-251573632" data-filterable-set=":/main"></a>
           <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-default-scheduler.html"><span>Default</span><wbr></wbr><span><span>Scheduler</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-50998679%2FConstructors%2F-251573632"></span>
+                  <div><a href="-admin-controller.html"><span>Admin</span><wbr></wbr><span><span>Controller</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-930191316%2FConstructors%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">resetPasswordTokenEntityRepository<span class="token operator">: </span><a href="../../org.hkurh.doky.password.db/-reset-password-token-entity-repository/index.html">ResetPasswordTokenEntityRepository</a><span class="token punctuation">, </span></span><span class="parameter ">testUserService<span class="token operator">: </span><a href="../../org.hkurh.doky.maintenance/-test-user-service/index.html">TestUserService</a></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">indexService<span class="token operator">: </span><a href="../../org.hkurh.doky.search.index/-index-service/index.html">IndexService</a><span class="token punctuation">, </span></span><span class="parameter ">testUserService<span class="token operator">: </span><a href="../../org.hkurh.doky.maintenance/-test-user-service/index.html">TestUserService</a></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -134,32 +134,32 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="254034935%2FFunctions%2F-251573632" anchor-label="cleanupExpiredResetPasswordTokens" id="254034935%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="cleanup-expired-reset-password-tokens.html"><span>cleanup</span><wbr></wbr><span>Expired</span><wbr></wbr><span>Reset</span><wbr></wbr><span>Password</span><wbr></wbr><span><span>Tokens</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="254034935%2FFunctions%2F-251573632"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.scheduling.annotation/Scheduled///PointingToDeclaration/"><span class="token annotation builtin">Scheduled</span></span><span class="token punctuation">(</span><span>cron<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;${scheduler.cleanup.reset.password.tokens}&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="cleanup-expired-reset-password-tokens.html"><span class="token function">cleanupExpiredResetPasswordTokens</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Removes expired reset password tokens from the system.</p></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1030634610%2FFunctions%2F-251573632" anchor-label="cleanupTestUsers" id="-1030634610%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+        <div class="table"><a data-name="-1206481598%2FFunctions%2F-251573632" anchor-label="cleanupTestUsers" id="-1206481598%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
           <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="cleanup-test-users.html"><span>cleanup</span><wbr></wbr><span>Test</span><wbr></wbr><span><span>Users</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1030634610%2FFunctions%2F-251573632"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1206481598%2FFunctions%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.scheduling.annotation/Scheduled///PointingToDeclaration/"><span class="token annotation builtin">Scheduled</span></span><span class="token punctuation">(</span><span>cron<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;${scheduler.cleanup.test.users}&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="cleanup-test-users.html"><span class="token function">cleanupTestUsers</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Removes user accounts created exclusively for testing purposes.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.web.bind.annotation/PostMapping///PointingToDeclaration/"><span class="token annotation builtin">PostMapping</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="token punctuation">[</span><span><span class="breakable-word"><span class="token string">&quot;/maintenance/cleanup/test-users&quot;</span></span></span><wbr></wbr><span class="token punctuation">]</span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><a href="cleanup-test-users.html"><span class="token function">cleanupTestUsers</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.springframework.http/ResponseEntity///PointingToDeclaration/">ResponseEntity</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-92846349%2FFunctions%2F-251573632" anchor-label="startFullIndex" id="-92846349%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="start-full-index.html"><span>start</span><wbr></wbr><span>Full</span><wbr></wbr><span><span>Index</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-92846349%2FFunctions%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.web.bind.annotation/PostMapping///PointingToDeclaration/"><span class="token annotation builtin">PostMapping</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="token punctuation">[</span><span><span class="breakable-word"><span class="token string">&quot;/search/index/full&quot;</span></span></span><wbr></wbr><span class="token punctuation">]</span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><a href="start-full-index.html"><span class="token function">startFullIndex</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.springframework.http/ResponseEntity///PointingToDeclaration/">ResponseEntity</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
