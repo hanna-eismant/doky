@@ -26,11 +26,14 @@ import org.hkurh.doky.email.EmailService
 import org.hkurh.doky.mask
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.users.db.UserEntityRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TransactionalEmailService(
+    @Value("\${doky.email.test.send}") private val shouldSendTest: Boolean,
+    @Value("\${doky.email.test.prefix}") private val testEmailPrefix: String,
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
     private val userEntityRepository: UserEntityRepository,
     @Suppress("SpringJavaInjectionPointsAutowiringInspection") private val emailSender: EmailSender
@@ -49,6 +52,7 @@ class TransactionalEmailService(
         tokens.forEach {
             sendEmailIfNotAlreadySent(
                 sentFlag = it.sentEmail,
+                userEmail = it.user.uid,
                 logMessage = "Reset Password email was already sent to user [${it.user.id}] for token [${it.token.mask()}]"
             ) {
                 emailSender.sendRestorePasswordEmail(it.user, it.token)
@@ -64,6 +68,7 @@ class TransactionalEmailService(
             { user ->
                 sendEmailIfNotAlreadySent(
                     sentFlag = user.sentRegistrationEmail,
+                    userEmail = user.uid,
                     logMessage = "Registration Confirmation email was already sent to user [$userId]"
                 ) {
                     emailSender.sendRegistrationConfirmationEmail(user)
@@ -75,11 +80,23 @@ class TransactionalEmailService(
         )
     }
 
-    fun sendEmailIfNotAlreadySent(sentFlag: Boolean, logMessage: String, action: () -> Unit) {
-        if (!sentFlag) {
+    private fun sendEmailIfNotAlreadySent(sentFlag: Boolean, userEmail: String, logMessage: String,
+                                          action: () -> Unit) {
+        if (shouldBeSent(sentFlag, userEmail)) {
             action()
         } else {
             log.warn { logMessage }
         }
     }
+
+    private fun shouldBeSent(sentFlag: Boolean, userEmail: String): Boolean {
+        // regular user
+        if (!isTestUser(userEmail)) return !sentFlag
+        // should be sent for test user
+        if (isTestUser(userEmail) && shouldSendTest) return !sentFlag
+        // should not be sent for test user
+        return false
+    }
+
+    private fun isTestUser(userEmail: String): Boolean = userEmail.startsWith(testEmailPrefix)
 }

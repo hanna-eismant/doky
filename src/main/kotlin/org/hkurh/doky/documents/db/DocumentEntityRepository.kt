@@ -22,6 +22,7 @@ package org.hkurh.doky.documents.db
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.query.Param
@@ -45,4 +46,8 @@ interface DocumentEntityRepository : CrudRepository<DocumentEntity, Long>, JpaSp
 
     @Query("select d from DocumentEntity d where d.id in :ids and d.creator = :creator")
     fun findAllById(ids: List<Long>, creator: UserEntity): List<DocumentEntity>
+
+    @Modifying
+    @Query("delete from DocumentEntity d where d.creator.uid like :uidPrefix% or d.createdBy.uid like :uidPrefix% or d.modifiedBy.uid like :uidPrefix%")
+    fun deleteAllByUserPrefix(@Param("uidPrefix") uidPrefix: String) : Int
 }
