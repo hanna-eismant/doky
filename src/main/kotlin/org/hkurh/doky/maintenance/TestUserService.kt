@@ -17,26 +17,21 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.users.db
-
-import org.springframework.data.jpa.repository.EntityGraph
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor
-import org.springframework.data.jpa.repository.Modifying
-import org.springframework.data.jpa.repository.Query
-import org.springframework.data.repository.CrudRepository
+package org.hkurh.doky.maintenance
 
 /**
- * The [UserEntityRepository] interface extends the [CrudRepository] and [JpaSpecificationExecutor] interfaces to provide
- * CRUD operations and advanced queries for [UserEntity] objects.
+ * Service interface to manage maintenance operations related to test users.
  */
-interface UserEntityRepository : CrudRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
+interface TestUserService {
 
-    @EntityGraph(attributePaths = ["authorities"])
-    fun findByUid(uid: String): UserEntity?
-
-    fun existsByUid(uid: String): Boolean
-
-    @Modifying
-    @Query("delete from UserEntity u where u.uid like :uidPrefix%")
-    fun deleteByUidPrefix(uidPrefix: String) : Int
+    /**
+     * Deletes user accounts created specifically for testing purposes.
+     *
+     * This method identifies and removes accounts marked or flagged as test users
+     * from the system. It is designed to ensure that test data does not accumulate
+     * in the database, maintaining its integrity and performance. Implementations
+     * of this function should carefully target only accounts designated for testing
+     * to prevent unintended data loss.
+     */
+    fun cleanupTestUsers()
 }

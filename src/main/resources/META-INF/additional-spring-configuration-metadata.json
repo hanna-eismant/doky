@@ -114,6 +114,16 @@
       "name": "scheduler.documents.index.full",
       "type": "java.lang.String",
       "description": "Defines cron expression for schedule full index for Documents."
+    },
+    {
+      "name": "doky.email.test.prefix",
+      "type": "java.lang.String",
+      "description": "The prefix of email used for e2e tests."
+    },
+    {
+      "name": "doky.email.test.send",
+      "type": "java.lang.Boolean",
+      "description": "Specifies if emails should be sent during e2e tests."
     }
   ],
   "hints": [

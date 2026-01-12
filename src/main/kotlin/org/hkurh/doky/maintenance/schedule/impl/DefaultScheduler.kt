@@ -20,8 +20,10 @@
 package org.hkurh.doky.maintenance.schedule.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.hkurh.doky.maintenance.TestUserService
 import org.hkurh.doky.maintenance.schedule.Scheduler
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.PropertySource
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -30,7 +32,8 @@ import java.util.*
 @Component("maintenance.DefaultScheduler")
 @PropertySource("classpath:scheduler.properties")
 class DefaultScheduler(
-    private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository
+    private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
+    private val testUserService: TestUserService
 ) : Scheduler {
 
     private val log = KotlinLogging.logger {}
@@ -41,5 +44,10 @@ class DefaultScheduler(
         val expiredTokens = resetPasswordTokenEntityRepository.findByExpirationDateLessThan(now)
         resetPasswordTokenEntityRepository.deleteAll(expiredTokens)
         log.info { "Deleted [${expiredTokens.size}] expired tokens" }
+    }
+
+    @Scheduled(cron = "\${scheduler.cleanup.test.users}")
+    override fun cleanupTestUsers() {
+        testUserService.cleanupTestUsers()
     }
 }

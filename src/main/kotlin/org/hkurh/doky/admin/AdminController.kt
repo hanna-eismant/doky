@@ -19,6 +19,7 @@
 
 package org.hkurh.doky.admin
 
+import org.hkurh.doky.maintenance.TestUserService
 import org.hkurh.doky.search.index.IndexService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -28,15 +29,22 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.concurrent.Executors
 
 @RestController
-@RequestMapping("/api/admin/search")
+@RequestMapping("/api/admin")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-class SearchController(
-    private val indexService: IndexService
+class AdminController(
+    private val indexService: IndexService,
+    private val testUserService: TestUserService
 ) {
 
-    @PostMapping("/index/full")
+    @PostMapping("/search/index/full")
     fun startFullIndex(): ResponseEntity<*> {
         Executors.newCachedThreadPool().submit { indexService.fullIndex() }
+        return ResponseEntity.accepted().build<Any>()
+    }
+
+    @PostMapping("/maintenance/cleanup/test-users")
+    fun cleanupTestUsers(): ResponseEntity<*> {
+        Executors.newCachedThreadPool().submit { testUserService.cleanupTestUsers() }
         return ResponseEntity.accepted().build<Any>()
     }
 }

@@ -37,4 +37,14 @@ interface Scheduler {
      * identify and delete tokens that have surpassed their expiration period.
      */
     fun cleanupExpiredResetPasswordTokens()
+
+    /**
+     * Removes user accounts created exclusively for testing purposes.
+     *
+     * This method is designed to identify and delete users flagged or marked as test accounts in the system.
+     * It is intended to maintain a clean and efficient database by removing users that are no longer
+     * required after testing activities are completed. Implementations of this method should ensure
+     * that only accounts created for testing are targeted and removed to avoid accidental data loss.
+     */
+    fun cleanupTestUsers()
 }

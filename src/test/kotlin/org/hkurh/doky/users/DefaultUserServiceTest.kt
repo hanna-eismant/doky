@@ -227,5 +227,9 @@ class DefaultUserServiceTest : DokyUnitTest {
         override fun findById(id: Long): Optional<UserEntity?> {
             TODO("Not yet implemented")
         }
+
+        override fun deleteByUidPrefix(uidPrefix: String): Int {
+            TODO("Not yet implemented")
+        }
     }
 }

@@ -19,6 +19,7 @@
 
 package org.hkurh.doky.users.db
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -53,7 +54,7 @@ class UserEntity {
     @Column(name = "password", nullable = false)
     var password: String = ""
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinTable(
         name = "user_authorities",
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],

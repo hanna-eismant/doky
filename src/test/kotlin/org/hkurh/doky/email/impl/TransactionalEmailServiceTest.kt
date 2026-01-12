@@ -49,6 +49,8 @@ class TransactionalEmailServiceTest : DokyUnitTest {
     private val emailSender: EmailSender = mock()
 
     private val emailService = TransactionalEmailService(
+        false,
+        "doky.test",
         resetPasswordTokenEntityRepository,
         userEntityRepository,
         emailSender
