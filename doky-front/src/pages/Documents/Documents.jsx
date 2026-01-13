@@ -17,7 +17,7 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useQuery} from '../../hooks/useQuery';
 import {searchDocuments} from '../../api/documents';
@@ -44,28 +44,28 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import {useFormData} from '../../hooks/useFormData';
 
-const Documents = () => {
+const searchPayload = {
+  query: '',
+  page: {
+    number: 0,
+    size: 10
+  },
+  sort: {
+    property: 'name',
+    direction: 'ASC'
+  }
+};
 
-  const searchPayload = {
-    query: '',
-    page: {
-      number: 0,
-      size: 10
-    },
-    sort: {
-      property: 'name',
-      direction: 'ASC'
-    }
-  };
+const Documents = () => {
 
   const {fields: {query}} = useFormData(searchPayload);
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  const debouncedSetQuery = useCallback(
+  const debouncedSetQuery = useMemo(() =>
     debounce((value) => {
       setDebouncedQuery(value);
     }, 500),
-    []
+  []
   );
 
   const handleSearchChange = (e) => {
