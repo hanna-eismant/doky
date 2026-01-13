@@ -199,6 +199,7 @@ const Documents = () => {
         onRowClick={(params) => navigate(`/documents/edit/${params.id}`)}
         sortModel={sortModel}
         onSortModelChange={handleSortModelChange}
+        sortingOrder={['asc', 'desc']}
         disableColumnFilter
         initialState={{
           pagination: {
