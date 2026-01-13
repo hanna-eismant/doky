@@ -27,12 +27,6 @@ import {
   Divider,
   InputAdornment,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField
 } from '@mui/material';
 import {debounce} from '@mui/material/utils';
@@ -43,6 +37,7 @@ import DocumentsIcon from '@mui/icons-material/ContentPaste';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import {useFormData} from '../../hooks/useFormData';
+import {DataGrid} from '@mui/x-data-grid';
 
 const searchPayload = {
   query: '',
@@ -51,15 +46,64 @@ const searchPayload = {
     size: 10
   },
   sort: {
-    property: 'name',
-    direction: 'ASC'
+    property: 'createdDate',
+    direction: 'DESC'
   }
 };
+
+const columns = [
+  {
+    field: 'name',
+    headerName: 'Name',
+    flex: 2,
+    renderHeader: () => (
+      <strong data-cy="documents-th-name">
+        Name
+      </strong>
+    ),
+  },
+  {
+    field: 'fileName',
+    headerName: 'File',
+    flex: 1,
+    renderHeader: () => (
+      <strong data-cy="documents-th-file">
+        File
+      </strong>
+    ),
+  },
+  {
+    field: 'createdDate',
+    headerName: 'Created',
+    minWidth: 200,
+    renderHeader: () => (
+      <strong data-cy="documents-th-created">
+        Created
+      </strong>
+    ),
+  },
+  {
+    field: 'modifiedDate',
+    headerName: 'Updated',
+    minWidth: 200,
+    renderHeader: () => (
+      <strong  data-cy="documents-th-updated">
+        Updated
+      </strong>
+    ),
+  }
+];
 
 const Documents = () => {
 
   const {fields: {query}} = useFormData(searchPayload);
   const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [sortModel, setSortModel] = useState([
+    {
+      field: searchPayload.sort.property,
+      sort: searchPayload.sort.direction.toLowerCase()
+    }
+  ]);
 
   const debouncedSetQuery = useMemo(() =>
     debounce((value) => {
@@ -74,7 +118,21 @@ const Documents = () => {
     debouncedSetQuery(value);
   };
 
-  const search = useCallback(() => searchDocuments({...searchPayload, query: debouncedQuery}), [debouncedQuery]);
+  const handleSortModelChange = useCallback((newSortModel) => {
+    setSortModel(newSortModel);
+  }, []);
+
+  const search = useCallback(() => {
+    const sort = sortModel.length > 0
+      ? {
+        property: sortModel[0].field,
+        direction: sortModel[0].sort.toUpperCase()
+      }
+      : searchPayload.sort;
+
+    return searchDocuments({...searchPayload, query: debouncedQuery, sort});
+  }, [debouncedQuery, sortModel]);
+
   const {isLoading, data} = useQuery(search);
 
   const navigate = useNavigate();
@@ -82,10 +140,6 @@ const Documents = () => {
   const goToCreateDocument = useCallback(() => {
     navigate('/documents/new');
   }, [navigate]);
-
-  const getGoToEditDocumentHandler = id => () => {
-    navigate(`/documents/edit/${id}`);
-  };
 
   return (
     <Stack spacing={2}
@@ -133,53 +187,28 @@ const Documents = () => {
           },
         }}
       />
-
-      {isLoading ? (
-        <Stack alignItems="center" width="100%" padding={4}>
-          <CircularProgress/>
-        </Stack>
-      ) : (
-        <TableContainer>
-          <Table stickyHeader data-cy="documents-table">
-            <TableHead data-cy="documents-table-head">
-              <TableRow>
-                <TableCell data-cy="documents-th-name"><Typography variant="subtitle1"
-                  fontWeight="bold">Name</Typography></TableCell>
-                <TableCell data-cy="documents-th-file"><Typography variant="subtitle1"
-                  fontWeight="bold">File</Typography></TableCell>
-                <TableCell data-cy="documents-th-tags"><Typography variant="subtitle1"
-                  fontWeight="bold">Tags</Typography></TableCell>
-                <TableCell data-cy="documents-th-created"><Typography variant="subtitle1"
-                  fontWeight="bold">Created</Typography></TableCell>
-                <TableCell data-cy="documents-th-updated"><Typography variant="subtitle1"
-                  fontWeight="bold">Updated</Typography></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody data-cy="documents-table-body">
-              {Array.isArray(data.documents) && data.documents.map((document) => (
-                <TableRow
-                  key={document.id}
-                  sx={{
-                    '&:last-child td, &:last-child th': {border: 0},
-                    cursor: 'pointer',
-                    '&:hover': {backgroundColor: 'rgba(0, 0, 0, 0.04)'}
-                  }}
-                  onClick={getGoToEditDocumentHandler(document.id)}
-                >
-                  <TableCell component="th" scope="row">
-                    {document.name}
-                  </TableCell>
-                  <TableCell>{document.fileName}</TableCell>
-                  <TableCell></TableCell>
-                  <TableCell>{document.createdDate}</TableCell>
-                  <TableCell>{document.modifiedDate}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
-
+      <DataGrid
+        loading={isLoading}
+        sx={{
+          width: '100%',
+          '& .MuiDataGrid-row': {
+            cursor: 'pointer'
+          }
+        }}
+        columns={columns}
+        rows={data.documents}
+        onRowClick={(params) => navigate(`/documents/edit/${params.id}`)}
+        sortModel={sortModel}
+        onSortModelChange={handleSortModelChange}
+        disableColumnFilter
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: searchPayload.page.size,
+            },
+          },
+        }}
+      />
     </Stack>
   );
 };

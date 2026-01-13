@@ -48,13 +48,10 @@ describe('documents', () => {
       cy.get('[role="progressbar"]').should('not.exist');
 
       // Table headers exist
-      cy.get('[data-cy=documents-table-head]').within(() => {
-        cy.get('[data-cy=documents-th-name]').should('be.visible');
-        cy.get('[data-cy=documents-th-file]').should('be.visible');
-        cy.get('[data-cy=documents-th-tags]').should('be.visible');
-        cy.get('[data-cy=documents-th-created]').should('be.visible');
-        cy.get('[data-cy=documents-th-updated]').should('be.visible');
-      });
+      cy.get('[data-cy=documents-th-name]').should('be.visible');
+      cy.get('[data-cy=documents-th-file]').should('be.visible');
+      cy.get('[data-cy=documents-th-created]').should('be.visible');
+      cy.get('[data-cy=documents-th-updated]').should('be.visible');
 
       // Expect empty table body (no rows) for a new user
       cy.get('[data-cy=documents-table-body] tr').should('have.length', 0);
