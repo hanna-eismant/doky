@@ -17,7 +17,7 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useQuery} from '../../hooks/useQuery';
 import {searchDocuments} from '../../api/documents';
@@ -68,9 +68,11 @@ const Documents = () => {
     []
   );
 
-  useEffect(() => {
-    debouncedSetQuery(query.value);
-  }, [query.value, debouncedSetQuery]);
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    query.setValue(value);
+    debouncedSetQuery(value);
+  };
 
   const search = useCallback(() => searchDocuments({...searchPayload, query: debouncedQuery}), [debouncedQuery]);
   const {isLoading, data} = useQuery(search);
@@ -117,7 +119,7 @@ const Documents = () => {
         label="Search"
         id="outlined-size-small"
         value={query.value}
-        onChange={(e) => query.setValue(e.target.value)}
+        onChange={handleSearchChange}
         size="small"
         inputProps={{'data-cy': 'documents-search-input'}}
         InputLabelProps={{'data-cy': 'documents-search-label'}}
