@@ -23,7 +23,6 @@ import {useQuery} from '../../hooks/useQuery';
 import {searchDocuments} from '../../api/documents';
 import {
   Button,
-  CircularProgress,
   Divider,
   InputAdornment,
   Stack,
