@@ -154,7 +154,7 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
               value={description.value}
               onChange={description.setValue}
               multiline
-              rows={5}
+              minRows={5}
             />
 
             {document.createdBy && document.createdDate && (

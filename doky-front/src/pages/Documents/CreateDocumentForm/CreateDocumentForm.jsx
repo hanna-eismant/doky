@@ -64,7 +64,7 @@ const CreateDocumentForm = ({onCreated}) => {
           value={data.description}
           onChange={description.setValue}
           multiline
-          rows={5}
+          minRows={5}
           inputProps={{'data-cy': 'doc-description-input'}}
         />
 
