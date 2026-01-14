@@ -117,10 +117,6 @@ const Documents = () => {
     debouncedSetQuery(value);
   };
 
-  const handleSortModelChange = useCallback((newSortModel) => {
-    setSortModel(newSortModel);
-  }, []);
-
   const search = useCallback(() => {
     const sort = sortModel.length > 0
       ? {
@@ -198,7 +194,7 @@ const Documents = () => {
         rows={data.documents}
         onRowClick={(params) => navigate(`/documents/edit/${params.id}`)}
         sortModel={sortModel}
-        onSortModelChange={handleSortModelChange}
+        onSortModelChange={setSortModel}
         sortingOrder={['asc', 'desc']}
         disableColumnFilter
         initialState={{
