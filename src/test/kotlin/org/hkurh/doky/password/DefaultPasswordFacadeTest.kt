@@ -21,7 +21,7 @@ package org.hkurh.doky.password
 
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.errorhandling.DokyInvalidTokenException
-import org.hkurh.doky.kafka.EmailType
+import org.hkurh.doky.kafka.dto.EmailType
 import org.hkurh.doky.kafka.KafkaEmailNotificationProducerService
 import org.hkurh.doky.password.impl.DefaultPasswordFacade
 import org.hkurh.doky.users.UserService
@@ -86,7 +86,7 @@ class DefaultPasswordFacadeTest : DokyUnitTest {
         passwordFacade.reset(userEmail)
 
         // then
-        verify(kafkaEmailNotificationProducerService, times(1)).sendNotification(
+        verify(kafkaEmailNotificationProducerService, times(1)).send(
             userEntity.id,
             EmailType.RESET_PASSWORD
         )

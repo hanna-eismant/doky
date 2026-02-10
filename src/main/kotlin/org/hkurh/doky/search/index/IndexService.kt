@@ -19,6 +19,8 @@
 
 package org.hkurh.doky.search.index
 
+import org.hkurh.doky.documents.db.DocumentEntity
+
 /**
  * Interface defining the contract for indexing operations.
  *
@@ -38,4 +40,6 @@ interface IndexService {
      * incremental updates.
      */
     fun fullIndex()
+
+    fun updateIndex(documentId: Long)
 }

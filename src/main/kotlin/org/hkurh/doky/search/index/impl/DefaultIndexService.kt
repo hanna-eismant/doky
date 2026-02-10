@@ -27,6 +27,7 @@ import org.hkurh.doky.documents.db.DocumentEntityRepository
 import org.hkurh.doky.search.DocumentResultData
 import org.hkurh.doky.search.index.IndexService
 import org.hkurh.doky.toIndexData
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 
@@ -47,6 +48,23 @@ class DefaultIndexService(
         val indexingResult = searchClient.uploadDocuments(documents)
 
         log.debug { "Upload [${indexingResult.results.size}] documents to index" }
+        indexingResult.results
+            .filter { !it.isSucceeded }
+            .forEach { log.error { "Document [${it.key}] upload failed: [${it.errorMessage}]" } }
+    }
+
+    override fun updateIndex(documentId: Long) {
+        val documentEntity = documentEntityRepository.findByIdOrNull(documentId)
+            ?: run {
+                log.warn { "Document [$documentId] doesn't exist" }
+                return
+            }
+
+        val document = documentEntity.toIndexData().also {
+            documentAccessService.populateAllowedUsers(it)
+        }
+        val indexingResult = searchClient.uploadDocuments(listOf(document))
+        log.debug { "Upload document [$documentId] to index" }
         indexingResult.results
             .filter { !it.isSucceeded }
             .forEach { log.error { "Document [${it.key}] upload failed: [${it.errorMessage}]" } }

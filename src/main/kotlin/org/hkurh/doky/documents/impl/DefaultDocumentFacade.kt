@@ -52,12 +52,14 @@ class DefaultDocumentFacade(
 
     private val log = KotlinLogging.logger {}
 
+    @Transactional
     override fun createDocument(name: String, description: String?): DocumentResponse? {
         val documentEntity = documentService.create(name, description)
         log.debug { "Created new Document with id [${documentEntity.id}]" }
         return documentEntity.toDto()
     }
 
+    @Transactional
     override fun update(id: Long, document: DocumentRequest) {
         val existedDocument =
             documentService.find(id) ?: throw DokyNotFoundException("Document with id [$id] not found")

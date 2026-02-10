@@ -23,6 +23,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.documents.DocumentService
 import org.hkurh.doky.documents.db.DocumentEntity
 import org.hkurh.doky.documents.db.DocumentEntityRepository
+import org.hkurh.doky.kafka.KafkaDocumentIndexProducerService
 import org.hkurh.doky.users.UserService
 import org.springframework.stereotype.Service
 
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service
 class DefaultDocumentService(
     private val documentEntityRepository: DocumentEntityRepository,
     private val userService: UserService,
+    private val kafkaDocumentIndexProducerService :KafkaDocumentIndexProducerService
 ) : DocumentService {
 
     private val log = KotlinLogging.logger {}
@@ -43,6 +45,7 @@ class DefaultDocumentService(
         }
         val savedDocument = documentEntityRepository.save(document)
         log.debug { "Created new Document [${savedDocument.id}] by User [${currentUser.id}]" }
+        sendKafkaMessage(savedDocument.id)
         return savedDocument
     }
 
@@ -66,5 +69,11 @@ class DefaultDocumentService(
     override fun save(document: DocumentEntity) {
         log.debug { "Save Document [${document.id}]" }
         documentEntityRepository.save(document)
+        sendKafkaMessage(document.id)
+    }
+
+    private fun sendKafkaMessage(documentId: Long) {
+        log.debug { "Send Kafka message for Document [$documentId]" }
+        kafkaDocumentIndexProducerService.send(documentId)
     }
 }

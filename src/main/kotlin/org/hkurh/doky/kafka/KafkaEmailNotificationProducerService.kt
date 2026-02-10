@@ -19,41 +19,23 @@
 
 package org.hkurh.doky.kafka
 
-import io.github.oshai.kotlinlogging.KotlinLogging
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.kafka.support.SendResult
-import org.springframework.stereotype.Component
-import java.time.LocalDateTime
-import java.util.concurrent.CompletableFuture
+import org.hkurh.doky.kafka.dto.EmailType
 
-@Component
-class KafkaEmailNotificationProducerService(
-    private val kafkaTemplate: KafkaTemplate<String, Any>
-) {
+/**
+ * Service for producing email notification messages to a Kafka topic.
+ *
+ * This interface defines the contract for sending email notifications
+ * based on user identifiers and a specified email type. Implementations
+ * of this service are responsible for serializing and sending the message
+ * to the appropriate Kafka topic for further processing.
+ */
+interface KafkaEmailNotificationProducerService {
 
-    private val log = KotlinLogging.logger {}
-
-    @Value("\${doky.kafka.emails.topic}")
-    private var topic: String = ""
-
-    fun sendNotification(userId: Long, emailType: EmailType) {
-        val key = "$userId|$emailType|${LocalDateTime.now()}"
-        val message = SendEmailMessage().apply {
-            this.userId = userId
-            this.emailType = emailType
-        }
-        sendKafkaMessage(key, message)
-    }
-
-    private fun sendKafkaMessage(key: String, message: SendEmailMessage) {
-        val future: CompletableFuture<SendResult<String, Any>> = kafkaTemplate.send(topic, key, message)
-        future.whenComplete { result, e ->
-            if (e == null) {
-                log.debug { "Produced message to topic [${result.recordMetadata.topic()}] with key [$key]" }
-            } else {
-                log.error(e) { "Error sending email message with key [$key]" }
-            }
-        }
-    }
+    /**
+     * Sends an email notification message to a Kafka topic for the specified user.
+     *
+     * @param userId The unique identifier of the user for whom the email notification will be sent.
+     * @param emailType The type of email notification to send, such as registration or password reset.
+     */
+    fun send(userId: Long, emailType: EmailType)
 }

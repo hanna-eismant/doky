@@ -17,25 +17,15 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.kafka
+package org.hkurh.doky.kafka.dto
 
-import org.hkurh.doky.kafka.dto.SendEmailMessage
+import com.fasterxml.jackson.annotation.JsonProperty
 
-/**
- * Service for consuming email notification messages from a Kafka topic.
- *
- * This interface defines the contract for processing email notification messages
- * received from a Kafka topic. Implementations of this service are expected to
- * handle the deserialization and processing logic for the incoming messages, which
- * typically contain details such as user identifiers and email types.
- */
-interface KafkaEmailNotificationConsumerService {
+class DocumentIndexMessage {
+    @JsonProperty("documentId")
+    var documentId: Long? = null
 
-    /**
-     * Processes an incoming email notification message from a Kafka topic.
-     *
-     * @param message The message containing the user identifier and email type
-     *                information for sending an email notification.
-     */
-    fun listen(message: SendEmailMessage)
+    override fun toString(): String {
+        return "DocumentIndexMessage(documentId=$documentId)"
+    }
 }
