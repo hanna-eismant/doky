@@ -108,43 +108,24 @@
   <div class="breadcrumbs"><a href="../../../index.html">doky</a><span class="delimiter">/</span><a href="../index.html">org.hkurh.doky.kafka</a><span class="delimiter">/</span><span class="current">KafkaEmailNotificationProducerService</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Kafka</span><wbr></wbr><span>Email</span><wbr></wbr><span>Notification</span><wbr></wbr><span>Producer</span><wbr></wbr><span><span>Service</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.stereotype/Component///PointingToDeclaration/"><span class="token annotation builtin">Component</span></span></div></div><span class="token keyword">class </span><a href="index.html">KafkaEmailNotificationProducerService</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">kafkaTemplate<span class="token operator">: </span><span data-unresolved-link="org.springframework.kafka.core/KafkaTemplate///PointingToDeclaration/">KafkaTemplate</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">KafkaEmailNotificationProducerService</a></div><p class="paragraph">Service for producing email notification messages to a Kafka topic.</p><p class="paragraph">This interface defines the contract for sending email notifications based on user identifiers and a specified email type. Implementations of this service are responsible for serializing and sending the message to the appropriate Kafka topic for further processing.</p><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../org.hkurh.doky.kafka.impl/-default-kafka-email-notification-producer-service/index.html">DefaultKafkaEmailNotificationProducerService</a></div></span></div><div></div></div></div></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
-      <div data-togglable="CONSTRUCTOR">
-        <h2 class="">Constructors</h2>
-        <div class="table"><a data-name="-1525554911%2FConstructors%2F-251573632" anchor-label="KafkaEmailNotificationProducerService" id="-1525554911%2FConstructors%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":/main" data-filterable-set=":/main">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="-kafka-email-notification-producer-service.html"><span>Kafka</span><wbr></wbr><span>Email</span><wbr></wbr><span>Notification</span><wbr></wbr><span>Producer</span><wbr></wbr><span><span>Service</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1525554911%2FConstructors%2F-251573632"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">kafkaTemplate<span class="token operator">: </span><span data-unresolved-link="org.springframework.kafka.core/KafkaTemplate///PointingToDeclaration/">KafkaTemplate</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div data-togglable="FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="1114432140%2FFunctions%2F-251573632" anchor-label="sendNotification" id="1114432140%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+        <div class="table"><a data-name="1396053798%2FFunctions%2F-251573632" anchor-label="send" id="1396053798%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
           <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="send-notification.html"><span>send</span><wbr></wbr><span><span>Notification</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1114432140%2FFunctions%2F-251573632"></span>
+                  <div><a href="send.html"><span><span>send</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1396053798%2FFunctions%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="send-notification.html"><span class="token function">sendNotification</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">userId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">emailType<span class="token operator">: </span><a href="../-email-type/index.html">EmailType</a></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="send.html"><span class="token function">send</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">userId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">emailType<span class="token operator">: </span><a href="../../org.hkurh.doky.kafka.dto/-email-type/index.html">EmailType</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sends an email notification message to a Kafka topic for the specified user.</p></div></div></div>
                 </div>
               </div>
             </div>

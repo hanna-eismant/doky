@@ -2,7 +2,7 @@
 <html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>KafkaEmailNotificationConsumerService</title>
+    <title>DefaultKafkaDocumentIndexConsumerService</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js","js");</script>
@@ -104,28 +104,47 @@
                 </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="classlike" id="content" pageIds="doky::org.hkurh.doky.kafka/KafkaEmailNotificationConsumerService///PointingToDeclaration//-251573632">
-  <div class="breadcrumbs"><a href="../../../index.html">doky</a><span class="delimiter">/</span><a href="../index.html">org.hkurh.doky.kafka</a><span class="delimiter">/</span><span class="current">KafkaEmailNotificationConsumerService</span></div>
+<div class="main-content" data-page-type="classlike" id="content" pageIds="doky::org.hkurh.doky.kafka.impl/DefaultKafkaDocumentIndexConsumerService///PointingToDeclaration//-251573632">
+  <div class="breadcrumbs"><a href="../../../index.html">doky</a><span class="delimiter">/</span><a href="../index.html">org.hkurh.doky.kafka.impl</a><span class="delimiter">/</span><span class="current">DefaultKafkaDocumentIndexConsumerService</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>Kafka</span><wbr></wbr><span>Email</span><wbr></wbr><span>Notification</span><wbr></wbr><span>Consumer</span><wbr></wbr><span><span>Service</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">KafkaEmailNotificationConsumerService</a></div><p class="paragraph">Service for consuming email notification messages from a Kafka topic.</p><p class="paragraph">This interface defines the contract for processing email notification messages received from a Kafka topic. Implementations of this service are expected to handle the deserialization and processing logic for the incoming messages, which typically contain details such as user identifiers and email types.</p><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../org.hkurh.doky.kafka.impl/-default-kafka-email-notification-consumer-service/index.html">DefaultKafkaEmailNotificationConsumerService</a></div></span></div><div></div></div></div></div></div></div>
+    <h1 class="cover"><span>Default</span><wbr></wbr><span>Kafka</span><wbr></wbr><span>Document</span><wbr></wbr><span>Index</span><wbr></wbr><span>Consumer</span><wbr></wbr><span><span>Service</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.stereotype/Service///PointingToDeclaration/"><span class="token annotation builtin">Service</span></span></div></div><span class="token keyword">class </span><a href="index.html">DefaultKafkaDocumentIndexConsumerService</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">indexService<span class="token operator">: </span><a href="../../org.hkurh.doky.search.index/-index-service/index.html">IndexService</a></span></span><span class="token punctuation">)</span> : <a href="../../org.hkurh.doky.kafka/-kafka-document-index-consumer-service/index.html">KafkaDocumentIndexConsumerService</a></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
-      <div data-togglable="FUNCTION">
-        <h2 class="">Functions</h2>
-        <div class="table"><a data-name="646799324%2FFunctions%2F-251573632" anchor-label="listen" id="646799324%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1136858768%2FConstructors%2F-251573632" anchor-label="DefaultKafkaDocumentIndexConsumerService" id="1136858768%2FConstructors%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="listen.html"><span><span>listen</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="646799324%2FFunctions%2F-251573632"></span>
+                  <div><a href="-default-kafka-document-index-consumer-service.html"><span>Default</span><wbr></wbr><span>Kafka</span><wbr></wbr><span>Document</span><wbr></wbr><span>Index</span><wbr></wbr><span>Consumer</span><wbr></wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1136858768%2FConstructors%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="listen.html"><span class="token function">listen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="../../org.hkurh.doky.kafka.dto/-send-email-message/index.html">SendEmailMessage</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Processes an incoming email notification message from a Kafka topic.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">indexService<span class="token operator">: </span><a href="../../org.hkurh.doky.search.index/-index-service/index.html">IndexService</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-574225696%2FFunctions%2F-251573632" anchor-label="listen" id="-574225696%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="listen.html"><span><span>listen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-574225696%2FFunctions%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.kafka.annotation/KafkaListener///PointingToDeclaration/"><span class="token annotation builtin">KafkaListener</span></span><span class="token punctuation">(</span><span>id<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;${doky.kafka.documents.consumer.id}&quot;</span></span><span class="token punctuation">, </span></span><wbr></wbr><span>topics<span class="token operator"> = </span><span class="token punctuation">[</span><span><span class="breakable-word"><span class="token string">&quot;${doky.kafka.documents.topic}&quot;</span></span></span><wbr></wbr><span class="token punctuation">]</span><span class="token punctuation">, </span></span><wbr></wbr><span>groupId<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;${doky.kafka.documents.group.id}&quot;</span></span><span class="token punctuation">, </span></span><wbr></wbr><span>containerFactory<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;documentIndexKafkaListenerContainerFactory&quot;</span></span><span class="token punctuation">, </span></span><wbr></wbr><span>autoStartup<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;true&quot;</span></span><span class="token punctuation">, </span></span><wbr></wbr><span>concurrency<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;${doky.kafka.documents.concurrency}&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="listen.html"><span class="token function">listen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="../../org.hkurh.doky.kafka.dto/-document-index-message/index.html">DocumentIndexMessage</a></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>

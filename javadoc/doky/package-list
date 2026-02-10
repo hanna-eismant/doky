@@ -31,9 +31,11 @@ $dokka.location:org.hkurh.doky.config/JacksonConfig/JacksonConfig/#/PointingToDe
 $dokka.location:org.hkurh.doky.config/JacksonConfig/objectMapper/#/PointingToDeclaration/doky/org.hkurh.doky.config/-jackson-config/object-mapper.html
 $dokka.location:org.hkurh.doky.config/KafkaConsumerConfig///PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/index.html
 $dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/KafkaConsumerConfig/#/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/-kafka-consumer-config.html
-$dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/consumerFactory/#/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/consumer-factory.html
+$dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/documentIndexConsumerFactory/#/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/document-index-consumer-factory.html
+$dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/documentIndexKafkaListenerContainerFactory/#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/document-index-kafka-listener-container-factory.html
+$dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/emailNotificationConsumerFactory/#/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/email-notification-consumer-factory.html
+$dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/emailNotificationKafkaListenerContainerFactory/#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/email-notification-kafka-listener-container-factory.html
 $dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/kafkaErrorHandler/#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/kafka-error-handler.html
-$dokka.location:org.hkurh.doky.config/KafkaConsumerConfig/kafkaListenerContainerFactory/#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-consumer-config/kafka-listener-container-factory.html
 $dokka.location:org.hkurh.doky.config/KafkaProducerConfig///PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-producer-config/index.html
 $dokka.location:org.hkurh.doky.config/KafkaProducerConfig/KafkaProducerConfig/#/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-producer-config/-kafka-producer-config.html
 $dokka.location:org.hkurh.doky.config/KafkaProducerConfig/kafkaTemplate/#/PointingToDeclaration/doky/org.hkurh.doky.config/-kafka-producer-config/kafka-template.html
@@ -143,7 +145,7 @@ $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/saveFile/#ko
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/search/#kotlin.String#org.hkurh.doky.documents.api.Page#org.hkurh.doky.documents.api.Sort/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/search.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentFacade/update/#kotlin.Long#org.hkurh.doky.documents.api.DocumentRequest/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-facade/update.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService///PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/index.html
-$dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService/DefaultDocumentService/#org.hkurh.doky.documents.db.DocumentEntityRepository#org.hkurh.doky.users.UserService/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/-default-document-service.html
+$dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService/DefaultDocumentService/#org.hkurh.doky.documents.db.DocumentEntityRepository#org.hkurh.doky.users.UserService#org.hkurh.doky.kafka.KafkaDocumentIndexProducerService/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/-default-document-service.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService/create/#kotlin.String#kotlin.String?/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/create.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService/find/#/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/find.html
 $dokka.location:org.hkurh.doky.documents.impl/DefaultDocumentService/find/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.documents.impl/-default-document-service/find.html
@@ -287,24 +289,46 @@ $dokka.location:org.hkurh.doky.filestorage/FileStorageService///PointingToDeclar
 $dokka.location:org.hkurh.doky.filestorage/FileStorageService/deleteFile/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.filestorage/-file-storage-service/delete-file.html
 $dokka.location:org.hkurh.doky.filestorage/FileStorageService/getFile/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.filestorage/-file-storage-service/get-file.html
 $dokka.location:org.hkurh.doky.filestorage/FileStorageService/storeFile/#org.springframework.web.multipart.MultipartFile#kotlin.String?/PointingToDeclaration/doky/org.hkurh.doky.filestorage/-file-storage-service/store-file.html
+$dokka.location:org.hkurh.doky.kafka.dto////PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/index.html
+$dokka.location:org.hkurh.doky.kafka.dto/DocumentIndexMessage///PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-document-index-message/index.html
+$dokka.location:org.hkurh.doky.kafka.dto/DocumentIndexMessage/DocumentIndexMessage/#/PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-document-index-message/-document-index-message.html
+$dokka.location:org.hkurh.doky.kafka.dto/DocumentIndexMessage/documentId/#/PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-document-index-message/document-id.html
+$dokka.location:org.hkurh.doky.kafka.dto/DocumentIndexMessage/toString/#/PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-document-index-message/to-string.html
+$dokka.location:org.hkurh.doky.kafka.dto/EmailType.REGISTRATION///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}doky/org.hkurh.doky.kafka.dto/-email-type/-r-e-g-i-s-t-r-a-t-i-o-n/index.html
+$dokka.location:org.hkurh.doky.kafka.dto/EmailType.RESET_PASSWORD///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}doky/org.hkurh.doky.kafka.dto/-email-type/-r-e-s-e-t_-p-a-s-s-w-o-r-d/index.html
+$dokka.location:org.hkurh.doky.kafka.dto/EmailType///PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-email-type/index.html
+$dokka.location:org.hkurh.doky.kafka.dto/EmailType/entries/#/PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-email-type/entries.html
+$dokka.location:org.hkurh.doky.kafka.dto/EmailType/valueOf/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-email-type/value-of.html
+$dokka.location:org.hkurh.doky.kafka.dto/EmailType/values/#/PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-email-type/values.html
+$dokka.location:org.hkurh.doky.kafka.dto/SendEmailMessage///PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-send-email-message/index.html
+$dokka.location:org.hkurh.doky.kafka.dto/SendEmailMessage/SendEmailMessage/#/PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-send-email-message/-send-email-message.html
+$dokka.location:org.hkurh.doky.kafka.dto/SendEmailMessage/emailType/#/PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-send-email-message/email-type.html
+$dokka.location:org.hkurh.doky.kafka.dto/SendEmailMessage/toString/#/PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-send-email-message/to-string.html
+$dokka.location:org.hkurh.doky.kafka.dto/SendEmailMessage/userId/#/PointingToDeclaration/doky/org.hkurh.doky.kafka.dto/-send-email-message/user-id.html
+$dokka.location:org.hkurh.doky.kafka.impl////PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/index.html
+$dokka.location:org.hkurh.doky.kafka.impl/AbstractProducerService///PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-abstract-producer-service/index.html
+$dokka.location:org.hkurh.doky.kafka.impl/AbstractProducerService/AbstractProducerService/#kotlin.String#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-abstract-producer-service/-abstract-producer-service.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaDocumentIndexConsumerService///PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-document-index-consumer-service/index.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaDocumentIndexConsumerService/DefaultKafkaDocumentIndexConsumerService/#org.hkurh.doky.search.index.IndexService/PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-document-index-consumer-service/-default-kafka-document-index-consumer-service.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaDocumentIndexConsumerService/listen/#org.hkurh.doky.kafka.dto.DocumentIndexMessage/PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-document-index-consumer-service/listen.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaDocumentIndexProducerService///PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-document-index-producer-service/index.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaDocumentIndexProducerService/DefaultKafkaDocumentIndexProducerService/#kotlin.String#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-document-index-producer-service/-default-kafka-document-index-producer-service.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaDocumentIndexProducerService/send/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-document-index-producer-service/send.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaEmailNotificationConsumerService///PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-email-notification-consumer-service/index.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaEmailNotificationConsumerService/DefaultKafkaEmailNotificationConsumerService/#org.hkurh.doky.email.EmailService/PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-email-notification-consumer-service/-default-kafka-email-notification-consumer-service.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaEmailNotificationConsumerService/listen/#org.hkurh.doky.kafka.dto.SendEmailMessage/PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-email-notification-consumer-service/listen.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaEmailNotificationProducerService///PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-email-notification-producer-service/index.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaEmailNotificationProducerService/DefaultKafkaEmailNotificationProducerService/#kotlin.String#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-email-notification-producer-service/-default-kafka-email-notification-producer-service.html
+$dokka.location:org.hkurh.doky.kafka.impl/DefaultKafkaEmailNotificationProducerService/send/#kotlin.Long#org.hkurh.doky.kafka.dto.EmailType/PointingToDeclaration/doky/org.hkurh.doky.kafka.impl/-default-kafka-email-notification-producer-service/send.html
 $dokka.location:org.hkurh.doky.kafka////PointingToDeclaration/doky/org.hkurh.doky.kafka/index.html
-$dokka.location:org.hkurh.doky.kafka/EmailType.REGISTRATION///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}doky/org.hkurh.doky.kafka/-email-type/-r-e-g-i-s-t-r-a-t-i-o-n/index.html
-$dokka.location:org.hkurh.doky.kafka/EmailType.RESET_PASSWORD///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}doky/org.hkurh.doky.kafka/-email-type/-r-e-s-e-t_-p-a-s-s-w-o-r-d/index.html
-$dokka.location:org.hkurh.doky.kafka/EmailType///PointingToDeclaration/doky/org.hkurh.doky.kafka/-email-type/index.html
-$dokka.location:org.hkurh.doky.kafka/EmailType/entries/#/PointingToDeclaration/doky/org.hkurh.doky.kafka/-email-type/entries.html
-$dokka.location:org.hkurh.doky.kafka/EmailType/valueOf/#kotlin.String/PointingToDeclaration/doky/org.hkurh.doky.kafka/-email-type/value-of.html
-$dokka.location:org.hkurh.doky.kafka/EmailType/values/#/PointingToDeclaration/doky/org.hkurh.doky.kafka/-email-type/values.html
+$dokka.location:org.hkurh.doky.kafka/KafkaDocumentIndexConsumerService///PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-document-index-consumer-service/index.html
+$dokka.location:org.hkurh.doky.kafka/KafkaDocumentIndexConsumerService/listen/#org.hkurh.doky.kafka.dto.DocumentIndexMessage/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-document-index-consumer-service/listen.html
+$dokka.location:org.hkurh.doky.kafka/KafkaDocumentIndexProducerService///PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-document-index-producer-service/index.html
+$dokka.location:org.hkurh.doky.kafka/KafkaDocumentIndexProducerService/send/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-document-index-producer-service/send.html
 $dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationConsumerService///PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-consumer-service/index.html
-$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationConsumerService/KafkaEmailNotificationConsumerService/#org.hkurh.doky.email.EmailService/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-consumer-service/-kafka-email-notification-consumer-service.html
-$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationConsumerService/listen/#org.hkurh.doky.kafka.SendEmailMessage/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-consumer-service/listen.html
+$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationConsumerService/listen/#org.hkurh.doky.kafka.dto.SendEmailMessage/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-consumer-service/listen.html
 $dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationProducerService///PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-producer-service/index.html
-$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationProducerService/KafkaEmailNotificationProducerService/#org.springframework.kafka.core.KafkaTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-producer-service/-kafka-email-notification-producer-service.html
-$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationProducerService/sendNotification/#kotlin.Long#org.hkurh.doky.kafka.EmailType/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-producer-service/send-notification.html
-$dokka.location:org.hkurh.doky.kafka/SendEmailMessage///PointingToDeclaration/doky/org.hkurh.doky.kafka/-send-email-message/index.html
-$dokka.location:org.hkurh.doky.kafka/SendEmailMessage/SendEmailMessage/#/PointingToDeclaration/doky/org.hkurh.doky.kafka/-send-email-message/-send-email-message.html
-$dokka.location:org.hkurh.doky.kafka/SendEmailMessage/emailType/#/PointingToDeclaration/doky/org.hkurh.doky.kafka/-send-email-message/email-type.html
-$dokka.location:org.hkurh.doky.kafka/SendEmailMessage/toString/#/PointingToDeclaration/doky/org.hkurh.doky.kafka/-send-email-message/to-string.html
-$dokka.location:org.hkurh.doky.kafka/SendEmailMessage/userId/#/PointingToDeclaration/doky/org.hkurh.doky.kafka/-send-email-message/user-id.html
+$dokka.location:org.hkurh.doky.kafka/KafkaEmailNotificationProducerService/send/#kotlin.Long#org.hkurh.doky.kafka.dto.EmailType/PointingToDeclaration/doky/org.hkurh.doky.kafka/-kafka-email-notification-producer-service/send.html
 $dokka.location:org.hkurh.doky.maintenance.impl////PointingToDeclaration/doky/org.hkurh.doky.maintenance.impl/index.html
 $dokka.location:org.hkurh.doky.maintenance.impl/DefaultTestUserService///PointingToDeclaration/doky/org.hkurh.doky.maintenance.impl/-default-test-user-service/index.html
 $dokka.location:org.hkurh.doky.maintenance.impl/DefaultTestUserService/DefaultTestUserService/#kotlin.String#org.hkurh.doky.documents.db.DocumentEntityRepository#org.hkurh.doky.users.db.UserEntityRepository/PointingToDeclaration/doky/org.hkurh.doky.maintenance.impl/-default-test-user-service/-default-test-user-service.html
@@ -394,9 +418,11 @@ $dokka.location:org.hkurh.doky.search.index.impl////PointingToDeclaration/doky/
 $dokka.location:org.hkurh.doky.search.index.impl/DefaultIndexService///PointingToDeclaration/doky/org.hkurh.doky.search.index.impl/-default-index-service/index.html
 $dokka.location:org.hkurh.doky.search.index.impl/DefaultIndexService/DefaultIndexService/#org.hkurh.doky.documents.db.DocumentEntityRepository#org.hkurh.doky.documents.DocumentAccessService#com.azure.search.documents.SearchClient/PointingToDeclaration/doky/org.hkurh.doky.search.index.impl/-default-index-service/-default-index-service.html
 $dokka.location:org.hkurh.doky.search.index.impl/DefaultIndexService/fullIndex/#/PointingToDeclaration/doky/org.hkurh.doky.search.index.impl/-default-index-service/full-index.html
+$dokka.location:org.hkurh.doky.search.index.impl/DefaultIndexService/updateIndex/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.search.index.impl/-default-index-service/update-index.html
 $dokka.location:org.hkurh.doky.search.index////PointingToDeclaration/doky/org.hkurh.doky.search.index/index.html
 $dokka.location:org.hkurh.doky.search.index/IndexService///PointingToDeclaration/doky/org.hkurh.doky.search.index/-index-service/index.html
 $dokka.location:org.hkurh.doky.search.index/IndexService/fullIndex/#/PointingToDeclaration/doky/org.hkurh.doky.search.index/-index-service/full-index.html
+$dokka.location:org.hkurh.doky.search.index/IndexService/updateIndex/#kotlin.Long/PointingToDeclaration/doky/org.hkurh.doky.search.index/-index-service/update-index.html
 $dokka.location:org.hkurh.doky.search.schedule.impl////PointingToDeclaration/doky/org.hkurh.doky.search.schedule.impl/index.html
 $dokka.location:org.hkurh.doky.search.schedule.impl/DefaultScheduler///PointingToDeclaration/doky/org.hkurh.doky.search.schedule.impl/-default-scheduler/index.html
 $dokka.location:org.hkurh.doky.search.schedule.impl/DefaultScheduler/DefaultScheduler/#org.hkurh.doky.search.index.impl.DefaultIndexService/PointingToDeclaration/doky/org.hkurh.doky.search.schedule.impl/-default-scheduler/-default-scheduler.html
@@ -568,6 +594,8 @@ org.hkurh.doky.errorhandling
 org.hkurh.doky.filestorage
 org.hkurh.doky.filestorage.impl
 org.hkurh.doky.kafka
+org.hkurh.doky.kafka.dto
+org.hkurh.doky.kafka.impl
 org.hkurh.doky.maintenance
 org.hkurh.doky.maintenance.impl
 org.hkurh.doky.maintenance.schedule
