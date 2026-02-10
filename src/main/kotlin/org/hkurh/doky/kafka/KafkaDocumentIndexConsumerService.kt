@@ -19,21 +19,9 @@
 
 package org.hkurh.doky.kafka
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import org.hkurh.doky.kafka.dto.DocumentIndexMessage
 
-class SendEmailMessage {
-    @JsonProperty("userId")
-    var userId: Long? = null
+interface KafkaDocumentIndexConsumerService {
 
-    @JsonProperty("emailType")
-    var emailType: EmailType? = null
-
-    override fun toString(): String {
-        return "SendEmailMessage(userId=$userId, emailType=$emailType)"
-    }
-}
-
-enum class EmailType {
-    REGISTRATION,
-    RESET_PASSWORD
+    fun listen(message: DocumentIndexMessage)
 }

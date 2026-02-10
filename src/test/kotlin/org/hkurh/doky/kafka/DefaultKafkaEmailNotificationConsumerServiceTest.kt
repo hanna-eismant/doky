@@ -21,6 +21,9 @@ package org.hkurh.doky.kafka
 
 import org.hkurh.doky.DokyUnitTest
 import org.hkurh.doky.email.EmailService
+import org.hkurh.doky.kafka.dto.EmailType
+import org.hkurh.doky.kafka.dto.SendEmailMessage
+import org.hkurh.doky.kafka.impl.DefaultKafkaEmailNotificationConsumerService
 import org.hkurh.doky.users.db.UserEntity
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -29,11 +32,11 @@ import org.mockito.kotlin.mock
 
 
 @DisplayName("KafkaEmailNotificationConsumerService unit test")
-class KafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
+class DefaultKafkaEmailNotificationConsumerServiceTest : DokyUnitTest {
 
     private val emailService: EmailService = mock()
 
-    private val service = KafkaEmailNotificationConsumerService(emailService)
+    private val service = DefaultKafkaEmailNotificationConsumerService(emailService)
 
 
     @Test

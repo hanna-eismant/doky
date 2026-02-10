@@ -25,7 +25,8 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.config.SaslConfigs
 import org.apache.kafka.common.serialization.StringDeserializer
-import org.hkurh.doky.kafka.SendEmailMessage
+import org.hkurh.doky.kafka.dto.DocumentIndexMessage
+import org.hkurh.doky.kafka.dto.SendEmailMessage
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -76,7 +77,10 @@ class KafkaConsumerConfig {
     private lateinit var saslConfig: String
 
     @Value("\${doky.kafka.emails.group.id}")
-    private lateinit var groupId: String
+    private lateinit var emailNotificationGroupId: String
+
+    @Value("\${doky.kafka.documents.group.id}")
+    private lateinit var documentIndexGroupId: String
 
     @Value("\${spring.kafka.properties.max.poll.interval.ms}")
     private var pullInterval: Int = 300000
@@ -85,7 +89,31 @@ class KafkaConsumerConfig {
     private lateinit var autoOffsetReset: String
 
     @Bean
-    fun consumerFactory(): DefaultKafkaConsumerFactory<String, SendEmailMessage> {
+    fun emailNotificationConsumerFactory(): DefaultKafkaConsumerFactory<String, SendEmailMessage> {
+        return createConsumerFactory(emailNotificationGroupId, SendEmailMessage::class.java)
+    }
+
+    @Bean
+    fun emailNotificationKafkaListenerContainerFactory(kafkaTemplate: KafkaTemplate<String, Any>)
+            : ConcurrentKafkaListenerContainerFactory<String, SendEmailMessage> {
+        return createKafkaListenerContainerFactory(emailNotificationConsumerFactory(), kafkaTemplate)
+    }
+
+    @Bean
+    fun documentIndexConsumerFactory(): DefaultKafkaConsumerFactory<String, DocumentIndexMessage> {
+        return createConsumerFactory(documentIndexGroupId, DocumentIndexMessage::class.java)
+    }
+
+    @Bean
+    fun documentIndexKafkaListenerContainerFactory(kafkaTemplate: KafkaTemplate<String, Any>)
+            : ConcurrentKafkaListenerContainerFactory<String, DocumentIndexMessage> {
+        return createKafkaListenerContainerFactory(documentIndexConsumerFactory(), kafkaTemplate)
+    }
+
+    private fun <T> createConsumerFactory(
+        groupId: String,
+        valueType: Class<T>
+    ): DefaultKafkaConsumerFactory<String, T> {
         val configProps = mutableMapOf<String, Any>(
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServer,
             CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to securityProtocol,
@@ -98,16 +126,18 @@ class KafkaConsumerConfig {
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.java.name,
             ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS to StringDeserializer::class.java,
             ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS to JsonDeserializer::class.java,
-            JsonDeserializer.TRUSTED_PACKAGES to "org.hkurh.doky.kafka",
-            JsonDeserializer.VALUE_DEFAULT_TYPE to SendEmailMessage::class.java
+            JsonDeserializer.TRUSTED_PACKAGES to "org.hkurh.doky.kafka.dto",
+            JsonDeserializer.VALUE_DEFAULT_TYPE to valueType
         )
         return DefaultKafkaConsumerFactory(configProps)
     }
 
-    @Bean
-    fun kafkaListenerContainerFactory(kafkaTemplate: KafkaTemplate<String, Any>): ConcurrentKafkaListenerContainerFactory<String, SendEmailMessage> {
-        val factory = ConcurrentKafkaListenerContainerFactory<String, SendEmailMessage>()
-        factory.consumerFactory = consumerFactory()
+    private fun <T> createKafkaListenerContainerFactory(
+        consumerFactory: DefaultKafkaConsumerFactory<String, T>,
+        kafkaTemplate: KafkaTemplate<String, Any>
+    ): ConcurrentKafkaListenerContainerFactory<String, T> {
+        val factory = ConcurrentKafkaListenerContainerFactory<String, T>()
+        factory.consumerFactory = consumerFactory
         factory.containerProperties.ackMode = ContainerProperties.AckMode.RECORD
         factory.setCommonErrorHandler(kafkaErrorHandler(kafkaTemplate))
         return factory

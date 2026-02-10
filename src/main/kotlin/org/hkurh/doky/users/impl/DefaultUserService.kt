@@ -21,8 +21,8 @@ package org.hkurh.doky.users.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.errorhandling.DokyNotFoundException
-import org.hkurh.doky.kafka.EmailType.REGISTRATION
 import org.hkurh.doky.kafka.KafkaEmailNotificationProducerService
+import org.hkurh.doky.kafka.dto.EmailType.REGISTRATION
 import org.hkurh.doky.security.DokyUserDetails
 import org.hkurh.doky.security.UserAuthority
 import org.hkurh.doky.users.UserService
@@ -55,7 +55,7 @@ class DefaultUserService(
         }
         val createdUser = userEntityRepository.save(userEntity)
         log.debug { "Created new user [${createdUser.id}]" }
-        kafkaEmailNotificationProducerService.sendNotification(
+        kafkaEmailNotificationProducerService.send(
             userId = createdUser.id,
             emailType = REGISTRATION
         )

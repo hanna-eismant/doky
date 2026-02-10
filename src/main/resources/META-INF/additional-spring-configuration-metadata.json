@@ -124,6 +124,31 @@
       "name": "doky.email.test.send",
       "type": "java.lang.Boolean",
       "description": "Specifies if emails should be sent during e2e tests."
+    },
+    {
+      "name": "doky.kafka.documents.topic",
+      "type": "java.lang.String",
+      "description": "Kafka topic name for documents indexing."
+    },
+    {
+      "name": "doky.kafka.documents.group.id",
+      "type": "java.lang.String",
+      "description": "Kafka group id for documents indexing topic."
+    },
+    {
+      "name": "doky.kafka.documents.consumer.id",
+      "type": "java.lang.String",
+      "description": "Kafka consumer id for documents indexing topic."
+    },
+    {
+      "name": "doky.kafka.documents.consumer.autostart",
+      "type": "java.lang.String",
+      "description": "Specifies if consumer should start automatically on application startup."
+    },
+    {
+      "name": "doky.kafka.documents.concurrency",
+      "type": "java.lang.String",
+      "description": "Defines Kafka consumer concurrency for document indexing topic."
     }
   ],
   "hints": [

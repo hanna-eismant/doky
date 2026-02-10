@@ -20,8 +20,8 @@
 package org.hkurh.doky.users
 
 import org.hkurh.doky.DokyUnitTest
-import org.hkurh.doky.kafka.EmailType
 import org.hkurh.doky.kafka.KafkaEmailNotificationProducerService
+import org.hkurh.doky.kafka.dto.EmailType
 import org.hkurh.doky.security.UserAuthority
 import org.hkurh.doky.users.db.AuthorityEntity
 import org.hkurh.doky.users.db.AuthorityEntityRepository
@@ -69,7 +69,7 @@ class DefaultUserServiceTest : DokyUnitTest {
         assertDoesNotThrow { userService.create(userUid, userPassword) }
 
         // then
-        verify(kafkaEmailNotificationProducerService).sendNotification(userEntity.id, EmailType.REGISTRATION)
+        verify(kafkaEmailNotificationProducerService).send(userEntity.id, EmailType.REGISTRATION)
     }
 
     @Test
@@ -83,7 +83,7 @@ class DefaultUserServiceTest : DokyUnitTest {
         assertThrows<RuntimeException> { userService.create(userUid, userPassword) }
 
         // then
-        verify(kafkaEmailNotificationProducerService, never()).sendNotification(userEntity.id, EmailType.REGISTRATION)
+        verify(kafkaEmailNotificationProducerService, never()).send(userEntity.id, EmailType.REGISTRATION)
     }
 
     @Test

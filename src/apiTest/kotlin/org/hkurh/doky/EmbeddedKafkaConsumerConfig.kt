@@ -54,7 +54,7 @@ class EmbeddedKafkaConsumerConfig {
             SaslConfigs.SASL_JAAS_CONFIG to saslConfig,
             ConsumerConfig.GROUP_ID_CONFIG to "test-group",
             ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
-            JsonDeserializer.TRUSTED_PACKAGES to "org.hkurh.doky.kafka",
+            JsonDeserializer.TRUSTED_PACKAGES to "org.hkurh.doky.kafka.dto",
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer::class.java
         )

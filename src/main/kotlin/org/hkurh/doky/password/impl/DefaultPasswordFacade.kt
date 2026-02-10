@@ -21,8 +21,8 @@ package org.hkurh.doky.password.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.errorhandling.DokyInvalidTokenException
-import org.hkurh.doky.kafka.EmailType
 import org.hkurh.doky.kafka.KafkaEmailNotificationProducerService
+import org.hkurh.doky.kafka.dto.EmailType
 import org.hkurh.doky.password.PasswordFacade
 import org.hkurh.doky.password.ResetPasswordService
 import org.hkurh.doky.password.TokenStatus
@@ -51,7 +51,7 @@ class DefaultPasswordFacade(
         val user = userService.findUserByUid(email)
         resetPasswordService.generateAndSaveResetToken(user)
         log.debug { "Generate reset password token for user [${user.id}]" }
-        kafkaEmailNotificationProducerService.sendNotification(user.id, EmailType.RESET_PASSWORD)
+        kafkaEmailNotificationProducerService.send(user.id, EmailType.RESET_PASSWORD)
     }
 
     @Transactional

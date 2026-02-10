@@ -23,6 +23,9 @@ import com.icegreen.greenmail.util.GreenMail
 import org.awaitility.Awaitility.await
 import org.hkurh.doky.DokyIntegrationTest
 import org.hkurh.doky.SmtpServerExtension
+import org.hkurh.doky.kafka.dto.EmailType
+import org.hkurh.doky.kafka.dto.SendEmailMessage
+import org.hkurh.doky.kafka.impl.DefaultKafkaEmailNotificationConsumerService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
@@ -37,17 +40,17 @@ import java.util.concurrent.TimeUnit
 
 @ExtendWith(SmtpServerExtension::class)
 @DisplayName("KafkaEmailNotificationConsumerService integration test")
-class KafkaEmailNotificationConsumerServiceIntegrationTest : DokyIntegrationTest() {
+class DefaultKafkaEmailNotificationConsumerServiceIntegrationTest : DokyIntegrationTest() {
 
     val userEmail = "hanna_test_1@example.com"
 
     var smtpServer: GreenMail? = null
 
     @Autowired
-    protected lateinit var jdbcTemplate: JdbcTemplate
+    lateinit var jdbcTemplate: JdbcTemplate
 
     @Autowired
-    lateinit var kafkaEmailNotificationConsumerService: KafkaEmailNotificationConsumerService
+    lateinit var kafkaEmailNotificationConsumerService: DefaultKafkaEmailNotificationConsumerService
 
     @Test
     @DisplayName("Should send registration email")

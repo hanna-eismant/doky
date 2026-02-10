@@ -19,23 +19,20 @@
 
 package org.hkurh.doky.kafka
 
-import org.hkurh.doky.kafka.dto.SendEmailMessage
-
 /**
- * Service for consuming email notification messages from a Kafka topic.
+ * Service for producing document indexing messages to a Kafka topic.
  *
- * This interface defines the contract for processing email notification messages
- * received from a Kafka topic. Implementations of this service are expected to
- * handle the deserialization and processing logic for the incoming messages, which
- * typically contain details such as user identifiers and email types.
+ * This interface defines the contract for sending document indexing messages
+ * based on a unique document identifier. Implementations of this service are
+ * responsible for serializing and sending the messages to the appropriate
+ * Kafka topic for further processing by consumers.
  */
-interface KafkaEmailNotificationConsumerService {
+interface KafkaDocumentIndexProducerService {
 
     /**
-     * Processes an incoming email notification message from a Kafka topic.
+     * Sends a document indexing message to a Kafka topic for the specified document.
      *
-     * @param message The message containing the user identifier and email type
-     *                information for sending an email notification.
+     * @param documentId The unique identifier of the document to be indexed.
      */
-    fun listen(message: SendEmailMessage)
+    fun send(documentId: Long)
 }

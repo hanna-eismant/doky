@@ -20,11 +20,15 @@
 package org.hkurh.doky.kafka
 
 import org.hkurh.doky.DokyUnitTest
+import org.hkurh.doky.kafka.dto.EmailType
+import org.hkurh.doky.kafka.dto.SendEmailMessage
+import org.hkurh.doky.kafka.impl.DefaultKafkaEmailNotificationProducerService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
@@ -34,10 +38,12 @@ import org.springframework.kafka.support.SendResult
 import java.util.concurrent.CompletableFuture
 
 @DisplayName("KafkaEmailNotificationService unit test")
-class KafkaEmailNotificationProducerServiceTest : DokyUnitTest {
+class DefaultKafkaEmailNotificationProducerServiceTest : DokyUnitTest {
 
+    private val topic = "test-topic"
     private val kafkaTemplate: KafkaTemplate<String, Any> = mock()
-    private val kafkaEmailNotificationProducerService = KafkaEmailNotificationProducerService(kafkaTemplate)
+    private val kafkaEmailNotificationProducerService =
+        DefaultKafkaEmailNotificationProducerService(topic, kafkaTemplate)
 
     @Test
     @DisplayName("Should send message to kafka")
@@ -46,7 +52,7 @@ class KafkaEmailNotificationProducerServiceTest : DokyUnitTest {
         val userId = 16L
         whenever(
             kafkaTemplate.send(
-                any<String>(),
+                eq(topic),
                 any<String>(),
                 any<SendEmailMessage>()
             )
@@ -58,11 +64,11 @@ class KafkaEmailNotificationProducerServiceTest : DokyUnitTest {
         }
 
         // when
-        kafkaEmailNotificationProducerService.sendNotification(userId, EmailType.RESET_PASSWORD)
+        kafkaEmailNotificationProducerService.send(userId, EmailType.RESET_PASSWORD)
 
         // then
         argumentCaptor<SendEmailMessage> {
-            verify(kafkaTemplate, times(1)).send(any(), any(), capture())
+            verify(kafkaTemplate, times(1)).send(eq(topic), any<String>(), capture())
             val data = firstValue
             assertEquals(userId, data.userId)
             assertEquals(EmailType.RESET_PASSWORD, data.emailType)
