@@ -65,3 +65,4 @@ cleanup-functions/out/
 /notebooks/
 /envs/
 /e2e.sh
+/src/main/resources/application-local.properties
