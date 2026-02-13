@@ -60,7 +60,7 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
     }
   }, [saveStatus.success, saveStatus.error]);
 
-  const {fields: {name, description}, handleSubmit, isSubmitting} = useForm(
+  const {fields: {name, description}, handleSubmit, isSubmitting, data} = useForm(
     document,
     editDocument,
     () => {
@@ -74,6 +74,8 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
       setSaveStatus({loading: false, success: false, error: error.message || 'Failed to save changes'});
     }
   );
+
+  const hasChanges = data.name !== document.name || data.description !== document.description;
 
   useEffect(() => {
     if (isSubmitting) {
@@ -226,6 +228,7 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
             color="primary"
             startIcon={<SaveIcon/>}
             loading={isSubmitting}
+            disabled={!hasChanges}
           >
             Save Changes
           </Button>
