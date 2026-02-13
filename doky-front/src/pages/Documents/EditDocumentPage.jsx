@@ -19,22 +19,25 @@
 
 import React, {useCallback} from 'react';
 import EditDocumentForm from './EditDocumentForm/EditDocumentForm.jsx';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useQuery} from '../../hooks/useQuery.js';
 import {getDocument} from '../../api/documents.js';
-import {Box, CircularProgress, Divider, Stack} from '@mui/material';
+import {Box, Button, CircularProgress, Divider, Stack} from '@mui/material';
 import DocumentsIcon from '@mui/icons-material/ContentPaste';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import HomeIcon from '@mui/icons-material/Home';
 import CreateIcon from '@mui/icons-material/Create';
 import Typography from '@mui/material/Typography';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 const EditDocumentPage = () => {
   const params = useParams();
-
+  const navigate = useNavigate();
   const getCurrentDocument = useCallback(() => getDocument(params.id), [params.id]);
 
   const {data, isLoading, refetch} = useQuery(getCurrentDocument);
+
+  const hasError = !isLoading && (!data || data.error);
 
   return (
     <Stack spacing={2} sx={{
@@ -64,6 +67,17 @@ const EditDocumentPage = () => {
       {isLoading ? (
         <Stack alignItems="center" width="100%" padding={4}>
           <CircularProgress/>
+        </Stack>
+      ) : hasError ? (
+        <Stack alignItems="center" width="100%" padding={4} spacing={2}>
+          <ErrorOutlineIcon sx={{fontSize: 64, color: 'error.main'}}/>
+          <Typography variant="h5">Document Not Found</Typography>
+          <Typography variant="body1" color="text.secondary">
+            The document you are trying to edit does not exist or has been deleted.
+          </Typography>
+          <Button variant="contained" onClick={() => navigate('/documents')}>
+            Back to Documents
+          </Button>
         </Stack>
       ) : (
         <Box width="100%">
