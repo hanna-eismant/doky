@@ -26,12 +26,20 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import HomeIcon from '@mui/icons-material/Home';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
+import {datadogLogs} from '@datadog/browser-logs';
 
 const CreateDocumentPage = () => {
   const navigate = useNavigate();
 
-  const goBack = useCallback(() => {
-    navigate('/documents');
+  const goBack = useCallback((response) => {
+    const location = response?.location;
+    if (location) {
+      const documentId = location.split('/').pop();
+      datadogLogs.logger.debug(`Navigate to new document with id [${documentId}]`);
+      navigate(`/documents/edit/${documentId}`);
+    } else {
+      navigate('/documents');
+    }
   }, [navigate]);
 
   return (

@@ -40,9 +40,9 @@ const CreateDocumentForm = ({onCreated}) => {
   const {data, fields: {name, description}, handleSubmit, isSubmitting} = useForm(
     initialFormData,
     documentMutation,
-    () => {
+    (response) => {
       emitGlobalSuccess('Document created successfully');
-      onCreated();
+      onCreated(response);
     }
   );
 
