@@ -58,7 +58,7 @@ describe('documents', () => {
     });
   });
 
-  it('creates a document and sees it in the list with success snackbar', () => {
+  it('creates a document and is redirected to edit page with success snackbar', () => {
     const docName = generateTestDocumentName();
     const docDescription = 'Some description';
 
@@ -68,7 +68,6 @@ describe('documents', () => {
 
       // Spy on real API calls (no stubbing)
       cy.intercept('POST', '**/api/documents').as('createDocument');
-      cy.intercept('GET', '**/api/documents').as('getDocuments');
 
       // Go to create form
       cy.get('[data-cy=documents-create-btn]').click();
@@ -81,28 +80,19 @@ describe('documents', () => {
       // Submit
       cy.get('[data-cy=create-doc-submit]').click();
 
-      // Assert creation call returned 2xx
-      cy.wait('@createDocument').its('response.statusCode').should('be.within', 200, 299);
+      // Assert creation call returned 2xx and get document ID
+      cy.wait('@createDocument').then((interception) => {
+        expect(interception.response.statusCode).to.be.within(200, 299);
+        const documentId = interception.response.headers.location.split('/').pop();
 
-      // We should be redirected back to documents page
-      cy.location('pathname', {timeout: 10000}).should('eq', '/documents');
+        // We should be redirected to edit page for the newly created document
+        cy.location('pathname', {timeout: 10000}).should('eq', `/documents/edit/${documentId}`);
 
-      // Ensure the refreshed list call returns 2xx
-      cy.wait('@getDocuments').its('response.statusCode').should('be.within', 200, 299);
-
-      // Success snackbar is shown
-      cy.get('[data-cy=global-snackbar]')
-        .should('be.visible')
-        .and('contain.text', 'Document created successfully');
-
-      // Table is visible
-      cy.get('[data-cy=documents-table]').should('be.visible');
-
-      // Assert the table contains a row with the created document name
-      cy.get('[data-cy=documents-table-body]')
-        .should('be.visible')
-        .contains('tr', docName)
-        .should('be.visible');
+        // Success snackbar is shown
+        cy.get('[data-cy=global-snackbar]')
+          .should('be.visible')
+          .and('contain.text', 'Document created successfully');
+      });
     });
   });
 });

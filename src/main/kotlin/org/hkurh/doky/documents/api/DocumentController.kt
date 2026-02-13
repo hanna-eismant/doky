@@ -87,7 +87,9 @@ class DocumentController(private val documentFacade: DocumentFacade) : DocumentA
         val createdDocument = documentFacade.createDocument(document.name, document.description)
         val resourceLocation = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}").build(createdDocument!!.id)
-        return ResponseEntity.created(resourceLocation).build<Any>()
+        return ResponseEntity.created(resourceLocation)
+            .header("Access-Control-Expose-Headers", "Location")
+            .build<Any>()
     }
 
     @PutMapping("/{id}")

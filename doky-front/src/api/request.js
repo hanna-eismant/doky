@@ -82,7 +82,11 @@ const request = async (url, method, data = {}) => {
   if (errorData) return errorData;
 
   const parsed = await safeParseJson(response);
-  return parsed ?? {};
+  const location = response.headers.get('Location');
+  return {
+    ...(parsed ?? {}),
+    ...(location && { location })
+  };
 };
 
 export const post = (url, data = {}) =>

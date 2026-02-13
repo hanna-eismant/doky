@@ -37,7 +37,7 @@ export const useForm = (initialData, mutation, onSuccess = noop, onError = noop)
     } else {
       form.setGlobalError(null);
       form.setFieldsErrors([]);
-      onSuccess();
+      onSuccess(response);
     }
 
     setIsSubmitting(false);

@@ -18,13 +18,14 @@
  */
 
 import {download, get, post, postFormData, put} from './request';
+import {datadogLogs} from '@datadog/browser-logs';
 
 const RESOURCE_NAME = 'documents';
 
 export const getDocuments = () => get(RESOURCE_NAME);
 
 export const searchDocuments = payload => {
-  console.log('Searching documents with payload:', payload);
+  datadogLogs.logger.debug('Searching documents with payload:', payload);
   return post(`${RESOURCE_NAME}/search`, payload);
 };
 
