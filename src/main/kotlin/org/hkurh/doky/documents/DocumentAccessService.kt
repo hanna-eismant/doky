@@ -24,7 +24,7 @@ import org.hkurh.doky.search.DocumentIndexData
 /**
  * Provides functionality for managing document access.
  */
-interface DocumentAccessService {
+fun interface DocumentAccessService {
 
     /**
      * Populates the allowed users for document index data.

@@ -29,7 +29,7 @@ import org.hkurh.doky.kafka.dto.SendEmailMessage
  * handle the deserialization and processing logic for the incoming messages, which
  * typically contain details such as user identifiers and email types.
  */
-interface KafkaEmailNotificationConsumerService {
+fun interface KafkaEmailNotificationConsumerService {
 
     /**
      * Processes an incoming email notification message from a Kafka topic.

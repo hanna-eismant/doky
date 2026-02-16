@@ -19,8 +19,6 @@
 
 package org.hkurh.doky.search.index
 
-import org.hkurh.doky.documents.db.DocumentEntity
-
 /**
  * Interface defining the contract for indexing operations.
  *
@@ -41,5 +39,15 @@ interface IndexService {
      */
     fun fullIndex()
 
+    /**
+     * Updates the index for a specific document.
+     *
+     * This method is responsible for partially updating the search index
+     * for the given document, identified by its unique identifier. It is
+     * typically used to apply incremental changes to the index when a
+     * document is modified or added within the system.
+     *
+     * @param documentId The unique identifier of the document to update in the index.
+     */
     fun updateIndex(documentId: Long)
 }

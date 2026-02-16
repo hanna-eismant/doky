@@ -22,7 +22,7 @@ package org.hkurh.doky.maintenance
 /**
  * Service interface to manage maintenance operations related to test users.
  */
-interface TestUserService {
+fun interface TestUserService {
 
     /**
      * Deletes user accounts created specifically for testing purposes.

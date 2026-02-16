@@ -27,7 +27,7 @@ package org.hkurh.doky.kafka
  * responsible for serializing and sending the messages to the appropriate
  * Kafka topic for further processing by consumers.
  */
-interface KafkaDocumentIndexProducerService {
+fun interface KafkaDocumentIndexProducerService {
 
     /**
      * Sends a document indexing message to a Kafka topic for the specified document.
