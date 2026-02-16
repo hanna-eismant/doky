@@ -21,7 +21,21 @@ package org.hkurh.doky.kafka
 
 import org.hkurh.doky.kafka.dto.DocumentIndexMessage
 
-interface KafkaDocumentIndexConsumerService {
+/**
+ * Service for consuming document indexing messages from a Kafka topic.
+ *
+ * This functional interface defines the contract for processing document indexing
+ * messages received from a Kafka topic. Implementations of this service are expected
+ * to handle the deserialization and processing logic for the incoming messages, which
+ * contain information about documents that need to be indexed.
+ */
+fun interface KafkaDocumentIndexConsumerService {
 
+    /**
+     * Processes an incoming document indexing message from a Kafka topic.
+     *
+     * @param message The message containing information about the document to be indexed,
+     *                such as its unique identifier.
+     */
     fun listen(message: DocumentIndexMessage)
 }

@@ -29,7 +29,7 @@ import org.hkurh.doky.kafka.dto.EmailType
  * of this service are responsible for serializing and sending the message
  * to the appropriate Kafka topic for further processing.
  */
-interface KafkaEmailNotificationProducerService {
+fun interface KafkaEmailNotificationProducerService {
 
     /**
      * Sends an email notification message to a Kafka topic for the specified user.

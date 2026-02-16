@@ -25,7 +25,7 @@ import org.hkurh.doky.documents.api.Sort
 /**
  * Provides functionality for searching documents.
  */
-interface DocumentSearchService {
+fun interface DocumentSearchService {
 
     /**
      * Searches for documents based on the provided query, pagination, and sorting parameters.
