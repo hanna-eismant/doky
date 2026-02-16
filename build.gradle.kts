@@ -17,6 +17,7 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
+import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.internal.classpath.Instrumented.systemProperty
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -254,6 +255,8 @@ sonar {
 }
 
 tasks.register("printVersion") {
+    description = "Print version of the application."
+    group = "doky"
     doLast {
         println(project.version)
     }
