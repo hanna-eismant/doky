@@ -26,6 +26,7 @@ import org.hkurh.doky.documents.db.DocumentEntityRepository
 import org.hkurh.doky.search.index.IndexService
 import org.hkurh.doky.toIndexData
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Profile
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -36,6 +37,8 @@ import org.springframework.stereotype.Service
  * and synchronized with the Algolia search engine through operations such as full
  * re-indexing of all documents and updating specific document indexes.
  *
+ * This service is only active when the "test" profile is NOT active.
+ *
  * @constructor Initializes the service with required dependencies such as repositories,
  * access services, and the search client.
  *
@@ -45,6 +48,7 @@ import org.springframework.stereotype.Service
  * @param indexName The name of the Algolia search index to be managed.
  */
 @Service
+@Profile("!test")
 class AlgoliaIndexService(
     private val documentEntityRepository: DocumentEntityRepository,
     private val documentAccessService: DocumentAccessService,
