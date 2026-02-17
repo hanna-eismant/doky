@@ -27,5 +27,5 @@ package org.hkurh.doky.documents.api
  */
 data class DocumentSearchResponse(
     val documents: List<DocumentResponse>,
-    val totalCount: Long
+    val totalCount: Int
 )

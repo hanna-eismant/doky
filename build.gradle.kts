@@ -81,7 +81,7 @@ dependencies {
     implementation(libs.bundles.flyway)
     implementation(libs.bundles.database.connectors)
 
-    implementation(libs.bundles.azure.search)
+    implementation(libs.bundles.algolia)
 
     implementation(libs.bundles.mail)
 

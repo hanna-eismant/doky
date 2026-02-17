@@ -31,7 +31,7 @@ class DefaultDocumentAccessService(
 
     override fun populateAllowedUsers(documentIndexData: DocumentIndexData) : DocumentIndexData {
         documentIndexData.allowedUsers = mutableListOf()
-        val allowedUserIds = documentEntityRepository.findAllowedUsers(documentIndexData.id.toLong())
+        val allowedUserIds = documentEntityRepository.findAllowedUsers(documentIndexData.objectID.toLong())
         allowedUserIds
             .map { it.toString() }
             .forEach { id -> documentIndexData.allowedUsers?.add(id) }

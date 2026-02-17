@@ -23,5 +23,5 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class DocumentResultData @JsonCreator constructor (
-    @JsonProperty("id") val id: String,
+    @JsonProperty("objectID") val objectID: String
 )

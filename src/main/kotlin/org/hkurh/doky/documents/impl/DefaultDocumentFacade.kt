@@ -81,7 +81,7 @@ class DefaultDocumentFacade(
 
     override fun search(query: String, page: Page, sort: Sort): DocumentSearchResponse {
         val searchResult = documentSearchService.search(query, page, sort)
-        val documentIds = searchResult.documents.map { it.id.toLong() }
+        val documentIds = searchResult.documents.map { it.objectID.toLong() }
         val documents = documentService.find(documentIds)
         return DocumentSearchResponse(
             documents = documents.map { it.toDto() },

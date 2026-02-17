@@ -19,41 +19,67 @@
 
 package org.hkurh.doky.search.index.impl
 
-import com.azure.search.documents.SearchClient
-import com.azure.search.documents.models.SearchOptions
+import com.algolia.api.SearchClient
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.documents.DocumentAccessService
 import org.hkurh.doky.documents.db.DocumentEntityRepository
-import org.hkurh.doky.search.DocumentResultData
 import org.hkurh.doky.search.index.IndexService
 import org.hkurh.doky.toIndexData
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
-
+/**
+ * Service class for managing and synchronizing indexes in Algolia.
+ *
+ * This implementation focuses on ensuring that document data is accurately indexed
+ * and synchronized with the Algolia search engine through operations such as full
+ * re-indexing of all documents and updating specific document indexes.
+ *
+ * @constructor Initializes the service with required dependencies such as repositories,
+ * access services, and the search client.
+ *
+ * @param documentEntityRepository The repository to retrieve document entities from the database.
+ * @param documentAccessService Service for managing and populating document-specific access control.
+ * @param searchClient The client for interacting with the Algolia search engine.
+ * @param indexName The name of the Algolia search index to be managed.
+ */
 @Service
-class DefaultIndexService(
+class AlgoliaIndexService(
     private val documentEntityRepository: DocumentEntityRepository,
     private val documentAccessService: DocumentAccessService,
-    private val searchClient: SearchClient
+    private val searchClient: SearchClient,
+    @Value("\${algolia.search.index-name}") private val indexName: String = "",
 ) : IndexService {
 
     private val log = KotlinLogging.logger {}
 
     override fun fullIndex() {
-        cleanIndex()
+        log.info { "Start full index" }
+
+        log.debug { "Clear index data" }
+        searchClient.clearObjects(indexName)
+
         val documents = documentEntityRepository.findAll()
             .mapNotNull { documentEntity -> documentEntity?.toIndexData() }
             .map { documentAccessService.populateAllowedUsers(it) }
-        val indexingResult = searchClient.uploadDocuments(documents)
 
-        log.debug { "Upload [${indexingResult.results.size}] documents to index" }
-        indexingResult.results
-            .filter { !it.isSucceeded }
-            .forEach { log.error { "Document [${it.key}] upload failed: [${it.errorMessage}]" } }
+        log.debug { "Send index data, size: ${documents.size}" }
+        val indexResponse = searchClient.saveObjects(indexName, documents)
+
+        log.debug { "Response: [$indexResponse]" }
+
+        indexResponse
+            .map { batchResponse -> batchResponse.taskID }
+            .forEach { taskID ->
+                log.debug { "Index task id: [$taskID]" }
+                searchClient.waitForTask(indexName, taskID)
+            }
+        log.info { "Finish full index" }
     }
 
     override fun updateIndex(documentId: Long) {
+        log.info { "Start document index [$documentId]" }
         val documentEntity = documentEntityRepository.findByIdOrNull(documentId)
             ?: run {
                 log.warn { "Document [$documentId] doesn't exist" }
@@ -63,32 +89,14 @@ class DefaultIndexService(
         val document = documentEntity.toIndexData().also {
             documentAccessService.populateAllowedUsers(it)
         }
-        val indexingResult = searchClient.uploadDocuments(listOf(document))
+        val indexingResponse = searchClient.saveObject(indexName, document)
         log.debug { "Upload document [$documentId] to index" }
-        indexingResult.results
-            .filter { !it.isSucceeded }
-            .forEach { log.error { "Document [${it.key}] upload failed: [${it.errorMessage}]" } }
-    }
 
-    private fun cleanIndex() {
-        val pageSize = 1_000
-        var totalDeleted = 0
-        val options = SearchOptions().setTop(pageSize)
-
-        while (true) {
-            val page = searchClient.search("*", options, null)
-            val deleteBatch = page.mapNotNull { result -> result.getDocument(DocumentResultData::class.java) }
-                .map { it.id.trim() }
-                .filter { it.isNotEmpty() }
-                .map { DocumentResultData(id = it) }
-
-            if (deleteBatch.isEmpty()) {
-                break
-            }
-
-            searchClient.deleteDocuments(deleteBatch)
-            totalDeleted += deleteBatch.size
-            log.debug { "Deleted [${deleteBatch.size}] documents from index. Total deleted: [${totalDeleted}]" }
+        indexingResponse.taskID.let { taskID ->
+            log.debug { "Index task id: [$taskID]" }
+            searchClient.waitForTask(indexName, taskID)
         }
+
+        log.info { "Finish document index [$documentId]" }
     }
 }

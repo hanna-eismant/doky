@@ -27,7 +27,6 @@ import org.hkurh.doky.users.api.UserDto
 import org.hkurh.doky.users.db.UserEntity
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
-import java.time.ZoneOffset
 import java.util.*
 
 fun UserEntity.toDto(): UserDto {
@@ -57,12 +56,14 @@ fun DocumentEntity.toDto(): DocumentResponse {
 fun DocumentEntity.toIndexData(): DocumentIndexData {
     val entity = this
     return DocumentIndexData(
-        id = entity.id.toString(),
+        objectID = entity.id.toString(),
         name = entity.name,
         description = entity.description,
         fileName = entity.fileName,
-        createdDate = entity.createdDate?.toInstant()?.atOffset(ZoneOffset.UTC),
-        modifiedDate = entity.modifiedDate?.toInstant()?.atOffset(ZoneOffset.UTC),
+        createdDateTs = entity.createdDate?.toInstant()?.toEpochMilli(),
+        createdDateIso = entity.createdDate?.toInstant()?.toString(),
+        modifiedDateTs = entity.modifiedDate?.toInstant()?.toEpochMilli(),
+        modifiedDateIso = entity.modifiedDate?.toInstant()?.toString(),
         createdBy = entity.createdBy?.id.toString(),
         modifiedBy = entity.modifiedBy?.id.toString(),
         allowedUsers = mutableListOf()

@@ -20,7 +20,7 @@
 package org.hkurh.doky.search.schedule.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.hkurh.doky.search.index.impl.DefaultIndexService
+import org.hkurh.doky.search.index.IndexService
 import org.hkurh.doky.search.schedule.Scheduler
 import org.springframework.context.annotation.PropertySource
 import org.springframework.scheduling.annotation.Scheduled
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component
 @Component("search.DefaultScheduler")
 @PropertySource("classpath:scheduler.properties")
 class DefaultScheduler(
-    private val indexService: DefaultIndexService
+    private val indexService: IndexService
 ) : Scheduler {
 
     private val log = KotlinLogging.logger {}
