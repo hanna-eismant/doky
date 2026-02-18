@@ -21,13 +21,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useQuery} from '../../hooks/useQuery';
 import {searchDocuments} from '../../api/documents';
-import {
-  Button,
-  Divider,
-  InputAdornment,
-  Stack,
-  TextField
-} from '@mui/material';
+import {Button, Divider, InputAdornment, Stack, TextField} from '@mui/material';
 import {debounce} from '@mui/material/utils';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import HomeIcon from '@mui/icons-material/Home';
@@ -86,7 +80,7 @@ const columns = [
     headerName: 'Updated',
     minWidth: 200,
     renderHeader: () => (
-      <strong  data-cy="documents-th-updated">
+      <strong data-cy="documents-th-updated">
         Updated
       </strong>
     ),
@@ -97,6 +91,10 @@ const Documents = () => {
 
   const {fields: {query}} = useFormData(searchPayload);
   const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [paginationModel, setPaginationModel] = useState({
+    page: searchPayload.page.number,
+    pageSize: 0
+  });
   const [sortModel, setSortModel] = useState([
     {
       field: searchPayload.sort.property,
@@ -125,8 +123,13 @@ const Documents = () => {
       }
       : searchPayload.sort;
 
-    return searchDocuments({...searchPayload, query: debouncedQuery, sort});
-  }, [debouncedQuery, sortModel]);
+    const page = {
+      number: paginationModel.page,
+      size: paginationModel.pageSize
+    };
+
+    return searchDocuments({...searchPayload, query: debouncedQuery, page, sort});
+  }, [debouncedQuery, paginationModel, sortModel]);
 
   const {isLoading, data} = useQuery(search);
 
@@ -140,6 +143,7 @@ const Documents = () => {
     <Stack spacing={2}
       sx={{
         width: '100%',
+        height: '100vh',
         padding: 2,
         alignItems: 'flex-start'
       }}>
@@ -186,24 +190,24 @@ const Documents = () => {
         loading={isLoading}
         sx={{
           width: '100%',
+          flex: 1,
           '& .MuiDataGrid-row': {
             cursor: 'pointer'
           }
         }}
         columns={columns}
         rows={data.documents}
+        rowCount={data.totalCount}
         onRowClick={(params) => navigate(`/documents/edit/${params.id}`)}
+        paginationMode="server"
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
         sortModel={sortModel}
         onSortModelChange={setSortModel}
         sortingOrder={['asc', 'desc']}
         disableColumnFilter
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: searchPayload.page.size,
-            },
-          },
-        }}
+        autoPageSize
+        pageSizeOptions={[0]}
       />
     </Stack>
   );

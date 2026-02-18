@@ -77,7 +77,7 @@ class AlgoliaDocumentSearchService(
         val result = searchClient.searchSingleIndex(targetIndex, params, DocumentResultData::class.java)
         log.debug { "Search query=[$query], index=[$targetIndex], page=[$pageNumber], size=[$pageSize], nbHits=[${result.nbHits}]" }
         log.debug { "Search result: [$result]" }
-        return SearchResult(result.hits, result.nbHits ?: 0)
+        return SearchResult(result.hits, result.nbHits ?: 0, result.page ?: 0,result.nbPages ?: 0)
     }
 
     private fun buildAllowedUsersFilter(userId: Long): String {
