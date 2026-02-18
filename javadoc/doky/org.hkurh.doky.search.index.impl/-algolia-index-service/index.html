@@ -2,7 +2,7 @@
 <html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>DefaultIndexService</title>
+    <title>AlgoliaIndexService</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js","js");</script>
@@ -104,28 +104,28 @@
                 </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="classlike" id="content" pageIds="doky::org.hkurh.doky.search.index.impl/DefaultIndexService///PointingToDeclaration//-251573632">
-  <div class="breadcrumbs"><a href="../../../index.html">doky</a><span class="delimiter">/</span><a href="../index.html">org.hkurh.doky.search.index.impl</a><span class="delimiter">/</span><span class="current">DefaultIndexService</span></div>
+<div class="main-content" data-page-type="classlike" id="content" pageIds="doky::org.hkurh.doky.search.index.impl/AlgoliaIndexService///PointingToDeclaration//-251573632">
+  <div class="breadcrumbs"><a href="../../../index.html">doky</a><span class="delimiter">/</span><a href="../index.html">org.hkurh.doky.search.index.impl</a><span class="delimiter">/</span><span class="current">AlgoliaIndexService</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>Default</span><wbr></wbr><span>Index</span><wbr></wbr><span><span>Service</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.stereotype/Service///PointingToDeclaration/"><span class="token annotation builtin">Service</span></span></div></div><span class="token keyword">class </span><a href="index.html">DefaultIndexService</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">documentEntityRepository<span class="token operator">: </span><a href="../../org.hkurh.doky.documents.db/-document-entity-repository/index.html">DocumentEntityRepository</a><span class="token punctuation">, </span></span><span class="parameter ">documentAccessService<span class="token operator">: </span><a href="../../org.hkurh.doky.documents/-document-access-service/index.html">DocumentAccessService</a><span class="token punctuation">, </span></span><span class="parameter ">searchClient<span class="token operator">: </span><span data-unresolved-link="com.azure.search.documents/SearchClient///PointingToDeclaration/">SearchClient</span></span></span><span class="token punctuation">)</span> : <a href="../../org.hkurh.doky.search.index/-index-service/index.html">IndexService</a></div></div></div>
+    <h1 class="cover"><span>Algolia</span><wbr></wbr><span>Index</span><wbr></wbr><span><span>Service</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.stereotype/Service///PointingToDeclaration/"><span class="token annotation builtin">Service</span></span></div><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.context.annotation/Profile///PointingToDeclaration/"><span class="token annotation builtin">Profile</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="token punctuation">[</span><span><span class="breakable-word"><span class="token string">&quot;!test&quot;</span></span></span><wbr></wbr><span class="token punctuation">]</span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">class </span><a href="index.html">AlgoliaIndexService</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">documentEntityRepository<span class="token operator">: </span><a href="../../org.hkurh.doky.documents.db/-document-entity-repository/index.html">DocumentEntityRepository</a><span class="token punctuation">, </span></span><span class="parameter ">documentAccessService<span class="token operator">: </span><a href="../../org.hkurh.doky.documents/-document-access-service/index.html">DocumentAccessService</a><span class="token punctuation">, </span></span><span class="parameter ">searchClient<span class="token operator">: </span><span data-unresolved-link="com.algolia.api/SearchClient///PointingToDeclaration/">SearchClient</span><span class="token punctuation">, </span></span><span class="parameter "><span><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.beans.factory.annotation/Value///PointingToDeclaration/"><span class="token annotation builtin">Value</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;${algolia.search.index-name}&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span> </span>indexName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">&quot;&quot;</span></span></span><span class="token punctuation">)</span> : <a href="../../org.hkurh.doky.search.index/-index-service/index.html">IndexService</a></div><p class="paragraph">Service class for managing and synchronizing indexes in Algolia.</p><p class="paragraph">This implementation focuses on ensuring that document data is accurately indexed and synchronized with the Algolia search engine through operations such as full re-indexing of all documents and updating specific document indexes.</p><p class="paragraph">This service is only active when the &quot;test&quot; profile is NOT active.</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>document</span><wbr></wbr><span>Entity</span><wbr></wbr><span><span>Repository</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The repository to retrieve document entities from the database.</p></div></div></div></div><div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>document</span><wbr></wbr><span>Access</span><wbr></wbr><span><span>Service</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Service for managing and populating document-specific access control.</p></div></div></div></div><div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>search</span><wbr></wbr><span><span>Client</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The client for interacting with the Algolia search engine.</p></div></div></div></div><div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>index</span><wbr></wbr><span><span>Name</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The name of the Algolia search index to be managed.</p></div></div></div></div></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
         <h2 class="">Constructors</h2>
-        <div class="table"><a data-name="795547115%2FConstructors%2F-251573632" anchor-label="DefaultIndexService" id="795547115%2FConstructors%2F-251573632" data-filterable-set=":/main"></a>
+        <div class="table"><a data-name="-1869999000%2FConstructors%2F-251573632" anchor-label="AlgoliaIndexService" id="-1869999000%2FConstructors%2F-251573632" data-filterable-set=":/main"></a>
           <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-default-index-service.html"><span>Default</span><wbr></wbr><span>Index</span><wbr></wbr><span><span>Service</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="795547115%2FConstructors%2F-251573632"></span>
+                  <div><a href="-algolia-index-service.html"><span>Algolia</span><wbr></wbr><span>Index</span><wbr></wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1869999000%2FConstructors%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">documentEntityRepository<span class="token operator">: </span><a href="../../org.hkurh.doky.documents.db/-document-entity-repository/index.html">DocumentEntityRepository</a><span class="token punctuation">, </span></span><span class="parameter ">documentAccessService<span class="token operator">: </span><a href="../../org.hkurh.doky.documents/-document-access-service/index.html">DocumentAccessService</a><span class="token punctuation">, </span></span><span class="parameter ">searchClient<span class="token operator">: </span><span data-unresolved-link="com.azure.search.documents/SearchClient///PointingToDeclaration/">SearchClient</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">documentEntityRepository<span class="token operator">: </span><a href="../../org.hkurh.doky.documents.db/-document-entity-repository/index.html">DocumentEntityRepository</a><span class="token punctuation">, </span></span><span class="parameter ">documentAccessService<span class="token operator">: </span><a href="../../org.hkurh.doky.documents/-document-access-service/index.html">DocumentAccessService</a><span class="token punctuation">, </span></span><span class="parameter ">searchClient<span class="token operator">: </span><span data-unresolved-link="com.algolia.api/SearchClient///PointingToDeclaration/">SearchClient</span><span class="token punctuation">, </span></span><span class="parameter "><span><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.beans.factory.annotation/Value///PointingToDeclaration/"><span class="token annotation builtin">Value</span></span><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;${algolia.search.index-name}&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span> </span>indexName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">&quot;&quot;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Initializes the service with required dependencies such as repositories, access services, and the search client.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -134,12 +134,12 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="1420527447%2FFunctions%2F-251573632" anchor-label="fullIndex" id="1420527447%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+        <div class="table"><a data-name="-87394233%2FFunctions%2F-251573632" anchor-label="fullIndex" id="-87394233%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
           <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="full-index.html"><span>full</span><wbr></wbr><span><span>Index</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1420527447%2FFunctions%2F-251573632"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-87394233%2FFunctions%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
@@ -149,12 +149,12 @@
               </div>
             </div>
           </div>
-<a data-name="2045926856%2FFunctions%2F-251573632" anchor-label="updateIndex" id="2045926856%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+<a data-name="-511282472%2FFunctions%2F-251573632" anchor-label="updateIndex" id="-511282472%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
           <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="update-index.html"><span>update</span><wbr></wbr><span><span>Index</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2045926856%2FFunctions%2F-251573632"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-511282472%2FFunctions%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>

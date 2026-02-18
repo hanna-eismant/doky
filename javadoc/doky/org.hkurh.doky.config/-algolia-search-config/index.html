@@ -2,7 +2,7 @@
 <html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>DefaultDocumentSearchService</title>
+    <title>AlgoliaSearchConfig</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js","js");</script>
@@ -104,28 +104,28 @@
                 </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="classlike" id="content" pageIds="doky::org.hkurh.doky.search.impl/DefaultDocumentSearchService///PointingToDeclaration//-251573632">
-  <div class="breadcrumbs"><a href="../../../index.html">doky</a><span class="delimiter">/</span><a href="../index.html">org.hkurh.doky.search.impl</a><span class="delimiter">/</span><span class="current">DefaultDocumentSearchService</span></div>
+<div class="main-content" data-page-type="classlike" id="content" pageIds="doky::org.hkurh.doky.config/AlgoliaSearchConfig///PointingToDeclaration//-251573632">
+  <div class="breadcrumbs"><a href="../../../index.html">doky</a><span class="delimiter">/</span><a href="../index.html">org.hkurh.doky.config</a><span class="delimiter">/</span><span class="current">AlgoliaSearchConfig</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>Default</span><wbr></wbr><span>Document</span><wbr></wbr><span>Search</span><wbr></wbr><span><span>Service</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.stereotype/Service///PointingToDeclaration/"><span class="token annotation builtin">Service</span></span></div></div><span class="token keyword">class </span><a href="index.html">DefaultDocumentSearchService</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">userService<span class="token operator">: </span><a href="../../org.hkurh.doky.users/-user-service/index.html">UserService</a><span class="token punctuation">, </span></span><span class="parameter ">searchClient<span class="token operator">: </span><span data-unresolved-link="com.azure.search.documents/SearchClient///PointingToDeclaration/">SearchClient</span></span></span><span class="token punctuation">)</span> : <a href="../../org.hkurh.doky.search/-document-search-service/index.html">DocumentSearchService</a></div></div></div>
+    <h1 class="cover"><span>Algolia</span><wbr></wbr><span>Search</span><wbr></wbr><span><span>Config</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.context.annotation/Configuration///PointingToDeclaration/"><span class="token annotation builtin">Configuration</span></span></div></div><span class="token keyword">class </span><a href="index.html">AlgoliaSearchConfig</a></div><p class="paragraph">Configuration class for setting up the Algolia Search client in the application.</p><p class="paragraph">This class is annotated with <code class="lang-kotlin">@Configuration</code> to designate it as a source of Spring Boot bean definitions. It retrieves Algolia configuration properties, such as the application ID and API key, from the application configuration files using the <code class="lang-kotlin">@Value</code> annotation.</p><p class="paragraph">The primary bean provided is the <code class="lang-kotlin">searchClient</code>, which facilitates communication with the Algolia Search API. The client is constructed using the <code class="lang-kotlin">SearchClient</code> implementation and the injected configuration values.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
         <h2 class="">Constructors</h2>
-        <div class="table"><a data-name="1621737053%2FConstructors%2F-251573632" anchor-label="DefaultDocumentSearchService" id="1621737053%2FConstructors%2F-251573632" data-filterable-set=":/main"></a>
+        <div class="table"><a data-name="-629037730%2FConstructors%2F-251573632" anchor-label="AlgoliaSearchConfig" id="-629037730%2FConstructors%2F-251573632" data-filterable-set=":/main"></a>
           <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-default-document-search-service.html"><span>Default</span><wbr></wbr><span>Document</span><wbr></wbr><span>Search</span><wbr></wbr><span><span>Service</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1621737053%2FConstructors%2F-251573632"></span>
+                  <div><a href="-algolia-search-config.html"><span>Algolia</span><wbr></wbr><span>Search</span><wbr></wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-629037730%2FConstructors%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">userService<span class="token operator">: </span><a href="../../org.hkurh.doky.users/-user-service/index.html">UserService</a><span class="token punctuation">, </span></span><span class="parameter ">searchClient<span class="token operator">: </span><span data-unresolved-link="com.azure.search.documents/SearchClient///PointingToDeclaration/">SearchClient</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -134,32 +134,17 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="-360056377%2FFunctions%2F-251573632" anchor-label="buildAllowedUsersFilter" id="-360056377%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+        <div class="table"><a data-name="-1387864875%2FFunctions%2F-251573632" anchor-label="algoliaSearchClient" id="-1387864875%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
           <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="build-allowed-users-filter.html"><span>build</span><wbr></wbr><span>Allowed</span><wbr></wbr><span>Users</span><wbr></wbr><span><span>Filter</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-360056377%2FFunctions%2F-251573632"></span>
+                  <div><a href="algolia-search-client.html"><span>algolia</span><wbr></wbr><span>Search</span><wbr></wbr><span><span>Client</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1387864875%2FFunctions%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="build-allowed-users-filter.html"><span class="token function">buildAllowedUsersFilter</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-767145190%2FFunctions%2F-251573632" anchor-label="search" id="-767145190%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="search.html"><span><span>search</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-767145190%2FFunctions%2F-251573632"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="search.html"><span class="token function">search</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">query<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">page<span class="token operator">: </span><a href="../../org.hkurh.doky.documents.api/-page/index.html">Page</a><span class="token punctuation">, </span></span><span class="parameter ">sort<span class="token operator">: </span><a href="../../org.hkurh.doky.documents.api/-sort/index.html">Sort</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../org.hkurh.doky.search/-search-result/index.html">SearchResult</a></div><div class="brief "><p class="paragraph">Searches for documents based on the provided query, pagination, and sorting parameters. Adds filter for allowed users.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.springframework.context.annotation/Bean///PointingToDeclaration/"><span class="token annotation builtin">Bean</span></span></div></div><span class="token keyword">fun </span><a href="algolia-search-client.html"><span class="token function">algoliaSearchClient</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.algolia.api/SearchClient///PointingToDeclaration/">SearchClient</span></div></div></div>
                 </div>
               </div>
             </div>
