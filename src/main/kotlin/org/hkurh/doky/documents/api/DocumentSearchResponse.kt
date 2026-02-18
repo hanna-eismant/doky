@@ -27,5 +27,7 @@ package org.hkurh.doky.documents.api
  */
 data class DocumentSearchResponse(
     val documents: List<DocumentResponse>,
-    val totalCount: Int
+    val totalCount: Int,
+    val currentPage: Int,
+    val totalPages: Int
 )

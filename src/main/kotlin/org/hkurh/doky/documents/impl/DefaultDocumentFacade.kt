@@ -81,11 +81,21 @@ class DefaultDocumentFacade(
 
     override fun search(query: String, page: Page, sort: Sort): DocumentSearchResponse {
         val searchResult = documentSearchService.search(query, page, sort)
-        val documentIds = searchResult.documents.map { it.objectID.toLong() }
-        val documents = documentService.find(documentIds)
+
+        val orderedDocuments =
+            searchResult.documents
+                .map { it.objectID.toLong() }
+                .let { ids ->
+                    documentService.find(ids)
+                        .associateBy { it.id }
+                        .let { byId -> ids.mapNotNull(byId::get) }
+                }
+
         return DocumentSearchResponse(
-            documents = documents.map { it.toDto() },
-            totalCount = searchResult.totalCount
+            documents = orderedDocuments.map { it.toDto() },
+            totalCount = searchResult.totalCount,
+            currentPage = searchResult.currentPage,
+            totalPages = searchResult.totalPages
         )
     }
 
