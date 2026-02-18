@@ -17,11 +17,23 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.search
+package org.hkurh.doky.test.search.index.impl
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
+import io.github.oshai.kotlinlogging.KotlinLogging
+import org.hkurh.doky.search.index.IndexService
+import org.springframework.context.annotation.Profile
+import org.springframework.stereotype.Service
 
-data class DocumentResultData @JsonCreator constructor (
-    @JsonProperty("objectID") val objectID: String
-)
+@Service
+@Profile("test")
+class TestIndexService : IndexService {
+    private val log = KotlinLogging.logger {}
+
+    override fun fullIndex() {
+        log.info { "TestIndexService.fullIndex() called (no-op)" }
+    }
+
+    override fun updateIndex(documentId: Long) {
+        log.info { "TestIndexService.updateIndex($documentId) called (no-op)" }
+    }
+}

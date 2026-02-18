@@ -17,7 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.internal.classpath.Instrumented.systemProperty
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -43,6 +42,7 @@ plugins {
     alias(libs.plugins.azurewebapp)
     alias(libs.plugins.dokka)
     alias(libs.plugins.buildconfig)
+    `java-test-fixtures`
 }
 
 java {
@@ -81,7 +81,7 @@ dependencies {
     implementation(libs.bundles.flyway)
     implementation(libs.bundles.database.connectors)
 
-    implementation(libs.bundles.azure.search)
+    implementation(libs.bundles.algolia)
 
     implementation(libs.bundles.mail)
 
@@ -109,6 +109,9 @@ dependencies {
     testImplementation(libs.bundles.testcontainers)
 
     testRuntimeOnly(libs.junit.platform.launcher)
+
+    testFixturesImplementation(libs.kotlin.logging)
+    testFixturesImplementation(libs.spring.boot.starter)
 }
 
 testing {
@@ -130,6 +133,7 @@ testing {
 
             dependencies {
                 implementation(project())
+                implementation(testFixtures(project()))
 
                 implementation(libs.spring.boot.starter.test.get().toString())
                 implementation(libs.awaitility.get().toString())
@@ -159,6 +163,7 @@ testing {
             testType = TestSuiteType.FUNCTIONAL_TEST
             dependencies {
                 implementation(project())
+                implementation(testFixtures(project()))
 
                 implementation(libs.spring.boot.starter.test.get().toString())
                 implementation(libs.junit4.get().toString())

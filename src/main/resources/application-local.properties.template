@@ -30,8 +30,9 @@ doky.kafka.username=<CHANGE_ME>
 doky.kafka.password=<CHANGE_ME>
 
 # search
-azure.search.api-key=<CHANGE_ME>
-azure.search.index-name=documents-local
+algolia.search.app-id=<CHANGE_ME>
+algolia.search.api-key=<CHANGE_ME>
+algolia.search.index-name=local_documents
 
 # email
 spring.mail.host=localhost

@@ -25,12 +25,11 @@ azurewebapp = "1.7.1"
 dokka = "2.0.0"
 buildconfig = "5.3.5"
 dd-trace-api = "1.57.0"
-azure-ai-search = "11.7.4"
 testcontainers = "1.20.4"
 testcontainers-wiremock = "1.0-alpha-14"
 wiremock = "3.12.0"
-jackson-module-kotlin = "2.18.2"
 json-flattener = "0.17.1"
+algolia-search = "4.34.1"
 
 [libraries]
 spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
@@ -50,7 +49,6 @@ spring-kafka-production = { group = "org.springframework.kafka", name = "spring-
 spring-kafka-test = { group = "org.springframework.kafka", name = "spring-kafka-test" }
 azure-appconfiguration-config-web = { group = "com.azure.spring", name = "spring-cloud-azure-appconfiguration-config-web" }
 azure-starter-keyvault = { group = "com.azure.spring", name = "spring-cloud-azure-starter-keyvault" }
-azure-search = { group = "com.azure", name = "azure-search-documents", version.ref = "azure-ai-search" }
 kotlin-logging = { group = "io.github.oshai", name = "kotlin-logging", version.ref = "kotlin-logging" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin-jvm" }
 flyway-core = { group = "org.flywaydb", name = "flyway-core", version.ref = "flyway" }
@@ -85,8 +83,8 @@ testcontainers-core = { group = "org.testcontainers", name = "testcontainers", v
 testcontainers-junit = { group = "org.testcontainers", name = "junit-jupiter", version.ref = "testcontainers" }
 testcontainers-wiremock = { group = "org.wiremock.integrations.testcontainers", name = "wiremock-testcontainers-module", version.ref = "testcontainers-wiremock" }
 wiremock-standalone = { group = "org.wiremock", name = "wiremock-standalone", version.ref = "wiremock" }
-jackson-module-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version.ref = "jackson-module-kotlin" }
 json-flattener = { group = "com.github.wnameless.json", name = "json-flattener", version.ref = "json-flattener" }
+algolia-search = {group = "com.algolia", name = "algoliasearch", version.ref = "algolia-search"}
 
 [bundles]
 logging = ["kotlin-logging", "logback-classic", "logback-encoder"]
@@ -102,7 +100,7 @@ kafka = ["spring-kafka-production", "kafka-clients"]
 json = ["jackson-annotations", "jackson-datatype-joda"]
 validation = ["spring-boot-starter-validation", "jakarta-validation-api"]
 jwt = ["jjwt-api", "jjwt-impl", "jjwt-jackson"]
-azure-search = ["azure-search", "jackson-module-kotlin"]
+algolia = ["algolia-search"]
 testcontainers = ["testcontainers-core", "testcontainers-junit", "testcontainers-wiremock", "wiremock-standalone"]
 
 [plugins]

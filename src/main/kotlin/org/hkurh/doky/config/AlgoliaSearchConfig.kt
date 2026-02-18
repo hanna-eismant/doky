@@ -19,28 +19,32 @@
 
 package org.hkurh.doky.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import com.algolia.api.SearchClient
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 /**
- * Configuration class for customizing the behavior of Jackson's `ObjectMapper` within the application.
+ * Configuration class for setting up the Algolia Search client in the application.
  *
- * This class facilitates the configuration of the `ObjectMapper` by registering Kotlin module support,
- * enabling seamless handling of Kotlin-specific features such as nullable types and data classes.
+ * This class is annotated with `@Configuration` to designate it as a source of Spring Boot bean definitions.
+ * It retrieves Algolia configuration properties, such as the application ID and API key, from the application
+ * configuration files using the `@Value` annotation.
  *
- * It is annotated with `@Configuration` to indicate that it provides Spring-managed beans.
- *
- * A method marked with `@Bean` is provided to make the configured `ObjectMapper` available as a bean
- * in the Spring application context.
+ * The primary bean provided is the `searchClient`, which facilitates communication with the Algolia Search API.
+ * The client is constructed using the `SearchClient` implementation and the injected configuration values.
  */
 @Configuration
-class JacksonConfig {
+class AlgoliaSearchConfig {
+
+    @Value("\${algolia.search.app-id}")
+    private lateinit var algoliaAppId: String
+
+    @Value("\${algolia.search.api-key}")
+    private lateinit var algoliaApiKey: String
 
     @Bean
-    fun objectMapper(): ObjectMapper {
-        return jacksonObjectMapper().registerKotlinModule()
+    fun algoliaSearchClient() : SearchClient {
+        return SearchClient(algoliaAppId, algoliaApiKey)
     }
 }
