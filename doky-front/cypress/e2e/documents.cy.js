@@ -71,7 +71,7 @@ describe('documents', () => {
 
       // Go to create form
       cy.get('[data-cy=documents-create-btn]').click();
-      cy.location('pathname', {timeout: 10000}).should('eq', '/documents/new');
+      cy.location('pathname', {timeout: 10000}).should('eq', '/documents/create');
 
       // Fill the form
       cy.get('[data-cy=doc-name-input]').should('be.visible').type(docName);
@@ -86,7 +86,7 @@ describe('documents', () => {
         const documentId = interception.response.headers.location.split('/').pop();
 
         // We should be redirected to edit page for the newly created document
-        cy.location('pathname', {timeout: 10000}).should('eq', `/documents/edit/${documentId}`);
+        cy.location('pathname', {timeout: 10000}).should('eq', `/documents/${documentId}`);
 
         // Success snackbar is shown
         cy.get('[data-cy=global-snackbar]')

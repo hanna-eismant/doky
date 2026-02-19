@@ -21,12 +21,10 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useQuery} from '../../hooks/useQuery';
 import {searchDocuments} from '../../api/documents';
-import {Button, Divider, InputAdornment, Stack, TextField} from '@mui/material';
+import {Button, InputAdornment, Stack, TextField} from '@mui/material';
 import {debounce} from '@mui/material/utils';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import HomeIcon from '@mui/icons-material/Home';
 import Typography from '@mui/material/Typography';
-import DocumentsIcon from '@mui/icons-material/ContentPaste';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import {useFormData} from '../../hooks/useFormData';
@@ -136,11 +134,11 @@ const Documents = () => {
   const navigate = useNavigate();
 
   const goToCreateDocument = useCallback(() => {
-    navigate('/documents/new');
+    navigate('/documents/create');
   }, [navigate]);
 
   return (
-    <Stack spacing={2}
+    <Stack spacing={5}
       sx={{
         width: '100%',
         height: '100vh',
@@ -150,22 +148,17 @@ const Documents = () => {
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
         <Breadcrumbs aria-label="breadcrumb" data-cy="breadcrumb">
           <Link underline="hover" to={'/'} sx={{display: 'flex', alignItems: 'center'}} data-cy="breadcrumb-home">
-            <HomeIcon sx={{mr: 0.5}} fontSize="inherit"/>
             Home
           </Link>
-          <Typography sx={{display: 'flex', alignItems: 'center'}} data-cy="breadcrumb-documents">
-            <DocumentsIcon sx={{mr: 0.5}} fontSize="inherit"/>
+          <Typography sx={{display: 'flex', alignItems: 'center', fontSize: 'inherit'}} data-cy="breadcrumb-documents">
             Documents
           </Typography>
         </Breadcrumbs>
-        <Button color="primary" onClick={goToCreateDocument} size="small"
-          data-cy="documents-create-btn">
+        <Button color="primary" onClick={goToCreateDocument} size="small" data-cy="documents-create-btn">
           <AddIcon sx={{mr: 0.5}} fontSize="inherit"/>
           Create
         </Button>
       </Stack>
-
-      <Divider flexItem sx={{borderColor: 'rgba(0, 0, 0, 0.3)', borderBottomWidth: 1}}/>
 
       <TextField
         fullWidth
@@ -198,7 +191,7 @@ const Documents = () => {
         columns={columns}
         rows={data.documents}
         rowCount={data.totalCount}
-        onRowClick={(params) => navigate(`/documents/edit/${params.id}`)}
+        onRowClick={(params) => navigate(`/documents/${params.id}`)}
         paginationMode="server"
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}

@@ -20,11 +20,8 @@
 import React, {useCallback} from 'react';
 import CreateDocumentForm from './CreateDocumentForm/CreateDocumentForm.jsx';
 import {Link, useNavigate} from 'react-router-dom';
-import {Box, Divider, Stack} from '@mui/material';
-import DocumentsIcon from '@mui/icons-material/ContentPaste';
+import {Box, Stack} from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import HomeIcon from '@mui/icons-material/Home';
-import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import {datadogLogs} from '@datadog/browser-logs';
 
@@ -36,14 +33,14 @@ const CreateDocumentPage = () => {
     if (location) {
       const documentId = location.split('/').pop();
       datadogLogs.logger.debug(`Navigate to new document with id [${documentId}]`);
-      navigate(`/documents/edit/${documentId}`);
+      navigate(`/documents/${documentId}`);
     } else {
       navigate('/documents');
     }
   }, [navigate]);
 
   return (
-    <Stack spacing={2} sx={{
+    <Stack spacing={5} sx={{
       width: '100%',
       padding: 2,
       alignItems: 'flex-start'
@@ -51,21 +48,16 @@ const CreateDocumentPage = () => {
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
         <Breadcrumbs aria-label="breadcrumb">
           <Link underline="hover" to={'/'} sx={{display: 'flex', alignItems: 'center'}}>
-            <HomeIcon sx={{mr: 0.5}} fontSize="inherit"/>
             Home
           </Link>
           <Link underline="hover" to={'/documents'} sx={{display: 'flex', alignItems: 'center'}}>
-            <DocumentsIcon sx={{mr: 0.5}} fontSize="inherit"/>
             Documents
           </Link>
-          <Typography sx={{display: 'flex', alignItems: 'center'}}>
-            <AddIcon sx={{mr: 0.5}} fontSize="inherit"/>
-            New Document
+          <Typography sx={{display: 'flex', alignItems: 'center', fontSize: 'inherit'}}>
+            Create Document
           </Typography>
         </Breadcrumbs>
       </Stack>
-
-      <Divider flexItem sx={{borderColor: 'rgba(0, 0, 0, 0.3)', borderBottomWidth: 1}}/>
 
       <Box width="100%">
         <CreateDocumentForm onCreated={goBack}/>

@@ -17,16 +17,18 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {useForm} from '../../../hooks/useForm.js';
 import {useMutation} from '../../../hooks/useMutation.js';
 import {createDocument} from '../../../api/documents.js';
-import {Box, Button, Stack} from '@mui/material';
+import {Box, Button, Stack, Tab, Tabs, Typography} from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {FormInput} from '../../../components/index.js';
 import {emitGlobalSuccess} from '../../../components/GlobalSnackbar/snackbarBus.js';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const initialFormData = {
   name: '',
@@ -36,6 +38,8 @@ const initialFormData = {
 const CreateDocumentForm = ({onCreated}) => {
   const [documentMutation] = useMutation(createDocument);
   const navigate = useNavigate();
+
+  const [descriptionTab, setDescriptionTab] = useState(1);
 
   const {data, fields: {name, description}, handleSubmit, isSubmitting} = useForm(
     initialFormData,
@@ -56,17 +60,40 @@ const CreateDocumentForm = ({onCreated}) => {
           onChange={name.setValue}
           errors={name.errors}
           inputProps={{'data-cy': 'doc-name-input'}}
+          variant="standard"
         />
 
-        <FormInput
-          label="Description"
-          id="description"
-          value={data.description}
-          onChange={description.setValue}
-          multiline
-          minRows={5}
-          inputProps={{'data-cy': 'doc-description-input'}}
-        />
+        <Tabs value={descriptionTab} onChange={(e, newValue) => setDescriptionTab(newValue)}>
+          <Tab label="Description"/>
+          <Tab label="Edit"/>
+        </Tabs>
+
+        {descriptionTab === 0 ? (
+          <Box>
+            {description.value ? (
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{description.value}</ReactMarkdown>
+            ) : (
+              <Typography color="text.secondary" fontStyle="italic">
+                No description provided
+              </Typography>
+            )}
+          </Box>
+        ) : (
+          <FormInput
+            label="Description"
+            id="description"
+            value={data.description}
+            onChange={description.setValue}
+            multiline
+            minRows={5}
+            inputProps={{'data-cy': 'doc-description-input'}}
+          />
+        )}
+
+        <Typography sx={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}
+          variant="caption" color="text.secondary">
+          <Link to="https://www.markdownguide.org/basic-syntax/">Markdown syntax</Link>&nbsp;is supported
+        </Typography>
 
         <Box sx={{display: 'flex', gap: 2, mt: 2}}>
           <Button

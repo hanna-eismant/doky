@@ -22,21 +22,24 @@ import {useMutation} from '../../../hooks/useMutation.js';
 import {downloadDocument, updateDocument, uploadDocument} from '../../../api/documents.js';
 import {useForm} from '../../../hooks/useForm.js';
 import {saveFile} from '../../../services/save-file.js';
-import {Box, Button, Divider, Stack, Typography} from '@mui/material';
+import {Box, Button, Divider, Stack, Tab, Tabs, Typography} from '@mui/material';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import CircularProgressWithLabel from '../../../components/CircularProgressWithLabel.jsx';
 import {FormInput} from '../../../components/index.js';
 import {emitGlobalSuccess} from '../../../components/GlobalSnackbar/snackbarBus.js';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const EditDocumentForm = ({document, onSaveSuccess}) => {
   const [editDocument] = useMutation(updateDocument);
   const [uploadStatus, setUploadStatus] = useState({loading: false, success: false, error: null});
   const [saveStatus, setSaveStatus] = useState({loading: false, success: false, error: null});
   const [downloadStatus, setDownloadStatus] = useState({loading: false, progress: 0});
+  const [descriptionTab, setDescriptionTab] = useState(0);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -149,25 +152,49 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
               value={name.value}
               onChange={name.setValue}
               errors={name.errors}
+              variant="standard"
             />
 
-            <FormInput
-              label="Description"
-              value={description.value}
-              onChange={description.setValue}
-              multiline
-              minRows={5}
-            />
+            <Tabs value={descriptionTab} onChange={(e, newValue) => setDescriptionTab(newValue)}>
+              <Tab label="Description"/>
+              <Tab label="Edit"/>
+            </Tabs>
+            {descriptionTab === 0 ? (
+              <Box>
+                {description.value ? (
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{description.value}</ReactMarkdown>
+                ) : (
+                  <Typography color="text.secondary" fontStyle="italic">
+                    No description provided
+                  </Typography>
+                )}
+              </Box>
+            ) : (
+              <FormInput
+                label="Description"
+                value={description.value}
+                onChange={description.setValue}
+                multiline
+                minRows={5}
+                fullWidth
+                sx={{mt: 1}}
+              />
+            )}
+
+            <Typography sx={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}
+              variant="caption" color="text.secondary">
+              <Link to="https://www.markdownguide.org/basic-syntax/">Markdown syntax</Link>&nbsp;is supported
+            </Typography>
 
             {document.createdBy && document.createdDate && (
-              <Typography variant="caption" color="text.secondary">
-                Created by: {document.createdBy} on {document.createdDate}
+              <Typography variant="body2">
+              Created by: {document.createdBy} on {document.createdDate}
               </Typography>
             )}
 
             {document.modifiedBy && document.modifiedDate && (
-              <Typography variant="caption" color="text.secondary">
-                Last modified by: {document.modifiedBy} on {document.modifiedDate}
+              <Typography variant="body2">
+              Last modified by: {document.modifiedBy} on {document.modifiedDate}
               </Typography>
             )}
 
@@ -190,7 +217,7 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
                     onClick={handleDownload}
                     fullWidth
                   >
-                    Download
+                  Download
                   </Button>
                 )
               )}
@@ -203,7 +230,7 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
                 loadingPosition="start"
                 fullWidth
               >
-                Upload New File
+              Upload New File
               </Button>
               <input
                 type="file"
@@ -221,7 +248,7 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
             startIcon={<CancelIcon/>}
             onClick={() => navigate('/documents')}
           >
-            Cancel
+          Cancel
           </Button>
           <Button
             type="submit"
@@ -230,12 +257,13 @@ const EditDocumentForm = ({document, onSaveSuccess}) => {
             loading={isSubmitting}
             disabled={!hasChanges}
           >
-            Save Changes
+          Save Changes
           </Button>
         </Box>
       </Stack>
     </form>
-  );
+  )
+  ;
 };
 
 export default EditDocumentForm;

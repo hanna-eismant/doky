@@ -30,6 +30,11 @@ import GlobalSnackbarProvider from './components/GlobalSnackbar/GlobalSnackbarPr
 import {initializeDatadog} from './services/datadog.js';
 import {DATADOG_CONFIG} from 'config';
 
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 if (!__DEV__) {
   initializeDatadog({
     ...DATADOG_CONFIG,
@@ -55,6 +60,21 @@ const theme = createTheme({
         disableElevation: true,
         loadingPosition: 'center'
       }
+    },
+    MuiBreadcrumbs: {
+      styleOverrides: {
+        root: {
+          fontSize: '0.85rem'
+        }
+      }
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          fontSize: '0.8rem',
+          minHeight: 32,
+        },
+      },
     }
   }
 });

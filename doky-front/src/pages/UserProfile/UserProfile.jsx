@@ -20,18 +20,16 @@
 import React from 'react';
 import EditUserProfileForm from './EditUserProfileForm';
 import {useUser} from '../../hooks/useUser';
-import {Divider, Stack} from '@mui/material';
+import {Stack} from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import {Link} from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
 import Typography from '@mui/material/Typography';
-import DocumentsIcon from '@mui/icons-material/PermIdentityOutlined';
 
 const UserProfile = () => {
   const user = useUser();
 
   return (
-    <Stack spacing={2} sx={{
+    <Stack spacing={5} sx={{
       width: '100%',
       padding: 2,
       alignItems: 'flex-start'
@@ -39,17 +37,13 @@ const UserProfile = () => {
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
         <Breadcrumbs aria-label="breadcrumb">
           <Link underline="hover" to={'/'} sx={{display: 'flex', alignItems: 'center'}}>
-            <HomeIcon sx={{mr: 0.5}} fontSize="inherit"/>
             Home
           </Link>
-          <Typography sx={{display: 'flex', alignItems: 'center'}}>
-            <DocumentsIcon sx={{mr: 0.5}} fontSize="inherit"/>
+          <Typography sx={{display: 'flex', alignItems: 'center', fontSize: 'inherit'}}>
             Profile
           </Typography>
         </Breadcrumbs>
       </Stack>
-
-      <Divider flexItem sx={{borderColor: 'rgba(0, 0, 0, 0.3)', borderBottomWidth: 1}}/>
 
       <EditUserProfileForm user={user}/>
 
