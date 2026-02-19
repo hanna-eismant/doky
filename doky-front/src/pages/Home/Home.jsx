@@ -19,8 +19,26 @@
 
 import React, {useCallback} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {deleteJWT} from '../../services/storage';
 import {useUser} from '../../hooks/useUser';
+import {useQuery} from '../../hooks/useQuery';
+import {searchDocuments} from '../../api/documents';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import {Box, Button, Card, CardActionArea, CardContent, Skeleton, Stack} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+
+const searchPayload = {
+  query: '',
+  page: {
+    number: 0,
+    size: 5
+  },
+  sort: {
+    property: 'modifiedDate',
+    direction: 'DESC'
+  }
+};
 
 const Home = () => {
 
@@ -28,24 +46,132 @@ const Home = () => {
 
   const user = useUser();
 
-  const logout = useCallback((e) => {
-    e.preventDefault();
-    deleteJWT();
-    navigate('/login');
+  const search = useCallback(() => {
+    return searchDocuments(searchPayload);
+  }, []);
+
+  const {isLoading, data} = useQuery(search);
+
+  const goToCreateDocument = useCallback(() => {
+    navigate('/documents/create');
+  }, [navigate]);
+
+  const goToDocument = useCallback((id) => {
+    navigate(`/documents/${id}`);
+  }, [navigate]);
+
+  const goToDocuments = useCallback(() => {
+    const params = new URLSearchParams({
+      query: searchPayload.query,
+      sort: searchPayload.sort.property,
+      dir: searchPayload.sort.direction
+    });
+    navigate(`/documents?${params.toString()}`);
   }, [navigate]);
 
   return (
-    <>
-      <div
-        className="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      </div>
-      <div>
-        Hello, <strong>{user.name}</strong>
-      </div>
-      <div>
-        <a href="#" onClick={logout}>Logout</a>
-      </div>
-    </>
+    <Stack spacing={5}
+      sx={{
+        width: '100%',
+        height: '100vh',
+        padding: 2,
+        alignItems: 'flex-start',
+        bgcolor: 'grey.100'
+      }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
+        <Breadcrumbs aria-label="breadcrumb" data-cy="breadcrumb">
+          <Typography sx={{display: 'flex', alignItems: 'center', fontSize: 'inherit'}} data-cy="breadcrumb-documents">
+            Home
+          </Typography>
+        </Breadcrumbs>
+        <Button color="primary" onClick={goToCreateDocument} size="small" data-cy="documents-create-btn">
+          <AddIcon sx={{mr: 0.5}} fontSize="inherit"/>
+          Create
+        </Button>
+      </Stack>
+      <Typography variant="h6" component="div" sx={{textAlign: 'center'}}>
+        Welcome back, {user.name}!
+      </Typography>
+      <Stack direction="row" spacing={2} width="100%">
+        <Card sx={{width: '25%'}} elevation={2} data-cy="home-card-documents">
+          <CardContent>
+            <Typography variant="overline" gutterBottom>
+              Last Updates
+            </Typography>
+            <Stack spacing={1}>
+              {isLoading ? (
+                Array.from({length: 5}).map((_, index) => (
+                  <Card key={index} variant="outlined">
+                    <CardContent>
+                      <Skeleton variant="text" width="80%" height={28}/>
+                      <Skeleton variant="text" width="100%"/>
+                      <Skeleton variant="text" width="60%"/>
+                    </CardContent>
+                  </Card>
+                ))
+              ) : data.documents?.length === 0 ? (
+                <>
+                  <Typography variant="body2" color="text.secondary" sx={{textAlign: 'center', py: 2}}>
+                    There is no documents yet.
+                  </Typography>
+                  <Button color="primary" variant="outlined" onClick={goToCreateDocument} size="small">
+                    Try to create a new one
+                  </Button>
+                </>
+              ) : (
+                data.documents?.map((doc) => (
+                  <Card key={doc.id} variant="outlined">
+                    <CardActionArea onClick={() => goToDocument(doc.id)}>
+                      <CardContent>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
+                          <Box sx={{flex: 1, pr: 1}}>
+                            <Typography variant="subtitle1" component="div" gutterBottom>
+                              {doc.name}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              sx={{
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis'
+                              }}
+                            >
+                              {doc.description ? (
+                                doc.description
+                              ) : (
+                                <Typography color="text.secondary" fontStyle="italic">
+                                  No description provided
+                                </Typography>
+                              )}
+                            </Typography>
+                          </Box>
+                          {doc.fileName && (
+                            <AttachFileIcon color="action" fontSize="small"/>
+                          )}
+                        </Box>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                ))
+              )}
+              {!isLoading && data.documents?.length > 0 && (
+                <Button
+                  variant="text"
+                  onClick={goToDocuments}
+                  sx={{ mt: 2 }}
+                  fullWidth
+                >
+                  See more
+                </Button>
+              )}
+            </Stack>
+          </CardContent>
+        </Card>
+      </Stack>
+    </Stack>
   );
 };
 
