@@ -50,6 +50,9 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#07689f'
+    },
+    background: {
+      default: '#F5F5F5'
     }
   },
   components: {
