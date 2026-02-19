@@ -20,7 +20,7 @@
 import MainPage from '../components/MainPage.jsx';
 import Documents from '../pages/Documents/Documents.jsx';
 import CreateDocumentPage from '../pages/Documents/CreateDocumentPage.jsx';
-import EditDocumentPage from '../pages/Documents/EditDocumentPage.jsx';
+import DocumentPage from '../pages/Documents/DocumentPage.jsx';
 import UserProfile from '../pages/UserProfile';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
@@ -40,8 +40,8 @@ export const mainPageRoute = {
   children: [
     {index: true, element: <Home/>},
     {path: 'documents', element: <Documents/>},
-    {path: 'documents/new', element: <CreateDocumentPage/>},
-    {path: 'documents/edit/:id', element: <EditDocumentPage/>},
+    {path: 'documents/create', element: <CreateDocumentPage/>},
+    {path: 'documents/:id', element: <DocumentPage/>},
     {path: 'profile', element: <UserProfile/>}
   ]
 };

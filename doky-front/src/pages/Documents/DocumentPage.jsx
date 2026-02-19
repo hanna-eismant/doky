@@ -22,15 +22,13 @@ import EditDocumentForm from './EditDocumentForm/EditDocumentForm.jsx';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useQuery} from '../../hooks/useQuery.js';
 import {getDocument} from '../../api/documents.js';
-import {Box, Button, CircularProgress, Divider, Stack} from '@mui/material';
-import DocumentsIcon from '@mui/icons-material/ContentPaste';
+import {Box, Button, CircularProgress, Stack} from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import HomeIcon from '@mui/icons-material/Home';
-import CreateIcon from '@mui/icons-material/Create';
 import Typography from '@mui/material/Typography';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import AddIcon from '@mui/icons-material/Add';
 
-const EditDocumentPage = () => {
+const DocumentPage = () => {
   const params = useParams();
   const navigate = useNavigate();
   const getCurrentDocument = useCallback(() => getDocument(params.id), [params.id]);
@@ -39,8 +37,12 @@ const EditDocumentPage = () => {
 
   const hasError = !isLoading && (!data || data.error);
 
+  const goToCreateDocument = useCallback(() => {
+    navigate('/documents/create');
+  }, [navigate]);
+
   return (
-    <Stack spacing={2} sx={{
+    <Stack spacing={5} sx={{
       width: '100%',
       padding: 2,
       alignItems: 'flex-start'
@@ -48,21 +50,20 @@ const EditDocumentPage = () => {
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
         <Breadcrumbs aria-label="breadcrumb">
           <Link underline="hover" to={'/'} sx={{display: 'flex', alignItems: 'center'}}>
-            <HomeIcon sx={{mr: 0.5}} fontSize="inherit"/>
             Home
           </Link>
           <Link underline="hover" to={'/documents'} sx={{display: 'flex', alignItems: 'center'}}>
-            <DocumentsIcon sx={{mr: 0.5}} fontSize="inherit"/>
             Documents
           </Link>
-          <Typography sx={{display: 'flex', alignItems: 'center'}}>
-            <CreateIcon sx={{mr: 0.5}} fontSize="inherit"/>
+          <Typography sx={{display: 'flex', alignItems: 'center', fontSize: 'inherit'}}>
             Edit
           </Typography>
         </Breadcrumbs>
+        <Button color="primary" onClick={goToCreateDocument} size="small" data-cy="documents-create-btn">
+          <AddIcon sx={{mr: 0.5}} fontSize="inherit"/>
+          Create
+        </Button>
       </Stack>
-
-      <Divider flexItem sx={{borderColor: 'rgba(0, 0, 0, 0.3)', borderBottomWidth: 1}}/>
 
       {isLoading ? (
         <Stack alignItems="center" width="100%" padding={4}>
@@ -89,4 +90,4 @@ const EditDocumentPage = () => {
   );
 };
 
-export default EditDocumentPage;
+export default DocumentPage;
