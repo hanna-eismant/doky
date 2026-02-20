@@ -19,23 +19,53 @@
 
 import React from 'react';
 import {Outlet, useLocation, useNavigate} from 'react-router-dom';
-import {Avatar, Box, Container, Divider, Drawer, Menu, MenuItem} from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Container,
+  Drawer,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography
+} from '@mui/material';
 
 import DocumentsIcon from '@mui/icons-material/ContentPaste';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import LogoIcon from './LogoIcon';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import {deleteJWT} from '../services/storage';
+import {useUser} from '../hooks/useUser';
+import DrawerLogo from './DrawerLogo';
+import DrawerMenuItem from './DrawerMenuItem';
+
+const DRAWER_STATE_KEY = 'doky-drawer-open';
 
 const MainPage = () => {
   const navigate = useNavigate();
-  const drawerWidth = 61;
+  const user = useUser();
+  const collapsedDrawerWidth = 61;
+  const expandedDrawerWidth = 240;
 
   const location = useLocation();
   const isDashboard = location.pathname === '/';
   const isDocuments = location.pathname.startsWith('/documents');
 
+  // Initialize drawer state from localStorage, default to true if not found
+  const [drawerOpen, setDrawerOpen] = React.useState(() => {
+    const savedState = localStorage.getItem(DRAWER_STATE_KEY);
+    return savedState !== null ? JSON.parse(savedState) : true;
+  });
   const [anchorEl, setAnchorEl] = React.useState(null);
   const menuOpen = Boolean(anchorEl);
+
+  const handleDrawerToggle = () => {
+    setDrawerOpen(prevState => {
+      const newState = !prevState;
+      localStorage.setItem(DRAWER_STATE_KEY, JSON.stringify(newState));
+      return newState;
+    });
+  };
 
   const handleMenuItemClick = (path) => {
     navigate(path);
@@ -61,17 +91,19 @@ const MainPage = () => {
   };
 
   return (
-
-    <Container maxWidth={false} sx={{display: 'flex', padding: 0}}>
+    <Container maxWidth={false} sx={{display: 'flex', padding: 0, position: 'relative', minHeight: '100vh'}}>
       <Drawer
         sx={{
-          width: drawerWidth,
+          width: drawerOpen ? expandedDrawerWidth : collapsedDrawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: drawerWidth,
+            width: drawerOpen ? expandedDrawerWidth : collapsedDrawerWidth,
             boxSizing: 'border-box',
             background: '#07689F',
             color: '#FAFAFA',
+            transition: 'width 0.3s',
+            overflowX: 'hidden',
+            borderRight: 'none',
           },
         }}
         variant="permanent"
@@ -79,29 +111,61 @@ const MainPage = () => {
       >
         <Box sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
           <Box>
-            <LogoIcon size={35}/>
-            <Divider color={'#FAFAFA'}/>
-            <MenuItem name="Dashboard" path="/" onClick={() => handleMenuItemClick('/')} selected={isDashboard} sx={{
-              '&.Mui-selected': {backgroundColor: 'rgba(0,0,0,0.2)'},
-              '&.Mui-selected:hover': {backgroundColor: 'rgba(0,0,0,0.25)'}
-            }} data-cy="nav-dashboard">
-              <DashboardIcon sx={{color: '#FAFAFA', width: 28, height: 28, cursor: 'pointer'}}/>
-            </MenuItem>
-            <MenuItem name="Documents" path="/documents" onClick={() => handleMenuItemClick('/documents')}
-              selected={isDocuments} sx={{
-                '&.Mui-selected': {backgroundColor: 'rgba(0,0,0,0.2)'},
-                '&.Mui-selected:hover': {backgroundColor: 'rgba(0,0,0,0.25)'}
-              }} data-cy="nav-documents">
-              <DocumentsIcon sx={{color: '#FAFAFA', width: 28, height: 28, cursor: 'pointer'}}/>
-            </MenuItem>
-          </Box>
-          <Box sx={{mt: 'auto', mb: 1, display: 'flex', justifyContent: 'center'}}>
-            <Avatar
-              sx={{bgcolor: '#FAFAFA', color: '#07689F', width: 40, height: 40, cursor: 'pointer'}}
-              onClick={handleAvatarClick}
-              alt="User"
-              data-cy="user-avatar"
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              px: drawerOpen ? 1 : 0,
+              mb: 2
+            }}>
+              <DrawerLogo isExpanded={drawerOpen} onClick={() => handleMenuItemClick('/')}/>
+            </Box>
+            <DrawerMenuItem
+              icon={DashboardIcon}
+              label="Dashboard"
+              isExpanded={drawerOpen}
+              selected={isDashboard}
+              onClick={() => handleMenuItemClick('/')}
+              dataCy="nav-dashboard"
             />
+            <DrawerMenuItem
+              icon={DocumentsIcon}
+              label="Documents"
+              isExpanded={drawerOpen}
+              selected={isDocuments}
+              onClick={() => handleMenuItemClick('/documents')}
+              dataCy="nav-documents"
+            />
+          </Box>
+          <Box sx={{mt: 'auto', mb: 1}}>
+            <Box
+              onClick={handleAvatarClick}
+              sx={{
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: drawerOpen ? 'flex-start' : 'center',
+                gap: drawerOpen ? 1.5 : 0,
+                px: drawerOpen ? 2 : 0,
+                py: 1.5
+              }}>
+              <Avatar
+                sx={{bgcolor: '#FAFAFA', color: '#07689F', width: 40, height: 40}}
+
+                alt={user?.name || 'User'}
+                data-cy="user-avatar"
+              >
+                {user?.name?.[0]?.toUpperCase() || 'U'}
+              </Avatar>
+              {drawerOpen && (
+                <>
+                  <Typography variant="body2" sx={{color: '#FAFAFA', fontWeight: 500}}>
+                    {user?.name || 'User'}
+                  </Typography>
+                  <ChevronRightIcon/>
+                </>
+              )}
+            </Box>
             <Menu
               anchorEl={anchorEl}
               open={menuOpen}
@@ -115,7 +179,30 @@ const MainPage = () => {
           </Box>
         </Box>
       </Drawer>
-      <Outlet style={{width: '100%'}}/>
+      <IconButton
+        onClick={handleDrawerToggle}
+        sx={{
+          position: 'absolute',
+          left: drawerOpen ? expandedDrawerWidth - 16 : collapsedDrawerWidth - 16,
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 1300,
+          backgroundColor: '#FAFAFA',
+          border: '1px solid #E0E0E0',
+          width: 32,
+          height: 32,
+          transition: 'left 0.3s',
+          '&:hover': {
+            backgroundColor: '#F5F5F5',
+          },
+        }}
+        data-cy="drawer-toggle"
+      >
+        {drawerOpen ? <ChevronLeftIcon sx={{fontSize: 20}}/> : <ChevronRightIcon sx={{fontSize: 20}}/>}
+      </IconButton>
+      <Box component="main" sx={{flexGrow: 1, width: 0}}>
+        <Outlet/>
+      </Box>
     </Container>
   );
 };
