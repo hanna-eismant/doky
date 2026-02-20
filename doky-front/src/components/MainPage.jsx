@@ -23,7 +23,6 @@ import {
   Avatar,
   Box,
   Container,
-  Divider,
   Drawer,
   IconButton,
   Menu,
@@ -116,11 +115,11 @@ const MainPage = () => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              px: drawerOpen ? 1 : 0
+              px: drawerOpen ? 1 : 0,
+              mb: 2
             }}>
-              <DrawerLogo isExpanded={drawerOpen}/>
+              <DrawerLogo isExpanded={drawerOpen} onClick={() => handleMenuItemClick('/')}/>
             </Box>
-            <Divider color={'#FAFAFA'}/>
             <DrawerMenuItem
               icon={DashboardIcon}
               label="Dashboard"

@@ -17,17 +17,23 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React from 'react';
+import React, {memo} from 'react';
 
-const DrawerLogo = ({isExpanded, iconSize = 40, fullWidth = 200, style, ...imgProps}) => (
+const DrawerLogo = ({isExpanded, iconSize = 40, fullWidth = 200, onClick, style, ...imgProps}) => (
   <img
     alt="Doky Logo"
     src={isExpanded ? '/logo-color-bg.svg' : '/logo-color-bg-icon.svg'}
     width={isExpanded ? fullWidth : iconSize}
     height={iconSize}
-    style={{display: 'block', margin: '8px auto', ...style}}
+    onClick={onClick}
+    style={{
+      display: 'block',
+      margin: '8px auto',
+      cursor: onClick ? 'pointer' : 'default',
+      ...style
+    }}
     {...imgProps}
   />
 );
 
-export default DrawerLogo;
+export default memo(DrawerLogo);
