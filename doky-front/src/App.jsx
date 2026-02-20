@@ -19,13 +19,18 @@
 
 import React from 'react';
 import {RouterProvider} from 'react-router-dom';
+import {Backdrop, CircularProgress} from '@mui/material';
 
 import {router} from './routing';
 
 const App = () =>
   <RouterProvider
     router={router}
-    fallbackElement={<span>Loading...</span>}
+    fallbackElement={
+      <Backdrop open={true} sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
+        <CircularProgress color="primary"/>
+      </Backdrop>
+    }
   />;
 
 export default App;
