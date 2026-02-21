@@ -17,8 +17,8 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
+import React, {useCallback, useMemo, useState} from 'react';
+import {Link, useNavigate } from 'react-router-dom';
 import {useQuery} from '../../hooks/useQuery';
 import {searchDocuments} from '../../api/documents';
 import {Button, InputAdornment, Stack, TextField} from '@mui/material';
@@ -30,7 +30,7 @@ import AddIcon from '@mui/icons-material/Add';
 import {useFormData} from '../../hooks/useFormData';
 import {DataGrid} from '@mui/x-data-grid';
 
-const searchPayload = {
+const globalSearchParams = {
   query: '',
   page: {
     number: 0,
@@ -40,6 +40,42 @@ const searchPayload = {
     property: 'createdDate',
     direction: 'DESC'
   }
+};
+
+const extractDocumentsSearchParams = (urlSearchParams) => ({
+  query: urlSearchParams.get('query') ?? globalSearchParams.query,
+  sort: urlSearchParams.get('sort') ?? globalSearchParams.sort.property,
+  dir: urlSearchParams.get('dir') ?? globalSearchParams.sort.direction,
+  page: parseInt(urlSearchParams.get('page') || '0', 10)
+});
+
+const useDocumentsSearchParams = () => {
+  return useMemo(() => {
+    const initialSearchParams = extractDocumentsSearchParams(new URLSearchParams(location.search));
+    const urlSearchParams = new URLSearchParams(initialSearchParams);
+    history.replaceState(null, '', '?' + urlSearchParams.toString());
+
+    return {
+      searchParams: initialSearchParams,
+      setQuery: query => {
+        globalSearchParams.query = query;
+        urlSearchParams.set('query', query);
+        history.replaceState(null, '', '?' + urlSearchParams.toString());
+      },
+      setSort: (field, direction) => {
+        globalSearchParams.sort.property = field;
+        globalSearchParams.sort.direction = direction;
+        urlSearchParams.set('field', field);
+        urlSearchParams.set('dir', direction);
+        history.replaceState(null, '',  '?' + urlSearchParams.toString());
+      },
+      setPage: page => {
+        globalSearchParams.page.number = page;
+        urlSearchParams.set('page', page);
+        history.replaceState(null, '',  '?' + urlSearchParams.toString());
+      }
+    };
+  }, []);
 };
 
 const columns = [
@@ -87,20 +123,30 @@ const columns = [
 
 const Documents = () => {
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { searchParams, setSort, setQuery, setPage } = useDocumentsSearchParams();
 
   // Initialize state from URL params or saved state
-  const initialQuery = searchParams.get('query') || '';
-  const initialSort = searchParams.get('sort') || searchPayload.sort.property;
-  const initialDir = searchParams.get('dir') || searchPayload.sort.direction;
-  const initialPage = parseInt(searchParams.get('page') || '0', 10);
+  const initialQuery = searchParams.query;
+  const initialSort = searchParams.sort;
+  const initialDir = searchParams.dir;
+  const initialPage = searchParams.page;
 
-  const {fields: {query}} = useFormData({...searchPayload, query: initialQuery});
+  const {fields: {query}} = useFormData({ query: initialQuery });
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
+
   const [paginationModel, setPaginationModel] = useState({
     page: initialPage,
     pageSize: 0
   });
+
+  const onPaginationModelChange = model => {
+    // can be triggered with same values possibly due several layout changes bc of autoPageSize is true
+    if (model.pageSize !== paginationModel.pageSize || model.page !== paginationModel.page) {
+      setPage(model.page);
+      setPaginationModel(model);
+    }
+  };
+
   const [sortModel, setSortModel] = useState([
     {
       field: initialSort,
@@ -108,11 +154,18 @@ const Documents = () => {
     }
   ]);
 
+  const handleSetSortModel = model => {
+    setSortModel(model);
+    const [{ field, sort } ] = model;
+    setSort(field, sort);
+  };
+
   const debouncedSetQuery = useMemo(() =>
     debounce((value) => {
       setDebouncedQuery(value);
+      setQuery(value);
     }, 500),
-  []
+  [setQuery]
   );
 
   const handleSearchChange = (e) => {
@@ -122,19 +175,17 @@ const Documents = () => {
   };
 
   const search = useCallback(() => {
-    const sort = sortModel.length > 0
-      ? {
-        property: sortModel[0].field,
-        direction: sortModel[0].sort.toUpperCase()
-      }
-      : searchPayload.sort;
+    const sort =  {
+      property: sortModel[0].field,
+      direction: sortModel[0].sort.toUpperCase()
+    };
 
     const page = {
       number: paginationModel.page,
       size: paginationModel.pageSize
     };
 
-    return searchDocuments({...searchPayload, query: debouncedQuery, page, sort});
+    return searchDocuments({ query: debouncedQuery, page, sort});
   }, [debouncedQuery, paginationModel, sortModel]);
 
   const {isLoading, data} = useQuery(search);
@@ -144,26 +195,6 @@ const Documents = () => {
   const goToCreateDocument = useCallback(() => {
     navigate('/documents/create');
   }, [navigate]);
-
-  // Sync URL with state changes
-  useEffect(() => {
-    const params = new URLSearchParams();
-
-    if (debouncedQuery) {
-      params.set('query', debouncedQuery);
-    }
-
-    if (sortModel.length > 0) {
-      params.set('sort', sortModel[0].field);
-      params.set('dir', sortModel[0].sort.toUpperCase());
-    }
-
-    if (paginationModel.page > 0) {
-      params.set('page', paginationModel.page.toString());
-    }
-
-    setSearchParams(params, { replace: true });
-  }, [debouncedQuery, sortModel, paginationModel, setSearchParams]);
 
   return (
     <Stack spacing={5}
@@ -222,9 +253,9 @@ const Documents = () => {
         onRowClick={(params) => navigate(`/documents/${params.id}`)}
         paginationMode="server"
         paginationModel={paginationModel}
-        onPaginationModelChange={setPaginationModel}
+        onPaginationModelChange={onPaginationModelChange}
         sortModel={sortModel}
-        onSortModelChange={setSortModel}
+        onSortModelChange={handleSetSortModel}
         sortingOrder={['asc', 'desc']}
         disableColumnFilter
         autoPageSize
