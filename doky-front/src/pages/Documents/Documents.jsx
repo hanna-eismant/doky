@@ -17,18 +17,18 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
+import React, {useCallback, useMemo, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import {useQuery} from '../../hooks/useQuery';
 import {searchDocuments} from '../../api/documents';
-import {Button, InputAdornment, Stack, TextField} from '@mui/material';
+import {Button, Stack } from '@mui/material';
 import {debounce} from '@mui/material/utils';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
-import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
-import {useFormData} from '../../hooks/useFormData';
 import {DataGrid} from '@mui/x-data-grid';
+import { useDocumentsSearchParams } from './searchParams';
+import { SearchInput } from './SearchInput.jsx';
 
 const searchPayload = {
   query: '',
@@ -85,55 +85,52 @@ const columns = [
   }
 ];
 
-const STORAGE_KEY = 'documents_search_state';
-
 const Documents = () => {
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  // Get saved state from sessionStorage
-  const getSavedState = () => {
-    try {
-      const saved = sessionStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
-    }
-  };
-
-  const savedState = getSavedState();
+  const [searchParams, setSearchParams] = useDocumentsSearchParams();
 
   // Initialize state from URL params or saved state
-  const initialQuery = searchParams.get('query') || savedState?.query || '';
-  const initialSort = searchParams.get('sort') || savedState?.sort || searchPayload.sort.property;
-  const initialDir = searchParams.get('dir') || savedState?.dir || searchPayload.sort.direction;
-  const initialPage = parseInt(searchParams.get('page') || savedState?.page || '0', 10);
+  const initialQuery = searchParams.query;
+  const initialSort = searchParams.sort;
+  const initialDir = searchParams.dir;
+  const initialPage = parseInt(searchParams.page || '0', 10);
 
-  const {fields: {query}} = useFormData({...searchPayload, query: initialQuery});
-  const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
   const [paginationModel, setPaginationModel] = useState({
     page: initialPage,
     pageSize: 0
   });
-  const [sortModel, setSortModel] = useState([
-    {
-      field: initialSort,
-      sort: initialDir.toLowerCase()
+
+  const onPaginationModelChange = ({ page, pageSize }) => {
+    setSearchParams({ page });
+    setPaginationModel({ page, pageSize });
+  };
+
+  const onSortModelChange = (model) => {
+    if (model.length === 0) {
+      return;
     }
-  ]);
+
+    const [ { field, sort }] = model;
+    setSearchParams({
+      sort: field,
+      dir: sort.toUpperCase()
+    });
+  };
+
+  const sortModel = useMemo(() => [{
+    field: initialSort,
+    sort: initialDir.toLowerCase()
+  }], [initialDir, initialSort]);
 
   const debouncedSetQuery = useMemo(() =>
     debounce((value) => {
-      setDebouncedQuery(value);
+      setSearchParams({ query: value });
     }, 500),
-  []
-  );
+  [setSearchParams]);
 
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    query.setValue(value);
+  const handleSearchChange = useCallback((value) => {
     debouncedSetQuery(value);
-  };
+  }, [debouncedSetQuery]);
 
   const search = useCallback(() => {
     const sort = sortModel.length > 0
@@ -148,8 +145,8 @@ const Documents = () => {
       size: paginationModel.pageSize
     };
 
-    return searchDocuments({...searchPayload, query: debouncedQuery, page, sort});
-  }, [debouncedQuery, paginationModel, sortModel]);
+    return searchDocuments({ query: initialQuery, page, sort});
+  }, [initialQuery, paginationModel.page, paginationModel.pageSize, sortModel]);
 
   const {isLoading, data} = useQuery(search);
 
@@ -158,39 +155,6 @@ const Documents = () => {
   const goToCreateDocument = useCallback(() => {
     navigate('/documents/create');
   }, [navigate]);
-
-  // Sync URL and sessionStorage with state changes
-  useEffect(() => {
-    const params = new URLSearchParams();
-    const state = {
-      query: debouncedQuery,
-      page: paginationModel.page,
-    };
-
-    if (debouncedQuery) {
-      params.set('query', debouncedQuery);
-    }
-
-    if (sortModel.length > 0) {
-      params.set('sort', sortModel[0].field);
-      params.set('dir', sortModel[0].sort.toUpperCase());
-      state.sort = sortModel[0].field;
-      state.dir = sortModel[0].sort.toUpperCase();
-    }
-
-    if (paginationModel.page > 0) {
-      params.set('page', paginationModel.page.toString());
-    }
-
-    // Save to sessionStorage
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      // Ignore storage errors
-    }
-
-    setSearchParams(params, { replace: true });
-  }, [debouncedQuery, sortModel, paginationModel, setSearchParams]);
 
   return (
     <Stack spacing={5}
@@ -215,25 +179,11 @@ const Documents = () => {
         </Button>
       </Stack>
 
-      <TextField
-        fullWidth
-        label="Search"
-        id="outlined-size-small"
-        value={query.value}
-        onChange={handleSearchChange}
-        size="small"
-        inputProps={{'data-cy': 'documents-search-input'}}
-        InputLabelProps={{'data-cy': 'documents-search-label'}}
-        slotProps={{
-          input: {
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon/>
-              </InputAdornment>
-            ),
-          },
-        }}
+      <SearchInput
+        defaultValue={initialQuery}
+        onValueChange={handleSearchChange}
       />
+
       <DataGrid
         loading={isLoading}
         sx={{
@@ -249,9 +199,9 @@ const Documents = () => {
         onRowClick={(params) => navigate(`/documents/${params.id}`)}
         paginationMode="server"
         paginationModel={paginationModel}
-        onPaginationModelChange={setPaginationModel}
+        onPaginationModelChange={onPaginationModelChange}
         sortModel={sortModel}
-        onSortModelChange={setSortModel}
+        onSortModelChange={onSortModelChange}
         sortingOrder={['asc', 'desc']}
         disableColumnFilter
         autoPageSize
