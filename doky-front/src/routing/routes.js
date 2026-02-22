@@ -30,6 +30,7 @@ import ResetPassword from '../pages/ResetPassword';
 import UpdatePassword from '../pages/UpdatePassword';
 import ErrorPage from '../pages/Error';
 import NotFoundPage from '../pages/NotFound';
+import { searchParamsNormalizer } from '../pages/Documents/searchParams';
 
 export const mainPageRoute = {
   id: 'main', // used for accessing data fetched by this route loader
@@ -39,7 +40,7 @@ export const mainPageRoute = {
   errorElement: <ErrorPage/>,
   children: [
     {index: true, element: <Home/>},
-    {path: 'documents', element: <Documents/>},
+    {path: 'documents', element: <Documents/>, loader: searchParamsNormalizer },
     {path: 'documents/create', element: <CreateDocumentPage/>},
     {path: 'documents/:id', element: <DocumentPage/>},
     {path: 'profile', element: <UserProfile/>}
