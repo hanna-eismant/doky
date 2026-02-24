@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import Home from './Home.jsx';
+import Home from './Home';
 
 export default Home;

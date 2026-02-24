@@ -19,13 +19,13 @@
 
 import React from 'react';
 import {useRevalidator} from 'react-router-dom';
-import {useMutation} from '../../../hooks/useMutation.js';
-import {updateCurrentUser} from '../../../api/users.js';
-import {useForm} from '../../../hooks/useForm.js';
+import {useMutation} from '../../../hooks/useMutation';
+import {updateCurrentUser} from '../../../api/users';
+import {useForm} from '../../../hooks/useForm';
 import {Box, Button, Stack} from '@mui/material';
 import {FormInput} from '../../../components';
 import SaveIcon from '@mui/icons-material/Save';
-import {useGlobalSnackbar} from '../../../components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
+import {useGlobalSnackbar} from '../../../components/GlobalSnackbar/GlobalSnackbarProvider';
 
 const EditUserProfileForm = ({user}) => {
   const [editUserProfile, {isLoading}] = useMutation(updateCurrentUser);

@@ -17,4 +17,4 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-export {default as FormInput} from './formComponents/FormInput.jsx';
+export {default as FormInput} from './formComponents/FormInput';

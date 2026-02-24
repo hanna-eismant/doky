@@ -25,9 +25,9 @@ import { ErrorBoundary } from '@datadog/browser-rum-react';
 
 import './index.scss';
 
-import App from './App.jsx';
-import GlobalSnackbarProvider from './components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
-import {initializeDatadog} from './services/datadog.js';
+import App from './App';
+import GlobalSnackbarProvider from './components/GlobalSnackbar/GlobalSnackbarProvider';
+import {initializeDatadog} from './services/datadog';
 import {DATADOG_CONFIG} from 'config';
 
 import '@fontsource/roboto/300.css';

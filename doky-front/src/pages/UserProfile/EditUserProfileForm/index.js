@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import EditUserProfileForm from './EditUserProfileForm.jsx';
+import EditUserProfileForm from './EditUserProfileForm';
 
 export default EditUserProfileForm;

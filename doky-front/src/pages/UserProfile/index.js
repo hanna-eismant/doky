@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import UserProfile from './UserProfile.jsx';
+import UserProfile from './UserProfile';
 
 export default UserProfile;

@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import Register from './Register.jsx';
+import Register from './Register';
 
 export default Register;

@@ -20,11 +20,11 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Button, Stack, Typography} from '@mui/material';
-import AuthLayout from '../../components/AuthLayout/AuthLayout.jsx';
+import AuthLayout from '../../components/AuthLayout/AuthLayout';
 
 import {FormInput} from '../../components';
-import {useLogin} from './useLogin.js';
-import {useForm} from '../../hooks/useForm.js';
+import {useLogin} from './useLogin';
+import {useForm} from '../../hooks/useForm';
 
 const initialFormData = {
   email: '',

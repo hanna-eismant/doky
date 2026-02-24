@@ -18,10 +18,10 @@
  */
 
 import React, {useCallback} from 'react';
-import EditDocumentForm from './EditDocumentForm/EditDocumentForm.jsx';
+import EditDocumentForm from './EditDocumentForm/EditDocumentForm';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {useQuery} from '../../hooks/useQuery.js';
-import {getDocument} from '../../api/documents.js';
+import {useQuery} from '../../hooks/useQuery';
+import {getDocument} from '../../api/documents';
 import {Box, Button, CircularProgress, Stack} from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';

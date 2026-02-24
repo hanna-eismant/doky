@@ -23,7 +23,7 @@
  */
 import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import {Alert, Snackbar} from '@mui/material';
-import {registerSnackbarHandlers} from './snackbarBus.js';
+import {registerSnackbarHandlers} from './snackbarBus';
 import {router} from '../../routing';
 
 const GlobalSnackbarContext = createContext({

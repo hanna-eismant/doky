@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import Logo from './Logo.jsx';
+import Logo from './Logo';
 
 export default Logo;

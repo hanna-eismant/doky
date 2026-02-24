@@ -17,10 +17,10 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import MainPage from '../components/MainPage.jsx';
-import Documents from '../pages/Documents/Documents.jsx';
-import CreateDocumentPage from '../pages/Documents/CreateDocumentPage.jsx';
-import DocumentPage from '../pages/Documents/DocumentPage.jsx';
+import MainPage from '../components/MainPage';
+import Documents from '../pages/Documents/Documents';
+import CreateDocumentPage from '../pages/Documents/CreateDocumentPage';
+import DocumentPage from '../pages/Documents/DocumentPage';
 import UserProfile from '../pages/UserProfile';
 import Login from '../pages/Login';
 import Register from '../pages/Register';

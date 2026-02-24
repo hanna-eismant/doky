@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import LogoIcon from './LogoIcon.jsx';
+import LogoIcon from './LogoIcon';
 
 export default LogoIcon;
