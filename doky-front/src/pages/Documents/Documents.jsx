@@ -27,7 +27,7 @@ import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import {DataGrid} from '@mui/x-data-grid';
 import { useDocumentsSearchParams } from './searchParams';
-import { SearchInput } from './SearchInput.jsx';
+import { SearchInput } from './SearchInput';
 
 const columns = [
   {

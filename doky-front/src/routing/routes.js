@@ -31,7 +31,7 @@ import UpdatePassword from '../pages/UpdatePassword';
 import ErrorPage from '../pages/Error';
 import NotFoundPage from '../pages/NotFound';
 import { searchParamsNormalizer } from '../pages/Documents/searchParams';
-import { getFalse } from '../utils.js';
+import { getFalse } from '../utils';
 
 export const mainPageRoute = {
   id: 'main', // used for accessing data fetched by this route loader
