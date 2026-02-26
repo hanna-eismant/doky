@@ -20,7 +20,7 @@
 import {useMutation} from '../../hooks/useMutation';
 import {register} from '../../api/users';
 import {setJWT} from '../../services/storage';
-import {useGlobalSnackbar} from '../../components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
+import {useGlobalSnackbar} from '../../components/GlobalSnackbar/GlobalSnackbarProvider';
 
 
 export const useRegister = () => {

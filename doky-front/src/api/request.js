@@ -18,7 +18,7 @@
  */
 
 import {BASE_URL} from 'config';
-import {emitGlobalError} from '../components/GlobalSnackbar/snackbarBus.js';
+import {emitGlobalError} from '../components/GlobalSnackbar/snackbarBus';
 import {datadogLogs} from '@datadog/browser-logs';
 
 const apiPrefix = '/api';

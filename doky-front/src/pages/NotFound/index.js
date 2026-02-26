@@ -17,4 +17,4 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-export {default} from './NotFoundPage.jsx';
+export {default} from './NotFoundPage';

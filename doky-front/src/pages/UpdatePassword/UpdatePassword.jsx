@@ -20,11 +20,11 @@
 import {FormInput} from '../../components';
 import {Link, useNavigate, useSearchParams} from 'react-router-dom';
 import React from 'react';
-import {useForm} from '../../hooks/useForm.js';
-import {useUpdatePassword} from './useUpdatePassword.js';
+import {useForm} from '../../hooks/useForm';
+import {useUpdatePassword} from './useUpdatePassword';
 import {Button, Stack, Typography} from '@mui/material';
-import AuthLayout from '../../components/AuthLayout/AuthLayout.jsx';
-import {useGlobalSnackbar} from '../../components/GlobalSnackbar/GlobalSnackbarProvider.jsx';
+import AuthLayout from '../../components/AuthLayout/AuthLayout';
+import {useGlobalSnackbar} from '../../components/GlobalSnackbar/GlobalSnackbarProvider';
 
 const initialFormData = {
   password: '',

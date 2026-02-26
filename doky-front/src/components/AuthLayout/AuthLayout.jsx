@@ -19,7 +19,7 @@
 
 import React from 'react';
 import {Card, CardContent, Container, Typography} from '@mui/material';
-import Logo from '../Logo/Logo.jsx';
+import Logo from '../Logo';
 
 const AuthLayout = ({title, children}) => {
   return (

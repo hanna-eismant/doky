@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import DrawerLogo from './DrawerLogo.jsx';
+import DrawerLogo from './DrawerLogo';
 
 export default DrawerLogo;

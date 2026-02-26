@@ -20,10 +20,10 @@
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {Button, Stack, Typography} from '@mui/material';
-import AuthLayout from '../../components/AuthLayout/AuthLayout.jsx';
+import AuthLayout from '../../components/AuthLayout/AuthLayout';
 
-import {useRegister} from './useRegister.js';
-import {useForm} from '../../hooks/useForm.js';
+import {useRegister} from './useRegister';
+import {useForm} from '../../hooks/useForm';
 import {FormInput} from '../../components';
 
 const initialFormData = {

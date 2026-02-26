@@ -18,12 +18,12 @@
  */
 
 import React, {useState} from 'react';
-import {useForm} from '../../hooks/useForm.js';
-import {useRequestResetPassword} from './useRequestResetPassword.js';
+import {useForm} from '../../hooks/useForm';
+import {useRequestResetPassword} from './useRequestResetPassword';
 import {Button, Stack, Typography} from '@mui/material';
-import AuthLayout from '../../components/AuthLayout/AuthLayout.jsx';
+import AuthLayout from '../../components/AuthLayout/AuthLayout';
 import {Link} from 'react-router-dom';
-import FormInput from '../../components/formComponents/FormInput.jsx';
+import FormInput from '../../components/formComponents/FormInput';
 
 const initialFormData = {
   email: ''

@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import EditDocumentForm from './EditDocumentForm.jsx';
+import EditDocumentForm from './EditDocumentForm';
 
 export default EditDocumentForm;

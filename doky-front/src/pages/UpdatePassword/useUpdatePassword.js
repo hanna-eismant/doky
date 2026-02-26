@@ -18,7 +18,7 @@
  */
 
 import {useMutation} from '../../hooks/useMutation';
-import {updatePassword} from '../../api/users.js';
+import {updatePassword} from '../../api/users';
 
 export const useUpdatePassword = (onDone, token) => {
 

@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import CreateDocumentForm from './CreateDocumentForm.jsx';
+import CreateDocumentForm from './CreateDocumentForm';
 
 export default CreateDocumentForm;

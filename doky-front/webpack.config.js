@@ -56,6 +56,7 @@ module.exports = (env, argv) => {
       port: 10010
     },
     resolve: {
+      extensions: [ '...', '.js', '.jsx' ],
       alias: {
         config: path.resolve(__dirname, `src/config/config.${beEnv}.js`)
       }
@@ -63,7 +64,7 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.(jsx?)$/,
+          test: /\.jsx?$/,
           exclude: /(node_modules)/,
           loader: 'babel-loader',
           options: {

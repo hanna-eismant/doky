@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import ResetPassword from './ResetPassword.jsx';
+import ResetPassword from './ResetPassword';
 
 export default ResetPassword;

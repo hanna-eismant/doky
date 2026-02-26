@@ -18,15 +18,15 @@
  */
 
 import React, {useState} from 'react';
-import {useForm} from '../../../hooks/useForm.js';
-import {useMutation} from '../../../hooks/useMutation.js';
-import {createDocument} from '../../../api/documents.js';
+import {useForm} from '../../../hooks/useForm';
+import {useMutation} from '../../../hooks/useMutation';
+import {createDocument} from '../../../api/documents';
 import {Box, Button, Stack, Tab, Tabs, Typography} from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {Link, useNavigate} from 'react-router-dom';
-import {FormInput} from '../../../components/index.js';
-import {emitGlobalSuccess} from '../../../components/GlobalSnackbar/snackbarBus.js';
+import {FormInput} from '../../../components';
+import {emitGlobalSuccess} from '../../../components/GlobalSnackbar/snackbarBus';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 

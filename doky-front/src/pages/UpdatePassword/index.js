@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import UpdatePassword from './UpdatePassword.jsx';
+import UpdatePassword from './UpdatePassword';
 
 export default UpdatePassword;

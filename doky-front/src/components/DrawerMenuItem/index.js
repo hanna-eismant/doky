@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import DrawerMenuItem from './DrawerMenuItem.jsx';
+import DrawerMenuItem from './DrawerMenuItem';
 
 export default DrawerMenuItem;

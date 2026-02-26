@@ -18,7 +18,7 @@
  */
 
 import React, {useCallback} from 'react';
-import CreateDocumentForm from './CreateDocumentForm/CreateDocumentForm.jsx';
+import CreateDocumentForm from './CreateDocumentForm/CreateDocumentForm';
 import {Link, useNavigate} from 'react-router-dom';
 import {Box, Stack} from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';

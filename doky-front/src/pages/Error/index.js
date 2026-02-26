@@ -17,4 +17,4 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-export {default} from './ErrorPage.jsx';
+export {default} from './ErrorPage';

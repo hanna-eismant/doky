@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import Documents from './Documents.jsx';
+import Documents from './Documents';
 
 export default Documents;

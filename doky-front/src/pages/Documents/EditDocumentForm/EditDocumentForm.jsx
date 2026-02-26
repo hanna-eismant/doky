@@ -18,19 +18,19 @@
  */
 
 import React, {useEffect, useRef, useState} from 'react';
-import {useMutation} from '../../../hooks/useMutation.js';
-import {downloadDocument, updateDocument, uploadDocument} from '../../../api/documents.js';
-import {useForm} from '../../../hooks/useForm.js';
-import {saveFile} from '../../../services/save-file.js';
+import {useMutation} from '../../../hooks/useMutation';
+import {downloadDocument, updateDocument, uploadDocument} from '../../../api/documents';
+import {useForm} from '../../../hooks/useForm';
+import {saveFile} from '../../../services/save-file';
 import {Box, Button, Divider, Stack, Tab, Tabs, Typography} from '@mui/material';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {Link, useNavigate} from 'react-router-dom';
-import CircularProgressWithLabel from '../../../components/CircularProgressWithLabel.jsx';
-import {FormInput} from '../../../components/index.js';
-import {emitGlobalSuccess} from '../../../components/GlobalSnackbar/snackbarBus.js';
+import CircularProgressWithLabel from '../../../components/CircularProgressWithLabel';
+import {FormInput} from '../../../components';
+import {emitGlobalSuccess} from '../../../components/GlobalSnackbar/snackbarBus';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 

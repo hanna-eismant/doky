@@ -17,6 +17,6 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import Login from './Login.jsx';
+import Login from './Login';
 
 export default Login;
