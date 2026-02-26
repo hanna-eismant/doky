@@ -85,29 +85,15 @@ const columns = [
   }
 ];
 
-const STORAGE_KEY = 'documents_search_state';
-
 const Documents = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Get saved state from sessionStorage
-  const getSavedState = () => {
-    try {
-      const saved = sessionStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
-    }
-  };
-
-  const savedState = getSavedState();
-
   // Initialize state from URL params or saved state
-  const initialQuery = searchParams.get('query') || savedState?.query || '';
-  const initialSort = searchParams.get('sort') || savedState?.sort || searchPayload.sort.property;
-  const initialDir = searchParams.get('dir') || savedState?.dir || searchPayload.sort.direction;
-  const initialPage = parseInt(searchParams.get('page') || savedState?.page || '0', 10);
+  const initialQuery = searchParams.get('query') || '';
+  const initialSort = searchParams.get('sort') || searchPayload.sort.property;
+  const initialDir = searchParams.get('dir') || searchPayload.sort.direction;
+  const initialPage = parseInt(searchParams.get('page') || '0', 10);
 
   const {fields: {query}} = useFormData({...searchPayload, query: initialQuery});
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
@@ -159,13 +145,9 @@ const Documents = () => {
     navigate('/documents/create');
   }, [navigate]);
 
-  // Sync URL and sessionStorage with state changes
+  // Sync URL with state changes
   useEffect(() => {
     const params = new URLSearchParams();
-    const state = {
-      query: debouncedQuery,
-      page: paginationModel.page,
-    };
 
     if (debouncedQuery) {
       params.set('query', debouncedQuery);
@@ -174,19 +156,10 @@ const Documents = () => {
     if (sortModel.length > 0) {
       params.set('sort', sortModel[0].field);
       params.set('dir', sortModel[0].sort.toUpperCase());
-      state.sort = sortModel[0].field;
-      state.dir = sortModel[0].sort.toUpperCase();
     }
 
     if (paginationModel.page > 0) {
       params.set('page', paginationModel.page.toString());
-    }
-
-    // Save to sessionStorage
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      // Ignore storage errors
     }
 
     setSearchParams(params, { replace: true });

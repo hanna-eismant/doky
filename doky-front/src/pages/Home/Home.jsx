@@ -40,15 +40,13 @@ const searchPayload = {
   }
 };
 
+const search = () => searchDocuments(searchPayload);
+
 const Home = () => {
 
   const navigate = useNavigate();
 
   const user = useUser();
-
-  const search = useCallback(() => {
-    return searchDocuments(searchPayload);
-  }, []);
 
   const {isLoading, data} = useQuery(search);
 
