@@ -17,22 +17,39 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-export const noop = () => {
-};
+import React, { useMemo } from 'react';
 
-export const getFalse = () => false;
+import { debounce, InputAdornment, TextField} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
-export const getRowsCount = str =>
-  str.split('\n').length;
+export const SearchInput = React.memo(function SearchInput({ defaultValue, onValueChange }) {
 
-export const clamp = (value, min, max) => {
-  if (value < min) {
-    return min;
-  }
+  const debouncedOnValueChange = useMemo(() => debounce(e => {
+    onValueChange(e.target.value);
+  }, 500), [onValueChange]);
 
-  if (value > max) {
-    return max;
-  }
+  return (
+    <TextField
+      fullWidth
+      label="Search"
+      id="outlined-size-small"
+      defaultValue={defaultValue}
+      onChange={debouncedOnValueChange}
+      size="small"
+      InputLabelProps={{'data-cy': 'documents-search-label'}}
+      slotProps={{
+        input: {
+          endAdornment: (
+            <InputAdornment position="end">
+              <SearchIcon/>
+            </InputAdornment>
+          ),
+        },
+        htmlInput: {
+          'data-cy': 'documents-search-input'
+        }
+      }}
+    />
+  );
+});
 
-  return value;
-};
