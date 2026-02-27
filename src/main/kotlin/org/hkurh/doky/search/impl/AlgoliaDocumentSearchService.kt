@@ -70,7 +70,7 @@ class AlgoliaDocumentSearchService(
 
         val params = SearchParamsObject()
             .setQuery(query)
-            .setPage(pageNumber)          // Algolia page is 0-based
+            .setPage(pageNumber)
             .setHitsPerPage(pageSize)
             .setFilters(filters)
 
@@ -90,7 +90,7 @@ class AlgoliaDocumentSearchService(
      *   <baseIndex>_createdDateTs_desc
      *   <baseIndex>_createdDateTs_asc
      *
-     * If you don't have replicas for some sorts, fall back to the base index.
+     * If you don't have replicas of some sorts, fall back to the base index.
      */
     private fun resolveIndexNameForSort(sort: Sort): String {
         val property = sort.property?.trim().takeUnless { it.isNullOrEmpty() } ?: return indexName
