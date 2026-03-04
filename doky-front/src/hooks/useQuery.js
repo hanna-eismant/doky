@@ -43,7 +43,7 @@ const dedupeRequest = request => {
   };
 };
 
-export const useQuery = request => {
+export const useQuery = (request, { skip = false } = { skip: false }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
 
@@ -67,8 +67,10 @@ export const useQuery = request => {
   }, [dedupedRequest]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (!skip) {
+      fetchData();
+    }
+  }, [fetchData, skip]);
 
   return {data, isLoading, refetch: fetchData};
 };

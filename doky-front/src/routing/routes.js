@@ -30,16 +30,19 @@ import ResetPassword from '../pages/ResetPassword';
 import UpdatePassword from '../pages/UpdatePassword';
 import ErrorPage from '../pages/Error';
 import NotFoundPage from '../pages/NotFound';
+import { searchParamsNormalizer } from '../pages/Documents/searchParams';
+import { getFalse } from '../utils';
 
 export const mainPageRoute = {
   id: 'main', // used for accessing data fetched by this route loader
   element: <MainPage/>,
   path: '/',
   loader: mainPageLoader,
+  shouldRevalidate: getFalse,
   errorElement: <ErrorPage/>,
   children: [
     {index: true, element: <Home/>},
-    {path: 'documents', element: <Documents/>},
+    {path: 'documents', element: <Documents/>, loader: searchParamsNormalizer },
     {path: 'documents/create', element: <CreateDocumentPage/>},
     {path: 'documents/:id', element: <DocumentPage/>},
     {path: 'profile', element: <UserProfile/>}

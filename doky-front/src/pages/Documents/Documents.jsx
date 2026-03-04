@@ -17,30 +17,17 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
+import React, {useCallback, useMemo, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import {useQuery} from '../../hooks/useQuery';
 import {searchDocuments} from '../../api/documents';
-import {Button, InputAdornment, Stack, TextField} from '@mui/material';
-import {debounce} from '@mui/material/utils';
+import {Button, Stack } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
-import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
-import {useFormData} from '../../hooks/useFormData';
 import {DataGrid} from '@mui/x-data-grid';
-
-const searchPayload = {
-  query: '',
-  page: {
-    number: 0,
-    size: 10
-  },
-  sort: {
-    property: 'createdDate',
-    direction: 'DESC'
-  }
-};
+import { useDocumentsSearchParams } from './searchParams';
+import { SearchInput } from './SearchInput';
 
 const columns = [
   {
@@ -85,112 +72,72 @@ const columns = [
   }
 ];
 
-const STORAGE_KEY = 'documents_search_state';
-
 const Documents = () => {
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useDocumentsSearchParams();
 
-  // Get saved state from sessionStorage
-  const getSavedState = () => {
-    try {
-      const saved = sessionStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
+  /* The searchParams object has already been normalized by ../searchParams/searchParamsNormalizer,
+    ensuring that all expected parameters are present and set to default values if missing.
+    Therefore, we can safely destructure the required parameters without additional existence checks. */
+  const { query, sort, dir } = searchParams;
+  const page = parseInt(searchParams.page, 10);
+
+  const [ pageSize, setPageSize ] = useState(0);
+  const paginationModel = useMemo(() => ({ page, pageSize }), [page, pageSize]);
+
+  const onPaginationModelChange = ({ page: newPage, pageSize: newPageSize }) => {
+    // This handler may be triggered multiple times during initial load, sometimes with unchanged values.
+    // Only update state if the newPageSize differ from the current one to avoid unnecessary re-renders.
+    if (newPage !== page) {
+      setSearchParams({ page: newPage });
     }
+    setPageSize(newPageSize);
   };
 
-  const savedState = getSavedState();
-
-  // Initialize state from URL params or saved state
-  const initialQuery = searchParams.get('query') || savedState?.query || '';
-  const initialSort = searchParams.get('sort') || savedState?.sort || searchPayload.sort.property;
-  const initialDir = searchParams.get('dir') || savedState?.dir || searchPayload.sort.direction;
-  const initialPage = parseInt(searchParams.get('page') || savedState?.page || '0', 10);
-
-  const {fields: {query}} = useFormData({...searchPayload, query: initialQuery});
-  const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
-  const [paginationModel, setPaginationModel] = useState({
-    page: initialPage,
-    pageSize: 0
-  });
-  const [sortModel, setSortModel] = useState([
-    {
-      field: initialSort,
-      sort: initialDir.toLowerCase()
+  const onSortModelChange = (model) => {
+    if (model.length === 0) {
+      return;
     }
-  ]);
 
-  const debouncedSetQuery = useMemo(() =>
-    debounce((value) => {
-      setDebouncedQuery(value);
-    }, 500),
-  []
-  );
+    const [ { field, sort }] = model;
+    setSearchParams({
+      sort: field,
+      dir: sort.toUpperCase()
+    });
+  };
 
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    query.setValue(value);
-    debouncedSetQuery(value);
+  const sortModel = useMemo(() => [{
+    field: sort,
+    sort: dir.toLowerCase()
+  }], [dir, sort]);
+
+  const handleSearchChange = value => {
+    setSearchParams({ query: value });
   };
 
   const search = useCallback(() => {
-    const sort = sortModel.length > 0
-      ? {
-        property: sortModel[0].field,
-        direction: sortModel[0].sort.toUpperCase()
-      }
-      : searchPayload.sort;
+    const sort =  {
+      property: sortModel[0].field,
+      direction: sortModel[0].sort.toUpperCase()
+    };
 
     const page = {
       number: paginationModel.page,
       size: paginationModel.pageSize
     };
 
-    return searchDocuments({...searchPayload, query: debouncedQuery, page, sort});
-  }, [debouncedQuery, paginationModel, sortModel]);
+    return searchDocuments({ query: query, page, sort});
+  }, [query, paginationModel.page, paginationModel.pageSize, sortModel]);
 
-  const {isLoading, data} = useQuery(search);
+  // page size calculated dynamically based on layout. Initially it is zero.
+  // So, it is needed to skip initial API request
+  const {isLoading, data} = useQuery(search, { skip: pageSize === 0 });
 
   const navigate = useNavigate();
 
   const goToCreateDocument = useCallback(() => {
     navigate('/documents/create');
   }, [navigate]);
-
-  // Sync URL and sessionStorage with state changes
-  useEffect(() => {
-    const params = new URLSearchParams();
-    const state = {
-      query: debouncedQuery,
-      page: paginationModel.page,
-    };
-
-    if (debouncedQuery) {
-      params.set('query', debouncedQuery);
-    }
-
-    if (sortModel.length > 0) {
-      params.set('sort', sortModel[0].field);
-      params.set('dir', sortModel[0].sort.toUpperCase());
-      state.sort = sortModel[0].field;
-      state.dir = sortModel[0].sort.toUpperCase();
-    }
-
-    if (paginationModel.page > 0) {
-      params.set('page', paginationModel.page.toString());
-    }
-
-    // Save to sessionStorage
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      // Ignore storage errors
-    }
-
-    setSearchParams(params, { replace: true });
-  }, [debouncedQuery, sortModel, paginationModel, setSearchParams]);
 
   return (
     <Stack spacing={5}
@@ -215,25 +162,16 @@ const Documents = () => {
         </Button>
       </Stack>
 
-      <TextField
-        fullWidth
-        label="Search"
-        id="outlined-size-small"
-        value={query.value}
-        onChange={handleSearchChange}
-        size="small"
-        inputProps={{'data-cy': 'documents-search-input'}}
-        InputLabelProps={{'data-cy': 'documents-search-label'}}
-        slotProps={{
-          input: {
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon/>
-              </InputAdornment>
-            ),
-          },
-        }}
+      {/*
+      NOTE: SearchInput is an uncontrolled component.
+      This means that updating the 'defaultValue' prop after the initial render
+      will NOT update the input's displayed value.
+    */}
+      <SearchInput
+        defaultValue={query}
+        onValueChange={handleSearchChange}
       />
+
       <DataGrid
         loading={isLoading}
         sx={{
@@ -249,9 +187,9 @@ const Documents = () => {
         onRowClick={(params) => navigate(`/documents/${params.id}`)}
         paginationMode="server"
         paginationModel={paginationModel}
-        onPaginationModelChange={setPaginationModel}
+        onPaginationModelChange={onPaginationModelChange}
         sortModel={sortModel}
-        onSortModelChange={setSortModel}
+        onSortModelChange={onSortModelChange}
         sortingOrder={['asc', 'desc']}
         disableColumnFilter
         autoPageSize
