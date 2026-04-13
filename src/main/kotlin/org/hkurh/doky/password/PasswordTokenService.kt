@@ -17,32 +17,25 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.password.impl
+package org.hkurh.doky.password
 
-import org.hkurh.doky.password.TokenService
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
-import java.util.*
+import java.util.Date
 
-@Component
-class DefaultTokenService : TokenService {
+/**
+ * This interface provides methods for generating reset password tokens and calculating their expiration date.
+ */
+interface PasswordTokenService {
+    /**
+     * Calculates the expiration date for a token.
+     *
+     * @return The expiration date for the token.
+     */
+    fun calculateExpirationDate(): Date
 
-    private val zoneId = ZoneId.of("UTC")
-
-    @Value("\${doky.password.reset.token.duration}")
-    private var resetTokenDuration: Long = 10
-
-    override fun calculateExpirationDate(): Date {
-        val currentDate = LocalDateTime.ofInstant(Instant.now(), zoneId)
-        val expiredDate = currentDate.plusMinutes(resetTokenDuration)
-        return Date.from(expiredDate.toInstant(ZoneOffset.UTC))
-    }
-
-    override fun generateToken(): String {
-        return UUID.randomUUID().toString()
-    }
+    /**
+     * Generates a token.
+     *
+     * @return The generated token as a string.
+     */
+    fun generateToken(): String
 }

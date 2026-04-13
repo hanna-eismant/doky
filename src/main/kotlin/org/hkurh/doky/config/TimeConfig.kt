@@ -17,25 +17,15 @@
  *  - Project Homepage: https://github.com/hanna-eismant/doky
  */
 
-package org.hkurh.doky.password
+package org.hkurh.doky.config
 
-import java.util.*
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import java.time.Clock
 
-/**
- * TokenService interface provides methods for generating tokens and calculating their expiration date.
- */
-interface TokenService {
-    /**
-     * Calculates the expiration date for a token.
-     *
-     * @return The expiration date for the token.
-     */
-    fun calculateExpirationDate(): Date
+@Configuration
+class TimeConfig {
 
-    /**
-     * Generates a token.
-     *
-     * @return The generated token as a string.
-     */
-    fun generateToken(): String
+    @Bean
+    fun clock(): Clock = Clock.systemUTC()
 }

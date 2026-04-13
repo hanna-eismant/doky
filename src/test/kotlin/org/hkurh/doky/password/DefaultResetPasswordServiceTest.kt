@@ -20,6 +20,7 @@
 package org.hkurh.doky.password
 
 import org.hkurh.doky.DokyUnitTest
+import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
 import org.hkurh.doky.password.impl.DefaultResetPasswordService
@@ -28,40 +29,46 @@ import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import java.time.Clock
+import java.time.Instant
+import java.time.ZoneId
 import java.util.*
 
 
 @DisplayName("DefaultResetPasswordService unit test")
 class DefaultResetPasswordServiceTest : DokyUnitTest {
 
-    private var tokenService: TokenService = mock()
-    private var resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository = mock()
-    private var resetPasswordService = DefaultResetPasswordService(
-        tokenService = tokenService,
-        resetPasswordTokenEntityRepository = resetPasswordTokenEntityRepository
+    private val fixedInstant = Instant.parse("2022-01-01T00:00:00.00Z")
+    private val clock = Clock.fixed(fixedInstant, ZoneId.of("UTC"))
+    private val passwordTokenService: PasswordTokenService = mock()
+    private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository = mock()
+    private val resetPasswordService = DefaultResetPasswordService(
+        passwordTokenService,
+        resetPasswordTokenEntityRepository, clock
     )
 
-    private val mockUser = mock<UserEntity>()
-    private val tokenId: Long = 1
+    private val testUser = UserEntity()
     private val tokenString = "test-token"
-    private val tokenDate = Date()
 
     @Test
     @DisplayName("Should save token info in database")
     fun shouldSaveTokenInfoInDatabase() {
-        // when
-        whenever(tokenService.generateToken()).thenReturn(tokenString)
-        whenever(tokenService.calculateExpirationDate()).thenReturn(tokenDate)
+        // given
+        val tokenId: Long = 1
+        val tokenDate = Date()
+        whenever(passwordTokenService.generateToken()).thenReturn(tokenString)
+        whenever(passwordTokenService.calculateExpirationDate()).thenReturn(tokenDate)
 
         whenever(resetPasswordTokenEntityRepository.save(any<ResetPasswordTokenEntity>())).thenAnswer { invocation ->
             val argument = invocation.getArgument<ResetPasswordTokenEntity>(0)
             assertAll(
-                { assertEquals(mockUser, argument.user) },
+                { assertEquals(testUser, argument.user) },
                 { assertEquals(tokenString, argument.token) },
                 { assertEquals(tokenDate, argument.expirationDate) }
             )
@@ -70,7 +77,7 @@ class DefaultResetPasswordServiceTest : DokyUnitTest {
         }
 
         // when
-        val token = resetPasswordService.generateAndSaveResetToken(mockUser)
+        val token = resetPasswordService.generateAndSaveResetToken(testUser)
 
         // then
         assertEquals(token, tokenString)
@@ -101,7 +108,7 @@ class DefaultResetPasswordServiceTest : DokyUnitTest {
         }
         val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
             this.token = token
-            this.expirationDate = Date(System.currentTimeMillis() - 30_000)
+            this.expirationDate = Date.from(Instant.parse("2021-01-01T00:03:00Z"))
             this.user = tokenUser
         }
         whenever(resetPasswordTokenEntityRepository.findByToken(token)).thenReturn(resetPasswordTokenEntity)
@@ -133,5 +140,31 @@ class DefaultResetPasswordServiceTest : DokyUnitTest {
 
         // then
         assertEquals(TokenStatus.VALID, actualStatus)
+    }
+
+    @Test
+    @DisplayName("Should get user from token when exists")
+    fun shouldGetUserFromToken_whenExists() {
+        // given
+        val tokenEntity = ResetPasswordTokenEntity().apply {
+            user = testUser
+        }
+        whenever(resetPasswordTokenEntityRepository.findByToken(tokenString)).thenReturn(tokenEntity)
+
+        // when
+        val actualUser = resetPasswordService.getUserForToken(tokenString)
+
+        // then
+        assertEquals(testUser, actualUser)
+    }
+
+    @Test
+    @DisplayName("Should throw exception when get user from token and does not exists")
+    fun shouldThrowException_whenGetUserFromToken_whenDoesNotExist() {
+        // given
+        whenever(resetPasswordTokenEntityRepository.findByToken(tokenString)).thenReturn(null)
+
+        // when - then
+        assertThrows<DokyNotFoundException> { resetPasswordService.getUserForToken(tokenString) }
     }
 }

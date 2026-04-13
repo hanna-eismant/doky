@@ -20,13 +20,16 @@
 package org.hkurh.doky
 
 import java.security.SecureRandom
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.util.*
 
 fun String.mask(
     startLength: Int = 3,
     endLength: Int = 3,
     maskChar: Char = '*'
 ): String {
-
     if (this.isEmpty() || this.length < startLength + endLength) {
         return maskChar.toString().repeat(this.length)
     }
@@ -38,7 +41,6 @@ fun String.mask(
 
 fun String?.getExtension(): String {
     return this?.substringAfterLast('.', "") ?: ""
-
 }
 
 fun generateSecureRandomString(length: Int = 10): String {
@@ -47,4 +49,12 @@ fun generateSecureRandomString(length: Int = 10): String {
     return (1..length)
         .map { allowedChars[secureRandom.nextInt(allowedChars.size)] }
         .joinToString("")
+}
+
+fun LocalDateTime.toUtcDate(): Date {
+    return Date.from(this.toInstant(ZoneOffset.UTC))
+}
+
+fun LocalDateTime.toUtcInstant(): Instant {
+    return this.toInstant(ZoneOffset.UTC)
 }

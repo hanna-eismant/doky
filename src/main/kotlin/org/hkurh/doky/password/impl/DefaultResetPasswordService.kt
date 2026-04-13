@@ -23,24 +23,28 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.hkurh.doky.errorhandling.DokyNotFoundException
 import org.hkurh.doky.mask
 import org.hkurh.doky.password.ResetPasswordService
-import org.hkurh.doky.password.TokenService
+import org.hkurh.doky.password.PasswordTokenService
 import org.hkurh.doky.password.TokenStatus
 import org.hkurh.doky.password.db.ResetPasswordTokenEntity
 import org.hkurh.doky.password.db.ResetPasswordTokenEntityRepository
+import org.hkurh.doky.toUtcInstant
 import org.hkurh.doky.users.db.UserEntity
 import org.springframework.stereotype.Service
+import java.time.Clock
+import java.time.LocalDateTime
 
 @Service
 class DefaultResetPasswordService(
-    private val tokenService: TokenService,
+    private val passwordTokenService: PasswordTokenService,
     private val resetPasswordTokenEntityRepository: ResetPasswordTokenEntityRepository,
+    private val clock: Clock
 ) : ResetPasswordService {
 
     private val log = KotlinLogging.logger {}
 
     override fun generateAndSaveResetToken(user: UserEntity): String {
-        val token = tokenService.generateToken()
-        val expirationDate = tokenService.calculateExpirationDate()
+        val token = passwordTokenService.generateToken()
+        val expirationDate = passwordTokenService.calculateExpirationDate()
         val resetPasswordTokenEntity = ResetPasswordTokenEntity().apply {
             this.token = token
             this.user = user
@@ -77,5 +81,5 @@ class DefaultResetPasswordService(
     }
 
     private fun isTokenExpired(token: ResetPasswordTokenEntity) =
-        token.expirationDate.toInstant().isBefore(java.time.Instant.now())
+        token.expirationDate.toInstant().isBefore(LocalDateTime.now(clock).toUtcInstant())
 }
