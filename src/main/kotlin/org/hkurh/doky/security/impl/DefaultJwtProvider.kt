@@ -22,17 +22,19 @@ package org.hkurh.doky.security.impl
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.hkurh.doky.security.JwtProvider
+import org.hkurh.doky.toUtcDate
 import org.hkurh.doky.users.db.UserEntity
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import org.springframework.stereotype.Component
+import java.time.Clock
+import java.time.LocalDateTime
 import java.util.*
 import javax.crypto.spec.SecretKeySpec
 
 
 @Component
 class DefaultJwtProvider(
-    private val secretKeySpec: SecretKeySpec
+    private val secretKeySpec: SecretKeySpec,
+    private val clock: Clock
 ) : JwtProvider {
 
     private val jwtParser = Jwts.parserBuilder().setSigningKey(secretKeySpec).build()
@@ -43,7 +45,7 @@ class DefaultJwtProvider(
     private val downloadTokenId = "dokyDownloadToken"
 
     override fun generateToken(username: String, roles: Set<Any>): String {
-        val currentTime = DateTime(DateTimeZone.getDefault())
+        val currentTime = LocalDateTime.now(clock)
         val expireTokenTime = currentTime.plusDays(1)
         val claims = mapOf(
             idKey to authTokenId,
@@ -52,22 +54,22 @@ class DefaultJwtProvider(
         )
         return Jwts.builder()
             .setClaims(claims)
-            .setIssuedAt(currentTime.toDate())
-            .setExpiration(expireTokenTime.toDate())
+            .setIssuedAt(currentTime.toUtcDate())
+            .setExpiration(expireTokenTime.toUtcDate())
             .signWith(secretKeySpec, SignatureAlgorithm.HS256)
             .compact()
     }
 
     override fun generateDownloadToken(user: UserEntity): String {
-        val currentTime = DateTime(DateTimeZone.getDefault())
+        val currentTime = LocalDateTime.now(clock)
         val expireTokenTime = currentTime.plusMinutes(10)
         val claims = mapOf(
             idKey to downloadTokenId
         )
         return Jwts.builder()
             .setClaims(claims)
-            .setIssuedAt(currentTime.toDate())
-            .setExpiration(expireTokenTime.toDate())
+            .setIssuedAt(currentTime.toUtcDate())
+            .setExpiration(expireTokenTime.toUtcDate())
             .signWith(secretKeySpec, SignatureAlgorithm.HS256)
             .compact()
     }

@@ -49,7 +49,7 @@ import org.springframework.stereotype.Service
 class AlgoliaDocumentSearchService(
     private val userService: UserService,
     private val searchClient: SearchClient,
-    @Value("\${algolia.search.index-name}") private val indexName: String = "",
+    @field:Value("\${algolia.search.index-name}") private val indexName: String = "",
 ) : DocumentSearchService {
 
     private val log = KotlinLogging.logger {}
@@ -77,21 +77,13 @@ class AlgoliaDocumentSearchService(
         val result = searchClient.searchSingleIndex(targetIndex, params, DocumentResultData::class.java)
         log.debug { "Search query=[$query], index=[$targetIndex], page=[$pageNumber], size=[$pageSize], nbHits=[${result.nbHits}]" }
         log.debug { "Search result: [$result]" }
-        return SearchResult(result.hits, result.nbHits ?: 0, result.page ?: 0,result.nbPages ?: 0)
+        return SearchResult(result.hits, result.nbHits ?: 0, result.page ?: 0, result.nbPages ?: 0)
     }
 
     private fun buildAllowedUsersFilter(userId: Long): String {
         return "allowedUsers:\"$userId\""
     }
 
-    /**
-     * Algolia sorting is normally done via replica indices.
-     * Example replica naming convention:
-     *   <baseIndex>_createdDateTs_desc
-     *   <baseIndex>_createdDateTs_asc
-     *
-     * If you don't have replicas of some sorts, fall back to the base index.
-     */
     private fun resolveIndexNameForSort(sort: Sort): String {
         val property = sort.property?.trim().takeUnless { it.isNullOrEmpty() } ?: return indexName
         val direction = sort.direction ?: return indexName
